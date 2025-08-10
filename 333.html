@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Filter Data Transaksi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      padding: 20px;
+      line-height: 1.6;
+      background: url('https://cdn.areabermain.club/assets/cdn/az6/2025/07/31/20250731/eeb91f9b1f7b3247242ccba997460e8b/linetogel-bg-17agustus2025.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 25px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .datetime {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      min-height: 150px;
+      margin-bottom: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      flex: 1;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    button.clear-btn {
+      background-color: #e74c3c;
+    }
+    button.clear-btn:hover {
+      background-color: #c0392b;
+    }
+    .result-box {
+      background: rgba(249, 249, 249, 0.9);
+      padding: 20px;
+      border-radius: 5px;
+      border-left: 4px solid #3498db;
+      margin-top: 20px;
+      display: none;
+    }
+    .result-item {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    .result-label {
+      font-weight: bold;
+      color: #2c3e50;
+      width: 100px;
+    }
+    .result-value {
+      background: #ecf0f1;
+      padding: 8px 12px;
+      border-radius: 4px;
+      flex-grow: 1;
+    }
+    .copy-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #27ae60;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Filter Data Transaksi</h1>
+    <div class="datetime" id="currentDateTime">
+      <!-- Date and time will be inserted by JavaScript -->
+    </div>
+    
+    <p>Tempelkan data transaksi di bawah ini:</p>
+    <textarea id="inputData" placeholder="Tempelkan data transaksi di sini..."></textarea>
+    
+    <div class="button-group">
+      <button onclick="filterData()">Filter Data</button>
+      <button class="clear-btn" onclick="clearData()">Hapus</button>
+    </div>
+    
+    <div id="resultSection" class="result-box">
+      <h2>Hasil Filter</h2>
+      <div class="result-item">
+        <span class="result-label">User ID:</span>
+        <span class="result-value" id="userId">-</span>
+        <button class="copy-btn" onclick="copyToClipboard('userId')">Salin</button>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Nominal:</span>
+        <span class="result-value" id="nominal">-</span>
+        <button class="copy-btn" onclick="copyToClipboard('nominal')">Salin</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">✓ Disalin ke clipboard</div>
+
+  <script>
+    // Function to update date and time
+    function updateDateTime() {
+      const now = new Date();
+      const options = { 
+        weekday: 'long', 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      };
+      document.getElementById('currentDateTime').textContent = now.toLocaleDateString('id-ID', options);
+    }
+    
+    // Update date time immediately and then every second
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    function filterData() {
+      const inputText = document.getElementById("inputData").value.trim();
+      if (!inputText) return alert("Mohon masukkan data transaksi");
+      
+      // Ekstrak User ID (contoh: Kangasep)
+      const userIdMatch = inputText.match(/^(.*?)\s+http/i) || 
+                         inputText.match(/User\s*ID:\s*(.*?)\s*$/im) ||
+                         inputText.match(/([A-Za-z0-9]+)\s+https?:/i);
+      const userId = userIdMatch ? userIdMatch[1].trim() : "Tidak ditemukan";
+      
+      // Ekstrak Nominal (contoh: 92,960)
+      const nominalMatch = inputText.match(/(\d{1,3}(?:,\d{3})*)(?=\s*$)/m) ||
+                          inputText.match(/(\d{1,3}(?:,\d{3})*)\s*(FREE|SPIN|BET)/i);
+      const nominal = nominalMatch ? nominalMatch[1] : "Tidak ditemukan";
+      
+      // Tampilkan hasil
+      document.getElementById("userId").textContent = userId;
+      document.getElementById("nominal").textContent = nominal;
+      document.getElementById("resultSection").style.display = "block";
+    }
+    
+    function clearData() {
+      // Hapus input dan hasil
+      document.getElementById("inputData").value = "";
+      document.getElementById("userId").textContent = "-";
+      document.getElementById("nominal").textContent = "-";
+      document.getElementById("resultSection").style.display = "none";
+    }
+    
+    function copyToClipboard(elementId) {
+      const textToCopy = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast();
+      });
+    }
+    
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
