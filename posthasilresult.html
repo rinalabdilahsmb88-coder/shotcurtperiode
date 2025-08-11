@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pertinggal - Database Terdistribusi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+            background: url('https://cdn.areabermain.club/assets/cdn/az6/2025/07/31/20250731/eeb91f9b1f7b3247242ccba997460e8b/linetogel-bg-17agustus2025.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0 30px;
+            color: white;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ffd700, #ffffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            opacity: 0.9;
+            color: #e0e0e0;
+        }
+
+        .database-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 15px auto;
+            max-width: 600px;
+            font-size: 1rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .app-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .input-section, .notes-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .input-section {
+            flex: 1;
+            min-width: 400px;
+        }
+
+        .notes-section {
+            flex: 2;
+            min-width: 400px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .section-title i {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1.05rem;
+            resize: vertical;
+            transition: all 0.3s;
+            background: #f9f9f9;
+            font-family: monospace;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+            background: #fff;
+        }
+
+        button {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            font-size: 1.15rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+            background: linear-gradient(to right, #2980b9, #3498db);
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1.05rem;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+
+        #searchInput:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+            outline: none;
+            background: #fff;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 1.3rem;
+        }
+
+        .filter-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            font-size: 1.05rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .filter-btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.6);
+        }
+
+        .notes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .note {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid #3498db;
+            transition: all 0.4s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .note:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-left-color: #e74c3c;
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #eee;
+        }
+
+        .note-id {
+            background: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .note-market {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .note-date {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-weight: 500;
+            text-align: right;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .note-content {
+            line-height: 1.7;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            flex-grow: 1;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 10px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .note-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            color: white;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: #2ecc71;
+        }
+
+        .copy-btn:hover {
+            background: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .empty-notes {
+            text-align: center;
+            padding: 50px 20px;
+            color: #7f8c8d;
+            grid-column: 1 / -1;
+            background: rgba(189, 195, 199, 0.1);
+            border-radius: 15px;
+        }
+
+        .empty-notes i {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            color: #bdc3c7;
+            opacity: 0.5;
+        }
+
+        .empty-notes h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .empty-notes p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #27ae60;
+            color: white;
+            padding: 18px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification.error {
+            background: #e74c3c;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+
+        .market-menu {
+            display: none;
+            position: absolute;
+            top: 120px;
+            right: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 100;
+            max-height: 400px;
+            overflow-y: auto;
+            width: 300px;
+            flex-wrap: wrap;
+            gap: 10px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .market-menu.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .market-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .market-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .market-btn.active {
+            background: #e74c3c;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .input-section, .notes-section {
+                min-width: 100%;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .market-menu {
+                top: 100px;
+                right: 20px;
+                left: 20px;
+                width: auto;
+            }
+        }
+
+        /* Dekorasi khusus untuk tema 17 Agustus */
+        .independence-decoration {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #ffd700;
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .red-white-flag {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ff0000 50%, #ffffff 50%);
+            border: 2px solid #333;
+            border-radius: 4px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="independence-decoration">
+        <i class="fas fa-star"></i>
+    </div>
+    
+    <div class="red-white-flag"></div>
+    
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-sticky-note"></i> PERTINGGAL</h1>
+            <p>Catat hasil togel sebagai pertinggal dan temukan kembali dengan mudah</p>
+            
+            <div class="database-info">
+                <i class="fas fa-database"></i> Database Terdistribusi: Data tersimpan di cloud dan dapat diakses oleh semua pengguna
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-cloud"></i> Cloud Database
+                </div>
+                <div class="feature">
+                    <i class="fas fa-sync-alt"></i> Real-time Sync
+                </div>
+                <div class="feature">
+                    <i class="fas fa-users"></i> Multi-User Access
+                </div>
+            </div>
+        </header>
+        
+        <div class="app-container">
+            <section class="input-section">
+                <h2 class="section-title"><i class="fas fa-edit"></i> Buat Pertinggal Baru</h2>
+                
+                <div class="input-group">
+                    <label for="messageInput"><i class="fas fa-comment-alt"></i> Hasil Result:</label>
+                    <textarea id="messageInput" placeholder="Ketik hasil result di sini..."></textarea>
+                </div>
+                
+                <button id="saveBtn">
+                    <i class="fas fa-paper-plane"></i> Kirim Pertinggal
+                </button>
+            </section>
+            
+            <section class="notes-section">
+                <h2 class="section-title"><i class="fas fa-book-open"></i> Daftar Pertinggal</h2>
+                
+                <div class="search-container">
+                    <div class="search-input">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Cari pertinggal...">
+                    </div>
+                    
+                    <button class="filter-btn" id="filterBtn">
+                        <i class="fas fa-filter"></i> Filter Pasaran
+                    </button>
+                </div>
+                
+                <div class="market-menu" id="marketMenu">
+                    <button class="market-btn" data-market="">Semua Pasaran</button>
+                    <button class="market-btn" data-market="TOTO MACAU PAGI">TOTO MACAU PAGI</button>
+                    <button class="market-btn" data-market="KENTUCKY MIDDAY">KENTUCKY MIDDAY</button>
+                    <button class="market-btn" data-market="FLORIDA MIDDAY">FLORIDA MIDDAY</button>
+                    <button class="market-btn" data-market="HUAHIN 0100">HUAHIN 0100</button>
+                    <button class="market-btn" data-market="BANGKOK 0130">BANGKOK 0130</button>
+                    <button class="market-btn" data-market="NEW YORK MIDDAY">NEW YORK MIDDAY</button>
+                    <button class="market-btn" data-market="NORTH CAROLINA DAY">NORTH CAROLINA DAY</button>
+                    <button class="market-btn" data-market="BRUNEI 02">BRUNEI 02</button>
+                    <button class="market-btn" data-market="OREGON03">OREGON03</button>
+                    <button class="market-btn" data-market="OREGON06">OREGON06</button>
+                    <button class="market-btn" data-market="CALIFORNIA">CALIFORNIA</button>
+                    <button class="market-btn" data-market="FLORIDA EVENING">FLORIDA EVENING</button>
+                    <button class="market-btn" data-market="OREGON09">OREGON09</button>
+                    <button class="market-btn" data-market="BANGKOK 0930">BANGKOK 0930</button>
+                    <button class="market-btn" data-market="NEW YORK EVENING">NEW YORK EVENING</button>
+                    <button class="market-btn" data-market="KENTUCKY EVENING">KENTUCKY EVENING</button>
+                    <button class="market-btn" data-market="CAROLINA EVENING">CAROLINA EVENING</button>
+                    <button class="market-btn" data-market="TOTO CAMBODIA">TOTO CAMBODIA</button>
+                    <button class="market-btn" data-market="CHELSEA11">CHELSEA11</button>
+                    <button class="market-btn" data-market="OREGON12">OREGON12</button>
+                    <button class="market-btn" data-market="POIPET12">POIPET12</button>
+                    <button class="market-btn" data-market="TOTO MACAU SIANG">TOTO MACAU SIANG</button>
+                    <button class="market-btn" data-market="BULLSEYE">BULLSEYE</button>
+                    <button class="market-btn" data-market="SYDNEY">SYDNEY</button>
+                    <button class="market-btn" data-market="JAKARTA 1400">JAKARTA 1400</button>
+                    <button class="market-btn" data-market="BRUNEI 14">BRUNEI 14</button>
+                    <button class="market-btn" data-market="CHELSEA15">CHELSEA15</button>
+                    <button class="market-btn" data-market="TOTO MACAU 5D SORE">TOTO MACAU 5D SORE</button>
+                    <button class="market-btn" data-market="POIPET15">POIPET15</button>
+                    <button class="market-btn" data-market="TOTOMALI1530">TOTOMALI1530</button>
+                    <button class="market-btn" data-market="TOTO MACAU SORE">TOTO MACAU SORE</button>
+                    <button class="market-btn" data-market="HUAHIN 1630">HUAHIN 1630</button>
+                    <button class="market-btn" data-market="KINGKONG 4D SORE">KINGKONG 4D SORE</button>
+                    <button class="market-btn" data-market="SINGAPORE 4D">SINGAPORE 4D</button>
+                    <button class="market-btn" data-market="SINGAPORE TOTO">SINGAPORE TOTO</button>
+                    <button class="market-btn" data-market="MAGNUM4D">MAGNUM4D</button>
+                    <button class="market-btn" data-market="CHELSEA19">CHELSEA19</button>
+                    <button class="market-btn" data-market="TOTO MACAU MALAM I">TOTO MACAU MALAM I</button>
+                    <button class="market-btn" data-market="POIPET19">POIPET19</button>
+                    <button class="market-btn" data-market="PCSO">PCSO</button>
+                    <button class="market-btn" data-market="TOTOMALI2030">TOTOMALI2030</button>
+                    <button class="market-btn" data-market="HUAHIN 2100">HUAHIN 2100</button>
+                    <button class="market-btn" data-market="CHELSEA21">CHELSEA21</button>
+                    <button class="market-btn" data-market="TOTOMACAU 5D MALAM">TOTOMACAU 5D MALAM</button>
+                    <button class="market-btn" data-market="NEVADA">NEVADA</button>
+                    <button class="market-btn" data-market="BRUNEI 21">BRUNEI 21</button>
+                    <button class="market-btn" data-market="TOTOMACAU MALAM II">TOTOMACAU MALAM II</button>
+                    <button class="market-btn" data-market="POIPET22">POIPET22</button>
+                    <button class="market-btn" data-market="HONGKONG">HONGKONG</button>
+                    <button class="market-btn" data-market="TOTO MACAU MALAM III">TOTO MACAU MALAM III</button>
+                    <button class="market-btn" data-market="TOTOMALI2330">TOTOMALI2330</button>
+                    <button class="market-btn" data-market="JAKARTA 2330">JAKARTA 2330</button>
+                    <button class="market-btn" data-market="KINGKONG 4D MALAM">KINGKONG 4D MALAM</button>
+                </div>
+                
+                <div class="notes-container" id="notesContainer">
+                    <div class="empty-notes">
+                        <div class="spinner"></div>
+                        <h3>Memuat Data Pertinggal</h3>
+                        <p>Sedang menghubungkan ke database cloud...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>Dibuat dengan ❤️ menggunakan Firebase Firestore | &copy; 2025 Pertinggal App</p>
+        </footer>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> <span>Pertinggal berhasil disimpan!</span>
+    </div>
+    
+    <!-- Sertakan Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Konfigurasi Firebase (ganti dengan konfigurasi proyek Anda)
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8t1L5Yqy8lSJ7d5eZ8v2bG3hFjK4lM9n",
+            authDomain: "pertinggal-app.firebaseapp.com",
+            projectId: "pertinggal-app",
+            storageBucket: "pertinggal-app.appspot.com",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abc123abc123abc123abc123"
+        };
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const notesCollection = db.collection("notes");
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const messageInput = document.getElementById('messageInput');
+            const saveBtn = document.getElementById('saveBtn');
+            const searchInput = document.getElementById('searchInput');
+            const filterBtn = document.getElementById('filterBtn');
+            const marketMenu = document.getElementById('marketMenu');
+            const overlay = document.getElementById('overlay');
+            const notesContainer = document.getElementById('notesContainer');
+            const notification = document.getElementById('notification');
+            
+            // Current filter state
+            let currentMarketFilter = "";
+            let notes = [];
+            
+            // Load notes from Firestore
+            function loadNotes() {
+                notesContainer.innerHTML = `
+                    <div class="empty-notes">
+                        <div class="spinner"></div>
+                        <h3>Memuat Data Pertinggal</h3>
+                        <p>Sedang mengambil data dari database cloud...</p>
+                    </div>
+                `;
+                
+                notesCollection.orderBy("date", "desc").onSnapshot((snapshot) => {
+                    notes = [];
+                    snapshot.forEach((doc) => {
+                        const noteData = doc.data();
+                        notes.push({
+                            id: doc.id,
+                            market: noteData.market,
+                            content: noteData.content,
+                            date: noteData.date
+                        });
+                    });
+                    displayNotes(notes);
+                }, (error) => {
+                    console.error("Error loading notes: ", error);
+                    notesContainer.innerHTML = `
+                        <div class="empty-notes">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Gagal Memuat Data</h3>
+                            <p>Terjadi kesalahan saat menghubungi database. Silakan coba lagi.</p>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Initial load
+            loadNotes();
+            
+            // Save new note
+            saveBtn.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                
+                if (message) {
+                    // Extract market from content (first line)
+                    const firstLine = message.split('\n')[0] || "";
+                    let market = "";
+                    
+                    // Try to detect market from predefined list
+                    const marketButtons = marketMenu.querySelectorAll('.market-btn');
+                    for (const btn of marketButtons) {
+                        const marketName = btn.dataset.market;
+                        if (marketName && firstLine.includes(marketName)) {
+                            market = marketName;
+                            break;
+                        }
+                    }
+                    
+                    // Create new note
+                    const newNote = {
+                        market: market,
+                        content: message,
+                        date: new Date().toISOString().split('T')[0] // Current date
+                    };
+                    
+                    // Add to Firestore
+                    notesCollection.add(newNote)
+                    .then(() => {
+                        // Clear input
+                        messageInput.value = '';
+                        
+                        // Show notification
+                        showNotification("Pertinggal berhasil disimpan!");
+                    })
+                    .catch((error) => {
+                        console.error("Error adding note: ", error);
+                        showNotification("Gagal menyimpan pertinggal!", true);
+                    });
+                } else {
+                    showNotification("Silakan masukkan hasil result terlebih dahulu!", true);
+                }
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = searchInput.value.toLowerCase();
+                filterNotes(searchTerm);
+            });
+            
+            // Toggle market menu
+            filterBtn.addEventListener('click', function() {
+                marketMenu.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+            
+            // Close menu when clicking outside
+            overlay.addEventListener('click', function() {
+                marketMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // Market filter functionality
+            marketMenu.addEventListener('click', function(e) {
+                if (e.target.classList.contains('market-btn')) {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.market-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    e.target.classList.add('active');
+                    
+                    // Set current filter
+                    currentMarketFilter = e.target.dataset.market || "";
+                    
+                    // Apply filter
+                    filterNotes();
+                    
+                    // Close menu
+                    marketMenu.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+            });
+            
+            // Filter and display notes
+            function filterNotes(searchTerm = "") {
+                const filteredNotes = notes.filter(note => {
+                    const contentMatch = note.content.toLowerCase().includes(searchTerm.toLowerCase());
+                    const marketMatch = currentMarketFilter ? (note.market === currentMarketFilter) : true;
+                    return contentMatch && marketMatch;
+                });
+                
+                displayNotes(filteredNotes);
+            }
+            
+            // Display notes
+            function displayNotes(notesToDisplay) {
+                if (notesToDisplay.length === 0) {
+                    notesContainer.innerHTML = `
+                        <div class="empty-notes">
+                            <i class="fas fa-search"></i>
+                            <h3>Tidak Ditemukan Pertinggal</h3>
+                            <p>Tidak ada pertinggal yang cocok dengan pencarian Anda. Coba gunakan kata kunci yang berbeda.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                notesContainer.innerHTML = '';
+                
+                notesToDisplay.forEach(note => {
+                    const noteElement = document.createElement('div');
+                    noteElement.className = 'note';
+                    noteElement.innerHTML = `
+                        <div class="note-header">
+                            <div class="note-id">${note.id.slice(-2)}</div>
+                            ${note.market ? `<div class="note-market">${note.market}</div>` : ''}
+                        </div>
+                        <div class="note-date">${formatDate(note.date)}</div>
+                        <div class="note-content">${note.content}</div>
+                        <div class="note-actions">
+                            <div class="action-btn copy-btn" data-id="${note.id}">
+                                <i class="fas fa-copy"></i> Salin Format Asli
+                            </div>
+                            <div class="action-btn delete-btn" data-id="${note.id}">
+                                <i class="fas fa-trash"></i> Hapus
+                            </div>
+                        </div>
+                    `;
+                    notesContainer.appendChild(noteElement);
+                    
+                    // Add delete functionality
+                    const deleteBtn = noteElement.querySelector('.delete-btn');
+                    deleteBtn.addEventListener('click', function() {
+                        const noteId = this.getAttribute('data-id');
+                        deleteNote(noteId);
+                    });
+                    
+                    // Add copy functionality
+                    const copyBtn = noteElement.querySelector('.copy-btn');
+                    copyBtn.addEventListener('click', function() {
+                        const noteId = this.getAttribute('data-id');
+                        copyNoteContent(noteId);
+                    });
+                });
+            }
+            
+            // Delete note
+            function deleteNote(id) {
+                if (confirm("Apakah Anda yakin ingin menghapus pertinggal ini?")) {
+                    notesCollection.doc(id).delete()
+                    .then(() => {
+                        showNotification("Pertinggal berhasil dihapus!");
+                    })
+                    .catch((error) => {
+                        console.error("Error removing note: ", error);
+                        showNotification("Gagal menghapus pertinggal!", true);
+                    });
+                }
+            }
+            
+            // Copy note content
+            function copyNoteContent(id) {
+                const note = notes.find(note => note.id === id);
+                if (note) {
+                    navigator.clipboard.writeText(note.content)
+                        .then(() => {
+                            showNotification("Pertinggal berhasil disalin ke clipboard!");
+                        })
+                        .catch(err => {
+                            showNotification("Gagal menyalin pertinggal!", true);
+                            console.error('Gagal menyalin teks: ', err);
+                        });
+                }
+            }
+            
+            // Format date for display
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const date = new Date(dateString);
+                return date.toLocaleDateString('id-ID', options);
+            }
+            
+            // Show notification
+            function showNotification(message, isError = false) {
+                notification.innerHTML = `
+                    <i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> 
+                    <span>${message}</span>
+                `;
+                notification.style.background = isError ? '#e74c3c' : '#27ae60';
+                notification.classList.add('show');
+                
+                if (isError) {
+                    notification.classList.add('error');
+                } else {
+                    notification.classList.remove('error');
+                }
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
