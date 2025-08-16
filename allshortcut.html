@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Shortcut Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s ease;
+        }
+        
+        /* Background Animation */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Login Section */
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 50px 60px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+        
+        .logo {
+            font-size: 4.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff; }
+            to { text-shadow: 0 0 15px #fff, 0 0 30px #4facfe, 0 0 40px #00f2fe; }
+        }
+        
+        .login-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .login-container p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            font-weight: 300;
+            text-align: center;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .input-group input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(79, 172, 254, 0.5);
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+        }
+        
+        .input-group input:focus + i {
+            color: #4facfe;
+            transform: translateY(-50%) scale(1.2);
+        }
+        
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            padding: 16px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.6);
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 500;
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .password-toggle:hover {
+            color: #4facfe;
+        }
+        
+        /* Main Content Section (Initially Hidden) */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+            pointer-events: none;
+        }
+        
+        .main-container.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .app-logo {
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+        
+        header p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+        
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 20;
+        }
+        
+        .user-info span {
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.5);
+            transform: rotate(90deg);
+        }
+        
+        .search-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 15px 30px;
+            margin: 30px auto 50px;
+            max-width: 700px;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .search-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .search-container input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            outline: none;
+            color: white;
+            font-weight: 300;
+        }
+        
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .search-container i {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.5rem;
+            align-self: center;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-container:hover i {
+            color: #4facfe;
+            transform: scale(1.1);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            transform: translateY(0);
+        }
+        
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card-icon {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.3), rgba(0, 242, 254, 0.3));
+            opacity: 0.5;
+        }
+        
+        .card-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-content h3 {
+            margin-bottom: 15px;
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            flex-grow: 1;
+            font-weight: 300;
+        }
+        
+        .card-btn {
+            display: inline-block;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+        
+        .card-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .card-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.6);
+        }
+        
+        .card-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .url-info {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 15px;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 50px 0 30px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 70px;
+            font-size: 1rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #4facfe;
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .app-logo {
+                font-size: 2.8rem;
+            }
+            
+            .login-container {
+                padding: 40px 30px;
+                width: 95%;
+            }
+            
+            .logo {
+                font-size: 3.5rem;
+            }
+            
+            .login-container h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Particles -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Login Form -->
+    <div class="login-container" id="loginContainer">
+        <div class="logo">
+            <i class="fas fa-lock"></i>
+        </div>
+        <h1>Premium Access</h1>
+        <p>Masukkan kredensial Anda untuk mengakses koleksi shortcut premium</p>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="ID Pengguna" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-key"></i>
+                <input type="password" id="password" placeholder="Kata Sandi" required>
+                <span class="password-toggle" id="passwordToggle">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+            
+            <button type="submit" class="btn">Masuk <i class="fas fa-arrow-right"></i></button>
+        </form>
+    </div>
+    
+    <!-- Main Content - Shortcuts -->
+    <div class="main-container" id="mainContainer">
+        <div class="user-info">
+            <span id="usernameDisplay">RINAL</span>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+        
+        <header>
+            <div class="app-logo">
+                <i class="fas fa-star"></i>
+            </div>
+            <h1>Premium Shortcut Collection</h1>
+            <p>Akses semua layanan penting Anda dengan satu klik - desain premium dengan pengalaman pengguna yang memukau</p>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Cari shortcut...">
+            <i class="fas fa-search"></i>
+        </div>
+        
+        <div class="grid">
+            <!-- MEMO -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-sticky-note"></i>
+                </div>
+                <div class="card-content">
+                    <h3>MEMO</h3>
+                    <p>Akses halaman memo untuk catatan penting dan pengumuman terbaru dengan tampilan yang bersih.</p>
+                    <a href="https://script.google.com/macros/s/AKfycbygakRhysR9IFIVGAHc_NCaKXsjv9vOF8cdK1CEVn0/dev" class="card-btn" target="_blank">Buka MEMO</a>
+                    <div class="url-info">script.google.com/macros/s/...</div>
+                </div>
+            </div>
+            
+            <!-- SCATTER MAHJONG -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-dice"></i>
+                </div>
+                <div class="card-content">
+                    <h3>SCATTER MAHJONG</h3>
+                    <p>Permainan scatter mahjong dengan animasi menakjubkan dan pengalaman bermain yang menyenangkan.</p>
+                    <a href="https://sabarlagibuat112233.onecompiler.app/" class="card-btn" target="_blank">Buka Game</a>
+                    <div class="url-info">sabarlagibuat112233.onecompiler.app</div>
+                </div>
+            </div>
+            
+            <!-- BUY SPIN -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>BUY SPIN</h3>
+                    <p>Laman untuk membeli spin dengan berbagai pilihan paket menarik dan promo spesial.</p>
+                    <a href="https://spin1.onecompiler.app/" class="card-btn" target="_blank">Beli Spin</a>
+                    <div class="url-info">spin1.onecompiler.app</div>
+                </div>
+            </div>
+            
+            <!-- SYAIR PREDIKSI -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-crystal-ball"></i>
+                </div>
+                <div class="card-content">
+                    <h3>SYAIR PREDIKSI</h3>
+                    <p>Prediksi dan syair akurat untuk berbagai keperluan analisis dengan update harian.</p>
+                    <a href="https://syair1222.onecompiler.app/" class="card-btn" target="_blank">Lihat Prediksi</a>
+                    <div class="url-info">syair1222.onecompiler.app</div>
+                </div>
+            </div>
+            
+            <!-- QRIS VIP CARI SELISIH -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <div class="card-content">
+                    <h3>QRIS VIP CARI SELISIH</h3>
+                    <p>Cari selisih transaksi QRIS dengan fitur khusus untuk member VIP dan laporan real-time.</p>
+                    <a href="https://rebrand.ly/SHORCUT-QRIS-VIP" class="card-btn" target="_blank">Akses QRIS VIP</a>
+                    <div class="url-info">rebrand.ly/SHORCUT-QRIS-VIP</div>
+                </div>
+            </div>
+            
+            <!-- TICKET QRIS VIP -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>TICKET QRIS VIP</h3>
+                    <p>Manajemen tiket untuk layanan QRIS VIP dengan sistem prioritas dan notifikasi.</p>
+                    <a href="https://script.google.com/macros/s/AKfycbz9qT-MegDwPzgBAYycYSDRwk4GGjRvsA8VlUCGKoTk1GwzsUkyt7wOBElaGV5w2fnd9A/exec" class="card-btn" target="_blank">Buka Tiket</a>
+                    <div class="url-info">script.google.com/macros/s/...</div>
+                </div>
+            </div>
+            
+            <!-- CEK WD BESAR -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-money-check-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>CEK WD BESAR</h3>
+                    <p>Periksa status penarikan dana besar dengan proses verifikasi yang cepat dan aman.</p>
+                    <a href="https://p3p3kcrot-ssf3.vercel.app//WDBESAR.html" class="card-btn" target="_blank">Cek WD</a>
+                    <div class="url-info">p3p3kcrot-ssf3.vercel.app</div>
+                </div>
+            </div>
+            
+            <!-- BUKTI WD -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                <div class="card-content">
+                    <h3>BUKTI WD</h3>
+                    <p>Gabungkan bukti penarikan dana dengan praktis dan format profesional.</p>
+                    <a href="https://penggabungambar01.onecompiler.app/" class="card-btn" target="_blank">Buat Bukti</a>
+                    <div class="url-info">penggabungambar01.onecompiler.app</div>
+                </div>
+            </div>
+            
+            <!-- TICKET SCATTER -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-scroll"></i>
+                </div>
+                <div class="card-content">
+                    <h3>TICKET SCATTER</h3>
+                    <p>Manajemen tiket untuk permainan scatter dengan sistem tracking yang intuitif.</p>
+                    <a href="https://periode3.onecompiler.app/" class="card-btn" target="_blank">Buka Tiket</a>
+                    <div class="url-info">periode3.onecompiler.app</div>
+                </div>
+            </div>
+            
+            <!-- TAMBAH TICKET VIP -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>TAMBAH TICKET VIP</h3>
+                    <p>Tambah tiket khusus untuk member VIP dengan akses prioritas dan fitur premium.</p>
+                    <a href="https://short-link.me/16n15" class="card-btn" target="_blank">Tambah Tiket</a>
+                    <div class="url-info">short-link.me/16n15</div>
+                </div>
+            </div>
+            
+            <!-- CEK IP -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="card-content">
+                    <h3>CEK IP</h3>
+                    <p>Periksa alamat IP dan informasi jaringan Anda dengan detail dan analisis keamanan.</p>
+                    <a href="https://whatismyipaddress.com/" class="card-btn" target="_blank">Cek IP Saya</a>
+                    <div class="url-info">whatismyipaddress.com</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2023 Premium Shortcut Collection | All Rights Reserved</p>
+            <div class="footer-links">
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // Background particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size
+                const size = Math.random() * 30 + 10;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation delay
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Password toggle
+        document.getElementById('passwordToggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Login validation
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Case-insensitive username check
+            if (username.toLowerCase() !== 'rinal') {
+                errorMessage.textContent = 'ID pengguna tidak valid';
+                errorMessage.style.opacity = '1';
+                
+                // Shake animation
+                document.getElementById('loginContainer').animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], {
+                    duration: 300,
+                    iterations: 3
+                });
+                return;
+            }
+            
+            if (password !== 'nasution098') {
+                errorMessage.textContent = 'Kata sandi salah';
+                errorMessage.style.opacity = '1';
+                
+                // Shake animation
+                document.getElementById('loginContainer').animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], {
+                    duration: 300,
+                    iterations: 3
+                });
+                return;
+            }
+            
+            // Successful login
+            errorMessage.style.opacity = '0';
+            
+            // Display username in main content
+            document.getElementById('usernameDisplay').textContent = username.toUpperCase();
+            
+            // Hide login and show main content
+            document.getElementById('loginContainer').classList.add('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('mainContainer').classList.add('active');
+                
+                // Change background to more vibrant color
+                document.body.style.background = 'linear-gradient(135deg, #141e30, #243b55)';
+            }, 500);
+        });
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Hide main content
+            document.getElementById('mainContainer').classList.remove('active');
+            
+            setTimeout(() => {
+                // Reset form
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('errorMessage').style.opacity = '0';
+                
+                // Reset password visibility
+                const passwordInput = document.getElementById('password');
+                passwordInput.type = 'password';
+                const icon = document.querySelector('#passwordToggle i');
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+                
+                // Show login form
+                document.getElementById('loginContainer').classList.remove('hidden');
+                
+                // Reset background
+                document.body.style.background = 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)';
+            }, 500);
+        });
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Hide main content initially
+            document.getElementById('mainContainer').classList.remove('active');
+        });
+    </script>
+</body>
+</html>
