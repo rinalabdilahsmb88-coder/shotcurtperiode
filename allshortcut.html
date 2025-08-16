@@ -858,6 +858,10 @@
             // Successful login
             errorMessage.style.opacity = '0';
             
+            // Save login status to localStorage
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', username);
+            
             // Display username in main content
             document.getElementById('usernameDisplay').textContent = username.toUpperCase();
             
@@ -874,6 +878,10 @@
         
         // Logout functionality
         document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Remove login status from localStorage
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('username');
+            
             // Hide main content
             document.getElementById('mainContainer').classList.remove('active');
             
@@ -915,12 +923,33 @@
             });
         });
         
+        // Check if user is logged in on page load
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const username = localStorage.getItem('username');
+            
+            if (isLoggedIn === 'true' && username) {
+                // Hide login form
+                document.getElementById('loginContainer').classList.add('hidden');
+                
+                // Set username
+                document.getElementById('usernameDisplay').textContent = username.toUpperCase();
+                
+                // Show main content
+                setTimeout(() => {
+                    document.getElementById('mainContainer').classList.add('active');
+                    document.body.style.background = 'linear-gradient(135deg, #141e30, #243b55)';
+                }, 100);
+            } else {
+                // Hide main content initially
+                document.getElementById('mainContainer').classList.remove('active');
+            }
+        }
+        
         // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
-            
-            // Hide main content initially
-            document.getElementById('mainContainer').classList.remove('active');
+            checkLoginStatus();
         });
     </script>
 </body>
