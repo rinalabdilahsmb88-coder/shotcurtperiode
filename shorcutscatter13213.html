@@ -342,6 +342,36 @@
             0%, 100% { opacity: 0.4; transform: scale(0.8); }
             50% { opacity: 1; transform: scale(1.2); }
         }
+        
+        .ticket-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .ticket-option {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .ticket-option.active {
+            background: #1a2a6c;
+            color: white;
+        }
+        
+        .option-label {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .option-value {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -395,6 +425,17 @@
                         </button>
                     </div>
                     
+                    <div class="ticket-options" id="ticket-options" style="display: none;">
+                        <div class="ticket-option active" data-option="with-hyphens">
+                            <div class="option-label">Tampilkan</div>
+                            <div class="option-value">Dengan penghubung</div>
+                        </div>
+                        <div class="ticket-option" data-option="without-hyphens">
+                            <div class="option-label">Tampilkan</div>
+                            <div class="option-value">Tanpa penghubung</div>
+                        </div>
+                    </div>
+                    
                     <div class="result-item">
                         <span class="result-label">Bettingan:</span>
                         <span class="result-value" id="bettingan">-</span>
@@ -431,6 +472,7 @@
                 <li>Tempel data ke dalam textarea di atas</li>
                 <li>Data akan diproses otomatis dan hasilnya ditampilkan di bawah</li>
                 <li>Gunakan tombol Copy untuk menyalin setiap informasi</li>
+                <li>Pilih tampilan Kode Tiket dengan atau tanpa tanda penghubung</li>
             </ol>
             
             <div class="example">
@@ -456,17 +498,41 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
             const imagePreviewElement = document.getElementById('image-preview');
             const toast = document.getElementById('toast');
             const processingIndicator = document.getElementById('processing-indicator');
+            const ticketOptions = document.getElementById('ticket-options');
+            const ticketOptionButtons = document.querySelectorAll('.ticket-option');
             
             let processingTimeout;
+            let originalKodeTiket = '';
+            let displayWithHyphens = true;
             
             // Add event listeners to all copy buttons
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('copy-btn') || e.target.closest('.copy-btn')) {
                     const copyBtn = e.target.classList.contains('copy-btn') ? e.target : e.target.closest('.copy-btn');
                     const targetId = copyBtn.getAttribute('data-target');
-                    const textToCopy = document.getElementById(targetId).textContent;
+                    let textToCopy = document.getElementById(targetId).textContent;
+                    
+                    // For kode tiket, copy the appropriate version
+                    if (targetId === 'kode-tiket') {
+                        textToCopy = displayWithHyphens ? originalKodeTiket : originalKodeTiket.replace(/-/g, '');
+                    }
                     
                     copyToClipboard(textToCopy, copyBtn);
+                }
+                
+                // Handle ticket option clicks
+                if (e.target.classList.contains('ticket-option') || e.target.closest('.ticket-option')) {
+                    const option = e.target.classList.contains('ticket-option') ? 
+                        e.target : e.target.closest('.ticket-option');
+                    const optionType = option.getAttribute('data-option');
+                    
+                    // Update active state
+                    ticketOptionButtons.forEach(btn => btn.classList.remove('active'));
+                    option.classList.add('active');
+                    
+                    // Update display
+                    displayWithHyphens = (optionType === 'with-hyphens');
+                    updateKodeTiketDisplay();
                 }
             });
             
@@ -504,6 +570,13 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 }, 3000);
             }
             
+            function updateKodeTiketDisplay() {
+                if (originalKodeTiket) {
+                    kodeTiketElement.textContent = displayWithHyphens ? 
+                        originalKodeTiket : originalKodeTiket.replace(/-/g, '');
+                }
+            }
+            
             function processData() {
                 const data = dataInput.value.trim();
                 
@@ -514,6 +587,7 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                     bettinganElement.textContent = '-';
                     linkBuktiElement.textContent = '-';
                     imagePreviewElement.innerHTML = '';
+                    ticketOptions.style.display = 'none';
                     return;
                 }
                 
@@ -531,15 +605,20 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 
                 // Extract information
                 const userId = parts[0];
-                const kodeTiket = parts[3].replace(/-/g, ''); // Remove all hyphens
+                originalKodeTiket = parts[3]; // Simpan dengan penghubung asli
                 const linkBukti = parts[4];
                 const bettingan = parts[7];
                 
                 // Display the extracted information
                 userIdElement.textContent = userId;
-                kodeTiketElement.textContent = kodeTiket;
                 bettinganElement.textContent = bettingan;
                 linkBuktiElement.textContent = linkBukti;
+                
+                // Update kode tiket display based on current option
+                updateKodeTiketDisplay();
+                
+                // Show ticket options
+                ticketOptions.style.display = 'flex';
                 
                 // Create image previews
                 imagePreviewElement.innerHTML = '';
