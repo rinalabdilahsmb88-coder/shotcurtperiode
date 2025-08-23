@@ -99,6 +99,41 @@
             color: #28a745;
         }
         
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        button {
+            background: linear-gradient(to right, #b21f1f, #fdbb2d);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(178, 31, 31, 0.4);
+        }
+        
+        button.clear-btn {
+            background: linear-gradient(to right, #6c757d, #adb5bd);
+        }
+        
+        button.clear-btn:hover {
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+        }
+        
         .result-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -108,6 +143,10 @@
         @media (max-width: 768px) {
             .result-section {
                 grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
             }
         }
         
@@ -394,6 +433,12 @@
                 <span>Data akan diproses otomatis saat Anda mengetik</span>
             </div>
             
+            <div class="button-group">
+                <button id="clear-btn" class="clear-btn">
+                    <i class="fas fa-trash-alt"></i> Hapus Data
+                </button>
+            </div>
+            
             <div class="processing-animation" id="processing-indicator" style="display: none;">
                 <span>Memproses</span>
                 <div class="processing-dots">
@@ -473,6 +518,7 @@
                 <li>Data akan diproses otomatis dan hasilnya ditampilkan di bawah</li>
                 <li>Gunakan tombol Copy untuk menyalin setiap informasi</li>
                 <li>Pilih tampilan Kode Tiket dengan atau tanpa tanda penghubung</li>
+                <li>Gunakan tombol "Hapus Data" untuk mengosongkan form</li>
             </ol>
             
             <div class="example">
@@ -500,6 +546,7 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
             const processingIndicator = document.getElementById('processing-indicator');
             const ticketOptions = document.getElementById('ticket-options');
             const ticketOptionButtons = document.querySelectorAll('.ticket-option');
+            const clearBtn = document.getElementById('clear-btn');
             
             let processingTimeout;
             let originalKodeTiket = '';
@@ -534,6 +581,18 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                     displayWithHyphens = (optionType === 'with-hyphens');
                     updateKodeTiketDisplay();
                 }
+            });
+            
+            // Clear button functionality
+            clearBtn.addEventListener('click', function() {
+                dataInput.value = '';
+                userIdElement.textContent = '-';
+                kodeTiketElement.textContent = '-';
+                bettinganElement.textContent = '-';
+                linkBuktiElement.textContent = '-';
+                imagePreviewElement.innerHTML = '';
+                ticketOptions.style.display = 'none';
+                showToast('Data telah dihapus');
             });
             
             function copyToClipboard(text, button) {
@@ -607,7 +666,9 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 const userId = parts[0];
                 originalKodeTiket = parts[3]; // Simpan dengan penghubung asli
                 const linkBukti = parts[4];
-                const bettingan = parts[7];
+                // Mengambil bettingan dari kolom indeks 5 (2,000 - 8,000) dan mengambil nilai pertama
+                const bettingRange = parts[5];
+                const bettingan = bettingRange.split(' - ')[0]; // Ambil bagian pertama dari range
                 
                 // Display the extracted information
                 userIdElement.textContent = userId;
