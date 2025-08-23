@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scatter Mahjong Data Processor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid #fdbb2d;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #1a2a6c;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 25px 0 15px;
+            color: #b21f1f;
+        }
+        
+        .logo {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #1a2a6c;
+        }
+        
+        .input-section {
+            background: rgba(26, 42, 108, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #1a2a6c;
+            font-size: 16px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            border-color: #fdbb2d;
+            outline: none;
+        }
+        
+        .auto-process-info {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            color: #1a2a6c;
+            font-size: 14px;
+        }
+        
+        .auto-process-info i {
+            margin-right: 8px;
+            color: #28a745;
+        }
+        
+        .result-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .result-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #1a2a6c;
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title i {
+            margin-right: 10px;
+        }
+        
+        .result-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            font-weight: bold;
+            color: #b21f1f;
+            display: block;
+            margin-bottom: 5px;
+            min-width: 100px;
+        }
+        
+        .result-value {
+            color: #333;
+            word-break: break-all;
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 8px 12px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .copy-btn {
+            background: #1a2a6c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+        }
+        
+        .copy-btn:hover {
+            background: #253a8d;
+        }
+        
+        .copy-btn.copied {
+            background: #28a745;
+        }
+        
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .image-preview a {
+            display: block;
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .image-preview a:hover {
+            transform: scale(1.05);
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .instructions {
+            background: rgba(253, 187, 45, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .instructions h3 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #1a2a6c;
+        }
+        
+        .example {
+            background: rgba(26, 42, 108, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 14px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .link-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        
+        .link-text {
+            flex-grow: 1;
+            word-break: break-all;
+            padding-right: 10px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-ready {
+            background-color: #28a745;
+        }
+        
+        .status-processing {
+            background-color: #ffc107;
+        }
+        
+        .processing-animation {
+            display: inline-flex;
+            align-items: center;
+            color: #1a2a6c;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .processing-dots {
+            display: inline-flex;
+            margin-left: 5px;
+        }
+        
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: #1a2a6c;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        
+        .dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        
+        .dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-dice"></i>
+            </div>
+            <h1>Scatter Mahjong Data Processor</h1>
+            <p>Ekstrak informasi dari data Scatter Mahjong dengan mudah</p>
+        </header>
+        
+        <section class="input-section">
+            <h2><i class="fas fa-database"></i> Input Data</h2>
+            <p>Masukkan data Scatter Mahjong dalam format berikut (data akan diproses otomatis):</p>
+            <textarea id="data-input" placeholder="Contoh: kaka0809	kaka0809	GOPAY,SISKA DWI YULIYANTI,085742079278	1959283638990331396-1959283638990331396-201-0	https://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg 	2,000 - 8,000	3	50,000"></textarea>
+            
+            <div class="auto-process-info">
+                <i class="fas fa-sync-alt"></i>
+                <span>Data akan diproses otomatis saat Anda mengetik</span>
+            </div>
+            
+            <div class="processing-animation" id="processing-indicator" style="display: none;">
+                <span>Memproses</span>
+                <div class="processing-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="result-section">
+            <div class="left-column">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-user"></i> Informasi User</h2>
+                    
+                    <div class="result-item">
+                        <span class="result-label">User ID:</span>
+                        <span class="result-value" id="user-id">-</span>
+                        <button class="copy-btn" data-target="user-id">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Kode Tiket:</span>
+                        <span class="result-value" id="kode-tiket">-</span>
+                        <button class="copy-btn" data-target="kode-tiket">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Bettingan:</span>
+                        <span class="result-value" id="bettingan">-</span>
+                        <button class="copy-btn" data-target="bettingan">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-link"></i> Link Bukti</h2>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Link Bukti:</span>
+                        <span class="result-value" id="link-bukti">-</span>
+                        <button class="copy-btn" data-target="link-bukti">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    
+                    <div class="image-preview" id="image-preview">
+                        <!-- Image previews will be added here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Cara Penggunaan</h3>
+            <ol>
+                <li>Salin data dari sumber Scatter Mahjong</li>
+                <li>Tempel data ke dalam textarea di atas</li>
+                <li>Data akan diproses otomatis dan hasilnya ditampilkan di bawah</li>
+                <li>Gunakan tombol Copy untuk menyalin setiap informasi</li>
+            </ol>
+            
+            <div class="example">
+Contoh format data:
+kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    1959283638990331396-1959283638990331396-201-0    https://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg     2,000 - 8,000    3    50,000
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2023 Scatter Mahjong Data Processor. All rights reserved.</p>
+        </footer>
+        
+        <div class="toast" id="toast">Teks berhasil disalin!</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dataInput = document.getElementById('data-input');
+            const userIdElement = document.getElementById('user-id');
+            const kodeTiketElement = document.getElementById('kode-tiket');
+            const bettinganElement = document.getElementById('bettingan');
+            const linkBuktiElement = document.getElementById('link-bukti');
+            const imagePreviewElement = document.getElementById('image-preview');
+            const toast = document.getElementById('toast');
+            const processingIndicator = document.getElementById('processing-indicator');
+            
+            let processingTimeout;
+            
+            // Add event listeners to all copy buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('copy-btn') || e.target.closest('.copy-btn')) {
+                    const copyBtn = e.target.classList.contains('copy-btn') ? e.target : e.target.closest('.copy-btn');
+                    const targetId = copyBtn.getAttribute('data-target');
+                    const textToCopy = document.getElementById(targetId).textContent;
+                    
+                    copyToClipboard(textToCopy, copyBtn);
+                }
+            });
+            
+            function copyToClipboard(text, button) {
+                if (text === '-') {
+                    showToast('Tidak ada data untuk disalin');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    // Show toast notification
+                    showToast('Teks berhasil disalin!');
+                    
+                    // Change button appearance temporarily
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    button.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Error copying text: ', err);
+                    showToast('Gagal menyalin teks');
+                });
+            }
+            
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            function processData() {
+                const data = dataInput.value.trim();
+                
+                if (!data) {
+                    // Reset all fields if input is empty
+                    userIdElement.textContent = '-';
+                    kodeTiketElement.textContent = '-';
+                    bettinganElement.textContent = '-';
+                    linkBuktiElement.textContent = '-';
+                    imagePreviewElement.innerHTML = '';
+                    return;
+                }
+                
+                // Show processing indicator
+                processingIndicator.style.display = 'flex';
+                
+                // Split data by tabs (assuming tab-separated values)
+                const parts = data.split('\t');
+                
+                if (parts.length < 8) {
+                    showToast('Format data tidak valid. Pastikan data dipisahkan oleh tab.');
+                    processingIndicator.style.display = 'none';
+                    return;
+                }
+                
+                // Extract information
+                const userId = parts[0];
+                const kodeTiket = parts[3].replace(/-/g, ''); // Remove all hyphens
+                const linkBukti = parts[4];
+                const bettingan = parts[7];
+                
+                // Display the extracted information
+                userIdElement.textContent = userId;
+                kodeTiketElement.textContent = kodeTiket;
+                bettinganElement.textContent = bettingan;
+                linkBuktiElement.textContent = linkBukti;
+                
+                // Create image previews
+                imagePreviewElement.innerHTML = '';
+                const links = linkBukti.split(',').map(link => link.trim()).filter(link => link);
+                
+                links.forEach(link => {
+                    if (link) {
+                        const a = document.createElement('a');
+                        a.href = link;
+                        a.target = '_blank';
+                        
+                        const img = document.createElement('img');
+                        img.src = link;
+                        img.alt = 'Bukti Screenshot';
+                        img.onerror = function() {
+                            // If image fails to load, show a placeholder
+                            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIG5vdCBmb3VuZDwvdGV4dD48L3N2Zz4=';
+                        };
+                        
+                        a.appendChild(img);
+                        imagePreviewElement.appendChild(a);
+                    }
+                });
+                
+                // Hide processing indicator after a short delay
+                setTimeout(() => {
+                    processingIndicator.style.display = 'none';
+                }, 500);
+            }
+            
+            // Add input event listener with debounce
+            dataInput.addEventListener('input', function() {
+                // Clear previous timeout
+                clearTimeout(processingTimeout);
+                
+                // Show processing indicator
+                processingIndicator.style.display = 'flex';
+                
+                // Set new timeout
+                processingTimeout = setTimeout(processData, 800);
+            });
+            
+            // Add example data to textarea
+            dataInput.value = "kaka0809\tkaka0809\tGOPAY,SISKA DWI YULIYANTI,085742079278\t1959283638990331396-1959283638990331396-201-0\thttps://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg \t2,000 - 8,000\t3\t50,000";
+            
+            // Process the example data immediately
+            processData();
+        });
+    </script>
+</body>
+</html>
