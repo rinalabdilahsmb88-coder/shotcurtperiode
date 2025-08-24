@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Transaksi Multi-Nasabah</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            market: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .info-text {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .data-input {
+            margin-top: 30px;
+        }
+        .data-input h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #3498db, transparent);
+            margin: 30px 0;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #hitung {
+            background-color: #3498db;
+            color: white;
+        }
+        #hitung:hover {
+            background-color: #2980b9;
+        }
+        #reset {
+            background-color: #e74c3c;
+            color: white;
+        }
+        #reset:hover {
+            background-color: #c0392b;
+        }
+        .result-section {
+            margin-top: 30px;
+        }
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .transaction-table th, .transaction-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .transaction-table th {
+            background-color: #3498db;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        .transaction-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .transaction-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        .transaction-table td:nth-child(3),
+        .transaction-table td:nth-child(4),
+        .transaction-table td:nth-child(5) {
+            text-align: right;
+        }
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .summary h3 {
+            grid-column: span 2;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        .summary-total {
+            grid-column: span 2;
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .summary-total span {
+            font-weight: bold;
+            font-size: 18px;
+            color: #1976d2;
+        }
+        .copy-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .copy-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        #copy-all {
+            background-color: #9b59b6;
+            color: white;
+        }
+        #copy-all:hover {
+            background-color: #8e44ad;
+        }
+        #copy-total-biaya {
+            background-color: #f39c12;
+            color: white;
+        }
+        #copy-total-biaya:hover {
+            background-color: #d35400;
+        }
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff9e6;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        .biaya-info {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            border-left: 4px solid #4caf50;
+        }
+        .clipboard-feedback {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+        @media (max-width: 768px) {
+            .input-section, .summary {
+                grid-template-columns: 1fr;
+            }
+            .summary h3, .summary-total {
+                grid-column: span 1;
+            }
+            .button-group, .copy-buttons {
+                flex-direction: column;
+            }
+            .transaction-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .clipboard-feedback {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Kalkulator Transaksi Multi-Nasabah</h1>
+            <p>Hitung jumlah transaksi dan biaya untuk beberapa nasabah sekaligus</p>
+        </div>
+        
+        <div class="content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="batas-transaksi">Batas Maksimal per Transaksi (Rp)</label>
+                    <input type="text" id="batas-transaksi" value="35,000,000">
+                    <div class="info-text">Batas maksimal per transaksi</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="biaya-transaksi">Biaya per Transaksi (Rp)</label>
+                    <input type="text" id="biaya-transaksi" value="2,500" readonly>
+                    <div class="info-text">Biaya yang dikenakan untuk setiap transaksi</div>
+                </div>
+            </div>
+            
+            <div class="biaya-info">
+                <p><strong>Perhatian:</strong> Setiap transaksi dikenakan biaya tetap sebesar Rp 2,500, termasuk transaksi di bawah Rp 35,000,000.</p>
+            </div>
+            
+            <div class="data-input">
+                <h3>Data Nasabah dan Nominal</h3>
+                <textarea id="data-nasabah" placeholder="Masukkan data nasabah dan nominal dalam format: Nama [tab/spasi] Nominal
+Contoh:
+Tan Kwe Nio		200,000,000
+Derian		200,000,000
+Rati Oktafia		127,952,403"></textarea>
+                <div class="info-text">Pisahkan nama dan nominal dengan tab atau spasi. Satu nasabah per baris.</div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="button-group">
+                <button id="hitung">Hitung Semua</button>
+                <button id="reset">Reset</button>
+            </div>
+            
+            <div class="result-section" id="hasil" style="display: none;">
+                <div class="result-header">
+                    <h2>Hasil Perhitungan</h2>
+                </div>
+                
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Nasabah</th>
+                            <th>Jumlah Total (Rp)</th>
+                            <th>Jumlah Transaksi</th>
+                            <th>Total Biaya (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hasil-body">
+                        <!-- Hasil perhitungan akan ditambahkan di sini -->
+                    </tbody>
+                </table>
+                
+                <div class="summary">
+                    <h3>Ringkasan</h3>
+                    <div class="summary-item">
+                        <span>Jumlah Nasabah:</span>
+                        <span id="total-nasabah">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Semua Nominal:</span>
+                        <span id="total-semua">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Jumlah Total Transaksi:</span>
+                        <span id="total-transaksi">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Rata-rata Biaya per Nasabah:</span>
+                        <span id="rata-biaya">Rp 0</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>TOTAL SEMUA BIAYA:</span>
+                        <span id="total-biaya">Rp 0</span>
+                    </div>
+                </div>
+                
+                <div class="copy-buttons">
+                    <button class="copy-btn" id="copy-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        </svg>
+                        Salin Semua Hasil
+                    </button>
+                    <button class="copy-btn" id="copy-total-biaya">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        </svg>
+                        Salin Total Biaya
+                    </button>
+                </div>
+            </div>
+            
+            <div class="note">
+                <p>Masukkan data nasabah dan nominal, lalu klik "Hitung Semua" untuk melihat hasil perhitungan</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="clipboard-feedback" id="clipboard-feedback">
+        Teks berhasil disalin ke clipboard!
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const batasTransaksiInput = document.getElementById('batas-transaksi');
+            const biayaTransaksiInput = document.getElementById('biaya-transaksi');
+            const dataNasabahTextarea = document.getElementById('data-nasabah');
+            const hitungBtn = document.getElementById('hitung');
+            const resetBtn = document.getElementById('reset');
+            const hasilDiv = document.getElementById('hasil');
+            const hasilBody = document.getElementById('hasil-body');
+            const totalNasabahSpan = document.getElementById('total-nasabah');
+            const totalSemuaSpan = document.getElementById('total-semua');
+            const totalTransaksiSpan = document.getElementById('total-transaksi');
+            const rataBiayaSpan = document.getElementById('rata-biaya');
+            const totalBiayaSpan = document.getElementById('total-biaya');
+            const copyAllBtn = document.getElementById('copy-all');
+            const copyTotalBiayaBtn = document.getElementById('copy-total-biaya');
+            const clipboardFeedback = document.getElementById('clipboard-feedback');
+            
+            // Variabel untuk menyimpan total biaya dalam format angka saja
+            let totalBiayaValue = 0;
+            
+            // Fungsi untuk memformat angka dengan pemisah ribuan
+            function formatNumber(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // Fungsi untuk menghapus format (menghapus koma)
+            function removeFormatting(str) {
+                return str.replace(/,/g, '');
+            }
+            
+            // Fungsi untuk menampilkan feedback
+            function showFeedback(message) {
+                clipboardFeedback.textContent = message;
+                clipboardFeedback.style.display = 'block';
+                setTimeout(() => {
+                    clipboardFeedback.style.display = 'none';
+                }, 2000);
+            }
+            
+            // Event listener untuk tombol hitung
+            hitungBtn.addEventListener('click', function() {
+                // Mendapatkan nilai input dan menghapus formatting
+                const batasTransaksi = parseFloat(removeFormatting(batasTransaksiInput.value)) || 0;
+                const biayaTransaksi = parseFloat(removeFormatting(biayaTransaksiInput.value)) || 0;
+                const dataNasabah = dataNasabahTextarea.value;
+                
+                // Validasi input
+                if (batasTransaksi <= 0 || biayaTransaksi < 0) {
+                    alert('Masukkan nilai yang valid untuk batas transaksi dan biaya!');
+                    return;
+                }
+                
+                if (!dataNasabah.trim()) {
+                    alert('Masukkan data nasabah!');
+                    return;
+                }
+                
+                // Memproses data nasabah
+                const lines = dataNasabah.split('\n');
+                let totalSemuaNominal = 0;
+                let totalSemuaBiaya = 0;
+                let totalJumlahTransaksi = 0;
+                let nasabahCount = 0;
+                
+                // Bersihkan tabel hasil
+                hasilBody.innerHTML = '';
+                
+                // Proses setiap baris
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    
+                    // Pisahkan nama dan nominal
+                    // Asumsikan format: Nama [tab/spasi] Nominal
+                    const parts = line.split(/\s+/);
+                    if (parts.length < 2) continue;
+                    
+                    // Nama adalah semua bagian kecuali bagian terakhir
+                    const nama = parts.slice(0, -1).join(' ');
+                    const nominalStr = parts[parts.length - 1];
+                    
+                    // Konversi nominal ke angka
+                    const nominal = parseFloat(removeFormatting(nominalStr)) || 0;
+                    if (nominal <= 0) continue;
+                    
+                    // Hitung jumlah transaksi dan biaya
+                    // Setiap transaksi (bahkan di bawah batas) dikenakan biaya
+                    const jumlahTransaksi = Math.max(1, Math.ceil(nominal / batasTransaksi));
+                    const totalBiaya = jumlahTransaksi * biayaTransaksi;
+                    
+                    // Tambahkan ke total
+                    totalSemuaNominal += nominal;
+                    totalSemuaBiaya += totalBiaya;
+                    totalJumlahTransaksi += jumlahTransaksi;
+                    nasabahCount++;
+                    
+                    // Tambahkan baris ke tabel
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${nasabahCount}</td>
+                        <td>${nama}</td>
+                        <td>${formatNumber(nominal)}</td>
+                        <td>${jumlahTransaksi}</td>
+                        <td>${formatNumber(totalBiaya)}</td>
+                    `;
+                    hasilBody.appendChild(row);
+                }
+                
+                // Hitung rata-rata biaya per nasabah
+                const rataBiaya = nasabahCount > 0 ? totalSemuaBiaya / nasabahCount : 0;
+                
+                // Simpan total biaya untuk digunakan di clipboard
+                totalBiayaValue = totalSemuaBiaya;
+                
+                // Tampilkan ringkasan
+                totalNasabahSpan.textContent = nasabahCount;
+                totalSemuaSpan.textContent = 'Rp ' + formatNumber(totalSemuaNominal);
+                totalTransaksiSpan.textContent = totalJumlahTransaksi;
+                rataBiayaSpan.textContent = 'Rp ' + formatNumber(Math.round(rataBiaya));
+                totalBiayaSpan.textContent = 'Rp ' + formatNumber(totalSemuaBiaya);
+                
+                // Tampilkan hasil
+                hasilDiv.style.display = 'block';
+                
+                // Scroll ke hasil
+                hasilDiv.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Event listener untuk tombol reset
+            resetBtn.addEventListener('click', function() {
+                batasTransaksiInput.value = '35,000,000';
+                biayaTransaksiInput.value = '2,500';
+                dataNasabahTextarea.value = '';
+                hasilDiv.style.display = 'none';
+                totalBiayaValue = 0;
+            });
+            
+            // Event listener untuk tombol salin semua hasil
+            copyAllBtn.addEventListener('click', function() {
+                const rows = Array.from(hasilBody.querySelectorAll('tr'));
+                let copyText = 'No\tNama Nasabah\tJumlah Total (Rp)\tJumlah Transaksi\tTotal Biaya (Rp)\n';
+                
+                rows.forEach((row, index) => {
+                    const cols = row.querySelectorAll('td');
+                    copyText += `${cols[0].textContent}\t${cols[1].textContent}\t${cols[2].textContent}\t${cols[3].textContent}\t${cols[4].textContent}\n`;
+                });
+                
+                copyText += `\nRingkasan:\n`;
+                copyText += `Jumlah Nasabah: ${totalNasabahSpan.textContent}\n`;
+                copyText += `Total Semua Nominal: ${totalSemuaSpan.textContent}\n`;
+                copyText += `Jumlah Total Transaksi: ${totalTransaksiSpan.textContent}\n`;
+                copyText += `Rata-rata Biaya per Nasabah: ${rataBiayaSpan.textContent}\n`;
+                copyText += `TOTAL SEMUA BIAYA: ${totalBiayaSpan.textContent}\n`;
+                
+                // Menggunakan metode copy teks yang lebih andal
+                copyToClipboard(copyText, 'Semua hasil berhasil disalin ke clipboard!');
+            });
+            
+            // Event listener untuk tombol salin total biaya
+            copyTotalBiayaBtn.addEventListener('click', function() {
+                // Hanya menyalin angka tanpa "Rp"
+                const cleanText = formatNumber(totalBiayaValue);
+                
+                // Menggunakan metode copy teks yang lebih andal
+                copyToClipboard(cleanText, 'Total biaya berhasil disalin: ' + cleanText);
+            });
+            
+            // Fungsi yang lebih andal untuk menyalin teks ke clipboard
+            function copyToClipboard(text, successMessage) {
+                // Metode 1: Menggunakan Clipboard API modern
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text)
+                        .then(() => {
+                            showFeedback(successMessage);
+                        })
+                        .catch(err => {
+                            // Fallback ke metode lama jika Clipboard API gagal
+                            useFallbackCopyMethod(text, successMessage);
+                        });
+                } else {
+                    // Fallback ke metode lama jika Clipboard API tidak tersedia
+                    useFallbackCopyMethod(text, successMessage);
+                }
+            }
+            
+            // Metode fallback untuk menyalin teks
+            function useFallbackCopyMethod(text, successMessage) {
+                // Membuat textarea sementara
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = 0;
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    // Menjalankan perintah copy
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        showFeedback(successMessage);
+                    } else {
+                        showFeedback('Gagal menyalin teks. Silakan coba lagi.');
+                    }
+                } catch (err) {
+                    showFeedback('Gagal menyalin teks. Silakan coba lagi.');
+                }
+                
+                // Membersihkan
+                document.body.removeChild(textArea);
+            }
+            
+            // Format input secara otomatis saat pengguna mengetik
+            const inputs = [batasTransaksiInput];
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function(e) {
+                    // Hanya format jika input tidak kosong
+                    if (e.target.value) {
+                        // Hapus semua karakter non-digit
+                        let value = e.target.value.replace(/[^\d]/g, '');
+                        
+                        // Format dengan pemisah ribuan
+                        value = formatNumber(value);
+                        
+                        // Set nilai input yang diformat
+                        e.target.value = value;
+                    }
+                });
+            });
+            
+            // Contoh data untuk pengujian
+            dataNasabahTextarea.value = "Tan Kwe Nio\t\t200,000,000\nDerian\t\t200,000,000\nRati Oktafia\t\t127,952,403\nASHA INTAN PERMATASARI\t\t210,002,500\nMuhammad Afrizal\t\t176,645,500";
+        });
+    </script>
+</body>
+</html>
