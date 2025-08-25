@@ -12,130 +12,181 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             min-height: 100vh;
             padding: 20px;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .container {
-            max-width: 1200px;
-            market: 0 auto;
+            width: 100%;
+            max-width: 1000px;
             background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
             overflow: hidden;
+            transition: all 0.3s ease;
         }
         .header {
-            background: #2c3e50;
+            background: linear-gradient(to right, #2c3e50, #4a6491);
             color: white;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
+            position: relative;
         }
         .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 26px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .header p {
+            font-size: 15px;
+            opacity: 0.9;
         }
         .content {
-            padding: 30px;
+            padding: 25px;
         }
         .input-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .input-group {
             margin-bottom: 15px;
-            position: relative;
         }
         .input-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: #2c3e50;
+            font-size: 14px;
         }
         .input-group input {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            font-size: 15px;
+            transition: all 0.3s;
         }
         .input-group input:focus {
             border-color: #3498db;
             outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         .info-text {
-            font-size: 14px;
+            font-size: 13px;
             color: #7f8c8d;
             margin-top: 5px;
         }
         .data-input {
-            margin-top: 30px;
+            margin-top: 25px;
         }
         .data-input h3 {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #2c3e50;
+            font-size: 17px;
         }
         textarea {
             width: 100%;
-            height: 200px;
+            height: 150px;
             padding: 15px;
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 14px;
             resize: vertical;
+            transition: all 0.3s;
+        }
+        textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         .divider {
             height: 1px;
             background: linear-gradient(to right, transparent, #3498db, transparent);
-            margin: 30px 0;
+            margin: 25px 0;
         }
         .button-group {
             display: flex;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         button {
             flex: 1;
-            padding: 15px;
+            padding: 14px;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
         #hitung {
-            background-color: #3498db;
+            background: linear-gradient(to right, #3498db, #2980b9);
             color: white;
         }
         #hitung:hover {
-            background-color: #2980b9;
+            background: linear-gradient(to right, #2980b9, #2573a7);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         #reset {
-            background-color: #e74c3c;
+            background: linear-gradient(to right, #e74c3c, #c0392b);
             color: white;
         }
         #reset:hover {
-            background-color: #c0392b;
+            background: linear-gradient(to right, #c0392b, #a93226);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .result-section {
-            margin-top: 30px;
+            margin-top: 25px;
         }
         .result-header {
-            text-align: center;
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
             color: #2c3e50;
             border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
+            cursor: pointer;
+        }
+        .result-header h2 {
+            font-size: 19px;
+            font-weight: 700;
+        }
+        .minimize-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #3498db;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .minimize-btn:hover {
+            background-color: rgba(52, 152, 219, 0.1);
         }
         .transaction-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-size: 14px;
+            border-radius: 8px;
+            overflow: hidden;
         }
         .transaction-table th, .transaction-table td {
             padding: 12px 15px;
@@ -143,10 +194,11 @@
             border-bottom: 1px solid #ddd;
         }
         .transaction-table th {
-            background-color: #3498db;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
             position: sticky;
             top: 0;
+            font-weight: 600;
         }
         .transaction-table tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -160,18 +212,21 @@
             text-align: right;
         }
         .summary {
-            margin-top: 30px;
+            margin-top: 25px;
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 10px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
+            font-size: 15px;
         }
         .summary h3 {
             grid-column: span 2;
             margin-bottom: 15px;
             color: #2c3e50;
+            font-size: 17px;
+            font-weight: 700;
         }
         .summary-item {
             display: flex;
@@ -184,51 +239,56 @@
         }
         .summary-total {
             grid-column: span 2;
-            background-color: #e3f2fd;
+            background: linear-gradient(to right, #3498db, #2980b9);
             padding: 15px;
             border-radius: 8px;
             margin-top: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: white;
+            font-weight: 600;
         }
         .summary-total span {
             font-weight: bold;
-            font-size: 18px;
-            color: #1976d2;
+            font-size: 17px;
         }
         .copy-buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 25px;
         }
         .copy-btn {
-            padding: 12px 20px;
+            padding: 12px 15px;
             border: none;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
         #copy-all {
-            background-color: #9b59b6;
+            background: linear-gradient(to right, #9b59b6, #8e44ad);
             color: white;
         }
         #copy-all:hover {
-            background-color: #8e44ad;
+            background: linear-gradient(to right, #8e44ad, #7d3c98);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         #copy-total-biaya {
-            background-color: #f39c12;
+            background: linear-gradient(to right, #f39c12, #e67e22);
             color: white;
         }
         #copy-total-biaya:hover {
-            background-color: #d35400;
+            background: linear-gradient(to right, #e67e22, #d35400);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .note {
             margin-top: 20px;
@@ -238,6 +298,7 @@
             font-size: 14px;
             color: #666;
             text-align: center;
+            border-left: 4px solid #f39c12;
         }
         .biaya-info {
             background-color: #e8f5e9;
@@ -246,19 +307,123 @@
             margin-top: 20px;
             text-align: center;
             border-left: 4px solid #4caf50;
+            font-size: 14px;
         }
         .clipboard-feedback {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 20px;
+            padding: 14px 18px;
             background-color: #4caf50;
             color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border-radius: 6px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.2);
             display: none;
             z-index: 1000;
+            font-size: 14px;
+            font-weight: 500;
         }
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(15deg);
+        }
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #0a0a2a, #1a1a2e, #16213e);
+            color: #f0f0f0;
+        }
+        body.dark-mode .container {
+            background-color: #2c3e50;
+            color: #f0f0f0;
+        }
+        body.dark-mode .header {
+            background: linear-gradient(to right, #1a252f, #2c3e50);
+        }
+        body.dark-mode .input-group label {
+            color: #ecf0f1;
+        }
+        body.dark-mode .input-group input {
+            background-color: #34495e;
+            border-color: #4a6278;
+            color: #ecf0f1;
+        }
+        body.dark-mode .input-group input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }
+        body.dark-mode .info-text {
+            color: #bdc3c7;
+        }
+        body.dark-mode .data-input h3 {
+            color: #ecf0f1;
+        }
+        body.dark-mode textarea {
+            background-color: #34495e;
+            border-color: #4a6278;
+            color: #ecf0f1;
+        }
+        body.dark-mode textarea:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }
+        body.dark-mode .biaya-info {
+            background-color: #2c5230;
+            border-left-color: #4caf50;
+            color: #ecf0f1;
+        }
+        body.dark-mode .result-header {
+            color: #ecf0f1;
+        }
+        body.dark-mode .transaction-table {
+            color: #ecf0f1;
+        }
+        body.dark-mode .transaction-table th {
+            background: linear-gradient(to bottom, #2980b9, #2471a3);
+        }
+        body.dark-mode .transaction-table tr:nth-child(even) {
+            background-color: #34495e;
+        }
+        body.dark-mode .transaction-table tr:hover {
+            background-color: #4a6278;
+        }
+        body.dark-mode .summary {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+        body.dark-mode .summary h3 {
+            color: #ecf0f1;
+        }
+        body.dark-mode .summary-total {
+            background: linear-gradient(to right, #2980b9, #2471a3);
+            color: #ecf0f1;
+        }
+        body.dark-mode .note {
+            background-color: #4a3c00;
+            color: #f0f0f0;
+            border-left-color: #f39c12;
+        }
+        
         @media (max-width: 768px) {
             .input-section, .summary {
                 grid-template-columns: 1fr;
@@ -269,6 +434,9 @@
             .button-group, .copy-buttons {
                 flex-direction: column;
             }
+            .copy-buttons {
+                grid-template-columns: 1fr;
+            }
             .transaction-table {
                 display: block;
                 overflow-x: auto;
@@ -277,6 +445,11 @@
                 top: 10px;
                 right: 10px;
                 left: 10px;
+                text-align: center;
+            }
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
             }
         }
     </style>
@@ -286,34 +459,39 @@
         <div class="header">
             <h1>Kalkulator Transaksi Multi-Nasabah</h1>
             <p>Hitung jumlah transaksi dan biaya untuk beberapa nasabah sekaligus</p>
+            <button class="theme-toggle" id="theme-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+                </svg>
+            </button>
         </div>
         
         <div class="content">
             <div class="input-section">
                 <div class="input-group">
                     <label for="batas-transaksi">Batas Maksimal per Transaksi (Rp)</label>
-                    <input type="text" id="batas-transaksi" value="35,000,000">
+                    <input type="text" id="batas-transaksi" placeholder="Contoh 34,997,500">
                     <div class="info-text">Batas maksimal per transaksi</div>
                 </div>
                 
                 <div class="input-group">
                     <label for="biaya-transaksi">Biaya per Transaksi (Rp)</label>
-                    <input type="text" id="biaya-transaksi" value="2,500" readonly>
+                    <input type="text" id="biaya-transaksi" placeholder="Contoh 2,500">
                     <div class="info-text">Biaya yang dikenakan untuk setiap transaksi</div>
                 </div>
             </div>
             
             <div class="biaya-info">
-                <p><strong>Perhatian:</strong> Setiap transaksi dikenakan biaya tetap sebesar Rp 2,500, termasuk transaksi di bawah Rp 35,000,000.</p>
+                <p><strong>Perhatian:</strong> Setiap transaksi dikenakan biaya tetap, termasuk transaksi di bawah batas maksimal.</p>
             </div>
             
             <div class="data-input">
                 <h3>Data Nasabah dan Nominal</h3>
                 <textarea id="data-nasabah" placeholder="Masukkan data nasabah dan nominal dalam format: Nama [tab/spasi] Nominal
 Contoh:
-Tan Kwe Nio		200,000,000
-Derian		200,000,000
-Rati Oktafia		127,952,403"></textarea>
+Tan Kwe Nio                200,000,000
+Derian                200,000,000
+Rati Oktafia                127,952,403"></textarea>
                 <div class="info-text">Pisahkan nama dan nominal dengan tab atau spasi. Satu nasabah per baris.</div>
             </div>
             
@@ -325,64 +503,67 @@ Rati Oktafia		127,952,403"></textarea>
             </div>
             
             <div class="result-section" id="hasil" style="display: none;">
-                <div class="result-header">
+                <div class="result-header" id="minimize-header">
                     <h2>Hasil Perhitungan</h2>
+                    <button class="minimize-btn" id="minimize-btn">−</button>
                 </div>
                 
-                <table class="transaction-table">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Nasabah</th>
-                            <th>Jumlah Total (Rp)</th>
-                            <th>Jumlah Transaksi</th>
-                            <th>Total Biaya (Rp)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="hasil-body">
-                        <!-- Hasil perhitungan akan ditambahkan di sini -->
-                    </tbody>
-                </table>
-                
-                <div class="summary">
-                    <h3>Ringkasan</h3>
-                    <div class="summary-item">
-                        <span>Jumlah Nasabah:</span>
-                        <span id="total-nasabah">0</span>
+                <div id="result-content">
+                    <table class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Nasabah</th>
+                                <th>Jumlah Total (Rp)</th>
+                                <th>Jumlah Transaksi</th>
+                                <th>Total Biaya (Rp)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hasil-body">
+                            <!-- Hasil perhitungan akan ditambahkan di sini -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="summary">
+                        <h3>Ringkasan</h3>
+                        <div class="summary-item">
+                            <span>Jumlah Nasabah:</span>
+                            <span id="total-nasabah">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Total Semua Nominal:</span>
+                            <span id="total-semua">Rp 0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Jumlah Total Transaksi:</span>
+                            <span id="total-transaksi">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Rata-rata Biaya per Nasabah:</span>
+                            <span id="rata-biaya">Rp 0</span>
+                        </div>
+                        <div class="summary-total">
+                            <span>TOTAL SEMUA BIAYA:</span>
+                            <span id="total-biaya">Rp 0</span>
+                        </div>
                     </div>
-                    <div class="summary-item">
-                        <span>Total Semua Nominal:</span>
-                        <span id="total-semua">Rp 0</span>
+                    
+                    <div class="copy-buttons">
+                        <button class="copy-btn" id="copy-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Salin Semua
+                        </button>
+                        <button class="copy-btn" id="copy-total-biaya">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Salin Biaya
+                        </button>
                     </div>
-                    <div class="summary-item">
-                        <span>Jumlah Total Transaksi:</span>
-                        <span id="total-transaksi">0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Rata-rata Biaya per Nasabah:</span>
-                        <span id="rata-biaya">Rp 0</span>
-                    </div>
-                    <div class="summary-total">
-                        <span>TOTAL SEMUA BIAYA:</span>
-                        <span id="total-biaya">Rp 0</span>
-                    </div>
-                </div>
-                
-                <div class="copy-buttons">
-                    <button class="copy-btn" id="copy-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                        </svg>
-                        Salin Semua Hasil
-                    </button>
-                    <button class="copy-btn" id="copy-total-biaya">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                        </svg>
-                        Salin Total Biaya
-                    </button>
                 </div>
             </div>
             
@@ -413,9 +594,20 @@ Rati Oktafia		127,952,403"></textarea>
             const copyAllBtn = document.getElementById('copy-all');
             const copyTotalBiayaBtn = document.getElementById('copy-total-biaya');
             const clipboardFeedback = document.getElementById('clipboard-feedback');
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const minimizeBtn = document.getElementById('minimize-btn');
+            const minimizeHeader = document.getElementById('minimize-header');
+            const resultContent = document.getElementById('result-content');
             
             // Variabel untuk menyimpan total biaya dalam format angka saja
             let totalBiayaValue = 0;
+            let totalNominalValue = 0;
+            let isMinimized = false;
+            
+            // Kosongkan input saat pertama kali dibuka
+            batasTransaksiInput.value = '';
+            biayaTransaksiInput.value = '';
+            dataNasabahTextarea.value = '';
             
             // Fungsi untuk memformat angka dengan pemisah ribuan
             function formatNumber(num) {
@@ -439,8 +631,8 @@ Rati Oktafia		127,952,403"></textarea>
             // Event listener untuk tombol hitung
             hitungBtn.addEventListener('click', function() {
                 // Mendapatkan nilai input dan menghapus formatting
-                const batasTransaksi = parseFloat(removeFormatting(batasTransaksiInput.value)) || 0;
-                const biayaTransaksi = parseFloat(removeFormatting(biayaTransaksiInput.value)) || 0;
+                const batasTransaksi = parseFloat(removeFormatting(batasTransaksiInput.value)) || 35000000;
+                const biayaTransaksi = parseFloat(removeFormatting(biayaTransaksiInput.value)) || 2500;
                 const dataNasabah = dataNasabahTextarea.value;
                 
                 // Validasi input
@@ -510,6 +702,7 @@ Rati Oktafia		127,952,403"></textarea>
                 
                 // Simpan total biaya untuk digunakan di clipboard
                 totalBiayaValue = totalSemuaBiaya;
+                totalNominalValue = totalSemuaNominal;
                 
                 // Tampilkan ringkasan
                 totalNasabahSpan.textContent = nasabahCount;
@@ -520,6 +713,9 @@ Rati Oktafia		127,952,403"></textarea>
                 
                 // Tampilkan hasil
                 hasilDiv.style.display = 'block';
+                resultContent.style.display = 'block';
+                isMinimized = false;
+                minimizeBtn.textContent = '−';
                 
                 // Scroll ke hasil
                 hasilDiv.scrollIntoView({ behavior: 'smooth' });
@@ -527,11 +723,24 @@ Rati Oktafia		127,952,403"></textarea>
             
             // Event listener untuk tombol reset
             resetBtn.addEventListener('click', function() {
-                batasTransaksiInput.value = '35,000,000';
-                biayaTransaksiInput.value = '2,500';
+                batasTransaksiInput.value = '';
+                biayaTransaksiInput.value = '';
                 dataNasabahTextarea.value = '';
                 hasilDiv.style.display = 'none';
                 totalBiayaValue = 0;
+                totalNominalValue = 0;
+            });
+            
+            // Event listener untuk minimize button
+            minimizeHeader.addEventListener('click', function() {
+                if (isMinimized) {
+                    resultContent.style.display = 'block';
+                    minimizeBtn.textContent = '−';
+                } else {
+                    resultContent.style.display = 'none';
+                    minimizeBtn.textContent = '+';
+                }
+                isMinimized = !isMinimized;
             });
             
             // Event listener untuk tombol salin semua hasil
@@ -609,7 +818,7 @@ Rati Oktafia		127,952,403"></textarea>
             }
             
             // Format input secara otomatis saat pengguna mengetik
-            const inputs = [batasTransaksiInput];
+            const inputs = [batasTransaksiInput, biayaTransaksiInput];
             
             inputs.forEach(input => {
                 input.addEventListener('input', function(e) {
@@ -627,8 +836,18 @@ Rati Oktafia		127,952,403"></textarea>
                 });
             });
             
-            // Contoh data untuk pengujian
-            dataNasabahTextarea.value = "Tan Kwe Nio\t\t200,000,000\nDerian\t\t200,000,000\nRati Oktafia\t\t127,952,403\nASHA INTAN PERMATASARI\t\t210,002,500\nMuhammad Afrizal\t\t176,645,500";
+            // Dark Mode Toggle
+            themeToggleBtn.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                
+                // Ubah ikon berdasarkan mode
+                const icon = themeToggleBtn.querySelector('svg');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.innerHTML = '<path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>';
+                } else {
+                    icon.innerHTML = '<path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>';
+                }
+            });
         });
     </script>
 </body>
