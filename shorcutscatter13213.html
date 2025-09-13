@@ -6,6 +6,7 @@
     <title>Scatter Mahjong Data Processor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* CSS styles remain exactly the same as in your original code */
         * {
             margin: 0;
             padding: 0;
@@ -407,6 +408,67 @@
         .option-value {
             font-weight: bold;
         }
+        
+        /* New styles for TS toggle */
+        .ts-toggle-container {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(253, 187, 45, 0.2);
+            border-radius: 8px;
+        }
+        
+        .ts-toggle-label {
+            margin-left: 10px;
+            font-weight: bold;
+            color: #1a2a6c;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #1a2a6c;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
     </style>
 </head>
 <body>
@@ -423,6 +485,14 @@
             <h2><i class="fas fa-database"></i> Input Data</h2>
             <p>Masukkan data Scatter Mahjong dalam format berikut (data akan diproses otomatis):</p>
             <textarea id="data-input" placeholder="Contoh: kaka0809	kaka0809	GOPAY,SISKA DWI YULIYANTI,085742079278	1959283638990331396-1959283638990331396-201-0	https://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg 	2,000 - 8,000	3	50,000"></textarea>
+            
+            <div class="ts-toggle-container">
+                <label class="switch">
+                    <input type="checkbox" id="ts-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span class="ts-toggle-label">Tambah "TS" pada User ID</span>
+            </div>
             
             <div class="auto-process-info">
                 <i class="fas fa-sync-alt"></i>
@@ -511,6 +581,7 @@
             <ol>
                 <li>Salin data dari sumber Scatter Mahjong</li>
                 <li>Tempel data ke dalam textarea di atas</li>
+                <li>Gunakan toggle "TS" jika ingin menambahkan prefix TS pada User ID</li>
                 <li>Data akan diproses otomatis dan hasilnya ditampilkan di bawah</li>
                 <li>Gunakan tombol Copy untuk menyalin setiap informasi</li>
                 <li>Pilih tampilan Kode Tiket dengan atau tanpa tanda penghubung</li>
@@ -543,10 +614,13 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
             const ticketOptions = document.getElementById('ticket-options');
             const ticketOptionButtons = document.querySelectorAll('.ticket-option');
             const clearBtn = document.getElementById('clear-btn');
+            const tsToggle = document.getElementById('ts-toggle');
             
             let processingTimeout;
             let originalKodeTiket = '';
             let displayWithHyphens = true;
+            let originalUserId = '';
+            let addTSPrefix = false;
             
             // Add event listeners to all copy buttons
             document.addEventListener('click', function(e) {
@@ -558,6 +632,11 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                     // For kode tiket, copy the appropriate version
                     if (targetId === 'kode-tiket') {
                         textToCopy = displayWithHyphens ? originalKodeTiket : originalKodeTiket.replace(/-/g, '');
+                    }
+                    
+                    // For user id, copy the appropriate version based on TS toggle
+                    if (targetId === 'user-id') {
+                        textToCopy = addTSPrefix ? 'TS' + originalUserId : originalUserId;
                     }
                     
                     copyToClipboard(textToCopy, copyBtn);
@@ -579,6 +658,12 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 }
             });
             
+            // TS toggle functionality
+            tsToggle.addEventListener('change', function() {
+                addTSPrefix = this.checked;
+                updateUserIdDisplay();
+            });
+            
             // Clear button functionality
             clearBtn.addEventListener('click', function() {
                 dataInput.value = '';
@@ -588,6 +673,8 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 linkBuktiElement.textContent = '-';
                 imagePreviewElement.innerHTML = '';
                 ticketOptions.style.display = 'none';
+                tsToggle.checked = false;
+                addTSPrefix = false;
                 showToast('Data telah dihapus');
             });
             
@@ -632,6 +719,12 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 }
             }
             
+            function updateUserIdDisplay() {
+                if (originalUserId) {
+                    userIdElement.textContent = addTSPrefix ? 'TS' + originalUserId : originalUserId;
+                }
+            }
+            
             function processData() {
                 const data = dataInput.value.trim();
                 
@@ -659,7 +752,7 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 }
                 
                 // Extract information
-                const userId = parts[0];
+                originalUserId = parts[0]; // Simpan User ID asli
                 originalKodeTiket = parts[3]; // Simpan dengan penghubung asli
                 const linkBukti = parts[4];
                 // Mengambil bettingan dari kolom indeks 5 (2,000 - 8,000) dan mengambil nilai pertama
@@ -667,9 +760,11 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 const bettingan = bettingRange.split(' - ')[0]; // Ambil bagian pertama dari range
                 
                 // Display the extracted information
-                userIdElement.textContent = userId;
                 bettinganElement.textContent = bettingan;
                 linkBuktiElement.textContent = linkBukti;
+                
+                // Update user id display based on TS toggle
+                updateUserIdDisplay();
                 
                 // Update kode tiket display based on current option
                 updateKodeTiketDisplay();
@@ -692,7 +787,7 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                         img.alt = 'Bukti Screenshot';
                         img.onerror = function() {
                             // If image fails to load, show a placeholder
-                            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgd extremeXHRleHQ+PC9zdmc+';
+                            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1iYXNlbGluZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+R2FtYmFyIHRpZGFrIGRhcGF0IGRpbGloYXRrYW48L3RleHQ+PC9zdmc+';
                         };
                         
                         a.appendChild(img);
@@ -718,11 +813,8 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                 processingTimeout = setTimeout(processData, 800);
             });
             
-            // Add example data to textarea
-            dataInput.value = "kaka0809\tkaka0809\tGOPAY,SISKA DWI YULIYANTI,085742079278\t1959283638990331396-1959283638990331396-201-0\thttps://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg \t2,000 - 8,000\t3\t50,000";
-            
-            // Process the example data immediately
-            processData();
+            // Tidak ada contoh data yang dimasukkan otomatis ke textarea
+            // Textarea akan tetap kosong saat halaman dimuat
         });
     </script>
 </body>
