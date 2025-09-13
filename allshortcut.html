@@ -404,6 +404,7 @@
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.5s ease;
+            z-index: 1;
         }
         
         .card:hover::before {
@@ -983,6 +984,32 @@
                     <div class="url-info">nawalacheck.skiddle.id</div>
                 </div>
             </div>
+            
+            <!-- LIVE STREAMING -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="card-content">
+                    <h3>LIVE STREAMING</h3>
+                    <p>Nikmati live streaming jadwal togel dengan kualitas HD dan informasi terkini.</p>
+                    <a href="https://symphonny.vercel.app/Jadwal_Togel.html" class="card-btn" target="_blank">Tonton Sekarang</a>
+                    <div class="url-info">symphonny.vercel.app/Jadwal_Togel.html</div>
+                </div>
+            </div>
+            
+            <!-- LOGO PASARAN -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <div class="card-content">
+                    <h3>LOGO PASARAN</h3>
+                    <p>Generator logo pasaran togel dengan berbagai pilihan desain dan gaya yang menarik.</p>
+                    <a href="https://p3p3kcrot-ssf3.vercel.app/generator_logo.html" class="card-btn" target="_blank">Buat Logo</a>
+                    <div class="url-info">p3p3kcrot-ssf3.vercel.app/generator_logo.html</div>
+                </div>
+            </div>
         </div>
         
         <footer>
@@ -1180,7 +1207,6 @@
         // Compact view toggle
         const viewToggleBtn = document.getElementById('viewToggle');
         const mainContainer = document.getElementById('mainContainer');
-        const cardsGrid = document.getElementById('cardsGrid');
         
         viewToggleBtn.addEventListener('click', () => {
             mainContainer.classList.toggle('compact');
