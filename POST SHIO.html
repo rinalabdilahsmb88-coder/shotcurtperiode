@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Shio Lengkap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: url('https://media.linklist.bio/backgrounds/Zq7Qb762Xj6KaUWUSEPXCDpmKLCATryoNbbjK7Er.webp') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            color: #fff;
+        }
+        
+        .container {
+            background-color: rgba(22, 26, 48, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 1000px;
+            padding: 30px;
+            margin-top: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #ffd166;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .description {
+            color: #a9d6e5;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .search-container, .select-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #ffd166;
+            font-size: 1.2rem;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #4cc9f0;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            outline: none;
+            background: rgba(34, 40, 70, 0.8);
+            color: #fff;
+        }
+        
+        input[type="text"]::placeholder {
+            color: #a9d6e5;
+        }
+        
+        .search-button {
+            padding: 12px 16px;
+            background: #4cc9f0;
+            color: #0a192f;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .search-button:hover {
+            background: #2fb5e0;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #4cc9f0;
+            border-radius: 8px;
+            background: rgba(34, 40, 70, 0.8);
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s;
+            color: #fff;
+        }
+        
+        select:hover, input[type="text"]:hover {
+            border-color: #2fb5e0;
+        }
+        
+        .image-container {
+            margin-top: 20px;
+            padding: 30px;
+            border-radius: 10px;
+            background: rgba(34, 40, 70, 0.7);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .shio-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .shio-image:hover {
+            transform: scale(1.03);
+        }
+        
+        .shio-name {
+            margin-top: 20px;
+            font-size: 2rem;
+            color: #ffd166;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .placeholder-text {
+            color: #a9d6e5;
+            font-size: 1.2rem;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .action-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+            color: #0a192f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .action-button:hover {
+            background: linear-gradient(135deg, #2fb5e0, #3a56d4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .shio-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .shio-item {
+            padding: 15px;
+            background: rgba(34, 40, 70, 0.7);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .shio-item:hover {
+            background: rgba(76, 201, 240, 0.2);
+            border-color: #4cc9f0;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #a9d6e5;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            
+            .search-container, .select-container {
+                min-width: 100%;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .action-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dashboard Shio Lengkap</h1>
+            <p class="description">Temukan shio Anda dan lihat gambar representasinya. Anda dapat mencari berdasarkan nama atau memilih dari dropdown.</p>
+        </header>
+        
+        <div class="controls">
+            <div class="search-container">
+                <label for="search-input"><i class="fas fa-search"></i> Cari Nama Shio:</label>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Ketik nama shio...">
+                    <button class="search-button" id="search-button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div class="select-container">
+                <label for="shio-select"><i class="fas fa-list"></i> Atau Pilih dari Daftar:</label>
+                <select id="shio-select">
+                    <option value="">-- Silakan pilih shio --</option>
+                    <option value="ular">Ular</option>
+                    <option value="naga">Naga</option>
+                    <option value="kelinci">Kelinci</option>
+                    <option value="harimau">Harimau</option>
+                    <option value="kerbau">Kerbau</option>
+                    <option value="tikus">Tikus</option>
+                    <option value="babi">Babi</option>
+                    <option value="anjing">Anjing</option>
+                    <option value="ayam">Ayam</option>
+                    <option value="monyet">Monyet</option>
+                    <option value="kambing">Kambing</option>
+                    <option value="kuda">Kuda</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="shio-list">
+            <div class="shio-item" data-shio="ular">Ular</div>
+            <div class="shio-item" data-shio="naga">Naga</div>
+            <div class="shio-item" data-shio="kelinci">Kelinci</div>
+            <div class="shio-item" data-shio="harimau">Harimau</div>
+            <div class="shio-item" data-shio="kerbau">Kerbau</div>
+            <div class="shio-item" data-shio="tikus">Tikus</div>
+            <div class="shio-item" data-shio="babi">Babi</div>
+            <div class="shio-item" data-shio="anjing">Anjing</div>
+            <div class="shio-item" data-shio="ayam">Ayam</div>
+            <div class="shio-item" data-shio="monyet">Monyet</div>
+            <div class="shio-item" data-shio="kambing">Kambing</div>
+            <div class="shio-item" data-shio="kuda">Kuda</div>
+        </div>
+        
+        <div class="image-container">
+            <img id="shio-img" class="shio-image" src="" alt="Gambar Shio">
+            <div id="shio-name" class="shio-name"></div>
+            <div id="placeholder" class="placeholder-text">
+                <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 15px; color: #4cc9f0;"></i>
+                <p>Silakan pilih atau cari shio untuk menampilkan gambar</p>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="open-tab-button" class="action-button">
+                    <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
+                </button>
+                <button id="download-button" class="action-button">
+                    <i class="fas fa-download"></i> Download Gambar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 Dashboard Shio Lengkap | Dibuat dengan HTML, CSS, dan JavaScript</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const shioSelect = document.getElementById('shio-select');
+            const shioImg = document.getElementById('shio-img');
+            const shioName = document.getElementById('shio-name');
+            const placeholder = document.getElementById('placeholder');
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const openTabButton = document.getElementById('open-tab-button');
+            const downloadButton = document.getElementById('download-button');
+            const shioItems = document.querySelectorAll('.shio-item');
+            
+            // Data shio dengan URL gambar
+            const shioData = {
+                ular: {
+                    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWs2sETDFTJBn5vnWBAjfnDBwCXDxKRw9jCw&s',
+                    name: 'Ular'
+                },
+                naga: {
+                    url: 'https://w1.pngwing.com/pngs/485/375/png-transparent-logo-dragon-decal-emblem-stencil-symbol-lettering-black-black-and-white.png',
+                    name: 'Naga'
+                },
+                kelinci: {
+                    url: 'https://png.pngtree.com/png-vector/20241210/ourlarge/pngtree-a-stylized-black-and-white-rabbit-png-image_14687995.png',
+                    name: 'Kelinci'
+                },
+                harimau: {
+                    url: 'https://i.pinimg.com/736x/0e/bd/1c/0ebd1ca746d29548f025417304203db9.jpg',
+                    name: 'Harimau'
+                },
+                kerbau: {
+                    url: 'https://i.pinimg.com/736x/2b/9a/18/2b9a18396e04887b62ac214c126a8403.jpg',
+                    name: 'Kerbau'
+                },
+                tikus: {
+                    url: 'https://png.pngtree.com/png-vector/20240805/ourlarge/pngtree-mouse-silhouette-png-image_13383429.png',
+                    name: 'Tikus'
+                },
+                babi: {
+                    url: 'https://png.pngtree.com/png-vector/20250228/ourlarge/pngtree-a-black-and-white-illustration-of-pig-for-coloring-book-art-png-image_15673084.png',
+                    name: 'Babi'
+                },
+                anjing: {
+                    url: 'https://png.pngtree.com/png-vector/20241023/ourmid/pngtree-puppy-clipart-dog-black-and-white-png-image_13513000.png',
+                    name: 'Anjing'
+                },
+                ayam: {
+                    url: 'https://png.pngtree.com/png-vector/20250303/ourlarge/pngtree-black-and-white-rooster-isolated-on-background-vector-illustration-png-image_15566362.png',
+                    name: 'Ayam'
+                },
+                monyet: {
+                    url: 'https://png.pngtree.com/png-vector/20240531/ourlarge/pngtree-a-black-and-white-monkey-sitting-on-its-haunches-png-image_12576543.png',
+                    name: 'Monyet'
+                },
+                kambing: {
+                    url: 'https://png.pngtree.com/png-vector/20250412/ourlarge/pngtree-goat-vector-design-png-image_16000008.png',
+                    name: 'Kambing'
+                },
+                kuda: {
+                    url: 'https://img.lovepik.com/png/20231028/Black-and-white-horse-head-line-sketch-eye-Sketch_391753_wh860.png',
+                    name: 'Kuda'
+                }
+            };
+            
+            // Fungsi untuk menampilkan shio
+            function displayShio(shioKey) {
+                if (shioKey && shioData[shioKey]) {
+                    // Tampilkan gambar dan nama shio
+                    shioImg.src = shioData[shioKey].url;
+                    shioImg.alt = 'Gambar ' + shioData[shioKey].name;
+                    shioName.textContent = shioData[shioKey].name;
+                    
+                    // Sembunyikan placeholder dan tampilkan gambar
+                    placeholder.style.display = 'none';
+                    shioImg.style.display = 'block';
+                    shioName.style.display = 'block';
+                    document.querySelector('.action-buttons').style.display = 'flex';
+                    
+                    // Setel nilai dropdown jika berbeda
+                    if (shioSelect.value !== shioKey) {
+                        shioSelect.value = shioKey;
+                    }
+                    
+                    return true;
+                } else {
+                    // Kosongkan dan sembunyikan gambar serta nama
+                    shioImg.src = '';
+                    shioName.textContent = '';
+                    
+                    // Tampilkan placeholder
+                    placeholder.style.display = 'block';
+                    shioImg.style.display = 'none';
+                    shioName.style.display = 'none';
+                    document.querySelector('.action-buttons').style.display = 'none';
+                    
+                    return false;
+                }
+            }
+            
+            // Event listener untuk perubahan pada dropdown
+            shioSelect.addEventListener('change', function() {
+                displayShio(this.value);
+            });
+            
+            // Event listener untuk pencarian
+            searchButton.addEventListener('click', searchShio);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchShio();
+                }
+            });
+            
+            function searchShio() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                if (!searchTerm) return;
+                
+                // Cari shio yang sesuai
+                for (const [key, data] of Object.entries(shioData)) {
+                    if (data.name.toLowerCase().includes(searchTerm)) {
+                        displayShio(key);
+                        return;
+                    }
+                }
+                
+                // Jika tidak ditemukan
+                alert('Shio tidak ditemukan. Silakan coba dengan nama yang berbeda.');
+            }
+            
+            // Event listener untuk item shio
+            shioItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const shioKey = this.getAttribute('data-shio');
+                    displayShio(shioKey);
+                });
+            });
+            
+            // Event listener untuk buka di tab baru
+            openTabButton.addEventListener('click', function() {
+                if (shioImg.src) {
+                    window.open(shioImg.src, '_blank');
+                }
+            });
+            
+            // Event listener untuk download gambar
+            downloadButton.addEventListener('click', function() {
+                if (shioImg.src) {
+                    const a = document.createElement('a');
+                    a.href = shioImg.src;
+                    a.download = `shio-${shioSelect.value}.jpg`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            });
+            
+            // Sembunyikan gambar dan nama saat halaman pertama dimuat
+            shioImg.style.display = 'none';
+            shioName.style.display = 'none';
+            document.querySelector('.action-buttons').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
