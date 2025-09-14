@@ -484,7 +484,7 @@
         <section class="input-section">
             <h2><i class="fas fa-database"></i> Input Data</h2>
             <p>Masukkan data Scatter Mahjong dalam format berikut (data akan diproses otomatis):</p>
-            <textarea id="data-input" placeholder="Contoh: kaka0809	kaka0809	GOPAY,SISKA DWI YULIYANTI,085742079278	1959283638990331396-1959283638990331396-201-0	https://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg 	2,000 - 8,000	3	50,000"></textarea>
+            <textarea id="data-input" placeholder="Contoh: kaka0809	kaka0809	GOPAY,SISKA DWI YULIYANTI,085742079278	1959283638990331396-1959283638990331396-201-0	https://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg   , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg   	2,000 - 8,000	3	50,000"></textarea>
             
             <div class="ts-toggle-container">
                 <label class="switch">
@@ -590,7 +590,7 @@
             
             <div class="example">
 Contoh format data:
-kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    1959283638990331396-1959283638990331396-201-0    https://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg     2,000 - 8,000    3    50,000
+kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    1959283638990331396-1959283638990331396-201-0    https://cdn.files-text.com/us-south1/api/lc/att/14665983/f74fdcebd13ad0c2430de1c8e197a788/Screenshot_20250823_230344.jpg   , https://cdn.files-text.com/us-south1/api/lc/att/14665983/a24f010f2bc7b6bcf12ea28e3ff06dff/Screenshot_20250823_230341.jpg       2,000 - 8,000    3    50,000
             </div>
         </section>
         
@@ -636,7 +636,7 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
                     
                     // For user id, copy the appropriate version based on TS toggle
                     if (targetId === 'user-id') {
-                        textToCopy = addTSPrefix ? 'TS' + originalUserId : originalUserId;
+                        textToCopy = addTSPrefix ? originalUserId + ' TS' : originalUserId;
                     }
                     
                     copyToClipboard(textToCopy, copyBtn);
@@ -721,7 +721,7 @@ kaka0809    kaka0809    GOPAY,SISKA DWI YULIYANTI,085742079278    19592836389903
             
             function updateUserIdDisplay() {
                 if (originalUserId) {
-                    userIdElement.textContent = addTSPrefix ? 'TS' + originalUserId : originalUserId;
+                    userIdElement.textContent = addTSPrefix ? originalUserId + ' TS' : originalUserId;
                 }
             }
             
