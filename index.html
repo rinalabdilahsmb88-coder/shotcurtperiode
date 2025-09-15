@@ -6,11 +6,11 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #000;
-      color: #FFD700;
+      background-color: #0a0a1a;
+      color: #ffffff;
       background-image: url('https://media.linklist.bio/backgrounds/Zq7Qb762Xj6KaUWUSEPXCDpmKLCATryoNbbjK7Er.webp');
       background-size: cover;
       background-position: center;
@@ -20,46 +20,57 @@
     .container {
       max-width: 800px;
       margin: 20px auto;
-      padding: 20px;
-      border: 1px solid #FFD700;
-      border-radius: 5px;
-      background-color: rgba(0, 0, 0, 0.8);
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      padding: 25px;
+      border: 1px solid rgba(90, 150, 255, 0.4);
+      border-radius: 12px;
+      background-color: rgba(10, 15, 35, 0.85);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 25px rgba(70, 130, 255, 0.3);
     }
     input[type="text"] {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      background-color: rgba(34, 34, 34, 0.8);
-      color: #FFD700;
-      border: 1px solid #FFD700;
-      border-radius: 4px;
+      padding: 12px;
+      margin: 12px 0;
+      background-color: rgba(20, 30, 50, 0.7);
+      color: #e0f0ff;
+      border: 1px solid rgba(90, 150, 255, 0.5);
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #5a96ff;
+      box-shadow: 0 0 8px rgba(90, 150, 255, 0.5);
     }
     button {
-      background-color: rgba(51, 51, 51, 0.8);
-      color: #FFD700;
-      padding: 10px 15px;
-      border: 1px solid #FFD700;
-      border-radius: 4px;
+      background: linear-gradient(to bottom, #2a5cbd, #1a3c8a);
+      color: #ffffff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
       transition: all 0.3s ease;
+      margin-right: 10px;
     }
     button:hover {
-      background-color: rgba(85, 85, 85, 0.8);
+      background: linear-gradient(to bottom, #3a6cd5, #2a4c9a);
       transform: translateY(-2px);
-      box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
     #previewContainer {
       position: relative;
-      margin: 15px 0;
+      margin: 20px 0;
+      text-align: center;
     }
     #previewImage {
       max-width: 100%;
-      border: 1px solid #FFD700;
+      border: 1px solid rgba(90, 150, 255, 0.4);
+      border-radius: 8px;
       display: none;
       transition: all 0.3s ease;
       cursor: zoom-in;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
     #previewImage.minimized {
       width: 200px;
@@ -73,102 +84,120 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      background-color: rgba(0, 0, 0, 0.9);
+      background-color: rgba(10, 15, 35, 0.95);
       z-index: 1000;
       cursor: zoom-out;
       max-width: none;
+      border: none;
+      border-radius: 0;
     }
     #minimizeBtn {
       position: absolute;
-      top: 5px;
-      right: 5px;
-      background-color: rgba(51, 51, 51, 0.9);
-      color: #FFD700;
-      border: 1px solid #FFD700;
-      border-radius: 3px;
-      padding: 3px 8px;
-      font-size: 12px;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(30, 40, 70, 0.9);
+      color: #e0f0ff;
+      border: 1px solid rgba(90, 150, 255, 0.5);
+      border-radius: 5px;
+      padding: 6px 12px;
+      font-size: 13px;
       display: none;
       z-index: 10;
     }
     #resultContainer {
-      margin-top: 20px;
-      padding: 15px;
-      background-color: rgba(17, 17, 17, 0.9);
-      border: 1px solid #FFD700;
-      border-radius: 5px;
+      margin-top: 25px;
+      padding: 20px;
+      background-color: rgba(20, 30, 50, 0.7);
+      border: 1px solid rgba(90, 150, 255, 0.4);
+      border-radius: 8px;
     }
     .transaction-list {
-      font-family: monospace;
+      font-family: 'Consolas', 'Monaco', monospace;
       font-size: 16px;
       line-height: 1.8;
     }
     .transaction-item {
       display: inline-block;
       margin-right: 15px;
-      margin-bottom: 10px;
-      padding: 5px 10px;
-      background-color: rgba(34, 34, 34, 0.8);
-      border: 1px solid #FFD700;
-      border-radius: 3px;
+      margin-bottom: 12px;
+      padding: 8px 15px;
+      background: linear-gradient(to bottom, rgba(40, 70, 130, 0.7), rgba(30, 50, 100, 0.7));
+      border: 1px solid rgba(90, 150, 255, 0.4);
+      border-radius: 6px;
       cursor: pointer;
       position: relative;
       transition: all 0.2s ease;
     }
     .transaction-item:hover {
-      background-color: rgba(51, 51, 51, 0.9);
+      background: linear-gradient(to bottom, rgba(50, 90, 160, 0.8), rgba(40, 70, 130, 0.8));
       transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(90, 150, 255, 0.4);
     }
     .copy-icon {
       display: inline-block;
-      margin-left: 5px;
-      font-size: 12px;
-      opacity: 0.7;
+      margin-left: 8px;
+      font-size: 14px;
+      opacity: 0.8;
     }
     .loading {
-      color: #FFD700;
+      color: #5a96ff;
       font-weight: bold;
-      margin: 10px 0;
+      margin: 15px 0;
+      font-size: 16px;
     }
     .error {
-      color: #FF6347;
-      margin: 10px 0;
+      color: #ff6b6b;
+      margin: 15px 0;
+      padding: 10px;
+      background-color: rgba(120, 30, 40, 0.3);
+      border-radius: 5px;
+      border-left: 3px solid #ff6b6b;
     }
     .notification {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: rgba(51, 51, 51, 0.9);
-      color: #7CFC00;
-      padding: 10px 15px;
-      border-radius: 4px;
+      bottom: 25px;
+      right: 25px;
+      background-color: rgba(30, 50, 90, 0.9);
+      color: #5aff88;
+      padding: 12px 18px;
+      border-radius: 6px;
       z-index: 1000;
       display: none;
-      box-shadow: 0 0 10px rgba(124, 252, 0, 0.5);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      border-left: 4px solid #5aff88;
     }
     #copyAllBtn {
-      background-color: rgba(51, 51, 51, 0.8);
-      color: #FFD700;
-      padding: 5px 10px;
-      border: 1px solid #FFD700;
-      border-radius: 4px;
+      background: linear-gradient(to bottom, #2a8a5c, #1a6a3c);
+      color: #ffffff;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
       font-size: 14px;
-      margin-left: 10px;
+      margin-left: 15px;
       transition: all 0.2s ease;
     }
     #copyAllBtn:hover {
-      background-color: rgba(85, 85, 85, 0.8);
+      background: linear-gradient(to bottom, #3a9a6c, #2a7a4c);
     }
     h2 {
-      color: #FFD700;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-      border-bottom: 1px solid #FFD700;
-      padding-bottom: 10px;
+      color: #e0f0ff;
+      text-shadow: 0 0 8px rgba(90, 150, 255, 0.5);
+      border-bottom: 1px solid rgba(90, 150, 255, 0.4);
+      padding-bottom: 15px;
+      margin-top: 0;
+      font-size: 28px;
     }
     h3 {
-      color: #FFD700;
-      text-shadow: 0 0 3px rgba(255, 215, 0, 0.3);
+      color: #e0f0ff;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #c0d0ff;
+      font-weight: 500;
     }
   </style>
 </head>
@@ -182,8 +211,10 @@
       <p class="error" id="urlError" style="display: none;">URL tidak valid!</p>
     </div>
     
-    <button onclick="processImage()">Proses Gambar</button>
-    <button onclick="clearAll()" style="margin-left: 10px;">Reset</button>
+    <div>
+      <button onclick="processImage()">Proses Gambar</button>
+      <button onclick="clearAll()">Reset</button>
+    </div>
 
     <p class="loading" id="loadingText" style="display: none;">
       ⏳ Sedang memproses gambar, harap tunggu...
@@ -196,7 +227,10 @@
     </div>
     
     <div id="resultContainer">
-      <h3>📋 Daftar Nomor Transaksi: <button id="copyAllBtn" style="display: none;" onclick="copyAllTransactions()">⎘ Salin Semua</button></h3>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <h3>📋 Daftar Nomor Transaksi</h3>
+        <button id="copyAllBtn" style="display: none;" onclick="copyAllTransactions()">⎘ Salin Semua</button>
+      </div>
       <div id="transactionResults" class="transaction-list"></div>
     </div>
     
@@ -367,7 +401,7 @@
           <div class="error">
             ⚠️ Tidak ditemukan nomor transaksi dalam gambar.
             <p>Berikut teks yang berhasil diekstrak:</p>
-            <pre style="background: rgba(34, 34, 34, 0.8); padding: 10px; border: 1px solid #FFD700;">${rawLines.join('\n')}</pre>
+            <pre style="background: rgba(20, 30, 50, 0.7); padding: 15px; border: 1px solid rgba(90, 150, 255, 0.4); border-radius: 6px; color: #e0f0ff;">${rawLines.join('\n')}</pre>
           </div>
         `;
       }
@@ -453,4 +487,3 @@
   </script>
 </body>
 </html>
-
