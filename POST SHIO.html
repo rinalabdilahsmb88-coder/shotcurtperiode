@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Shio Lengkap</title>
+    <title>Dashboard Lengkap: Shio dan Pasaran Toto</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -54,6 +54,44 @@
             margin-bottom: 30px;
             font-size: 1.1rem;
             line-height: 1.6;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #4cc9f0;
+        }
+        
+        .tab-button {
+            padding: 12px 25px;
+            background: rgba(34, 40, 70, 0.7);
+            color: #a9d6e5;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+        
+        .tab-button.active {
+            background: #4cc9f0;
+            color: #0a192f;
+        }
+        
+        .tab-button:hover {
+            background: rgba(76, 201, 240, 0.5);
+            color: #fff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
         }
         
         .controls {
@@ -146,7 +184,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .shio-image {
+        .shio-image, .market-image {
             max-width: 100%;
             max-height: 300px;
             border-radius: 8px;
@@ -155,11 +193,11 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
         }
         
-        .shio-image:hover {
+        .shio-image:hover, .market-image:hover {
             transform: scale(1.03);
         }
         
-        .shio-name {
+        .shio-name, .market-name {
             margin-top: 20px;
             font-size: 2rem;
             color: #ffd166;
@@ -201,14 +239,14 @@
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
         
-        .shio-list {
+        .shio-list, .market-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
             margin-top: 30px;
         }
         
-        .shio-item {
+        .shio-item, .market-item {
             padding: 15px;
             background: rgba(34, 40, 70, 0.7);
             border-radius: 8px;
@@ -217,13 +255,24 @@
             transition: all 0.3s;
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
-        .shio-item:hover {
+        .shio-item:hover, .market-item:hover {
             background: rgba(76, 201, 240, 0.2);
             border-color: #4cc9f0;
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .market-item img {
+            max-width: 80px;
+            max-height: 50px;
+            margin-bottom: 10px;
+            object-fit: contain;
         }
         
         footer {
@@ -252,93 +301,299 @@
                 width: 100%;
                 justify-content: center;
             }
+            
+            .shio-list, .market-list {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .shio-item, .market-item {
+                padding: 10px;
+            }
+            
+            .market-item img {
+                max-width: 60px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 100%;
+                margin-bottom: 5px;
+                border-radius: 8px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Dashboard Shio Lengkap</h1>
-            <p class="description">Temukan shio Anda dan lihat gambar representasinya. Anda dapat mencari berdasarkan nama atau memilih dari dropdown.</p>
+            <h1>Dashboard Lengkap: Shio dan Pasaran Toto</h1>
+            <p class="description">Temukan shio Anda atau pasaran toto favorit dan lihat gambar representasinya.</p>
         </header>
         
-        <div class="controls">
-            <div class="search-container">
-                <label for="search-input"><i class="fas fa-search"></i> Cari Nama Shio:</label>
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Ketik nama shio...">
-                    <button class="search-button" id="search-button"><i class="fas fa-search"></i></button>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="shio">Menu Shio</button>
+            <button class="tab-button" data-tab="market">Menu Logo Pasaran</button>
+        </div>
+        
+        <!-- Tab Shio -->
+        <div id="shio-tab" class="tab-content active">
+            <div class="controls">
+                <div class="search-container">
+                    <label for="shio-search-input"><i class="fas fa-search"></i> Cari Nama Shio:</label>
+                    <div class="search-box">
+                        <input type="text" id="shio-search-input" placeholder="Ketik nama shio...">
+                        <button class="search-button" id="shio-search-button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                
+                <div class="select-container">
+                    <label for="shio-select"><i class="fas fa-list"></i> Atau Pilih dari Daftar:</label>
+                    <select id="shio-select">
+                        <option value="">-- Silakan pilih shio --</option>
+                        <option value="ular">Ular</option>
+                        <option value="naga">Naga</option>
+                        <option value="kelinci">Kelinci</option>
+                        <option value="harimau">Harimau</option>
+                        <option value="kerbau">Kerbau</option>
+                        <option value="tikus">Tikus</option>
+                        <option value="babi">Babi</option>
+                        <option value="anjing">Anjing</option>
+                        <option value="ayam">Ayam</option>
+                        <option value="monyet">Monyet</option>
+                        <option value="kambing">Kambing</option>
+                        <option value="kuda">Kuda</option>
+                    </select>
                 </div>
             </div>
             
-            <div class="select-container">
-                <label for="shio-select"><i class="fas fa-list"></i> Atau Pilih dari Daftar:</label>
-                <select id="shio-select">
-                    <option value="">-- Silakan pilih shio --</option>
-                    <option value="ular">Ular</option>
-                    <option value="naga">Naga</option>
-                    <option value="kelinci">Kelinci</option>
-                    <option value="harimau">Harimau</option>
-                    <option value="kerbau">Kerbau</option>
-                    <option value="tikus">Tikus</option>
-                    <option value="babi">Babi</option>
-                    <option value="anjing">Anjing</option>
-                    <option value="ayam">Ayam</option>
-                    <option value="monyet">Monyet</option>
-                    <option value="kambing">Kambing</option>
-                    <option value="kuda">Kuda</option>
-                </select>
-            </div>
-        </div>
-        
-        <div class="shio-list">
-            <div class="shio-item" data-shio="ular">Ular</div>
-            <div class="shio-item" data-shio="naga">Naga</div>
-            <div class="shio-item" data-shio="kelinci">Kelinci</div>
-            <div class="shio-item" data-shio="harimau">Harimau</div>
-            <div class="shio-item" data-shio="kerbau">Kerbau</div>
-            <div class="shio-item" data-shio="tikus">Tikus</div>
-            <div class="shio-item" data-shio="babi">Babi</div>
-            <div class="shio-item" data-shio="anjing">Anjing</div>
-            <div class="shio-item" data-shio="ayam">Ayam</div>
-            <div class="shio-item" data-shio="monyet">Monyet</div>
-            <div class="shio-item" data-shio="kambing">Kambing</div>
-            <div class="shio-item" data-shio="kuda">Kuda</div>
-        </div>
-        
-        <div class="image-container">
-            <img id="shio-img" class="shio-image" src="" alt="Gambar Shio">
-            <div id="shio-name" class="shio-name"></div>
-            <div id="placeholder" class="placeholder-text">
-                <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 15px; color: #4cc9f0;"></i>
-                <p>Silakan pilih atau cari shio untuk menampilkan gambar</p>
+            <div class="shio-list">
+                <div class="shio-item" data-shio="ular">Ular</div>
+                <div class="shio-item" data-shio="naga">Naga</div>
+                <div class="shio-item" data-shio="kelinci">Kelinci</div>
+                <div class="shio-item" data-shio="harimau">Harimau</div>
+                <div class="shio-item" data-shio="kerbau">Kerbau</div>
+                <div class="shio-item" data-shio="tikus">Tikus</div>
+                <div class="shio-item" data-shio="babi">Babi</div>
+                <div class="shio-item" data-shio="anjing">Anjing</div>
+                <div class="shio-item" data-shio="ayam">Ayam</div>
+                <div class="shio-item" data-shio="monyet">Monyet</div>
+                <div class="shio-item" data-shio="kambing">Kambing</div>
+                <div class="shio-item" data-shio="kuda">Kuda</div>
             </div>
             
-            <div class="action-buttons">
-                <button id="open-tab-button" class="action-button">
-                    <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
-                </button>
-                <button id="download-button" class="action-button">
-                    <i class="fas fa-download"></i> Download Gambar
-                </button>
+            <div class="image-container">
+                <img id="shio-img" class="shio-image" src="" alt="Gambar Shio">
+                <div id="shio-name" class="shio-name"></div>
+                <div id="shio-placeholder" class="placeholder-text">
+                    <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 15px; color: #4cc9f0;"></i>
+                    <p>Silakan pilih atau cari shio untuk menampilkan gambar</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="shio-open-tab-button" class="action-button">
+                        <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
+                    </button>
+                    <button id="shio-download-button" class="action-button">
+                        <i class="fas fa-download"></i> Download Gambar
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab Pasaran -->
+        <div id="market-tab" class="tab-content">
+            <div class="controls">
+                <div class="search-container">
+                    <label for="market-search-input"><i class="fas fa-search"></i> Cari Nama Pasaran:</label>
+                    <div class="search-box">
+                        <input type="text" id="market-search-input" placeholder="Ketik nama pasaran...">
+                        <button class="search-button" id="market-search-button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                
+                <div class="select-container">
+                    <label for="market-select"><i class="fas fa-list"></i> Atau Pilih dari Daftar:</label>
+                    <select id="market-select">
+                        <option value="">-- Silakan pilih pasaran --</option>
+                        <option value="hokidraw">HOKIDRAW</option>
+                        <option value="toto macau">TOTO MACAU</option>
+                        <option value="kentucky">KENTUCKY</option>
+                        <option value="florida">FLORIDA</option>
+                        <option value="huahin">HUAHIN</option>
+                        <option value="bangkok">BANGKOK</option>
+                        <option value="new york">NEW YORK</option>
+                        <option value="brunei">BRUNEI</option>
+                        <option value="oregon">OREGON</option>
+                        <option value="carolina">CAROLINA</option>
+                        <option value="totocambodia">TOTOCAMBODIA</option>
+                        <option value="chelsea">CHELSEA</option>
+                        <option value="poipet">POIPET</option>
+                        <option value="bullseye">BULLSEYE</option>
+                        <option value="sydney">SYDNEY</option>
+                        <option value="jakarta">JAKARTA</option>
+                        <option value="totomali">TOTOMALI</option>
+                        <option value="kingkong 4d">KINGKONG 4D</option>
+                        <option value="singapore">SINGAPORE</option>
+                        <option value="magnum4d">MAGNUM4D</option>
+                        <option value="pcso">PCSO</option>
+                        <option value="nevada">NEVADA</option>
+                        <option value="hongkong">HONGKONG</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="market-list">
+                <div class="market-item" data-market="hokidraw">
+                    <img src="https://hokidraw.com/assets/img/logo.png" alt="HOKIDRAW">
+                    <div>HOKIDRAW</div>
+                </div>
+                <div class="market-item" data-market="toto macau">
+                    <img src="https://saka69.dataklmsad903.site/images/lottery-market/7/eYFHx8tXWr4CcVsI.png" alt="TOTO MACAU">
+                    <div>TOTO MACAU</div>
+                </div>
+                <div class="market-item" data-market="kentucky">
+                    <img src="https://play.kylottery.com/content/dam/interactive/ilottery/images/logo/ky-logo.png" alt="KENTUCKY">
+                    <div>KENTUCKY</div>
+                </div>
+                <div class="market-item" data-market="florida">
+                    <img src="https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/0901b2c0022074bbd458ff6471f00a95/florida.png" alt="FLORIDA">
+                    <div>FLORIDA</div>
+                </div>
+                <div class="market-item" data-market="huahin">
+                    <img src="https://huahinlottery.com/assets/img/logo.png" alt="HUAHIN">
+                    <div>HUAHIN</div>
+                </div>
+                <div class="market-item" data-market="bangkok">
+                    <img src="https://bangkokpoolstoday.com/assets/img/bangkokpools_logo.png" alt="BANGKOK">
+                    <div>BANGKOK</div>
+                </div>
+                <div class="market-item" data-market="new york">
+                    <img src="https://edit.nylottery.ny.gov/sites/default/files/logo-2179655b4229a219a9305b3f0e734bd0.png" alt="NEW YORK">
+                    <div>NEW YORK</div>
+                </div>
+                <div class="market-item" data-market="brunei">
+                    <img src="https://bruneipools.com/assets/img/brunei-logo.png" alt="BRUNEI">
+                    <div>BRUNEI</div>
+                </div>
+                <div class="market-item" data-market="oregon">
+                    <img src="https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/e9f6ec79cbb5d65bc9c37fdd16ef7d2c/screenshot-1.png" alt="OREGON">
+                    <div>OREGON</div>
+                </div>
+                <div class="market-item" data-market="carolina">
+                    <img src="https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/740b727453ea03cdcd9cf057abbc631b/carolina.png" alt="CAROLINA">
+                    <div>CAROLINA</div>
+                </div>
+                <div class="market-item" data-market="totocambodia">
+                    <img src="https://totocambodialive.com/assets/img/logo.png" alt="TOTOCAMBODIA">
+                    <div>TOTOCAMBODIA</div>
+                </div>
+                <div class="market-item" data-market="chelsea">
+                    <img src="https://chelseapools.co.uk/assets/img/chelseaPools_logo.png" alt="CHELSEA">
+                    <div>CHELSEA</div>
+                </div>
+                <div class="market-item" data-market="poipet">
+                    <img src="https://poipetlottery.com/img/logo.png" alt="POIPET">
+                    <div>POIPET</div>
+                </div>
+                <div class="market-item" data-market="bullseye">
+                    <img src="https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/9acd9822ff6ddccc183e102ac2e2071c/43f2e106-8738-11ee-a2d8-005056af723d-removebg-preview.png" alt="BULLSEYE">
+                    <div>BULLSEYE</div>
+                </div>
+                <div class="market-item" data-market="sydney">
+                    <img src="https://lottosydney.fun/assets/image/logo_sydney.png" alt="SYDNEY">
+                    <div>SYDNEY</div>
+                </div>
+                <div class="market-item" data-market="jakarta">
+                    <img src="https://jakartapool.com/images/logo.png" alt="JAKARTA">
+                    <div>JAKARTA</div>
+                </div>
+                <div class="market-item" data-market="totomali">
+                    <img src="https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/350cdbae8be28dfa1e8ea5a71ddd810e/totomali.png" alt="TOTOMALI">
+                    <div>TOTOMALI</div>
+                </div>
+                <div class="market-item" data-market="kingkong 4d">
+                    <img src="https://kingkongpools.id/image/logo.png" alt="KINGKONG 4D">
+                    <div>KINGKONG 4D</div>
+                </div>
+                <div class="market-item" data-market="singapore">
+                    <img src="https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/691279d6f5af75cbb3ab2b30bd31cd23/singapore.png" alt="SINGAPORE">
+                    <div>SINGAPORE</div>
+                </div>
+                <div class="market-item" data-market="magnum4d">
+                    <img src="https://www.magnum4d.my/Magnum4d/media/images/logo-magnum.png" alt="MAGNUM4D">
+                    <div>MAGNUM4D</div>
+                </div>
+                <div class="market-item" data-market="pcso">
+                    <img src="https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/cdff9e13116036c6aacccf93f1260e98/pcso.png" alt="PCSO">
+                    <div>PCSO</div>
+                </div>
+                <div class="market-item" data-market="nevada">
+                    <img src="https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/2e16d499ba1ab2b8e8fcc8672d643c3b/nevada.png" alt="NEVADA">
+                    <div>NEVADA</div>
+                </div>
+                <div class="market-item" data-market="hongkong">
+                    <img src="https://i.pinimg.com/736x/43/ef/1d/43ef1d0762af51e45850483c72e10188.jpg" alt="HONGKONG">
+                    <div>HONGKONG</div>
+                </div>
+            </div>
+            
+            <div class="image-container">
+                <img id="market-img" class="market-image" src="" alt="Logo Pasaran">
+                <div id="market-name" class="market-name"></div>
+                <div id="market-placeholder" class="placeholder-text">
+                    <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 15px; color: #4cc9f0;"></i>
+                    <p>Silakan pilih atau cari pasaran untuk menampilkan logo</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="market-open-tab-button" class="action-button">
+                        <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
+                    </button>
+                    <button id="market-download-button" class="action-button">
+                        <i class="fas fa-download"></i> Download Logo
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>© 2023 Dashboard Shio Lengkap | Dibuat dengan HTML, CSS, dan JavaScript</p>
+        <p>© 2023 Dashboard Lengkap: Shio dan Pasaran Toto | Dibuat dengan HTML, CSS, dan JavaScript</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // Update buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Update contents
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Shio functionality
             const shioSelect = document.getElementById('shio-select');
             const shioImg = document.getElementById('shio-img');
             const shioName = document.getElementById('shio-name');
-            const placeholder = document.getElementById('placeholder');
-            const searchInput = document.getElementById('search-input');
-            const searchButton = document.getElementById('search-button');
-            const openTabButton = document.getElementById('open-tab-button');
-            const downloadButton = document.getElementById('download-button');
+            const shioPlaceholder = document.getElementById('shio-placeholder');
+            const shioSearchInput = document.getElementById('shio-search-input');
+            const shioSearchButton = document.getElementById('shio-search-button');
+            const shioOpenTabButton = document.getElementById('shio-open-tab-button');
+            const shioDownloadButton = document.getElementById('shio-download-button');
             const shioItems = document.querySelectorAll('.shio-item');
             
             // Data shio dengan URL gambar
@@ -402,10 +657,10 @@
                     shioName.textContent = shioData[shioKey].name;
                     
                     // Sembunyikan placeholder dan tampilkan gambar
-                    placeholder.style.display = 'none';
+                    shioPlaceholder.style.display = 'none';
                     shioImg.style.display = 'block';
                     shioName.style.display = 'block';
-                    document.querySelector('.action-buttons').style.display = 'flex';
+                    document.querySelectorAll('.action-buttons')[0].style.display = 'flex';
                     
                     // Setel nilai dropdown jika berbeda
                     if (shioSelect.value !== shioKey) {
@@ -419,30 +674,30 @@
                     shioName.textContent = '';
                     
                     // Tampilkan placeholder
-                    placeholder.style.display = 'block';
+                    shioPlaceholder.style.display = 'block';
                     shioImg.style.display = 'none';
                     shioName.style.display = 'none';
-                    document.querySelector('.action-buttons').style.display = 'none';
+                    document.querySelectorAll('.action-buttons')[0].style.display = 'none';
                     
                     return false;
                 }
             }
             
-            // Event listener untuk perubahan pada dropdown
+            // Event listener untuk perubahan pada dropdown shio
             shioSelect.addEventListener('change', function() {
                 displayShio(this.value);
             });
             
-            // Event listener untuk pencarian
-            searchButton.addEventListener('click', searchShio);
-            searchInput.addEventListener('keypress', function(e) {
+            // Event listener untuk pencarian shio
+            shioSearchButton.addEventListener('click', searchShio);
+            shioSearchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     searchShio();
                 }
             });
             
             function searchShio() {
-                const searchTerm = searchInput.value.trim().toLowerCase();
+                const searchTerm = shioSearchInput.value.trim().toLowerCase();
                 if (!searchTerm) return;
                 
                 // Cari shio yang sesuai
@@ -465,15 +720,15 @@
                 });
             });
             
-            // Event listener untuk buka di tab baru
-            openTabButton.addEventListener('click', function() {
+            // Event listener untuk buka di tab baru (shio)
+            shioOpenTabButton.addEventListener('click', function() {
                 if (shioImg.src) {
                     window.open(shioImg.src, '_blank');
                 }
             });
             
-            // Event listener untuk download gambar
-            downloadButton.addEventListener('click', function() {
+            // Event listener untuk download gambar (shio)
+            shioDownloadButton.addEventListener('click', function() {
                 if (shioImg.src) {
                     const a = document.createElement('a');
                     a.href = shioImg.src;
@@ -484,10 +739,213 @@
                 }
             });
             
-            // Sembunyikan gambar dan nama saat halaman pertama dimuat
+            // Sembunyikan gambar dan nama shio saat halaman pertama dimuat
             shioImg.style.display = 'none';
             shioName.style.display = 'none';
-            document.querySelector('.action-buttons').style.display = 'none';
+            document.querySelectorAll('.action-buttons')[0].style.display = 'none';
+            
+            // Market functionality
+            const marketSelect = document.getElementById('market-select');
+            const marketImg = document.getElementById('market-img');
+            const marketName = document.getElementById('market-name');
+            const marketPlaceholder = document.getElementById('market-placeholder');
+            const marketSearchInput = document.getElementById('market-search-input');
+            const marketSearchButton = document.getElementById('market-search-button');
+            const marketOpenTabButton = document.getElementById('market-open-tab-button');
+            const marketDownloadButton = document.getElementById('market-download-button');
+            const marketItems = document.querySelectorAll('.market-item');
+            
+            // Data pasaran dengan URL logo
+            const marketData = {
+                "hokidraw": {
+                    url: "https://hokidraw.com/assets/img/logo.png",
+                    name: "HOKIDRAW"
+                },
+                "toto macau": {
+                    url: "https://saka69.dataklmsad903.site/images/lottery-market/7/eYFHx8tXWr4CcVsI.png",
+                    name: "TOTO MACAU"
+                },
+                "kentucky": {
+                    url: "https://play.kylottery.com/content/dam/interactive/ilottery/images/logo/ky-logo.png",
+                    name: "KENTUCKY"
+                },
+                "florida": {
+                    url: "https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/0901b2c0022074bbd458ff6471f00a95/florida.png",
+                    name: "FLORIDA"
+                },
+                "huahin": {
+                    url: "https://huahinlottery.com/assets/img/logo.png",
+                    name: "HUAHIN"
+                },
+                "bangkok": {
+                    url: "https://bangkokpoolstoday.com/assets/img/bangkokpools_logo.png",
+                    name: "BANGKOK"
+                },
+                "new york": {
+                    url: "https://edit.nylottery.ny.gov/sites/default/files/logo-2179655b4229a219a9305b3f0e734bd0.png",
+                    name: "NEW YORK"
+                },
+                "brunei": {
+                    url: "https://bruneipools.com/assets/img/brunei-logo.png",
+                    name: "BRUNEI"
+                },
+                "oregon": {
+                    url: "https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/e9f6ec79cbb5d65bc9c37fdd16ef7d2c/screenshot-1.png",
+                    name: "OREGON"
+                },
+                "carolina": {
+                    url: "https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/740b727453ea03cdcd9cf057abbc631b/carolina.png",
+                    name: "CAROLINA"
+                },
+                "totocambodia": {
+                    url: "https://totocambodialive.com/assets/img/logo.png",
+                    name: "TOTOCAMBODIA"
+                },
+                "chelsea": {
+                    url: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png",
+                    name: "CHELSEA"
+                },
+                "poipet": {
+                    url: "https://poipetlottery.com/img/logo.png",
+                    name: "POIPET"
+                },
+                "bullseye": {
+                    url: "https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/9acd9822ff6ddccc183e102ac2e2071c/43f2e106-8738-11ee-a2d8-005056af723d-removebg-preview.png",
+                    name: "BULLSEYE"
+                },
+                "sydney": {
+                    url: "https://lottosydney.fun/assets/image/logo_sydney.png",
+                    name: "SYDNEY"
+                },
+                "jakarta": {
+                    url: "https://jakartapool.com/images/logo.png",
+                    name: "JAKARTA"
+                },
+                "totomali": {
+                    url: "https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/350cdbae8be28dfa1e8ea5a71ddd810e/totomali.png",
+                    name: "TOTOMALI"
+                },
+                "kingkong 4d": {
+                    url: "https://kingkongpools.id/image/logo.png",
+                    name: "KINGKONG 4D"
+                },
+                "singapore": {
+                    url: "https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/691279d6f5af75cbb3ab2b30bd31cd23/singapore.png",
+                    name: "SINGAPORE"
+                },
+                "magnum4d": {
+                    url: "https://www.magnum4d.my/Magnum4d/media/images/logo-magnum.png",
+                    name: "MAGNUM4D"
+                },
+                "pcso": {
+                    url: "https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/cdff9e13116036c6aacccf93f1260e98/pcso.png",
+                    name: "PCSO"
+                },
+                "nevada": {
+                    url: "https://cdn.areabermain.club/assets/cdn/az6/2025/09/07/20250907/2e16d499ba1ab2b8e8fcc8672d643c3b/nevada.png",
+                    name: "NEVADA"
+                },
+                "hongkong": {
+                    url: "https://i.pinimg.com/736x/43/ef/1d/43ef1d0762af51e45850483c72e10188.jpg",
+                    name: "HONGKONG"
+                }
+            };
+            
+            // Fungsi untuk menampilkan pasaran
+            function displayMarket(marketKey) {
+                if (marketKey && marketData[marketKey]) {
+                    // Tampilkan gambar dan nama pasaran
+                    marketImg.src = marketData[marketKey].url;
+                    marketImg.alt = 'Logo ' + marketData[marketKey].name;
+                    marketName.textContent = marketData[marketKey].name;
+                    
+                    // Sembunyikan placeholder dan tampilkan gambar
+                    marketPlaceholder.style.display = 'none';
+                    marketImg.style.display = 'block';
+                    marketName.style.display = 'block';
+                    document.querySelectorAll('.action-buttons')[1].style.display = 'flex';
+                    
+                    // Setel nilai dropdown jika berbeda
+                    if (marketSelect.value !== marketKey) {
+                        marketSelect.value = marketKey;
+                    }
+                    
+                    return true;
+                } else {
+                    // Kosongkan dan sembunyikan gambar serta nama
+                    marketImg.src = '';
+                    marketName.textContent = '';
+                    
+                    // Tampilkan placeholder
+                    marketPlaceholder.style.display = 'block';
+                    marketImg.style.display = 'none';
+                    marketName.style.display = 'none';
+                    document.querySelectorAll('.action-buttons')[1].style.display = 'none';
+                    
+                    return false;
+                }
+            }
+            
+            // Event listener untuk perubahan pada dropdown market
+            marketSelect.addEventListener('change', function() {
+                displayMarket(this.value);
+            });
+            
+            // Event listener untuk pencarian market
+            marketSearchButton.addEventListener('click', searchMarket);
+            marketSearchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchMarket();
+                }
+            });
+            
+            function searchMarket() {
+                const searchTerm = marketSearchInput.value.trim().toLowerCase();
+                if (!searchTerm) return;
+                
+                // Cari market yang sesuai
+                for (const [key, data] of Object.entries(marketData)) {
+                    if (data.name.toLowerCase().includes(searchTerm)) {
+                        displayMarket(key);
+                        return;
+                    }
+                }
+                
+                // Jika tidak ditemukan
+                alert('Pasaran tidak ditemukan. Silakan coba dengan nama yang berbeda.');
+            }
+            
+            // Event listener untuk item market
+            marketItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const marketKey = this.getAttribute('data-market');
+                    displayMarket(marketKey);
+                });
+            });
+            
+            // Event listener untuk buka di tab baru (market)
+            marketOpenTabButton.addEventListener('click', function() {
+                if (marketImg.src) {
+                    window.open(marketImg.src, '_blank');
+                }
+            });
+            
+            // Event listener untuk download gambar (market)
+            marketDownloadButton.addEventListener('click', function() {
+                if (marketImg.src) {
+                    const a = document.createElement('a');
+                    a.href = marketImg.src;
+                    a.download = `logo-${marketSelect.value}.jpg`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            });
+            
+            // Sembunyikan gambar dan nama market saat halaman pertama dimuat
+            marketImg.style.display = 'none';
+            marketName.style.display = 'none';
+            document.querySelectorAll('.action-buttons')[1].style.display = 'none';
         });
     </script>
 </body>
