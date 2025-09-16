@@ -1172,23 +1172,24 @@
                 const randomShio = shioData[randomShioKey];
                 const randomMarket = marketData[randomMarketKey];
 
-                // Buat elemen gambar untuk Shio dan Market
-                const imgShio = new Image();
-                imgShio.crossOrigin = "Anonymous";
-                imgShio.src = randomShio.url;
-
-                const imgMarket = new Image();
-                imgMarket.crossOrigin = "Anonymous";
-                imgMarket.src = randomMarket.url;
-
                 // Buat canvas untuk menggambar komposit
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
 
                 // Tunggu kedua gambar selesai dimuat
                 Promise.all([
-                    new Promise(resolve => { imgShio.onload = resolve; }),
-                    new Promise(resolve => { imgMarket.onload = resolve; })
+                    new Promise(resolve => { 
+                        const imgShio = new Image();
+                        imgShio.crossOrigin = "Anonymous";
+                        imgShio.src = randomShio.url;
+                        imgShio.onload = resolve;
+                    }),
+                    new Promise(resolve => { 
+                        const imgMarket = new Image();
+                        imgMarket.crossOrigin = "Anonymous";
+                        imgMarket.src = randomMarket.url;
+                        imgMarket.onload = resolve;
+                    })
                 ]).then(() => {
                     // Atur ukuran canvas
                     const maxWidth = 800;
@@ -1197,49 +1198,78 @@
                     canvas.height = maxHeight;
 
                     // Isi latar belakang
-                    ctx.fillStyle = '#1a2035';
+                    ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, 0, maxWidth, maxHeight);
 
-                    // Gambar Shio (di sebelah kiri)
-                    const shioWidth = 150;
-                    const shioHeight = 150;
-                    const shioX = 50;
-                    const shioY = 50;
-                    ctx.drawImage(imgShio, shioX, shioY, shioWidth, shioHeight);
-
-                    // Gambar Market (di sebelah kanan)
-                    const marketWidth = 150;
-                    const marketHeight = 80; // Asumsi logo market lebih pendek
-                    const marketX = maxWidth - marketWidth - 50;
-                    const marketY = 50;
-                    ctx.drawImage(imgMarket, marketX, marketY, marketWidth, marketHeight);
-
-                    // Tambahkan teks tanggal
-                    ctx.fillStyle = '#ffd166';
-                    ctx.font = 'bold 24px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(`Tanggal: ${selectedDate}`, maxWidth / 2, 40);
-
-                    // Tambahkan nama Shio
-                    ctx.fillStyle = '#a9d6e5';
-                    ctx.font = 'bold 18px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+                    // Tambahkan judul dan tanggal
+                    ctx.fillStyle = '#000000';
+                    ctx.font = 'bold 14px Arial';
                     ctx.textAlign = 'left';
-                    ctx.fillText(`Shio: ${randomShio.name}`, shioX, shioY + shioHeight + 25);
+                    ctx.fillText('PASANG BERSAMA,WITHDRAW BERSAMA', 10, 20);
+                    ctx.fillText(`Tanggal : ${selectedDate}`, 10, 40);
 
-                    // Tambahkan nama Market
-                    ctx.textAlign = 'right';
-                    ctx.fillText(`Market: ${randomMarket.name}`, marketX + marketWidth, marketY + marketHeight + 25);
+                    // Tambahkan logo pasar (di kanan atas)
+                    const marketWidth = 100;
+                    const marketHeight = 50;
+                    const marketX = maxWidth - marketWidth - 10;
+                    const marketY = 10;
+                    ctx.drawImage(randomMarket.url, marketX, marketY, marketWidth, marketHeight);
 
-                    // Tambahkan Syair
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = '18px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
-                    ctx.textAlign = 'center';
-                    const syairX = maxWidth / 2;
-                    const syairY = 250;
-                    const lineHeight = 25;
-                    selectedPoemLines.split('\n').forEach((line, index) => {
-                        ctx.fillText(line, syairX, syairY + (index * lineHeight));
+                    // Tambahkan logo syair (di kiri atas)
+                    const syairLogoWidth = 80;
+                    const syairLogoHeight = 80;
+                    const syairLogoX = 10;
+                    const syairLogoY = 60;
+                    ctx.drawImage('https://cdn.pixabay.com/photo/2017/02/18/13/58/lucky-2074729_1280.png', syairLogoX, syairLogoY, syairLogoWidth, syairLogoHeight);
+
+                    // Tambahkan simbol bintang (di tengah kiri)
+                    const starX = 50;
+                    const starY = 150;
+                    drawStar(ctx, starX, starY, 40, 8);
+
+                    // Tambahkan teks syair (di tengah kanan)
+                    ctx.fillStyle = '#000000';
+                    ctx.font = '14px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('SYAIR LINE TOGEL', 180, 120);
+                    ctx.fillText('RESULT BERACUAN KODE', 180, 140);
+                    ctx.fillText('TIDAK NGEBAN & TIK TOK, TAYSEN MAIN', 180, 160);
+                    ctx.fillText('', 180, 180); // Spasi
+                    const lines = selectedPoemLines.split('\n');
+                    let y = 200;
+                    lines.forEach(line => {
+                        ctx.fillText(line, 180, y);
+                        y += 20;
                     });
+
+                    // Tambahkan teks binatangnya (di bawah bintang)
+                    ctx.fillStyle = '#000000';
+                    ctx.font = '12px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('Binatangnya : BERTARING', 50, 280);
+                    ctx.fillText('MK : 0 / 1', 50, 300);
+                    ctx.fillText('Naga : 1-0-8', 50, 320);
+                    ctx.fillText('Shio :', 50, 340);
+
+                    // Tambahkan gambar shio (di bawah teks "Shio")
+                    const shioWidth = 100;
+                    const shioHeight = 100;
+                    const shioX = 50;
+                    const shioY = 360;
+                    ctx.drawImage(randomShio.url, shioX, shioY, shioWidth, shioHeight);
+
+                    // Tambahkan gambar gunung (di kanan bawah)
+                    const mountainX = 200;
+                    const mountainY = 300;
+                    const mountainWidth = 150;
+                    const mountainHeight = 100;
+                    ctx.drawImage('https://cdn.pixabay.com/photo/2016/02/05/10/34/mountain-1280432_1280.png', mountainX, mountainY, mountainWidth, mountainHeight);
+
+                    // Tambahkan teks link di bawah
+                    ctx.fillStyle = '#000000';
+                    ctx.font = '12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('https://linklist.bio/situslinetgl', maxWidth / 2, 550);
 
                     // Tampilkan hasil di UI
                     syairImg.src = canvas.toDataURL('image/png');
@@ -1251,6 +1281,24 @@
                     console.error('Gagal memuat gambar:', err);
                     alert('Gagal memuat salah satu gambar. Silakan coba lagi.');
                 });
+            }
+
+            // Fungsi untuk menggambar bintang
+            function drawStar(ctx, x, y, radius, points) {
+                ctx.beginPath();
+                for (let i = 0; i < points * 2; i++) {
+                    const angle = (Math.PI / points) * i;
+                    const distance = i % 2 === 0 ? radius : radius / 2;
+                    const px = x + Math.cos(angle) * distance;
+                    const py = y + Math.sin(angle) * distance;
+                    if (i === 0) {
+                        ctx.moveTo(px, py);
+                    } else {
+                        ctx.lineTo(px, py);
+                    }
+                }
+                ctx.closePath();
+                ctx.stroke();
             }
             // ========== AKHIR SCRIPT TAMBAHAN ==========
         });
