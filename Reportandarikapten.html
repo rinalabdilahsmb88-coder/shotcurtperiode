@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Laporan Bank</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-image: url('https://media.linklist.bio/backgrounds/Zq7Qb762Xj6KaUWUSEPXCDpmKLCATryoNbbjK7Er.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #000;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 20px 0;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 800;
+        }
+        
+        .search-container {
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #2c3e50;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #4a6491;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.2);
+        }
+        
+        .search-btn {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: #4a6491;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 2px solid #2c3e50;
+            border-radius: 6px;
+            background-color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .results-count {
+            margin: 20px 0;
+            font-size: 18px;
+            color: #000;
+            font-weight: 700;
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .results-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .result-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s;
+            border-left: 5px solid #2c3e50;
+            position: relative;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #2c3e50;
+            flex: 1;
+        }
+        
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+        
+        .badge-danger {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #c62828;
+        }
+        
+        .badge-warning {
+            background-color: #fff8e1;
+            color: #ef6c00;
+            border: 1px solid #ef6c00;
+        }
+        
+        .badge-info {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #1565c0;
+        }
+        
+        .card-content {
+            margin-bottom: 15px;
+        }
+        
+        .card-detail {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .detail-label {
+            font-weight: 800;
+            min-width: 140px;
+            color: #000;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+            font-weight: 700;
+        }
+        
+        .btn-primary {
+            background-color: #2c3e50;
+            color: white;
+            border: 2px solid #2c3e50;
+        }
+        
+        .btn-primary:hover {
+            background-color: #4a6491;
+            border-color: #4a6491;
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: #2c3e50;
+            border: 2px solid #2c3e50;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .copy-all-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+        
+        .copy-all-btn:hover {
+            background-color: #45a049;
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .card-detail {
+                flex-direction: column;
+                margin-bottom: 12px;
+            }
+            
+            .detail-label {
+                min-width: unset;
+                margin-bottom: 3px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .copy-all-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #323232;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-search"></i> Pencarian Laporan Bank</h1>
+            <p style="font-weight: 600;">Cari dan temukan laporan permasalahan bank dengan mudah</p>
+        </header>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Masukkan kata kunci pencarian..." id="searchInput">
+                <button class="search-btn" id="searchButton">
+                    <i class="fas fa-search"></i> Cari
+                </button>
+            </div>
+            
+            <div class="filters">
+                <select class="filter-select" id="bankFilter">
+                    <option value="">Semua Bank</option>
+                    <option value="sinarmas">Bank Sinarmas</option>
+                    <option value="bca">BCA</option>
+                    <option value="bsi">BSI</option>
+                    <option value="cimb">CIMB</option>
+                    <option value="bri">BRI</option>
+                    <option value="danamon">Danamon</option>
+                </select>
+                
+                <select class="filter-select" id="statusFilter">
+                    <option value="">Semua Status</option>
+                    <option value="terblokir">Terblokir</option>
+                    <option value="saldo">Masalah Saldo</option>
+                    <option value="transfer">Transfer Tertunda</option>
+                    <option value="verifikasi">Perlu Verifikasi</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="results-count" id="resultsCount">Menampilkan 12 laporan</div>
+        
+        <div class="results-container" id="resultsContainer">
+            <!-- Data akan diisi oleh JavaScript -->
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Seluruh konten laporan berhasil disalin!</div>
+
+    <script>
+        // Data laporan bank
+        const reports = [
+            {
+                title: "Bank Sinarmas terblokir",
+                bank: "sinarmas",
+                status: "terblokir",
+                name: "Derian",
+                account: "0059547909",
+                balance: "Rp 7,832,116",
+                info: "Linetogel",
+                description: "Ketika dilakukan login untuk pengecekan saldo, muncul keterangan 'Salah memasukkan PIN 3 Kali. Reset PIN agar dapat mengakses akun Anda kembali.' Untuk hal tersebut mohon dibantu pengecekannya ci.",
+                attachment: "https://prnt.sc/hc4j3QQpFkBg"
+            },
+            {
+                title: "Saldo Pada Mutasi Rekening Dengan Informasi Saldo Berbeda",
+                bank: "bca",
+                status: "saldo",
+                name: "MEGA ARTA PRATIWI",
+                account: "6900759566",
+                balance: "Rp.402,054 (Mutasi) vs Rp.52,054 (Info)",
+                info: "Linetogel",
+                description: "Pada saat melakukan pengecekkan saldo pada bank tersebut terdapat perbedaan pada saldo yang ada pada mutasi rekening dengan saldo yang ada pada informasi saldo bank.",
+                attachment: "https://prnt.sc/s0skLc9gVdM8"
+            },
+            {
+                title: "Mybca ID Terblokir",
+                bank: "bca",
+                status: "terblokir",
+                name: "ANDREAS LUKITO",
+                account: "5798054133",
+                balance: "Rp.210,034",
+                info: "Linetogel",
+                description: "Pada saat staff melakukan login pada bank tersebut untuk digunakan, muncul keterangan 'BCA ID terblokir, Hubungi Halo BCA di 1500888 untuk informasi lebih lanjut.'",
+                attachment: "https://prnt.sc/sc0lEm0bhYjG"
+            },
+            {
+                title: "BCA Tidak Bisa Terima Dana",
+                bank: "bca",
+                status: "transfer",
+                name: "ANGGIAT RIZKI SUKARNO",
+                account: "5212321401",
+                balance: "Rp. 50,040",
+                info: "Linetogel",
+                description: "Untuk bank tersebut saat di test Dana In Out muncul keterangan 'Sistem Tidak Tersedia'.",
+                attachment: "https://prnt.sc/2o5GydRpr31f"
+            },
+            {
+                title: "Dana masuk dengan keterangan situs judi online",
+                bank: "bca",
+                status: "verifikasi",
+                name: "MUHAMMAD IRFAN",
+                account: "1640656308",
+                balance: "Rp 55,772",
+                info: "Linetogel",
+                description: "Ditemukan deposit masuk member dengan nominal Rp 15,000, namun pada keterangan bukti member tertera 'rekening judi online ini'.",
+                attachment: "https://prnt.sc/HZm1r9x2nizG"
+            },
+            {
+                title: "Pindah Dana Terpending",
+                bank: "sinarmas",
+                status: "transfer",
+                name: "Rati Oktafia",
+                account: "0059639072",
+                balance: "Rp. 15,000,000",
+                info: "Linetogel",
+                description: "Terjadi dana pending yang dimana saldo pengirim sudah terpotong namun saldo belum masuk ke rekening penerima.",
+                attachment: "https://imghostr.com/89c467_zcp"
+            },
+            {
+                title: "Peminjaman Hp & Simcard Oleh ADM",
+                bank: "sinarmas",
+                status: "verifikasi",
+                name: "Derian",
+                account: "0059547909",
+                balance: "-",
+                info: "Linetogel",
+                description: "Untuk Hp & Simcard di atas sudah diantar ke ADM untuk dilakukan pengecekan pada tanggal 7 Mei 2025 ya ci",
+                attachment: ""
+            },
+            {
+                title: "E-wallet GOPAY Verifikasih Wajah",
+                bank: "gopay",
+                status: "verifikasi",
+                name: "G3 NGATIMIN",
+                account: "085955246126",
+                balance: "Rp 767,570",
+                info: "Linetogel",
+                description: "Pada saat ingin di gunakan muncul keterangan 'verifikasi wajah'.",
+                attachment: "https://prnt.sc/ZbDU3J-NQ2qi"
+            },
+            {
+                title: "Bank DEPO CIMB Terblokir",
+                bank: "cimb",
+                status: "terblokir",
+                name: "SANDRA",
+                account: "707988117900",
+                balance: "Rp 559,798",
+                info: "Linetogel",
+                description: "Pada saat ingin melakukan login bank untuk mengeluarkan mutasi, muncul keterangan 'Your user ID currently blocked'.",
+                attachment: "https://imghostr.com/8d0002_h0"
+            },
+            {
+                title: "Mybca Terblokir",
+                bank: "bca",
+                status: "terblokir",
+                name: "Ariska Putri Noviani",
+                account: "6801892628",
+                balance: "Rp. 315,559",
+                info: "Linetogel",
+                description: "Pada saat bank tersebut akan digunakan untuk proses withdraw dan robot sedang berjalan, tiba-tiba muncul keterangan 'BCA ID terblokir, Hubungi Halo BCA di 1500888'.",
+                attachment: "https://imghostr.com/ec9dd6_x26"
+            },
+            {
+                title: "Bank BSI Verifikasi Ulang",
+                bank: "bsi",
+                status: "verifikasi",
+                name: "ALDI ANDRIANA MADJIAH",
+                account: "7299398603",
+                balance: "Rp. 8,106,051",
+                info: "Linetogel",
+                description: "Pada saat ingin login untuk melakukan pengecekan saldo muncul keterangan 'Silakan perbarui akun BYOND kamu'.",
+                attachment: "https://prnt.sc/T1L01_WSUrRk"
+            },
+            {
+                title: "Dana keluar Tidak Diketahui (Penarikan ATM)",
+                bank: "bri",
+                status: "saldo",
+                name: "NAYLA DWI PRAMESWARI",
+                account: "090701007843502",
+                balance: "Rp. 49,556",
+                info: "Linetogel",
+                description: "Pada saat Bank tersebut sedang dilakukan pengecekan saldo terdapat mutasi keluar tidak di ketahui Penarikan ATM.",
+                attachment: "https://prnt.sc/5byUZ9Na7RwV"
+            }
+        ];
+
+        // Fungsi untuk menampilkan toast notifikasi
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Fungsi untuk menyalin seluruh konten laporan
+        function copyReportContent(report) {
+            const reportText = `
+Judul: ${report.title}
+Status: ${report.status}
+Nama Rekening: ${report.name}
+No Rekening: ${report.account}
+Saldo: ${report.balance}
+Info: ${report.info}
+Keterangan: ${report.description}
+Lampiran: ${report.attachment || 'Tidak ada lampiran'}
+            `.trim();
+            
+            navigator.clipboard.writeText(reportText).then(() => {
+                showToast('Seluruh konten laporan berhasil disalin!');
+            }).catch(err => {
+                console.error('Gagal menyalin teks: ', err);
+                showToast('Gagal menyalin konten laporan');
+            });
+        }
+
+        // Fungsi untuk merender hasil
+        function renderResults(filteredReports = reports) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            resultsCount.textContent = `Menampilkan ${filteredReports.length} laporan`;
+            
+            if (filteredReports.length === 0) {
+                resultsContainer.innerHTML = '<div class="no-results" style="text-align: center; padding: 20px; font-weight: 700;">Tidak ada laporan yang sesuai dengan pencarian Anda.</div>';
+                return;
+            }
+            
+            resultsContainer.innerHTML = filteredReports.map(report => {
+                let badgeClass = 'badge-info';
+                let statusText = 'Perlu Verifikasi';
+                
+                if (report.status === 'terblokir') {
+                    badgeClass = 'badge-danger';
+                    statusText = 'Terblokir';
+                } else if (report.status === 'saldo') {
+                    badgeClass = 'badge-warning';
+                    statusText = 'Masalah Saldo';
+                } else if (report.status === 'transfer') {
+                    badgeClass = 'badge-info';
+                    statusText = 'Transfer Tertunda';
+                }
+                
+                return `
+                    <div class="result-card">
+                        <div class="card-header">
+                            <div class="card-title">${report.title}</div>
+                            <div class="badge ${badgeClass}">${statusText}</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-detail">
+                                <span class="detail-label">Nama Rekening:</span>
+                                <span class="detail-value">${report.name}</span>
+                            </div>
+                            <div class="card-detail">
+                                <span class="detail-label">No Rekening:</span>
+                                <span class="detail-value">${report.account}</span>
+                            </div>
+                            <div class="card-detail">
+                                <span class="detail-label">Saldo:</span>
+                                <span class="detail-value">${report.balance}</span>
+                            </div>
+                            <div class="card-detail">
+                                <span class="detail-label">Info:</span>
+                                <span class="detail-value">${report.info}</span>
+                            </div>
+                            <div class="card-detail">
+                                <span class="detail-label">Keterangan:</span>
+                                <span class="detail-value">${report.description}</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <div>
+                                <button class="action-btn btn-primary">
+                                    <i class="fas fa-eye"></i> Lihat Detail
+                                </button>
+                                ${report.attachment ? `
+                                    <button class="action-btn btn-secondary" onclick="window.open('${report.attachment}', '_blank')">
+                                        <i class="fas fa-image"></i> Lihat Lampiran
+                                    </button>
+                                ` : ''}
+                            </div>
+                            <button class="copy-all-btn" onclick="copyReportContent(${JSON.stringify(report).replace(/"/g, '&quot;')})">
+                                <i class="fas fa-copy"></i> Salin Semua
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Fungsi untuk melakukan pencarian
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const bankFilter = document.getElementById('bankFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            const filteredReports = reports.filter(report => {
+                const matchesSearch = !searchTerm || 
+                    report.title.toLowerCase().includes(searchTerm) ||
+                    report.name.toLowerCase().includes(searchTerm) ||
+                    report.account.toLowerCase().includes(searchTerm) ||
+                    report.description.toLowerCase().includes(searchTerm);
+                
+                const matchesBank = !bankFilter || report.bank === bankFilter;
+                const matchesStatus = !statusFilter || report.status === statusFilter;
+                
+                return matchesSearch && matchesBank && matchesStatus;
+            });
+            
+            renderResults(filteredReports);
+        }
+        
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render semua laporan pertama kali
+            renderResults();
+            
+            // Event listener untuk tombol pencarian
+            document.getElementById('searchButton').addEventListener('click', performSearch);
+            
+            // Event listener untuk input pencarian (bisa juga dengan tekan enter)
+            document.getElementById('searchInput').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Event listener untuk filter
+            document.getElementById('bankFilter').addEventListener('change', performSearch);
+            document.getElementById('statusFilter').addEventListener('change', performSearch);
+        });
+    </script>
+</body>
+</html>
