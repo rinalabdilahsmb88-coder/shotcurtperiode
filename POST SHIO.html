@@ -129,6 +129,9 @@
             font-size: 1.1rem;
             font-weight: bold;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .search-button:hover {
             background: #2fb5e0;
@@ -162,7 +165,7 @@
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .shio-image, .market-image, .syair-image {
+        .shio-image, .market-image {
             max-width: 100%;
             max-height: 300px;
             border-radius: 8px;
@@ -170,7 +173,7 @@
             transition: transform 0.3s;
             border: 2px solid rgba(255, 255, 255, 0.1);
         }
-        .shio-image:hover, .market-image:hover, .syair-image:hover {
+        .shio-image:hover, .market-image:hover {
             transform: scale(1.03);
         }
         .shio-name, .market-name {
@@ -304,30 +307,6 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
-        /* Syair Image Styles */
-        .date-picker-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .date-input {
-            padding: 12px 20px;
-            font-size: 1.1rem;
-            border: 2px solid #4cc9f0;
-            border-radius: 8px;
-            background: rgba(34, 40, 70, 0.8);
-            color: #fff;
-            margin-top: 10px;
-            width: 100%;
-            max-width: 300px;
-        }
-        .no-image-message {
-            color: #a9d6e5;
-            font-size: 1.2rem;
-            margin-top: 30px;
-            text-align: center;
-        }
         footer {
             margin-top: 30px;
             text-align: center;
@@ -375,13 +354,12 @@
     <div class="container">
         <header>
             <h1>Dashboard Lengkap: Shio, Pasaran Toto, dan Generator Syair</h1>
-            <p class="description">Temukan shio Anda, pasaran toto favorit, hasilkan syair acak, dan lihat gambar syair berdasarkan tanggal.</p>
+            <p class="description">Temukan shio Anda, pasaran toto favorit, dan hasilkan syair acak.</p>
         </header>
         <div class="tabs">
             <button class="tab-button active" data-tab="shio">Menu Shio</button>
             <button class="tab-button" data-tab="market">Menu Logo Pasaran</button>
             <button class="tab-button" data-tab="syair">Kata Kata Syair</button>
-            <button class="tab-button" data-tab="syair-image">Gambar Syair</button>
         </div>
         <!-- Tab Shio -->
         <div id="shio-tab" class="tab-content active">
@@ -609,30 +587,6 @@
                     </button>
                     <button class="syair-button" id="copyBtn">
                         <i class="fas fa-copy"></i> Salin ke Clipboard
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Tab Gambar Syair (BARU) -->
-        <div id="syair-image-tab" class="tab-content">
-            <div class="controls">
-                <div class="date-picker-container">
-                    <label for="syair-date"><i class="fas fa-calendar-alt"></i> Pilih Tanggal:</label>
-                    <input type="date" id="syair-date" class="date-input">
-                </div>
-            </div>
-            <div class="image-container">
-                <img id="syair-img" class="syair-image" src="" alt="Gambar Syair">
-                <div id="syair-image-placeholder" class="placeholder-text">
-                    <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 15px; color: #4cc9f0;"></i>
-                    <p>Silakan pilih tanggal untuk menampilkan gambar syair</p>
-                </div>
-                <div class="action-buttons">
-                    <button id="syair-image-open-tab-button" class="action-button">
-                        <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
-                    </button>
-                    <button id="syair-image-download-button" class="action-button">
-                        <i class="fas fa-download"></i> Download Gambar
                     </button>
                 </div>
             </div>
@@ -1063,244 +1017,6 @@
             copyBtn.addEventListener('click', copyToClipboard);
             // Menghasilkan syair pertama saat halaman dimuat
             window.addEventListener('load', generateRandomPoem);
-            // ========== FUNGSIONALITAS TAB GAMBAR SYAIR (BARU) ==========
-            const syairDateInput = document.getElementById('syair-date');
-            const syairImg = document.getElementById('syair-img');
-            const syairImagePlaceholder = document.getElementById('syair-image-placeholder');
-            const syairImageOpenTabButton = document.getElementById('syair-image-open-tab-button');
-            const syairImageDownloadButton = document.getElementById('syair-image-download-button');
-            // Set tanggal default ke hari ini
-            const today = new Date();
-            const formattedToday = today.toISOString().split('T')[0];
-            syairDateInput.value = formattedToday;
-            // Data gambar syair
-            function getSyairImageUrl(date) {
-                // Untuk demo, kita akan menggunakan gambar contoh yang diberikan
-                return "https://cdn.areabermain.club/assets/cdn/az6/2025/09/17/20250917/d4d703ad6f9370c21f8791093060171c/syair-18-september-2025.jpg";
-            }
-            // Fungsi untuk menampilkan gambar syair berdasarkan tanggal
-            function displaySyairImage(date) {
-                if (date) {
-                    const imageUrl = getSyairImageUrl(date);
-                    // Tampilkan gambar
-                    syairImg.src = imageUrl;
-                    syairImg.alt = 'Gambar Syair ' + date;
-                    // Sembunyikan placeholder dan tampilkan gambar
-                    syairImagePlaceholder.style.display = 'none';
-                    syairImg.style.display = 'block';
-                    document.querySelectorAll('.action-buttons')[2].style.display = 'flex';
-                    return true;
-                } else {
-                    // Kosongkan dan sembunyikan gambar
-                    syairImg.src = '';
-                    // Tampilkan placeholder
-                    syairImagePlaceholder.style.display = 'block';
-                    syairImg.style.display = 'none';
-                    document.querySelectorAll('.action-buttons')[2].style.display = 'none';
-                    return false;
-                }
-            }
-            // Event listener untuk perubahan tanggal
-            syairDateInput.addEventListener('change', function() {
-                displaySyairImage(this.value);
-            });
-            // Tampilkan gambar syair untuk tanggal default
-            displaySyairImage(formattedToday);
-            // Event listener untuk buka di tab baru (gambar syair)
-            syairImageOpenTabButton.addEventListener('click', function() {
-                if (syairImg.src) {
-                    window.open(syairImg.src, '_blank');
-                }
-            });
-            // Event listener untuk download gambar (gambar syair)
-            syairImageDownloadButton.addEventListener('click', function() {
-                if (syairImg.src) {
-                    const a = document.createElement('a');
-                    a.href = syairImg.src;
-                    a.download = `syair-${syairDateInput.value}.jpg`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                }
-            });
-            // Sembunyikan gambar syair saat halaman pertama dimuat
-            syairImg.style.display = 'none';
-            document.querySelectorAll('.action-buttons')[2].style.display = 'none';
-
-            // ========== SCRIPT TAMBAHAN UNTUK GENERATE GAMBAR SYAIR (DIPERBAIKI & BERFUNGSI) ==========
-            // Buat tombol Generate di dalam tab Gambar Syair
-            const syairImageContainer = document.querySelector('#syair-image-tab .syair-container') || document.querySelector('#syair-image-tab .controls');
-            if (syairImageContainer) {
-                const generateSyairImageButton = document.createElement('button');
-                generateSyairImageButton.className = 'syair-button';
-                generateSyairImageButton.id = 'generateSyairImageButton';
-                generateSyairImageButton.innerHTML = '<i class="fas fa-sync-alt"></i> Generate Gambar Syair';
-                generateSyairImageButton.style.marginTop = '20px';
-
-                // Cari lokasi yang tepat untuk menyisipkan tombol, yaitu setelah date-picker-container
-                const datePickerContainer = document.getElementById('syair-date').closest('.date-picker-container');
-                if (datePickerContainer) {
-                    datePickerContainer.parentNode.insertBefore(generateSyairImageButton, datePickerContainer.nextSibling);
-                } else {
-                    syairImageContainer.appendChild(generateSyairImageButton);
-                }
-
-                // **PENTING: Tambahkan event listener DI SINI, setelah tombol dibuat**
-                generateSyairImageButton.addEventListener('click', generateCompositeSyairImage);
-            }
-
-            // Fungsi untuk mendapatkan elemen acak dari array
-            function getRandomElement(array) {
-                return array[Math.floor(Math.random() * array.length)];
-            }
-
-            // Fungsi utama untuk meng-generate gambar syair komposit
-            function generateCompositeSyairImage() {
-                // Ambil tanggal yang dipilih
-                const selectedDate = syairDateInput.value;
-                if (!selectedDate) {
-                    alert('Silakan pilih tanggal terlebih dahulu.');
-                    return;
-                }
-
-                // Ambil data acak
-                const randomShioKey = getRandomElement(Object.keys(shioData));
-                const randomMarketKey = getRandomElement(Object.keys(marketData));
-                const shuffledPoemLines = shuffleArray([...poemLines]);
-                const selectedPoemLines = shuffledPoemLines.slice(0, 4).join('\n');
-
-                const randomShio = shioData[randomShioKey];
-                const randomMarket = marketData[randomMarketKey];
-
-                // Buat canvas untuk menggambar komposit
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-
-                // Tunggu kedua gambar selesai dimuat
-                Promise.all([
-                    new Promise(resolve => { 
-                        const imgShio = new Image();
-                        imgShio.crossOrigin = "Anonymous";
-                        imgShio.src = randomShio.url;
-                        imgShio.onload = resolve;
-                    }),
-                    new Promise(resolve => { 
-                        const imgMarket = new Image();
-                        imgMarket.crossOrigin = "Anonymous";
-                        imgMarket.src = randomMarket.url;
-                        imgMarket.onload = resolve;
-                    })
-                ]).then(() => {
-                    // Atur ukuran canvas
-                    const maxWidth = 800;
-                    const maxHeight = 600;
-                    canvas.width = maxWidth;
-                    canvas.height = maxHeight;
-
-                    // Isi latar belakang
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(0, 0, maxWidth, maxHeight);
-
-                    // Tambahkan judul dan tanggal
-                    ctx.fillStyle = '#000000';
-                    ctx.font = 'bold 14px Arial';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('PASANG BERSAMA,WITHDRAW BERSAMA', 10, 20);
-                    ctx.fillText(`Tanggal : ${selectedDate}`, 10, 40);
-
-                    // Tambahkan logo pasar (di kanan atas)
-                    const marketWidth = 100;
-                    const marketHeight = 50;
-                    const marketX = maxWidth - marketWidth - 10;
-                    const marketY = 10;
-                    ctx.drawImage(randomMarket.url, marketX, marketY, marketWidth, marketHeight);
-
-                    // Tambahkan logo syair (di kiri atas)
-                    const syairLogoWidth = 80;
-                    const syairLogoHeight = 80;
-                    const syairLogoX = 10;
-                    const syairLogoY = 60;
-                    ctx.drawImage('https://cdn.pixabay.com/photo/2017/02/18/13/58/lucky-2074729_1280.png', syairLogoX, syairLogoY, syairLogoWidth, syairLogoHeight);
-
-                    // Tambahkan simbol bintang (di tengah kiri)
-                    const starX = 50;
-                    const starY = 150;
-                    drawStar(ctx, starX, starY, 40, 8);
-
-                    // Tambahkan teks syair (di tengah kanan)
-                    ctx.fillStyle = '#000000';
-                    ctx.font = '14px Arial';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('SYAIR LINE TOGEL', 180, 120);
-                    ctx.fillText('RESULT BERACUAN KODE', 180, 140);
-                    ctx.fillText('TIDAK NGEBAN & TIK TOK, TAYSEN MAIN', 180, 160);
-                    ctx.fillText('', 180, 180); // Spasi
-                    const lines = selectedPoemLines.split('\n');
-                    let y = 200;
-                    lines.forEach(line => {
-                        ctx.fillText(line, 180, y);
-                        y += 20;
-                    });
-
-                    // Tambahkan teks binatangnya (di bawah bintang)
-                    ctx.fillStyle = '#000000';
-                    ctx.font = '12px Arial';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('Binatangnya : BERTARING', 50, 280);
-                    ctx.fillText('MK : 0 / 1', 50, 300);
-                    ctx.fillText('Naga : 1-0-8', 50, 320);
-                    ctx.fillText('Shio :', 50, 340);
-
-                    // Tambahkan gambar shio (di bawah teks "Shio")
-                    const shioWidth = 100;
-                    const shioHeight = 100;
-                    const shioX = 50;
-                    const shioY = 360;
-                    ctx.drawImage(randomShio.url, shioX, shioY, shioWidth, shioHeight);
-
-                    // Tambahkan gambar gunung (di kanan bawah)
-                    const mountainX = 200;
-                    const mountainY = 300;
-                    const mountainWidth = 150;
-                    const mountainHeight = 100;
-                    ctx.drawImage('https://cdn.pixabay.com/photo/2016/02/05/10/34/mountain-1280432_1280.png', mountainX, mountainY, mountainWidth, mountainHeight);
-
-                    // Tambahkan teks link di bawah
-                    ctx.fillStyle = '#000000';
-                    ctx.font = '12px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('https://linklist.bio/situslinetgl', maxWidth / 2, 550);
-
-                    // Tampilkan hasil di UI
-                    syairImg.src = canvas.toDataURL('image/png');
-                    syairImg.alt = 'Gambar Syair Komposit';
-                    syairImagePlaceholder.style.display = 'none';
-                    syairImg.style.display = 'block';
-                    document.querySelectorAll('.action-buttons')[2].style.display = 'flex';
-                }).catch(err => {
-                    console.error('Gagal memuat gambar:', err);
-                    alert('Gagal memuat salah satu gambar. Silakan coba lagi.');
-                });
-            }
-
-            // Fungsi untuk menggambar bintang
-            function drawStar(ctx, x, y, radius, points) {
-                ctx.beginPath();
-                for (let i = 0; i < points * 2; i++) {
-                    const angle = (Math.PI / points) * i;
-                    const distance = i % 2 === 0 ? radius : radius / 2;
-                    const px = x + Math.cos(angle) * distance;
-                    const py = y + Math.sin(angle) * distance;
-                    if (i === 0) {
-                        ctx.moveTo(px, py);
-                    } else {
-                        ctx.lineTo(px, py);
-                    }
-                }
-                ctx.closePath();
-                ctx.stroke();
-            }
-            // ========== AKHIR SCRIPT TAMBAHAN ==========
         });
     </script>
 </body>
