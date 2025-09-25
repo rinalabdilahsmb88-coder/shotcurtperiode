@@ -1,0 +1,1729 @@
+  <div>
+<h4><strong><marquee behavior="alternate"><strong><span style="color: #ffffff; font-size: 20px;"> JADWAL PASARAN TOGEL </span></strong></marquee></strong></h4>
+<!-- <script>
+  const headers = document.querySelectorAll("h4, h3, h2, p");
+  headers.forEach(h => {
+    if (h.innerText.trim() === "Jadwal Pasaran") {
+      h.style.display = "none";
+    }
+  });
+</script> -->
+<style>
+
+  :root {
+      --tg-red: #e02424;
+      --tg-red-d: #c81e1e;
+      --tg-green: #16a34a;
+      --tg-gray: #666;
+      font-family: "Inter", Arial, sans-serif;
+  }
+
+  .ttg-hdr {
+      max-width: 1200px;
+      margin: 30px auto 0;
+      padding: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+  }
+
+  /* Animated heading */
+  @keyframes ttg-slideHue {
+      0% {
+          background-position: 0% 50%;
+      }
+
+      100% {
+          background-position: 200% 50%;
+      }
+  }
+
+  .ttg-hdg {
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 900;
+      margin: 0;
+      line-height: 1.1;
+      background: transparent !important;
+      background-size: 200% 200%;
+      background-clip: text;
+      color: transparent;
+      animation: ttg-slideHue 4s linear infinite;
+      white-space: nowrap;
+  }
+
+  /* Search box */
+  .ttg-srch input[type="search"] {
+      border: 2px solid #ffa200;
+      border-radius: 30px;
+      padding: 8px 14px;
+      min-width: 230px;
+      font-size: 1rem;
+      transition: box-shadow .25s;
+      outline: none;
+      background: #fff;
+      color: #0051ff;
+
+  }
+
+  .ttg-srch input[type="search"]:focus {
+      box-shadow: 0 0 0 4px rgba(224, 36, 36, .25);
+  }
+
+  /* Separator */
+  .ttg-sep {
+      border: none;
+      border-top: 4px solid #ffa200;
+      max-width: 1200px;
+      margin: 20px auto;
+  }
+
+  .ttg-grid {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 16px;
+      display: grid;
+      gap: 22px;
+      background: transparent;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+.ttg-card {
+  background: linear-gradient(2deg, #0a1d46, #0a1d46);
+  border: 2px solid #0051ff;
+  border-radius: 12px;
+  box-shadow: 6px 0px 14px -4px rgb(0 0 0);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform .25s, box-shadow .25s;
+}
+
+  .ttg-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, .15);
+  }
+
+  .ttg-card__title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 4px;
+      border-bottom: 2px dashed var(--tg-red);
+      padding-bottom: 6px;
+  }
+
+  .ttg-card__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+  }
+
+  .ttg-card__label {
+      color:#ffffff;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+  }
+
+  .ttg-card__label svg {
+      width: 14px;
+      height: 14px;
+  }
+
+.ttg-card__value {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.ttg-card__value--tutup {
+  color: #ffa200;
+}
+
+  div#togel-box {
+      width: 840px;
+      background: transparent;
+  }
+  .ttg-card__value--buka {
+          color: #00bfff;
+
+  }
+
+.ttg-card__site a {
+    border: 2px solid #ffc300;
+    display: block;
+    margin-top: 8px;
+    text-align: center;
+    background: linear-gradient(to bottom, #ffa200 0%, #ffd800 50%);
+    color: #000000;
+    padding: 6px 0;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0px 0px 10px 0px black;
+    text-transform: uppercase;
+}
+
+#search {
+  color: #0a1d46;
+  font-weight: bold;
+  font-size: 16px;
+}
+#search::placeholder {
+  color: #0a1d46;
+  font-weight: normal;
+}
+  #search {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #0a1d46;
+    padding: 8px 12px;
+    border: 2px solid orange;
+    border-radius: 6px;
+  }
+
+  #search::placeholder {
+    font-weight: bold;
+    font-style: normal;
+    text-transform: uppercase;
+    color: white;
+  }
+
+    .ttg-card__site a:hover {
+      background: #ffae00;
+color:rgb(0, 0, 0);
+  }
+
+  .ttg-srch input[type="search"]::placeholder {
+      color: hsla(0, 0%, 0%, 0.729);
+  }
+
+  .ttg-srch input[type="search"]::placeholder {
+    color: #0a1d46;
+    font-weight: bold;
+}
+
+</style>
+<div class="ttg-hdr" bis_skin_checked="1">
+  <h5 class="ttg-hdg"></h5>
+  <div class="ttg-srch" bis_skin_checked="1"><input type="search" id="search" placeholder="Cari Pasaran Togel" />
+  </div>
+</div>
+<hr class="ttg-sep">
+<table style="display:none;">
+  <tbody class="row-hover">
+      <tr>
+          <td>HOKI DRAW</td>
+          <td>SENIN - MINGGU</td>
+          <td>RESULT 24X</td>
+          <td>1 JAM SEKALI</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://hokidraw.com/" bis_skin_checked="1">Klik di
+                  sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTO MACAU PAGI</td>
+          <td>SENIN - MINGGU</td>
+          <td>00:00 WIB</td>
+          <td>00:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomacaunew.us/" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>KENTUCKY MIDDAY</td>
+          <td>SENIN - MINGGU</td>
+          <td>00:05 WIB</td>
+          <td>00:20 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.kylottery.com/apps/" bis_skin_checked="1">Klik disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>FLORIDA MIDDAY</td>
+          <td>SENIN - MINGGU</td>
+          <td>00:20 WIB</td>
+          <td>00:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://floridalottery.com/" bis_skin_checked="1">Klik disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>HUAHIN 0100</td>
+          <td>SENIN - MINGGU</td>
+          <td>00:45 WIB</td>
+          <td>01:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://huahinlottery.com/" bis_skin_checked="1">Klik disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>BANGKOK 0130</td>
+          <td>SENIN - MINGGU</td>
+          <td>01:15 WIB</td>
+          <td>01:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://bangkokpoolstoday.com/" bis_skin_checked="1">Klik disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>NEWYORK MIDDAY</td>
+          <td>SENIN - MINGGU</td>
+          <td>01:15 WIB</td>
+          <td>01:25 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://nylottery.ny.gov/" bis_skin_checked="1">Klik disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>CAROLINA DAY</td>
+          <td>SENIN - MINGGU</td>
+          <td>01:45 WIB</td>
+          <td>02:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://nclottery.com/Pick4" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>BRUNEI 02</td>
+          <td>SENIN - MINGGU</td>
+          <td>02:30 WIB</td>
+          <td>02:45 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://bruneipools.com/" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>OREGON 03</td>
+          <td>SENIN - MINGGU</td>
+          <td>02:50 WIB</td>
+          <td>03:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.oregonlottery.org/pick-4/winning-numbers/" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>OREGON 06</td>
+          <td>SENIN - MINGGU</td>
+          <td>05:50 WIB</td>
+          <td>06:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.oregonlottery.org/pick-4/winning-numbers/" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>CALIFORNIA</td>
+          <td>SENIN - MINGGU</td>
+          <td>08:25 WIB</td>
+          <td>08:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.calottery.com/draw-games/daily-4" bis_skin_checked="1">Klik disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>FLORIDA EVENING</td>
+          <td>SENIN - MINGGU</td>
+          <td>08:35 WIB</td>
+          <td>08:45 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://floridalottery.com/games/draw-games/pick-4" bis_skin_checked="1">Klik disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>OREGON 09</td>
+          <td>SENIN - MINGGU</td>
+          <td>08:50 WIB</td>
+          <td>09:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.oregonlottery.org/pick-4/winning-numbers/" bis_skin_checked="1">Klik disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>BANGKOK 0930</td>
+          <td>SENIN - MINGGU</td>
+          <td>09:15 WIB</td>
+          <td>09:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://bangkokpoolstoday.com/" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>NEWYORK EVENING</td>
+          <td>SENIN - MINGGU</td>
+          <td>09:25 WIB</td>
+          <td>09:35 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://nylottery.ny.gov/" bis_skin_checked="1">Klik
+                  disini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>KENTUCKY EVENING</td>
+          <td>SENIN - MINGGU</td>
+          <td>09:45 WIB</td>
+          <td>10:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.kylottery.com/apps/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>CAROLINA EVENING</td>
+          <td>SENIN - MINGGU</td>
+          <td>10:17 WIB</td>
+          <td>10:22 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://nclottery.com/Pick4" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>TOTOCAMBODIA</td>
+          <td>SENIN - MINGGU</td>
+          <td>10:45 WIB</td>
+          <td>11:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totocambodialive.com/" bis_skin_checked="1">Klik di
+                  sini</a></td>
+      </tr>
+      <tr>
+          <td>CHELSEA 11</td>
+          <td>SENIN - MINGGU</td>
+          <td>11:00 WIB</td>
+          <td>11:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://chelseapools.co.uk/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>OREGON 12</td>
+          <td>SENIN - MINGGU</td>
+          <td>11:50 WIB</td>
+          <td>12:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.oregonlottery.org/pick-4/winning-numbers/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>POIPET12</td>
+          <td>SENIN - MINGGU</td>
+          <td>12:15 WIB</td>
+          <td>12:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://poipetlottery.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>BULLSEYE</td>
+          <td>SENIN - MINGGU</td>
+          <td>13:00 WIB</td>
+          <td>13:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://mylotto.co.nz/results/bullseye" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMACAU SIANG</td>
+          <td>SENIN - MINGGU</td>
+          <td>13:00 WIB</td>
+          <td>13:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomacaunew.us/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>SYDNEY</td>
+          <td>SENIN - MINGGU</td>
+          <td>13:49 WIB</td>
+          <td>14:05 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://sydneylottobaru.site/" bis_skin_checked="1">Klik disini</a></td>
+      </tr>
+      <tr>
+          <td>JAKARTA 1400</td>
+          <td>SENIN - MINGGU</td>
+          <td>13:55 WIB</td>
+          <td>14:10 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://jakartapool.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>BRUNEI 14</td>
+          <td>SENIN - MINGGU</td>
+          <td>14:30 WIB</td>
+          <td>14:45 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://bruneipools.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>CHELSEA 15</td>
+          <td>SENIN - MINGGU</td>
+          <td>15:00 WIB</td>
+          <td>15:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://chelseapools.co.uk/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMALI 1530</td>
+          <td>SENIN - MINGGU</td>
+          <td>15:15 WIB</td>
+          <td>15:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomali.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMACAU 5D SORE</td>
+          <td>SENIN - MINGGU</td>
+          <td>15:15 WIB</td>
+          <td>15:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomacaunew.us/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>POIPET15</td>
+          <td>SENIN - MINGGU</td>
+          <td>15:15 WIB</td>
+          <td>15:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://poipetlottery.com/" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>TOTOMACAU SORE</td>
+          <td>SENIN - MINGGU</td>
+          <td>16:00 WIB</td>
+          <td>16:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomacaunew.us/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>HUAHIN 1630</td>
+          <td>SENIN - MINGGU</td>
+          <td>16:15 WIB</td>
+          <td>16:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://huahinlottery.com/" bis_skin_checked="1">Klik di sini</a>
+          </td>
+      </tr>
+      <tr>
+          <td>KING KONG4D I</td>
+          <td>SENIN - MINGGU</td>
+          <td>17:00 WIB</td>
+          <td>17:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://kingkongpools.id/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>SINGAPORE</td>
+          <td>SELASA & JUM'AT ( LIBUR )</td>
+          <td>17:30 WIB</td>
+          <td>17:45 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.singaporepools.com.sg/landing/en/Pages/index.html" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>MAGNUM4D</td>
+          <td>RABU, SABTU & MINGGU</td>
+          <td>18:10 WIB</td>
+          <td>18:40 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.magnum4d.my/en" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMACAU MALAM I</td>
+          <td>SENIN - MINGGU</td>
+          <td>19:00 WIB</td>
+          <td>19:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomacaunew.us/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>CHELSEA 19</td>
+          <td>SENIN - MINGGU</td>
+          <td>19:00 WIB</td>
+          <td>19:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://chelseapools.co.uk/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>POIPET19</td>
+          <td>SENIN - MINGGU</td>
+          <td>19:30 WIB</td>
+          <td>19:45 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://poipetlottery.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>PCSO</td>
+          <td>MINGGU ( LIBUR )</td>
+          <td>19:50 WIB</td>
+          <td>20:10 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.pcso.gov.ph/" bis_skin_checked="1">Klik disini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMALI 2030</td>
+          <td>SENIN - MINGGU</td>
+          <td>20:15 WIB</td>
+          <td>20:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomali.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>HUAHIN 2100</td>
+          <td>SENIN - MINGGU</td>
+          <td>20:45 WIB</td>
+          <td>21:00 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://huahinlottery.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>CHELSEA 21</td>
+          <td>SENIN - MINGGU</td>
+          <td>21:00 WIB</td>
+          <td>21:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://chelseapools.co.uk/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMACAU 5D MALAM</td>
+          <td>SENIN - MINGGU</td>
+          <td>21:15 WIB</td>
+          <td>21:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomacaunew.us/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>NEVADA</td>
+          <td>SENIN - MINGGU</td>
+          <td>21:15 WIB</td>
+          <td>21:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://www.nevadalottery.us/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>BRUNEI 21</td>
+          <td>SENIN - MINGGU</td>
+          <td>21:30 WIB</td>
+          <td>21:45 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://bruneipools.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMACAU MALAM II</td>
+          <td>SENIN - MINGGU</td>
+          <td>22:00 WIB</td>
+          <td>22:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomacaunew.us/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>POIPET22</td>
+          <td>SENIN - MINGGU</td>
+          <td>22:30 WIB</td>
+          <td>22:45 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://poipetlottery.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>HONGKONG</td>
+          <td>SENIN - MINGGU</td>
+          <td>22:59 WIB</td>
+          <td>23:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://lottohongkong.fun/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMACAU MALAM III</td>
+          <td>SENIN - MINGGU</td>
+          <td>23:00 WIB</td>
+          <td>23:15 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomacaunew.us/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>TOTOMALI 2330</td>
+          <td>SENIN - MINGGU</td>
+          <td>23:15 WIB</td>
+          <td>23:30 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://totomali.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>JAKARTA 2330</td>
+          <td>SENIN - MINGGU</td>
+          <td>23:25 WIB</td>
+          <td>23:40 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://jakartapool.com/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+      <tr>
+          <td>KING KONG4D II</td>
+          <td>SENIN - MINGGU</td>
+          <td>23:30 WIB</td>
+          <td>23:45 WIB</td>
+          <td><a target="_blank" rel="noopener nofollow" href="https://kingkongpools.id/" bis_skin_checked="1">Klik di sini</a></td>
+      </tr>
+       </tbody>
+</table>
+
+<div id="jadwal-kartu" class="ttg-grid" bis_skin_checked="1">
+      <div class="ttg-card" data-title="HOKI DRAW" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">HOKI DRAW</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">RESULT 24X</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">1 JAM SEKALI</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://hokidraw.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTO MACAU PAGI" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTO MACAU PAGI</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">00:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">00:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomacaunew.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="KENTUCKY MIDDAY" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">KENTUCKY MIDDAY</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">00:05 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">00:20 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.kylottery.com/apps/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="FLORIDA MIDDAY" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">FLORIDA MIDDAY</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">00:20 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">00:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://floridalottery.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="HUAHIN 0100" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">HUAHIN 0100</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">00:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">01:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://huahinlottery.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="BANGKOK 0130" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">BANGKOK 0130</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">01:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">01:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://bangkokpoolstoday.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="NEWYORK MIDDAY" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">NEWYORK MIDDAY</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">01:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">01:25 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://nylottery.ny.gov/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="CAROLINA DAY" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">CAROLINA DAY</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">01:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">02:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://nclottery.com/Pick4" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="BRUNEI 02" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">BRUNEI 02</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">02:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">02:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://bruneipools.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="OREGON 03" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">OREGON 03</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">02:50 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">03:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.oregonlottery.org/pick-4/winning-numbers/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="OREGON 06" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">OREGON 06</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">05:50 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">06:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.oregonlottery.org/pick-4/winning-numbers/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="CALIFORNIA" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">CALIFORNIA</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">08:25 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">08:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.calottery.com/draw-games/daily-4" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="FLORIDA EVENING" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">FLORIDA EVENING</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">08:35 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">08:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://floridalottery.com/games/draw-games/pick-4" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="OREGON 09" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">OREGON 09</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">08:50 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">09:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.oregonlottery.org/pick-4/winning-numbers/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="BANGKOK 0930" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">BANGKOK 0930</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">09:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">09:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://bangkokpoolstoday.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="NEWYORK EVENING" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">NEWYORK EVENING</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">09:25 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">09:35 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://nylottery.ny.gov/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="KENTUCKY EVENING" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">KENTUCKY EVENING</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">09:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">10:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.kylottery.com/apps/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+
+      <div class="ttg-card" data-title="CAROLINA EVENING" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">CAROLINA EVENING</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">10:17 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">10:22 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://nclottery.com/Pick4/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOCAMBODIA" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOCAMBODIA</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">10:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">11:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totocambodialive.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="CHELSEA 11" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">CHELSEA 11</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">11:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">11:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://chelseapools.co.uk/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="OREGON 12" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">OREGON 12</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">11:50 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">12:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.oregonlottery.org/pick-4/winning-numbers/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="POIPET12" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">POIPET12</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">12:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">12:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://poipetlottery.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="BULLSEYE" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">BULLSEYE</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">13:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">13:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://mylotto.co.nz/results/bullseye" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMACAU SIANG" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMACAU SIANG</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">13:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">13:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomacaunew.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="SYDNEY" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">SYDNEY</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">13:49 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">14:05 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://sydneylottobaru.site/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="JAKARTA 1400" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">JAKARTA 1400</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">13:55 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">14:10 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://jakartapool.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="BRUNEI 14" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">BRUNEI 14</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">14:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">14:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://bruneipools.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="CHELSEA 15" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">CHELSEA 15</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">15:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">15:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://chelseapools.co.uk/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMALI 1530" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMALI 1530</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">15:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">15:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomali.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMACAU 5D SORE" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMACAU 5D SORE</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">15:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">15:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomacaunew.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="POIPET15" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">POIPET15</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">15:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">15:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://poipetlottery.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMACAU SORE" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMACAU SORE</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">16:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">16:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomacaunew.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="HUAHIN 1630" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">HUAHIN 1630</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">16:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">16:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://huahinlottery.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="KING KONG4D I" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">KING KONG4D I</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">17:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">17:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://kingkongpools.id/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="SINGAPORE" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">SINGAPORE</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SELASA & JUM'AT ( LIBUR )</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">17:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">17:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.singaporepools.com.sg/landing/en/Pages/index.html" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="MAGNUM4D" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">MAGNUM4D</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">RABU, SABTU & MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">18:10 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">18:40 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.magnum4d.my/en" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMACAU MALAM I" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMACAU MALAM I</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">19:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">19:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomacaunew.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="CHELSEA 19" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">CHELSEA 19</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">19:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">19:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://chelseapools.co.uk/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="POIPET19" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">POIPET19</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">19:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">19:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://poipetlottery.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="PCSO" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">PCSO</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">MINGGU ( LIBUR )</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">19:50 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">20:10 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.pcso.gov.ph/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMALI 2030" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMALI 2030</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">20:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">20:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomali.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="HUAHIN 2100" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">HUAHIN 2100</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">20:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">21:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://huahinlottery.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="CHELSEA 21" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">CHELSEA 21</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">21:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">21:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://chelseapools.co.uk/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMACAU 5D MALAM" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMACAU 5D MALAM</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">21:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">21:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomacaunew.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="NEVADA" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">NEVADA</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">21:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">21:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://www.nevadalottery.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="BRUNEI 21" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">BRUNEI 21</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">21:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">21:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://bruneipools.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMACAU MALAM II" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMACAU MALAM II</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">22:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">22:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomacaunew.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="POIPET22" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">POIPET22</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">22:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">22:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://poipetlottery.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="HONGKONG" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">HONGKONG</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">22:59 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">23:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://lottohongkong.fun/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMACAU MALAM III" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMACAU MALAM III</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">23:00 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">23:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomacaunew.us/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="TOTOMALI 2330" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">TOTOMALI 2330</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">23:15 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">23:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://totomali.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="JAKARTA 2330" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">JAKARTA 2330</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">23:25 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">23:40 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://jakartapool.com/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+    
+      <div class="ttg-card" data-title="KING KONG4D II" bis_skin_checked="1">
+        <div class="ttg-card__title" bis_skin_checked="1">KING KONG4D II</div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> HARI</span>
+          <span class="ttg-card__value">SENIN - MINGGU</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> TUTUP</span>
+          <span class="ttg-card__value ttg-card__value--tutup">23:30 WIB</span>
+        </div>
+
+        <div class="ttg-card__row" bis_skin_checked="1">
+          <span class="ttg-card__label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.259 8.259 0 0 1 12 20.25Zm.625-7.875V6.5a.625.625 0 0 0-1.25 0v6.25a.625.625 0 0 0 .274.522l3.5 2.375a.625.625 0 1 0 .702-1.03Z"></path></svg> BUKA</span>
+          <span class="ttg-card__value ttg-card__value--buka">23:45 WIB</span>
+        </div>
+
+        <div class="ttg-card__site" bis_skin_checked="1"><a href="https://kingkongpools.id/" target="_blank" rel="noopener" bis_skin_checked="1">KUNJUNGI WEBSITE</a></div>
+      </div>
+</div>
