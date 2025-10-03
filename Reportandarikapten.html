@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-image: url('https://media.linklist.bio/backgrounds/Zq7Qb762Xj6KaUWUSEPXCDpmKLCATryoNbbjK7Er.webp  ');
+      background-image: url('https://media.linklist.bio/backgrounds/Zq7Qb762Xj6KaUWUSEPXCDpmKLCATryoNbbjK7Er.webp');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -34,6 +34,7 @@
       border-radius: 12px;
       display: inline-block;
       width: 100%;
+      box-sizing: border-box;
     }
 
     .report-item {
@@ -208,8 +209,20 @@
 
     @media (max-width: 768px) {
       body { padding: 15px; }
-      .report-header { font-size: 16px; }
-      .copy-btn { position: static; margin-top: 10px; opacity: 1; }
+      .report-header { 
+        font-size: 16px; 
+        padding: 15px;
+      }
+      .copy-btn { 
+        position: static; 
+        margin-top: 10px; 
+        opacity: 1; 
+        width: 100%;
+        justify-content: center;
+      }
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -235,7 +248,7 @@
           <div class="info-item"><span class="info-label">Saldo Akhir:</span> <span class="info-value">Rp 7.832.116</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://prnt.sc/hc4j3QQpFkBg  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://prnt.sc/hc4j3QQpFkBg" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Ketika dilakukan login untuk pengecekan saldo, muncul keterangan "Salah memasukkan PIN 3 Kali. Reset PIN agar dapat mengakses akun Anda kembali." Untuk hal tersebut mohon dibantu pengecekannya ci.
@@ -260,8 +273,8 @@
           <div class="info-item"><span class="info-label">Saldo Info:</span> <span class="info-value">Rp 52.054</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://prnt.sc/s0skLc9gVdM8  " target="_blank">📎 Lampiran 1</a>
-          <a href="https://prnt.sc/i89iqxRdXiz4  " target="_blank">📎 Lampiran 2</a>
+          <a href="https://prnt.sc/s0skLc9gVdM8" target="_blank">📎 Lampiran 1</a>
+          <a href="https://prnt.sc/i89iqxRdXiz4" target="_blank">📎 Lampiran 2</a>
         </div>
         <div class="keterangan">
           Pada saat melakukan pengecekkan saldo pada bank tersebut terdapat perbedaan pada saldo yang ada pada mutasi rekening dengan saldo yang ada pada informasi saldo bank. Untuk perihal tersebut mohon dibantu pengecekannya ya ko/ci.
@@ -284,7 +297,7 @@
           <div class="info-item"><span class="info-label">Nominal:</span> <span class="info-value">Rp 210.034</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://prnt.sc/sc0lEm0bhYjG  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://prnt.sc/sc0lEm0bhYjG" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Pada saat staff melakukan login pada bank tersebut untuk digunakan, muncul keterangan "BCA ID terblokir, Hubungi Halo BCA di 1500888 untuk informasi lebih lanjut." Untuk perihal tersebut mohon dibantu pengecekannya ya ci.
@@ -307,7 +320,7 @@
           <div class="info-item"><span class="info-label">Saldo Akhir:</span> <span class="info-value">Rp 50.040</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://prnt.sc/2o5GydRpr31f  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://prnt.sc/2o5GydRpr31f" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Untuk bank tersebut saat di test Dana In Out muncul keterangan "Sistem Tidak Tersedia", Untuk perihal tersebut mohon di bantu pengecekannya ya ko/ci.
@@ -330,7 +343,7 @@
           <div class="info-item"><span class="info-label">Saldo:</span> <span class="info-value">Rp 55.772</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://prnt.sc/HZm1r9x2nizG  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://prnt.sc/HZm1r9x2nizG" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Ditemukan deposit masuk member dengan nominal Rp 15.000, namun pada keterangan bukti member tertera "rekening judi online ini", untuk perihal tersebut mohon di bantu cek ko/ci.
@@ -355,7 +368,7 @@
           <div class="info-item"><span class="info-label">Nominal:</span> <span class="info-value">Rp 15.000.000</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://imghostr.com/89c467_zcp  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://imghostr.com/89c467_zcp" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Terjadi dana pending yang dimana saldo pengirim sudah terpotong namun saldo belum masuk ke rekening penerima. Untuk saldo tersebut akan di cek secara berkala ya ci.
@@ -399,7 +412,7 @@
           <div class="info-item"><span class="info-label">Saldo Akhir:</span> <span class="info-value">Rp 767.570</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://prnt.sc/ZbDU3J-NQ2qi  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://prnt.sc/ZbDU3J-NQ2qi" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Pada saat ingin di gunakan muncul keterangan "verifikasi wajah", untuk perihal ini di bantu pengecekan nya ya ci.
@@ -422,7 +435,7 @@
           <div class="info-item"><span class="info-label">Saldo Akhir:</span> <span class="info-value">Rp 559.798</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://imghostr.com/8d0002_h0  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://imghostr.com/8d0002_h0" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Pada saat ingin melakukan login bank untuk mengeluarkan mutasi, muncul keterangan "Your user ID currently blocked" untuk perihal di bantu untuk pengecekan nya ci.
@@ -445,7 +458,7 @@
           <div class="info-item"><span class="info-label">Nominal:</span> <span class="info-value">Rp 315.559</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://imghostr.com/ec9dd6_x26  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://imghostr.com/ec9dd6_x26" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Pada saat bank tersebut akan digunakan untuk proses withdraw dan robot sedang berjalan, tiba-tiba muncul keterangan "BCA ID terblokir, Hubungi Halo BCA di 1500888.untuk informasi lebih lanjut", Untuk perihal tersebut mohon dibantu pengecekannya ya ko/ci.
@@ -468,7 +481,7 @@
           <div class="info-item"><span class="info-label">Saldo:</span> <span class="info-value">Rp 8.106.051</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://prnt.sc/T1L01_WSUrRk  " target="_blank">📎 Lihat Lampiran</a>
+          <a href="https://prnt.sc/T1L01_WSUrRk" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
           Pada saat ingin login untuk melakukan pengecekan saldo muncul keterangan "Silakan perbarui akun BYOND kamu", untuk perihal tersebut mohon dibantu pengecekannya ko/ci.
@@ -491,9 +504,9 @@
           <div class="info-item"><span class="info-label">Saldo Akhir:</span> <span class="info-value">Rp 49.556</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://prnt.sc/5byUZ9Na7RwV  " target="_blank">📎 Lampiran 1</a>
-          <a href="https://prnt.sc/5byUZ9Na7RwV  " target="_blank">📎 Lampiran 2</a>
-          <a href="https://prnt.sc/5byUZ9Na7RwV  " target="_blank">📎 Lampiran 3</a>
+          <a href="https://prnt.sc/5byUZ9Na7RwV" target="_blank">📎 Lampiran 1</a>
+          <a href="https://prnt.sc/5byUZ9Na7RwV" target="_blank">📎 Lampiran 2</a>
+          <a href="https://prnt.sc/5byUZ9Na7RwV" target="_blank">📎 Lampiran 3</a>
         </div>
         <div class="keterangan">
           Pada saat Bank tersebut sedang dilakukan pengecekan saldo terdapat mutasi keluar tidak di ketahui Penarikan ATM seperti pada gambar yang terlampir, Untuk perihal tersebut mohon dibantu pengecekannya ya ko/ci.
@@ -525,7 +538,7 @@
       </div>
     </div>
 
-    <!-- REPORT 14 -->
+    <!-- REPORT 14 - TELAH DIPERBARUI -->
     <div class="report-item">
       <div class="report-header other">
         ❌ BK Salah Sorong
@@ -535,17 +548,20 @@
         <div class="info-grid">
           <div class="info-item"><span class="info-label">Info:</span> <span class="info-value">Linetogel</span></div>
           <div class="info-item"><span class="info-label">Perihal:</span> <span class="info-value">BK Salah Sorong</span></div>
-          <div class="info-item"><span class="info-label">Dana Milik:</span> <span class="info-value">sepedabalap2 (PRIYONO - 081216216464 DANA)</span></div>
-          <div class="info-item"><span class="info-label">Terproses ke:</span> <span class="info-value">tio435 (ANDI PRIYONO - 083892735130 DANA)</span></div>
+          <div class="info-item"><span class="info-label">Dana Milik User Id:</span> <span class="info-value">anakbaya01</span></div>
+          <div class="info-item"><span class="info-label">Nama Rekening:</span> <span class="info-value">SUHENDRA</span></div>
+          <div class="info-item"><span class="info-label">No Rek:</span> <span class="info-value">4970698031 (BCA)</span></div>
+          <div class="info-item"><span class="info-label">Terproses BK User Id:</span> <span class="info-value">hendraria</span></div>
+          <div class="info-item"><span class="info-label">Nama Rekening:</span> <span class="info-value">HENDRA</span></div>
+          <div class="info-item"><span class="info-label">No rekening:</span> <span class="info-value">0241214701 (BCA)</span></div>
           <div class="info-item"><span class="info-label">Nominal:</span> <span class="info-value">Rp 100.000</span></div>
         </div>
         <div class="lampiran">
-          <a href="https://bk.augipt.com/linetogel/mutasi/suksesbugil/depositaction/move/36313233" target="_blank">📎 Link Move</a>
-          <a href="https://prnt.sc/rnQNtfwEQZwH" target="_blank">📎 Lampiran 1</a>
-          <a href="https://prnt.sc/A6z6dn6eQ7cc" target="_blank">📎 Lampiran 2</a>
+          <a href="https://bk.augipt.com/linetogel/mutasi/suksesbugil/depositaction/move/39403706" target="_blank">📎 Link Move</a>
+          <a href="https://prnt.sc/yzxlVqaEbQXh" target="_blank">📎 Lihat Lampiran</a>
         </div>
         <div class="keterangan">
-          Terjadi BK salah proses deposit dimana terdapat error dan memiliki kesamaan nama pada karakter "PRIYONO". Untuk kedua userid tersebut sudah dilakukan perpindahan grup bank ya ko /ci. Case ini menimbulkan kerugian sebesar Rp. 100,000,- dan dimasukkan ke kerugian PT ya ko/ci.
+          Terjadi BK salah proses deposit dimana terdapat error dan memiliki kesamaan nama pada karakter "HENDRA". Untuk kedua User ID tersebut sudah dilakukan perpindahan grup bank ya ko /ci. Case ini menimbulkan kerugian sebesar Rp. 50.000,- dan dimasukkan ke kerugian PT ya ko/ci.
         </div>
       </div>
     </div>
