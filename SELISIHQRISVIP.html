@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHORCUT SELISIH QRIS VIP</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💳</text></svg>">
+<script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+transition: background-color 0.3s, color 0.3s, transform 0.3s, opacity 0.3s;
+}
+
+:root {
+--primary-dark: #1a2a6c;
+--primary-medium: #2c3e8f;
+--primary-light: #3d52b3;
+--secondary-dark: #b21f1f;
+--secondary-medium: #d63030;
+--secondary-light: #ff5252;
+--success-dark: #2E7D32;
+--success-medium: #4CAF50;
+--warning-dark: #F57C00;
+--warning-medium: #FF9800;
+--info-dark: #1976D2;
+--info-medium: #2196F3;
+--excel-dark: #0d4b2a;
+--excel-medium: #1d6f42;
+--text-light: #f0f0f0;
+--text-dark: #333;
+--bg-light: #f8f9fa;
+--bg-dark: #121212;
+--card-light: #ffffff;
+--card-dark: #1e1e1e;
+--border-light: #e0e0e0;
+--border-dark: #333;
+--accent-color: #9c27b0;
+}
+
+body {
+background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+url('https://cdn.areabermain.club/assets/cdn/az6/2025/04/01/20250401/5dc9d083e18085eef7c0cd7fcf52bd46/linetogel-bg-new.jpg') no-repeat center center fixed;
+background-size: cover;
+color: var(--text-dark);
+padding: 20px;
+min-height: 100vh;
+}
+
+body.dark-mode {
+background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+url('https://cdn.areabermain.club/assets/cdn/az6/2025/04/01/20250401/5dc9d083e18085eef7c0cd7fcf52bd46/linetogel-bg-new.jpg') no-repeat center center fixed;
+background-size: cover;
+color: var(--text-light);
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+background-color: rgba(255, 255, 255, 0.9);
+border-radius: 15px;
+padding: 20px;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .container {
+background-color: rgba(30, 30, 30, 0.9);
+}
+
+header {
+text-align: center;
+padding: 20px 0;
+color: white;
+text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+position: relative;
+}
+
+header.dark-mode {
+color: var(--text-light);
+}
+
+header h1 {
+font-size: 2.5rem;
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 15px;
+}
+
+header p {
+font-size: 1.1rem;
+max-width: 700px;
+margin: 0 auto;
+line-height: 1.6;
+}
+
+.theme-toggle {
+position: absolute;
+top: 20px;
+right: 20px;
+background: rgba(255,255,255,0.2);
+border: none;
+border-radius: 50%;
+width: 50px;
+height: 50px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 1.5rem;
+box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+transition: all 0.3s ease;
+z-index: 10;
+}
+
+.theme-toggle:hover {
+transform: scale(1.1);
+background: rgba(255,255,255,0.3);
+}
+
+.card {
+background: rgba(255, 255, 255, 0.95);
+border-radius: 15px;
+padding: 25px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+margin-bottom: 25px;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+transform: translateY(-3px);
+box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+}
+
+.dark-mode .card {
+background: rgba(30, 30, 30, 0.95);
+box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+h2 {
+margin-bottom: 20px;
+color: var(--primary-dark);
+padding-bottom: 10px;
+border-bottom: 2px solid var(--border-light);
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.dark-mode h2 {
+color: var(--text-light);
+border-bottom: 2px solid var(--border-dark);
+}
+
+h2 i {
+color: var(--secondary-medium);
+}
+
+textarea {
+width: 100%;
+height: 200px;
+padding: 15px;
+border: 1px solid var(--border-light);
+border-radius: 8px;
+font-family: monospace;
+font-size: 14px;
+resize: vertical;
+margin-bottom: 20px;
+background: var(--bg-light);
+color: var(--text-dark);
+transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+textarea:focus {
+outline: none;
+border-color: var(--primary-medium);
+box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+}
+
+.dark-mode textarea {
+background: #2a2a2a;
+color: var(--text-light);
+border: 1px solid var(--border-dark);
+}
+
+.btn-group {
+display: flex;
+gap: 15px;
+flex-wrap: wrap;
+margin-bottom: 15px;
+}
+
+button {
+padding: 12px 25px;
+background: linear-gradient(to right, var(--primary-dark), var(--secondary-dark));
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-weight: bold;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+gap: 8px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+button:hover {
+transform: translateY(-3px);
+box-shadow: 0 7px 15px rgba(0,0,0,0.3);
+}
+
+button:active {
+transform: translateY(1px);
+box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+button:disabled {
+background: #cccccc;
+cursor: not-allowed;
+transform: none;
+box-shadow: none;
+}
+
+button.secondary {
+background: linear-gradient(to right, var(--success-medium), var(--success-dark));
+}
+
+button.warning {
+background: linear-gradient(to right, var(--warning-medium), var(--warning-dark));
+}
+
+button.info {
+background: linear-gradient(to right, var(--info-medium), var(--info-dark));
+}
+
+button.excel {
+background: linear-gradient(to right, var(--excel-medium), var(--excel-dark));
+}
+
+button.copy-btn {
+background: linear-gradient(to right, var(--accent-color), #7b1fa2);
+}
+
+button.rrn-btn {
+background: linear-gradient(to right, #ff6d00, #e65100);
+}
+
+button.selisih-btn {
+background: linear-gradient(to right, #00bcd4, #0097a7);
+}
+
+button i {
+font-size: 1.1rem;
+}
+
+/* Animasi goyang untuk tombol hapus */
+@keyframes shake {
+0%, 100% { transform: translateX(0); }
+10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.table-controls {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 15px;
+padding: 15px;
+background: var(--bg-light);
+border-radius: 10px;
+flex-wrap: wrap;
+gap: 15px;
+}
+
+.dark-mode .table-controls {
+background: #2a2a2a;
+}
+
+.pagination-controls {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-top: 10px;
+}
+
+.pagination-controls button {
+padding: 8px 15px;
+}
+
+.table-container {
+overflow-x: auto;
+border: 1px solid var(--border-light);
+border-radius: 12px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+margin-top: 10px;
+max-height: 500px;
+overflow-y: auto;
+transition: max-height 0.5s ease, opacity 0.3s ease;
+}
+
+.minimized .table-container {
+max-height: 0;
+overflow: hidden;
+opacity: 0;
+border: none;
+}
+
+.dark-mode .table-container {
+border: 1px solid var(--border-dark);
+box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+font-size: 14px;
+min-width: 1200px;
+}
+
+th {
+background: linear-gradient(to bottom, var(--primary-dark), var(--primary-medium));
+color: white;
+padding: 14px 15px;
+text-align: left;
+position: sticky;
+top: 0;
+font-weight: 600;
+}
+
+td {
+padding: 12px 15px;
+border-bottom: 1px solid var(--border-light);
+}
+
+.dark-mode td {
+border-bottom: 1px solid var(--border-dark);
+}
+
+tr:nth-child(even) {
+background-color: rgba(0,0,0,0.03);
+}
+
+.dark-mode tr:nth-child(even) {
+background-color: rgba(255,255,255,0.05);
+}
+
+tr:hover {
+background-color: rgba(26, 42, 108, 0.1);
+}
+
+.dark-mode tr:hover {
+background-color: rgba(255,255,255,0.1);
+}
+
+.summary-section {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 20px;
+margin-top: 25px;
+}
+
+.summary-card {
+background: var(--card-light);
+border-radius: 12px;
+padding: 20px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+position: relative;
+overflow: hidden;
+transition: transform 0.3s ease;
+}
+
+.summary-card:hover {
+transform: translateY(-5px);
+}
+
+.dark-mode .summary-card {
+background: var(--card-dark);
+box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.success-card {
+border-top: 4px solid var(--success-medium);
+}
+
+.not-process-card {
+border-top: 4px solid #F44336;
+}
+
+.amount-card {
+border-top: 4px solid var(--info-medium);
+}
+
+.summary-card h3 {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 15px;
+color: var(--primary-dark);
+}
+
+.dark-mode .summary-card h3 {
+color: var(--text-light);
+}
+
+.summary-card .value {
+font-size: 2.5rem;
+font-weight: bold;
+text-align: center;
+margin: 15px 0;
+}
+
+.success-card .value {
+color: var(--success-medium);
+}
+
+.not-process-card .value {
+color: #F44336;
+}
+
+.amount-card .value {
+color: var(--info-medium);
+}
+
+.copy-amount {
+position: absolute;
+top: 20px;
+right: 20px;
+background: rgba(0,0,0,0.1);
+border-radius: 50%;
+width: 36px;
+height: 36px;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+color: var(--info-medium);
+transition: all 0.3s;
+}
+
+.copy-amount:hover {
+background: rgba(0,0,0,0.2);
+transform: scale(1.1);
+}
+
+.not-process-list {
+max-height: 200px;
+overflow-y: auto;
+border: 1px solid var(--border-light);
+border-radius: 8px;
+padding: 10px;
+margin-top: 15px;
+}
+
+.dark-mode .not-process-list {
+border: 1px solid var(--border-dark);
+}
+
+.not-process-item {
+display: flex;
+justify-content: space-between;
+padding: 8px 5px;
+border-bottom: 1px solid var(--border-light);
+}
+
+.dark-mode .not-process-item {
+border-bottom: 1px solid var(--border-dark);
+}
+
+.not-process-item:last-child {
+border-bottom: none;
+}
+
+.instructions {
+background: rgba(255, 255, 255, 0.95);
+border-radius: 12px;
+padding: 25px;
+margin-top: 10px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.dark-mode .instructions {
+background: rgba(30, 30, 30, 0.95);
+box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.steps {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 20px;
+margin-top: 15px;
+}
+
+.step-card {
+background: var(--card-light);
+border-radius: 10px;
+padding: 20px;
+box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+border-left: 4px solid var(--primary-dark);
+transition: transform 0.3s;
+}
+
+.step-card:hover {
+transform: translateY(-5px);
+}
+
+.dark-mode .step-card {
+background: var(--card-dark);
+box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+border-left: 4px solid var(--primary-light);
+}
+
+.step-card h3 {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 12px;
+color: var(--primary-dark);
+}
+
+.dark-mode .step-card h3 {
+color: var(--text-light);
+}
+
+.step-card h3 .step-number {
+background: var(--primary-dark);
+color: white;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: bold;
+}
+
+.step-card p {
+line-height: 1.6;
+color: var(--text-dark);
+}
+
+.dark-mode .step-card p {
+color: var(--text-light);
+}
+
+.step-card code {
+background: rgba(0,0,0,0.05);
+padding: 3px 8px;
+border-radius: 4px;
+font-family: monospace;
+display: inline-block;
+margin-top: 8px;
+color: var(--text-dark);
+}
+
+.dark-mode .step-card code {
+background: rgba(255,255,255,0.1);
+color: var(--text-light);
+}
+
+footer {
+text-align: center;
+color: white;
+padding: 25px 0 10px;
+margin-top: 20px;
+font-size: 0.9rem;
+opacity: 0.9;
+}
+
+.dark-mode footer {
+color: var(--text-light);
+}
+
+.note {
+background: #fff8e1;
+border-left: 4px solid #ffc107;
+padding: 15px;
+border-radius: 0 8px 8px 0;
+margin: 20px 0;
+}
+
+.dark-mode .note {
+background: #333028;
+border-left: 4px solid #d4a017;
+}
+
+.progress-container {
+height: 5px;
+background-color: #e0e0e0;
+border-radius: 5px;
+margin-bottom: 20px;
+overflow: hidden;
+display: none;
+}
+
+.dark-mode .progress-container {
+background-color: #333;
+}
+
+.progress-bar {
+height: 100%;
+background: linear-gradient(to right, var(--primary-dark), var(--secondary-dark));
+width: 0%;
+transition: width 0.3s ease;
+}
+
+.status-text {
+text-align: center;
+margin-top: 10px;
+color: var(--primary-dark);
+font-weight: 500;
+display: none;
+}
+
+.dark-mode .status-text {
+color: var(--text-light);
+}
+
+.notification {
+position: fixed;
+top: 20px;
+right: 20px;
+padding: 15px 25px;
+border-radius: 8px;
+background: var(--success-medium);
+color: white;
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+transform: translateX(150%);
+transition: transform 0.4s ease;
+z-index: 1000;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.notification.show {
+transform: translateX(0);
+}
+
+.notification.error {
+background: var(--secondary-medium);
+}
+
+.notification.info {
+background: var(--info-medium);
+}
+
+.notification.selisih {
+background: var(--accent-color);
+}
+
+.rrn-section {
+margin-top: 20px;
+padding: 15px;
+background: var(--bg-light);
+border-radius: 8px;
+display: none;
+}
+
+.dark-mode .rrn-section {
+background: #2a2a2a;
+}
+
+.rrn-section h4 {
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+gap: 8px;
+color: var(--primary-dark);
+}
+
+.dark-mode .rrn-section h4 {
+color: var(--text-light);
+}
+
+.rrn-list {
+max-height: 150px;
+overflow-y: auto;
+padding: 10px;
+background: rgba(0,0,0,0.05);
+border-radius: 6px;
+margin-top: 10px;
+}
+
+.dark-mode .rrn-list {
+background: rgba(255,255,255,0.05);
+}
+
+.rrn-item {
+padding: 8px 0;
+border-bottom: 1px dashed var(--border-light);
+display: flex;
+justify-content: space-between;
+}
+
+.dark-mode .rrn-item {
+border-bottom: 1px dashed var(--border-dark);
+}
+
+.rrn-item:last-child {
+border-bottom: none;
+}
+
+.selisih-section {
+margin-top: 20px;
+padding: 15px;
+background: var(--bg-light);
+border-radius: 8px;
+}
+
+.dark-mode .selisih-section {
+background: #2a2a2a;
+}
+
+.selisih-section h4 {
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+gap: 8px;
+color: var(--primary-dark);
+}
+
+.dark-mode .selisih-section h4 {
+color: var(--text-light);
+}
+
+.selisih-list {
+max-height: 250px;
+overflow-y: auto;
+padding: 10px;
+background: rgba(0,0,0,0.05);
+border-radius: 6px;
+margin-top: 10px;
+}
+
+.dark-mode .selisih-list {
+background: rgba(255,255,255,0.05);
+}
+
+.selisih-item {
+padding: 8px 0;
+border-bottom: 1px dashed var(--border-light);
+font-family: monospace;
+font-size: 15px;
+display: flex;
+justify-content: space-between;
+}
+
+.dark-mode .selisih-item {
+border-bottom: 1px dashed var(--border-dark);
+}
+
+.selisih-item:last-child {
+border-bottom: none;
+}
+
+.selisih-item span {
+min-width: 150px;
+display: inline-block;
+}
+
+.selisih-item .user-id {
+color: var(--accent-color);
+font-weight: bold;
+}
+
+.dark-mode .selisih-item .user-id {
+color: #e91e63;
+}
+
+.selisih-item .rrn {
+color: var(--info-dark);
+}
+
+.dark-mode .selisih-item .rrn {
+color: #29b6f6;
+}
+
+.selisih-item .nominal {
+color: var(--success-dark);
+}
+
+.dark-mode .selisih-item .nominal {
+color: #66bb6a;
+}
+
+/* Note untuk selisih */
+.selisih-note {
+background: #fff8e1;
+border-left: 4px solid #ffc107;
+padding: 15px;
+border-radius: 0 8px 8px 0;
+margin: 15px 0;
+font-weight: bold;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.dark-mode .selisih-note {
+background: #333028;
+border-left: 4px solid #d4a017;
+}
+
+.selisih-note i {
+font-size: 1.5rem;
+color: #ff9800;
+}
+
+@media (max-width: 768px) {
+header h1 {
+font-size: 2rem;
+}
+
+.btn-group {
+flex-direction: column;
+}
+
+button {
+width: 100%;
+}
+
+.table-controls {
+flex-direction: column;
+gap: 10px;
+align-items: flex-start;
+}
+
+.summary-section {
+grid-template-columns: 1fr;
+}
+
+.theme-toggle {
+top: 15px;
+right: 15px;
+width: 40px;
+height: 40px;
+font-size: 1.2rem;
+}
+
+.selisih-item {
+flex-direction: column;
+gap: 5px;
+}
+
+.selisih-item span {
+min-width: auto;
+display: block;
+}
+}
+
+/* Animasi untuk tabel hasil */
+.result-card {
+position: relative;
+}
+
+.minimize-toggle {
+position: absolute;
+top: 25px;
+right: 25px;
+background: rgba(255,255,255,0.2);
+border-radius: 50%;
+width: 40px;
+height: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+color: var(--primary-dark);
+font-size: 1.2rem;
+z-index: 5;
+transition: all 0.3s ease;
+}
+
+.minimize-toggle:hover {
+background: rgba(255,255,255,0.3);
+transform: scale(1.1);
+}
+
+.dark-mode .minimize-toggle {
+color: var(--text-light);
+background: rgba(255,255,255,0.1);
+}
+</style>
+</head>
+<body>
+<div class="container">
+<button class="theme-toggle" id="themeToggle">
+<i class="fas fa-moon"></i>
+</button>
+
+<header id="pageHeader">
+<h1><i class="fas fa-table"></i> SHORCUT SELISIH QRIS VIP</h1>
+<p></p>
+</header>
+
+<div class="card">
+<h2><i class="fas fa-paste"></i> Input Data</h2>
+<div class="note">
+<strong>Catatan:</strong> Tempel data Anda dengan format: <code>Kolom1;Kolom2;Kolom3;...dst</code>
+Pastikan data memiliki header dan pemisah yang konsisten (biasanya titik koma)
+</div>
+<div class="progress-container" id="progressContainer">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+<div class="status-text" id="statusText"></div>
+<textarea id="rawData" placeholder="Tempel data mentah Anda di sini..."></textarea>
+<div class="btn-group">
+<button id="convertBtn"><i class="fas fa-sync-alt"></i> Konversi ke Tabel</button>
+<button id="clearBtn" class="secondary"><i class="fas fa-trash-alt"></i> Hapus Data</button>
+</div>
+</div>
+
+<div class="card result-card">
+<div class="minimize-toggle" id="minimizeToggle">
+<i class="fas fa-window-maximize"></i>
+</div>
+
+<h2><i class="fas fa-table"></i> Tabel Hasil</h2>
+<div class="table-controls">
+<div class="btn-group">
+<button id="copyBtn" class="info"><i class="fas fa-copy"></i> Salin Data</button>
+<button id="exportBtn" class="excel"><i class="fas fa-file-excel"></i> Export Excel</button>
+</div>
+<div id="rowCount">0 baris data</div>
+</div>
+<div id="tableContainer" class="table-container">
+<p style="text-align: center; padding: 30px; color: #666;">Tabel akan muncul di sini setelah konversi</p>
+</div>
+<div class="pagination-controls" id="paginationControls" style="display: none;">
+<button id="firstPageBtn"><i class="fas fa-step-backward"></i></button>
+<button id="prevPageBtn"><i class="fas fa-chevron-left"></i></button>
+<span id="pageInfo">Halaman 1 dari 1</span>
+<button id="nextPageBtn"><i class="fas fa-chevron-right"></i></button>
+<button id="lastPageBtn"><i class="fas fa-step-forward"></i></button>
+<div>
+Baris per halaman:
+<select id="rowsPerPage">
+<option value="50">50</option>
+<option value="100" selected>100</option>
+<option value="200">200</option>
+<option value="500">500</option>
+<option value="1000">1000</option>
+</select>
+</div>
+</div>
+</div>
+
+<div class="summary-section">
+<div class="summary-card success-card">
+<h3><i class="fas fa-check-circle"></i> Transaksi Success</h3>
+<div id="successCount" class="value">0</div>
+<p>Jumlah transaksi yang berhasil diproses</p>
+</div>
+
+<div class="summary-card not-process-card">
+<h3><i class="fas fa-exclamation-circle"></i> Transaksi Not Process</h3>
+<div id="notProcessCount" class="value">0</div>
+<p>Detail transaksi yang tidak berhasil:</p>
+<div id="notProcessList" class="not-process-list">
+<p style="text-align: center; color: #999; padding: 20px;">Tidak ada transaksi not process</p>
+</div>
+<button id="showRrnBtn" class="rrn-btn" style="margin-top: 15px; width: 100%;">
+<i class="fas fa-list"></i> Tampilkan RRN
+</button>
+</div>
+
+<div class="summary-card amount-card">
+<h3><i class="fas fa-money-bill-wave"></i> Total Nominal</h3>
+<div id="totalAmount" class="value">Rp 0</div>
+<p>Total nominal transaksi success</p>
+<div class="copy-amount" title="Salin nominal tanpa titik" id="copyAmountBtn">
+<i class="fas fa-copy"></i>
+</div>
+</div>
+</div>
+
+<div id="rrnSection" class="rrn-section">
+<h4><i class="fas fa-credit-card"></i> Daftar RRN Not Process</h4>
+<div class="btn-group">
+<button id="copyRrnBtn" class="copy-btn"><i class="fas fa-copy"></i> Salin RRN</button>
+</div>
+<div id="rrnList" class="rrn-list">
+<!-- Daftar RRN akan muncul di sini -->
+</div>
+</div>
+
+<div id="selisihSection" class="selisih-section">
+<h4><i class="fas fa-exchange-alt"></i> Data Selisih RRN</h4>
+
+<!-- Note untuk selisih -->
+<div class="selisih-note">
+<i class="fas fa-exclamation-triangle"></i>
+<div>CATATAN PENTING: Cek lagi pada admin IDN sebelum memprosesnya!</div>
+</div>
+
+<div class="btn-group">
+<button id="copySelisihBtn" class="selisih-btn"><i class="fas fa-copy"></i> Salin Data Selisih</button>
+</div>
+<div id="selisihList" class="selisih-list">
+<p style="text-align: center; color: #999; padding: 20px;">Data selisih akan muncul di sini</p>
+</div>
+</div>
+
+<div class="instructions">
+<h2><i class="fas fa-info-circle"></i> Cara Penggunaan</h2>
+<div class="steps">
+<div class="step-card">
+<h3><span class="step-number">1</span> Salin Data</h3>
+<p>Salin data mentah Anda dari sumber aslinya. Data harus memiliki format kolom yang dipisahkan dengan titik koma (;).</p>
+</div>
+<div class="step-card">
+<h3><span class="step-number">2</span> Tempel Data</h3>
+<p>Tempel data yang telah disalin ke dalam area input di atas. Pastikan baris pertama adalah header kolom.</p>
+<code>Contoh: Header1;Header2;Header3</code>
+</div>
+<div class="step-card">
+<h3><span class="step-number">3</span> Konversi</h3>
+<p>Klik tombol "Konversi ke Tabel" untuk mengubah data mentah menjadi tabel yang terstruktur. Hasil akan muncul di bawah.</p>
+</div>
+<div class="step-card">
+<h3><span class="step-number">4</span> Analisis & Export</h3>
+<p>Lihat ringkasan transaksi dan gunakan fitur pagination untuk data besar. Export ke Excel untuk analisis lebih lanjut.</p>
+</div>
+</div>
+</div>
+
+<footer>
+<p></p>
+</footer>
+</div>
+
+<div class="notification" id="notification">
+<i class="fas fa-check-circle"></i>
+<span id="notificationText">Operasi berhasil dilakukan!</span>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const rawDataTextarea = document.getElementById('rawData');
+const convertBtn = document.getElementById('convertBtn');
+const clearBtn = document.getElementById('clearBtn');
+const minimizeToggle = document.getElementById('minimizeToggle');
+const copyBtn = document.getElementById('copyBtn');
+const exportBtn = document.getElementById('exportBtn');
+const copyAmountBtn = document.getElementById('copyAmountBtn');
+const showRrnBtn = document.getElementById('showRrnBtn');
+const copyRrnBtn = document.getElementById('copyRrnBtn');
+const copySelisihBtn = document.getElementById('copySelisihBtn');
+const themeToggle = document.getElementById('themeToggle');
+const notification = document.getElementById('notification');
+const notificationText = document.getElementById('notificationText');
+
+const tableContainer = document.getElementById('tableContainer');
+const successCount = document.getElementById('successCount');
+const notProcessCount = document.getElementById('notProcessCount');
+const notProcessList = document.getElementById('notProcessList');
+const totalAmount = document.getElementById('totalAmount');
+const rowCount = document.getElementById('rowCount');
+const progressContainer = document.getElementById('progressContainer');
+const progressBar = document.getElementById('progressBar');
+const statusText = document.getElementById('statusText');
+
+const firstPageBtn = document.getElementById('firstPageBtn');
+const prevPageBtn = document.getElementById('prevPageBtn');
+const nextPageBtn = document.getElementById('nextPageBtn');
+const lastPageBtn = document.getElementById('lastPageBtn');
+const pageInfo = document.getElementById('pageInfo');
+const rowsPerPageSelect = document.getElementById('rowsPerPage');
+const paginationControls = document.getElementById('paginationControls');
+const rrnSection = document.getElementById('rrnSection');
+const rrnList = document.getElementById('rrnList');
+const selisihSection = document.getElementById('selisihSection');
+const selisihList = document.getElementById('selisihList');
+const resultCard = document.querySelector('.result-card');
+
+let tableData = [];
+let currentPage = 1;
+let rowsPerPage = 100;
+let totalPages = 1;
+let notProcessTransactions = [];
+let selisihData = [];
+let totalAmountValue = 0;
+let isMinimized = true; // Default: tabel diminimalkan
+
+// Toggle dark mode
+function toggleDarkMode() {
+document.body.classList.toggle('dark-mode');
+document.getElementById('pageHeader').classList.toggle('dark-mode');
+
+const icon = themeToggle.querySelector('i');
+if (document.body.classList.contains('dark-mode')) {
+icon.classList.remove('fa-moon');
+icon.classList.add('fa-sun');
+} else {
+icon.classList.remove('fa-sun');
+icon.classList.add('fa-moon');
+}
+
+// Simpan preferensi tema
+localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+}
+
+// Cek preferensi tema
+if (localStorage.getItem('darkMode') === 'true') {
+toggleDarkMode();
+}
+
+// Tampilkan notifikasi
+function showNotification(message, type = 'success') {
+notificationText.textContent = message;
+notification.className = 'notification';
+notification.classList.add(type, 'show');
+
+setTimeout(() => {
+notification.classList.remove('show');
+}, 3000);
+}
+
+// Fungsi untuk toggle minimize tabel
+function toggleMinimize() {
+isMinimized = !isMinimized;
+
+if (isMinimized) {
+minimizeToggle.innerHTML = '<i class="fas fa-window-maximize"></i>';
+resultCard.classList.add('minimized');
+} else {
+minimizeToggle.innerHTML = '<i class="fas fa-window-minimize"></i>';
+resultCard.classList.remove('minimized');
+}
+
+// Simpan status minimize
+localStorage.setItem('tableMinimized', isMinimized);
+}
+
+// Set status awal minimize
+const savedMinimizeState = localStorage.getItem('tableMinimized');
+if (savedMinimizeState === 'true') {
+isMinimized = true;
+minimizeToggle.innerHTML = '<i class="fas fa-window-maximize"></i>';
+resultCard.classList.add('minimized');
+} else {
+isMinimized = false;
+minimizeToggle.innerHTML = '<i class="fas fa-window-minimize"></i>';
+resultCard.classList.remove('minimized');
+}
+
+// Fungsi untuk mengkonversi data ke tabel dengan optimasi
+function convertToTable() {
+const rawData = rawDataTextarea.value.trim();
+if (!rawData) {
+showNotification('Silakan tempel data terlebih dahulu', 'error');
+return;
+}
+
+// Tampilkan progress bar
+progressContainer.style.display = 'block';
+statusText.style.display = 'block';
+statusText.textContent = 'Memproses data...';
+progressBar.style.width = '10%';
+
+// Gunakan setTimeout untuk memberikan waktu render UI
+setTimeout(() => {
+try {
+const rows = rawData.split('\n');
+if (rows.length < 2) {
+showNotification('Data harus memiliki minimal header dan satu baris data', 'error');
+return;
+}
+
+const headers = rows[0].split(';');
+const dataRows = rows.slice(1);
+
+// Reset data
+tableData = [];
+notProcessTransactions = [];
+selisihData = [];
+let successTransactions = 0;
+totalAmountValue = 0;
+
+progressBar.style.width = '30%';
+statusText.textContent = 'Mengolah data...';
+
+// Buat baris data
+for (let i = 0; i < dataRows.length; i++) {
+const row = dataRows[i];
+const columns = row.split(';');
+
+// Simpan data untuk analisis
+const transaction = {
+id: columns[0] || '',
+clientId: columns[1] || '',
+date: columns[2] || '',
+store: columns[3] || '',
+status: columns[4] || '',
+settlement: columns[5] || '',
+amount: columns[6] ? parseFloat(columns[6].replace(/,/g, '')) || 0 : 0,
+rrn: columns[7] || '',
+terminalId: columns[8] || '',
+processStatus: columns[9] || '',
+processNote: columns[10] || '',
+processBy: columns[11] || ''
+};
+
+tableData.push(transaction);
+
+// Analisis data
+if (transaction.status === "Success" && transaction.processStatus === "Process") {
+successTransactions++;
+totalAmountValue += transaction.amount;
+} else {
+notProcessTransactions.push({
+terminalId: transaction.terminalId,
+amount: transaction.amount,
+rrn: transaction.rrn
+});
+
+// Simpan data untuk selisih
+selisihData.push({
+userId: transaction.terminalId,
+rrn: transaction.rrn,
+nominal: transaction.amount
+});
+}
+
+// Update progress setiap 100 baris
+if (i % 100 === 0) {
+progressBar.style.width = `${30 + Math.floor(i / dataRows.length * 60)}%`;
+}
+}
+
+// Tampilkan ringkasan
+successCount.textContent = successTransactions.toLocaleString('id-ID');
+notProcessCount.textContent = notProcessTransactions.length.toLocaleString('id-ID');
+totalAmount.textContent = `Rp ${totalAmountValue.toLocaleString('id-ID')}`;
+
+// Tampilkan daftar not process
+if (notProcessTransactions.length > 0) {
+let listHTML = '';
+notProcessTransactions.forEach(transaction => {
+listHTML += `<div class="not-process-item">
+<div><strong>${transaction.terminalId}</strong></div>
+<div>${parseInt(transaction.amount).toLocaleString('id-ID')}</div>
+</div>`;
+});
+notProcessList.innerHTML = listHTML;
+} else {
+notProcessList.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Tidak ada transaksi not process</p>';
+}
+
+// Tampilkan data selisih jika ada
+if (selisihData.length > 0) {
+showSelisihData();
+}
+
+// Update jumlah baris
+rowCount.textContent = `${dataRows.length.toLocaleString('id-ID')} baris data`;
+
+// Setup pagination
+rowsPerPage = parseInt(rowsPerPageSelect.value);
+totalPages = Math.ceil(tableData.length / rowsPerPage);
+currentPage = 1;
+
+// Tampilkan pagination jika data banyak
+if (tableData.length > rowsPerPage) {
+paginationControls.style.display = 'flex';
+updatePaginationControls();
+} else {
+paginationControls.style.display = 'none';
+}
+
+// Render tabel pertama kali
+renderCurrentPage();
+
+progressBar.style.width = '100%';
+statusText.textContent = `Data berhasil diproses! ${tableData.length.toLocaleString('id-ID')} baris`;
+
+// Sembunyikan progress bar setelah beberapa detik
+setTimeout(() => {
+progressContainer.style.display = 'none';
+statusText.style.display = 'none';
+}, 3000);
+
+// Sembunyikan section RRN jika tidak ada not process
+if (notProcessTransactions.length === 0) {
+rrnSection.style.display = 'none';
+}
+
+showNotification(`Konversi berhasil! ${tableData.length} baris data diproses`);
+
+} catch (error) {
+console.error('Error processing data:', error);
+statusText.textContent = 'Terjadi kesalahan saat memproses data';
+progressBar.style.backgroundColor = '#F44336';
+showNotification('Terjadi kesalahan saat memproses data', 'error');
+}
+}, 100);
+}
+
+// Fungsi untuk menampilkan data selisih
+function showSelisihData() {
+if (selisihData.length === 0) {
+selisihList.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Tidak ada data selisih</p>';
+return;
+}
+
+let html = '';
+selisihData.forEach(item => {
+html += `
+<div class="selisih-item">
+<span class="user-id">${item.userId}</span>
+<span class="rrn">${item.rrn}</span>
+<span class="nominal">${item.nominal.toLocaleString('id-ID')}</span>
+</div>`;
+});
+
+selisihList.innerHTML = html;
+selisihSection.style.display = 'block';
+}
+
+// Fungsi untuk menyalin data selisih
+function copySelisihData() {
+if (selisihData.length === 0) {
+showNotification('Tidak ada data selisih untuk disalin', 'error');
+return;
+}
+
+let text = '';
+selisihData.forEach(item => {
+text += `${item.userId}\t${item.rrn}\t${item.nominal}\n`;
+});
+
+navigator.clipboard.writeText(text).then(() => {
+showNotification('Data selisih berhasil disalin!', 'selisih');
+});
+}
+
+// Fungsi untuk merender halaman saat ini
+function renderCurrentPage() {
+if (tableData.length === 0) {
+tableContainer.innerHTML = '<p style="text-align: center; padding: 30px; color: #666;">Tabel akan muncul di sini setelah konversi</p>';
+return;
+}
+
+const startIndex = (currentPage - 1) * rowsPerPage;
+const endIndex = Math.min(startIndex + rowsPerPage, tableData.length);
+const pageData = tableData.slice(startIndex, endIndex);
+
+// Ambil headers dari data pertama
+const headers = Object.keys(tableData[0]);
+
+let tableHTML = '<table id="resultTable"><thead><tr>';
+
+// Buat header tabel
+headers.forEach(header => {
+tableHTML += `<th>${header}</th>`;
+});
+tableHTML += '</tr></thead><tbody>';
+
+// Buat baris data untuk halaman ini
+pageData.forEach(row => {
+tableHTML += '<tr>';
+headers.forEach(header => {
+const value = row[header];
+// Format khusus untuk amount
+const displayValue = header === 'amount' ?
+`Rp ${parseInt(value).toLocaleString('id-ID')}` : value;
+tableHTML += `<td>${displayValue}</td>`;
+});
+tableHTML += '</tr>';
+});
+
+tableHTML += '</tbody></table>';
+tableContainer.innerHTML = tableHTML;
+
+// Update info halaman
+updatePaginationControls();
+}
+
+// Update kontrol pagination
+function updatePaginationControls() {
+pageInfo.textContent = `Halaman ${currentPage} dari ${totalPages}`;
+firstPageBtn.disabled = currentPage === 1;
+prevPageBtn.disabled = currentPage === 1;
+nextPageBtn.disabled = currentPage === totalPages;
+lastPageBtn.disabled = currentPage === totalPages;
+}
+
+// Fungsi untuk menghapus data dengan efek goyang
+function clearData() {
+// Tambahkan efek goyang
+clearBtn.classList.add('shake');
+
+// Setelah animasi selesai, hapus class dan eksekusi fungsi
+setTimeout(() => {
+clearBtn.classList.remove('shake');
+
+rawDataTextarea.value = '';
+tableContainer.innerHTML = '<p style="text-align: center; padding: 30px; color: #666;">Tabel akan muncul di sini setelah konversi</p>';
+successCount.textContent = '0';
+notProcessCount.textContent = '0';
+totalAmount.textContent = 'Rp 0';
+notProcessList.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Tidak ada transaksi not process</p>';
+rowCount.textContent = '0 baris data';
+tableData = [];
+notProcessTransactions = [];
+selisihData = [];
+totalAmountValue = 0;
+paginationControls.style.display = 'none';
+rrnSection.style.display = 'none';
+selisihSection.style.display = 'block'; // Tetap tampilkan selisih section
+showNotification('Data berhasil dihapus', 'success');
+
+// Reset selisih list
+selisihList.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Data selisih akan muncul di sini</p>';
+}, 500); // Sesuai durasi animasi goyang
+}
+
+// Fungsi untuk menyalin data
+function copyTableData() {
+if (tableData.length === 0) {
+showNotification('Tidak ada data untuk disalin', 'error');
+return;
+}
+
+try {
+// Buat teks dalam format tabel
+const headers = Object.keys(tableData[0]);
+let csvContent = headers.join('\t') + '\n';
+
+tableData.forEach(item => {
+const values = headers.map(header => item[header]);
+csvContent += values.join('\t') + '\n';
+});
+
+// Salin ke clipboard
+navigator.clipboard.writeText(csvContent).then(() => {
+showNotification('Data tabel berhasil disalin ke clipboard!');
+});
+} catch (error) {
+console.error('Error copying data:', error);
+showNotification('Terjadi kesalahan saat menyalin data', 'error');
+}
+}
+
+// Fungsi untuk export ke Excel
+function exportToExcel() {
+if (tableData.length === 0) {
+showNotification('Tidak ada data untuk diexport', 'error');
+return;
+}
+
+try {
+// Buat worksheet dari data
+const ws = XLSX.utils.json_to_sheet(tableData);
+
+// Buat workbook
+const wb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb, ws, "Data Transaksi");
+
+// Export ke file Excel
+XLSX.writeFile(wb, "data-transaksi.xlsx");
+
+showNotification('Data berhasil diexport ke Excel!');
+} catch (error) {
+console.error('Error exporting to Excel:', error);
+showNotification('Terjadi kesalahan saat mengexport data ke Excel', 'error');
+}
+}
+
+// Salin nominal tanpa titik
+function copyAmountWithoutDots() {
+if (totalAmountValue === 0) {
+showNotification('Tidak ada nominal untuk disalin', 'error');
+return;
+}
+
+// Format angka tanpa pemisah ribuan
+const amountWithoutDots = totalAmountValue.toString();
+navigator.clipboard.writeText(amountWithoutDots).then(() => {
+showNotification(`Nominal ${amountWithoutDots} berhasil disalin!`);
+});
+}
+
+// Tampilkan RRN not process
+function showRrnList() {
+if (notProcessTransactions.length === 0) {
+showNotification('Tidak ada transaksi not process', 'info');
+return;
+}
+
+// Bangun daftar RRN
+let rrnHTML = '';
+notProcessTransactions.forEach(transaction => {
+rrnHTML += `<div class="rrn-item">
+<div><strong>${transaction.terminalId}</strong> - ${transaction.rrn}</div>
+<div>${parseInt(transaction.amount).toLocaleString('id-ID')}</div>
+</div>`;
+});
+
+rrnList.innerHTML = rrnHTML;
+rrnSection.style.display = 'block';
+
+// Scroll ke bagian RRN
+rrnSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Salin daftar RRN
+function copyRrnList() {
+if (notProcessTransactions.length === 0) {
+showNotification('Tidak ada RRN untuk disalin', 'error');
+return;
+}
+
+let rrnText = "Terminal ID\tRRN\tAmount\n";
+notProcessTransactions.forEach(transaction => {
+rrnText += `${transaction.terminalId}\t${transaction.rrn}\t${transaction.amount}\n`;
+});
+
+navigator.clipboard.writeText(rrnText).then(() => {
+showNotification('Daftar RRN berhasil disalin!');
+});
+}
+
+// Event listener
+convertBtn.addEventListener('click', convertToTable);
+clearBtn.addEventListener('click', clearData);
+minimizeToggle.addEventListener('click', toggleMinimize);
+copyBtn.addEventListener('click', copyTableData);
+exportBtn.addEventListener('click', exportToExcel);
+copyAmountBtn.addEventListener('click', copyAmountWithoutDots);
+showRrnBtn.addEventListener('click', showRrnList);
+copyRrnBtn.addEventListener('click', copyRrnList);
+copySelisihBtn.addEventListener('click', copySelisihData);
+themeToggle.addEventListener('click', toggleDarkMode);
+
+// Pagination events
+firstPageBtn.addEventListener('click', () => {
+currentPage = 1;
+renderCurrentPage();
+});
+
+prevPageBtn.addEventListener('click', () => {
+if (currentPage > 1) {
+currentPage--;
+renderCurrentPage();
+}
+});
+
+nextPageBtn.addEventListener('click', () => {
+if (currentPage < totalPages) {
+currentPage++;
+renderCurrentPage();
+}
+});
+
+lastPageBtn.addEventListener('click', () => {
+currentPage = totalPages;
+renderCurrentPage();
+});
+
+rowsPerPageSelect.addEventListener('change', () => {
+rowsPerPage = parseInt(rowsPerPageSelect.value);
+totalPages = Math.ceil(tableData.length / rowsPerPage);
+currentPage = 1;
+
+if (tableData.length > rowsPerPage) {
+paginationControls.style.display = 'flex';
+} else {
+paginationControls.style.display = 'none';
+}
+
+renderCurrentPage();
+});
+});
+</script>
+</body>
+</html>
