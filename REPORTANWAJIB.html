@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <title>Memo Line</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: rgba(0, 71, 171, 0.9);
+      --secondary-color: rgba(0, 53, 128, 0.95);
+      --accent-color: rgba(0, 105, 204, 0.8);
+      --light-color: rgba(240, 245, 250, 0.9);
+      --lighter-color: rgba(248, 250, 252, 0.9);
+      --dark-color: rgba(32, 42, 58, 0.9);
+      --darker-color: rgba(23, 33, 48, 0.9);
+      --border-color: rgba(120, 140, 160, 0.2);
+      --success-color: #2e8b57;
+      --error-color: #c23b22;
+      --text-primary: rgba(255, 255, 255, 1);
+      --text-secondary: rgba(255, 255, 255, 1);
+      --sidebar-icon-color: rgba(255, 255, 255, 0.9);
+      --sidebar-active-icon-color: rgba(0, 150, 255, 0.9);
+      --panel-transition: all 0.3s ease;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      --sidebar-item-bg: rgba(0, 71, 171, 0.4);
+      --sidebar-item-hover-bg: rgba(0, 105, 204, 0.3);
+      --sidebar-item-active-bg: rgba(0, 105, 204, 0.5);
+      --sidebar-section-bg: rgba(0, 53, 128, 0.6);
+      --section-header-bg: linear-gradient(135deg, rgba(0, 40, 85, 0.9) 0%, rgba(0, 20, 50, 0.95) 100%);
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      color: var(--text-primary);
+      line-height: 1.6;
+      position: relative;
+      padding-bottom: 80px;
+      font-weight: 700;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #002851 0%, #001a3a 100%);
+      z-index: -2;
+    }
+    
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://wallpapercat.com/w/full/5/3/1/141742-3840x2160-desktop-4k-naruto-wallpaper-photo.jpg') center/cover no-repeat;
+      opacity: 0.1;
+      z-index: -1;
+    }
+    
+    #video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.1;
+    }
+    
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--darker-color) 100%);
+      border-left: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(5px);
+      z-index: 1;
+    }
+    
+    .sidebar-header {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--text-primary);
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar-header i {
+      margin-right: 12px;
+      color: var(--accent-color);
+      font-size: 22px;
+    }
+    
+    .sidebar-section {
+      margin-bottom: 25px;
+      background: var(--sidebar-section-bg);
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar-section-header {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: white;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: var(--section-header-bg);
+      padding: 8px 12px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border-left: 3px solid var(--accent-color);
+      transition: var(--panel-transition);
+    }
+    
+    .sidebar-section-header:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    
+    .sidebar-section-header i {
+      margin-right: 10px;
+      font-size: 14px;
+      color: var(--accent-color);
+    }
+    
+    .sidebar-item {
+      padding: 12px 16px 12px 50px;
+      margin-bottom: 8px;
+      background: var(--sidebar-item-bg);
+      border-radius: 4px;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-weight: 700;
+      border-left: 3px solid transparent;
+      position: relative;
+      transition: var(--panel-transition);
+      font-size: 14px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar-item:hover {
+      background: var(--sidebar-item-hover-bg);
+      border-left: 3px solid var(--accent-color);
+      color: var(--text-primary);
+      transform: translateX(5px);
+    }
+    
+    .sidebar-item.active {
+      background: var(--sidebar-item-active-bg);
+      border-left: 3px solid var(--accent-color);
+      color: var(--text-primary);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .sidebar-item::before {
+      content: '';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--sidebar-icon-color);
+      font-size: 15px;
+      transition: var(--panel-transition);
+    }
+    
+    .sidebar-item:hover::before,
+    .sidebar-item.active::before {
+      color: var(--sidebar-active-icon-color);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .sidebar-item[data-sheet="MEMO PEMBAGIAN BONUS"]::before { content: '\f51e'; }
+    .sidebar-item[data-sheet="MEMO INFORMASI BANK"]::before { content: '\f19c'; }
+    .sidebar-item[data-sheet="MEMO KENDALA PERMAINAN"]::before { content: '\f11b'; }
+    .sidebar-item[data-sheet="MEMO KENDALA SISTEM"]::before { content: '\f085'; }
+    .sidebar-item[data-sheet="REPORT KENDALA ALL SITUS"]::before { content: '\f0ac'; }
+    .sidebar-item[data-sheet="REPORT KENDALA KE IDN"]::before { content: '\f188'; }
+    .sidebar-item[data-sheet="REPORT KENDALA LINETOGEL"]::before { content: '\f542'; }
+    
+    .left-panel {
+      width: 260px;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--darker-color) 100%);
+      border-right: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(5px);
+      z-index: 1;
+    }
+    
+    .left-panel-header {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--text-primary);
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
+    
+    .left-panel-header img {
+      height: 30px;
+      width: auto;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+    }
+    
+    .title-item {
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      background: var(--sidebar-item-bg);
+      border-radius: 4px;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-weight: 700;
+      transition: var(--panel-transition);
+      font-size: 14px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-left: 3px solid transparent;
+    }
+    
+    .title-item:hover {
+      background: var(--sidebar-item-hover-bg);
+      border-left: 3px solid var(--accent-color);
+      color: var(--text-primary);
+      transform: translateX(5px);
+    }
+    
+    .main-content {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+    
+    .center-panel {
+      flex: 1;
+      max-width: 800px;
+      padding: 25px;
+      overflow-y: auto;
+      margin: 0 auto;
+      z-index: 1;
+    }
+    
+    .center-search-container {
+      margin-bottom: 25px;
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .center-search-input {
+      width: 100%;
+      padding: 12px 16px 12px 40px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 13px;
+      box-sizing: border-box;
+      background: rgba(0, 53, 128, 0.4);
+      color: var(--text-primary);
+      transition: var(--panel-transition);
+      font-weight: 700;
+    }
+    
+    .center-search-input::placeholder {
+      color: var(--sidebar-icon-color);
+      font-weight: 700;
+    }
+    
+    .center-search-input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(0, 105, 204, 0.3);
+      background: rgba(0, 71, 171, 0.5);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--sidebar-icon-color);
+      font-size: 14px;
+    }
+    
+    .info-table {
+      width: 100%;
+      margin-top: 25px;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--dark-color);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(3px);
+    }
+    
+    .info-table th {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--darker-color) 100%);
+      color: white;
+      padding: 15px;
+      text-align: left;
+      font-weight: 700;
+      border: none;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+    
+    .info-table td {
+      padding: 15px;
+      border-bottom: 1px solid rgba(120, 140, 160, 0.3);
+      background: var(--dark-color);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 14px;
+      vertical-align: top;
+    }
+    
+    .info-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .info-table tr:hover td {
+      background: rgba(0, 105, 204, 0.2);
+    }
+    
+    .copy-btn {
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      min-width: 90px;
+      transition: var(--panel-transition);
+      letter-spacing: 0.5px;
+    }
+    
+    .copy-btn:hover {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .copy-btn i {
+      margin-right: 6px;
+      font-size: 15px;
+    }
+    
+    h3 {
+      color: var(--accent-color);
+      margin-top: 30px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 700;
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+    
+    .alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: var(--panel-transition);
+      font-weight: 700;
+      max-width: 300px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-color);
+      transform: translateY(-20px);
+      backdrop-filter: blur(5px);
+    }
+    
+    .alert.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .alert i {
+      margin-right: 10px;
+      font-size: 20px;
+      color: white;
+    }
+    
+    .alert.error {
+      background: var(--error-color);
+      color: white;
+    }
+    
+    .alert.error i {
+      color: white;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 4px;
+    }
+    
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 0 25px;
+      backdrop-filter: blur(3px);
+      background: rgba(0, 53, 128, 0.5);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      font-weight: 700;
+    }
+
+    .empty-state i {
+      font-size: 60px;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+    }
+
+    .empty-state p {
+      font-size: 16px;
+      max-width: 350px;
+      line-height: 1.6;
+      margin: 0;
+      font-weight: 700;
+    }
+    
+    .table-content {
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.6;
+    }
+    
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent-color) 50%, transparent 100%);
+      margin: 20px 0;
+      opacity: 0.5;
+    }
+    
+    .page-logo {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      opacity: 0.7;
+      transition: var(--panel-transition);
+    }
+
+    .page-logo:hover {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .page-logo img {
+      height: 40px;
+      width: auto;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    /* New category header style */
+    .category-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--darker-color) 100%);
+      color: white;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      letter-spacing: 1px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      border-left: 4px solid var(--accent-color);
+      display: none; /* Initially hidden */
+    }
+    
+    @media (max-width: 1400px) {
+      .sidebar, .left-panel {
+        width: 240px;
+      }
+      .center-panel {
+        max-width: 700px;
+        padding: 20px;
+      }
+    }
+    
+    @media (max-width: 1200px) {
+      .sidebar, .left-panel {
+        width: 220px;
+      }
+      .center-panel {
+        max-width: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Video Background -->
+  <video autoplay muted loop id="video-background">
+    <source src="https://wallpapercat.com/w/full/5/3/1/141742-3840x2160-desktop-4k-naruto-wallpaper-photo.jpg" type="video/mp4">
+  </video>
+  
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <div class="left-panel-header">
+        <img src="https://linepaito123.com/assets/img/ei/logo.png" alt="Logo">ＪＵＤＵＬ
+      </div>
+      <div id="title-list"></div>
+    </div>
+    
+    <!-- Center Panel -->
+    <div class="center-panel">
+      <!-- Category Header -->
+      <div class="category-header" id="category-header"></div>
+      
+      <!-- Search Bar -->
+      <div class="center-search-container">
+        <span class="search-icon">🔎</span>
+        <input type="text" class="center-search-input" id="center-search-input" placeholder="Cari judul...">
+      </div>
+      
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state">
+        <i class="fas fa-file-alt"></i>
+        <p>Pilih judul dari list sebelah kiri untuk melihat detail memo</p>
+      </div>
+      
+      <!-- Tables Container -->
+      <div id="tables-container" style="display: none;">
+        <!-- Title Table -->
+        <h3>Title</h3>
+        <div class="divider"></div>
+        <table class="info-table" id="title-table">
+          <thead>
+            <tr>
+              <th>Judul</th>
+              <th width="120px">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="title-table-body"></tbody>
+        </table>
+        
+        <!-- Content Table -->
+        <h3 style="margin-top: 30px;">Description</h3>
+        <div class="divider"></div>
+        <table class="info-table" id="content-table">
+          <thead>
+            <tr>
+              <th>Isi</th>
+              <th width="120px">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="content-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <i class="fas fa-clipboard-list"></i>
+        ＬＩＳＴ ＭＥＭＯ
+      </div>
+      
+      <!-- Memo Utama Section -->
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">
+          <i class="fas fa-sticky-note"></i>
+          MEMO UTAMA
+        </div>
+        <div class="sidebar-item active" data-sheet="MEMO PEMBAGIAN BONUS">MEMO PEMBAGIAN BONUS</div>
+        <div class="sidebar-item" data-sheet="MEMO INFORMASI BANK">MEMO INFORMASI BANK</div>
+        <div class="sidebar-item" data-sheet="MEMO KENDALA PERMAINAN">MEMO KENDALA PERMAINAN</div>
+        <div class="sidebar-item" data-sheet="MEMO KENDALA SISTEM">MEMO KENDALA SISTEM</div>
+      </div>
+      
+      <!-- Report Kendala Situs Section -->
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">
+          <i class="fas fa-globe"></i>
+          REPORT KENDALA SITUS
+        </div>
+        <div class="sidebar-item" data-sheet="REPORT KENDALA ALL SITUS">REPORT KENDALA ALL SITUS</div>
+        <div class="sidebar-item" data-sheet="REPORT KENDALA KE IDN">REPORT KENDALA KE IDN</div>
+      </div>
+      
+      <!-- Report LineTogel Section -->
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">
+          <i class="fas fa-laptop-code"></i>
+          REPORT LINETOGEL
+        </div>
+        <div class="sidebar-item" data-sheet="REPORT KENDALA LINETOGEL">REPORT KENDALA LINETOGEL</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Alert Notification -->
+  <div class="alert" id="alert">
+    <i class="material-icons">check_circle</i>
+    <span id="alert-message">テキストがコピーされました!</span>
+  </div>
+  
+  <!-- Logo at bottom center -->
+  <div class="page-logo">
+    <img src="https://linepaito123.com/assets/img/ei/logo.png" alt="Line Paito Logo">
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebarItems = document.querySelectorAll('.sidebar-item');
+      const centerSearchInput = document.getElementById('center-search-input');
+      const titleList = document.getElementById('title-list');
+      const titleTableBody = document.getElementById('title-table-body');
+      const contentTableBody = document.getElementById('content-table-body');
+      const alertBox = document.getElementById('alert');
+      const alertMessage = document.getElementById('alert-message');
+      const emptyState = document.getElementById('empty-state');
+      const tablesContainer = document.getElementById('tables-container');
+      const categoryHeader = document.getElementById('category-header');
+      
+      let allData = {};
+      let currentSheet = 'MEMO PEMBAGIAN BONUS';
+      let currentData = [];
+      
+      // Load data from Google Sheets
+      google.script.run.withSuccessHandler(function(data) {
+        allData = data;
+        loadSheetData(currentSheet);
+        // Show initial category header
+        updateCategoryHeader(currentSheet);
+      }).getAllSheetData();
+      
+      // Handle sidebar item clicks
+      sidebarItems.forEach(item => {
+        item.addEventListener('click', function() {
+          sidebarItems.forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+          currentSheet = this.getAttribute('data-sheet');
+          loadSheetData(currentSheet);
+          updateCategoryHeader(currentSheet);
+
+          // Hide tables and show empty state when selecting new category
+          tablesContainer.style.display = 'none';
+          emptyState.style.display = 'flex';
+        });
+      });
+
+      // Update category header
+      function updateCategoryHeader(sheetName) {
+        categoryHeader.textContent = sheetName;
+        categoryHeader.style.display = 'block';
+      }
+
+      // Load sheet data function
+      function loadSheetData(sheetName) {
+        if (allData[sheetName]) {
+          currentData = allData[sheetName];
+          renderTitleList();
+          // Clear tables when loading new sheet
+          titleTableBody.innerHTML = '';
+          contentTableBody.innerHTML = '';
+        }
+      }
+      
+      // Render title list in left panel
+      function renderTitleList() {
+        titleList.innerHTML = '';
+        currentData.forEach((item, index) => {
+          const div = document.createElement('div');
+          div.className = 'title-item';
+          div.textContent = item.title;
+          div.addEventListener('click', () => {
+            showItemDetails(index);
+          });
+          titleList.appendChild(div);
+        });
+      }
+      
+      // Show item details in tables
+      function showItemDetails(index) {
+        // Show tables and hide empty state
+        tablesContainer.style.display = 'block';
+        emptyState.style.display = 'none';
+        
+        titleTableBody.innerHTML = '';
+        contentTableBody.innerHTML = '';
+        
+        const item = currentData[index];
+        
+        // Title Table (showing only the selected item)
+        const titleRow = document.createElement('tr');
+        titleRow.innerHTML = `
+          <td class="table-content">${escapeHtml(item.title)}</td>
+          <td>
+            <button class="copy-btn" data-text="${escapeHtml(item.title)}" data-type="Berhasil ">
+              <i class="material-icons">content_copy</i> Copy
+            </button>
+          </td>
+        `;
+        titleTableBody.appendChild(titleRow);
+        
+        // Content Table (showing only the selected item)
+        const contentRow = document.createElement('tr');
+        contentRow.innerHTML = `
+          <td class="table-content">${escapeHtml(item.content)}</td>
+          <td>
+            <button class="copy-btn" data-text="${escapeHtml(item.content)}" data-type="Berhasil ">
+              <i class="material-icons">content_copy</i> Copy
+            </button>
+          </td>
+        `;
+        contentTableBody.appendChild(contentRow);
+        
+        attachCopyListeners();
+      }
+      
+      // Search functionality in center panel
+      centerSearchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        const titleItems = document.querySelectorAll('.title-item');
+        
+        titleItems.forEach(item => {
+          const title = item.textContent.toLowerCase();
+          if (title.includes(query)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+      
+      // HTML escape function
+      function escapeHtml(unsafe) {
+        if (!unsafe) return '';
+        return unsafe.toString()
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+      
+      // Attach copy button event listeners
+      function attachCopyListeners() {
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+          btn.replaceWith(btn.cloneNode(true));
+        });
+        
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const text = this.getAttribute('data-text');
+            const type = this.getAttribute('data-type');
+            copyToClipboard(text, type);
+          });
+        });
+      }
+      
+      // Global copy to clipboard function
+      window.copyToClipboard = function(text, type) {
+        const decodedText = decodeHtmlEntities(text);
+        
+        navigator.clipboard.writeText(decodedText).then(() => {
+          showAlert(`${type}di Copy!`, 'success');
+        }).catch(err => {
+          console.error('Gagal copy: ', err);
+          showAlert('Gagal!', 'error');
+          
+          // Fallback for browsers that don't support navigator.clipboard
+          const textarea = document.createElement('textarea');
+          textarea.value = decodedText;
+          document.body.appendChild(textarea);
+          textarea.select();
+          try {
+            document.execCommand('copy');
+            showAlert(`${type}di Copy!`, 'success');
+          } catch (err) {
+            console.error('Gagal copy fallback: ', err);
+            showAlert('Gagal!', 'error');
+          }
+          document.body.removeChild(textarea);
+        });
+      };
+      
+      // Decode HTML entities function
+      function decodeHtmlEntities(text) {
+        if (!text) return '';
+        const textArea = document.createElement('textarea');
+        textArea.innerHTML = text;
+        return textArea.value;
+      }
+      
+      // Show alert notification
+      function showAlert(message, type = 'success') {
+        alertMessage.textContent = message;
+        alertBox.className = 'alert';
+        alertBox.classList.add('show');
+        if (type === 'error') {
+          alertBox.classList.add('error');
+        }
+        
+        setTimeout(() => {
+          alertBox.classList.remove('show');
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
