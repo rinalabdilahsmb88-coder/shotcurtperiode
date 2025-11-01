@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Kesalahan - Sistem Pelaporan</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .search-box {
+            flex-grow: 1;
+            max-width: 400px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            font-size: 14px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            display: inline-block;
+        }
+        
+        .status-open {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .status-in-progress {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .status-resolved {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .priority-high {
+            color: #c62828;
+            font-weight: 600;
+        }
+        
+        .priority-medium {
+            color: #ef6c00;
+            font-weight: 600;
+        }
+        
+        .priority-low {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .pagination-info {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .export-btn {
+            background-color: #27ae60;
+        }
+        
+        .export-btn:hover {
+            background-color: #219653;
+        }
+        
+        .refresh-btn {
+            background-color: #9b59b6;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #8e44ad;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .filter-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            select {
+                flex-grow: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Data Kesalahan Sistem</h1>
+            <div>
+                <button class="refresh-btn" id="refreshBtn">Refresh Data</button>
+                <button class="export-btn" id="exportBtn">Ekspor ke CSV</button>
+            </div>
+        </header>
+        
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+        
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari berdasarkan ID, deskripsi, atau pelapor...">
+            </div>
+            
+            <div class="filter-controls">
+                <select id="statusFilter">
+                    <option value="">Semua Status</option>
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+                
+                <select id="priorityFilter">
+                    <option value="">Semua Prioritas</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                
+                <select id="departmentFilter">
+                    <option value="">Semua Departemen</option>
+                    <option value="IT">IT</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Operations">Operations</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="errorsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Deskripsi Kesalahan</th>
+                        <th>Pelapor</th>
+                        <th>Departemen</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+                        <th>Prioritas</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td colspan="8" class="loading">Memuat data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="pagination">
+            <div class="pagination-info" id="paginationInfo">
+                Menampilkan 0-0 dari 0 data
+            </div>
+            <div class="pagination-controls">
+                <button id="prevBtn" disabled>Sebelumnya</button>
+                <button id="nextBtn" disabled>Selanjutnya</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Konfigurasi Google Sheets
+        const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE'; // 1Vfw8Ei5wRNCmJG1lpDv_ISDMi8DZjy6_3kLRzUbMaM8
+        const API_KEY = 'YOUR_GOOGLE_API_KEY_HERE'; // AIzaSyCA4xVZDm26KNbEBQiXK846SpqLLvmWHV0
+        const SHEET_NAME = 'Data_Kesalahan'; // LINE TOGEL
+        
+        // Variabel untuk data dan pagination
+        let errorData = [];
+        let currentPage = 1;
+        const rowsPerPage = 10;
+        let filteredData = [];
+
+        // Fungsi untuk mengambil data dari Google Sheets
+        async function fetchDataFromSheet() {
+            showLoading();
+            
+            try {
+                // URL untuk mengambil data dari Google Sheets API
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`Gagal mengambil data: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!data.values || data.values.length === 0) {
+                    throw new Error('Tidak ada data ditemukan di sheet');
+                }
+                
+                // Konversi data dari array ke objek
+                errorData = convertSheetData(data.values);
+                filteredData = [...errorData];
+                
+                // Tampilkan data di tabel
+                displayTableData(filteredData, currentPage);
+                hideErrorMessage();
+                
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                showErrorMessage(`Gagal memuat data: ${error.message}`);
+            }
+        }
+
+        // Fungsi untuk mengonversi data dari format Google Sheets
+        function convertSheetData(sheetData) {
+            const headers = sheetData[0]; // Baris pertama adalah header
+            const rows = sheetData.slice(1); // Baris selanjutnya adalah data
+            
+            return rows.map(row => {
+                const obj = {};
+                headers.forEach((header, index) => {
+                    // Konversi header ke format yang konsisten
+                    const key = header.toLowerCase().replace(/\s+/g, '_');
+                    obj[key] = row[index] || '';
+                });
+                return obj;
+            });
+        }
+
+        // Fungsi untuk menampilkan data dalam tabel
+        function displayTableData(data, page = 1) {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            
+            const startIndex = (page - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedData = data.slice(startIndex, endIndex);
+            
+            if (paginatedData.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="8" style="text-align: center;">Tidak ada data yang sesuai dengan filter</td></tr>`;
+                return;
+            }
+            
+            paginatedData.forEach(item => {
+                const row = document.createElement('tr');
+                
+                // Tentukan kelas status
+                let statusClass = '';
+                if (item.status === 'Open') statusClass = 'status-open';
+                else if (item.status === 'In Progress') statusClass = 'status-in-progress';
+                else if (item.status === 'Resolved') statusClass = 'status-resolved';
+                
+                // Tentukan kelas prioritas
+                let priorityClass = '';
+                if (item.priority === 'High') priorityClass = 'priority-high';
+                else if (item.priority === 'Medium') priorityClass = 'priority-medium';
+                else if (item.priority === 'Low') priorityClass = 'priority-low';
+                
+                row.innerHTML = `
+                    <td>${item.id || '-'}</td>
+                    <td>${item.deskripsi || item.description || '-'}</td>
+                    <td>${item.pelapor || item.reporter || '-'}</td>
+                    <td>${item.departemen || item.department || '-'}</td>
+                    <td>${formatDate(item.tanggal || item.date)}</td>
+                    <td><span class="status ${statusClass}">${item.status || '-'}</span></td>
+                    <td><span class="${priorityClass}">${item.prioritas || item.priority || '-'}</span></td>
+                    <td><button onclick="viewDetails('${item.id || ''}')">Detail</button></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Update informasi pagination
+            updatePaginationInfo(data.length, page);
+            
+            // Update status tombol pagination
+            document.getElementById('prevBtn').disabled = page === 1;
+            document.getElementById('nextBtn').disabled = endIndex >= data.length;
+        }
+
+        // Fungsi untuk memformat tanggal
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            
+            try {
+                // Coba parsing berbagai format tanggal
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) {
+                    return dateString; // Kembalikan string asli jika parsing gagal
+                }
+                
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return date.toLocaleDateString('id-ID', options);
+            } catch (error) {
+                return dateString; // Kembalikan string asli jika error
+            }
+        }
+
+        // Fungsi untuk update informasi pagination
+        function updatePaginationInfo(totalItems, currentPage) {
+            const startIndex = (currentPage - 1) * rowsPerPage + 1;
+            const endIndex = Math.min(currentPage * rowsPerPage, totalItems);
+            document.getElementById('paginationInfo').textContent = 
+                `Menampilkan ${startIndex}-${endIndex} dari ${totalItems} data`;
+        }
+
+        // Fungsi untuk filter data
+        function filterData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const priorityFilter = document.getElementById('priorityFilter').value;
+            const departmentFilter = document.getElementById('departmentFilter').value;
+            
+            filteredData = errorData.filter(item => {
+                const matchesSearch = 
+                    (item.id && item.id.toLowerCase().includes(searchTerm)) ||
+                    ((item.deskripsi || item.description) && (item.deskripsi || item.description).toLowerCase().includes(searchTerm)) ||
+                    ((item.pelapor || item.reporter) && (item.pelapor || item.reporter).toLowerCase().includes(searchTerm));
+                
+                const matchesStatus = statusFilter === '' || item.status === statusFilter;
+                const matchesPriority = priorityFilter === '' || (item.prioritas || item.priority) === priorityFilter;
+                const matchesDepartment = departmentFilter === '' || (item.departemen || item.department) === departmentFilter;
+                
+                return matchesSearch && matchesStatus && matchesPriority && matchesDepartment;
+            });
+            
+            currentPage = 1;
+            displayTableData(filteredData, currentPage);
+        }
+
+        // Fungsi untuk melihat detail (contoh)
+        function viewDetails(id) {
+            alert(`Detail untuk kesalahan dengan ID: ${id}\n\nFitur ini dapat dihubungkan dengan halaman detail atau modal.`);
+        }
+
+        // Fungsi untuk ekspor data ke CSV
+        function exportToCSV() {
+            if (filteredData.length === 0) {
+                alert('Tidak ada data untuk diekspor');
+                return;
+            }
+            
+            let csvContent = "ID,Deskripsi,Pelapor,Departemen,Tanggal,Status,Prioritas\n";
+            
+            filteredData.forEach(item => {
+                csvContent += `"${item.id || ''}","${item.deskripsi || item.description || ''}","${item.pelapor || item.reporter || ''}","${item.departemen || item.department || ''}","${item.tanggal || item.date || ''}","${item.status || ''}","${item.prioritas || item.priority || ''}"\n`;
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", "data_kesalahan.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Fungsi untuk menampilkan loading
+        function showLoading() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '<tr><td colspan="8" class="loading">Memuat data...</td></tr>';
+        }
+
+        // Fungsi untuk menampilkan pesan error
+        function showErrorMessage(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Fungsi untuk menyembunyikan pesan error
+        function hideErrorMessage() {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.style.display = 'none';
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterData);
+        document.getElementById('statusFilter').addEventListener('change', filterData);
+        document.getElementById('priorityFilter').addEventListener('change', filterData);
+        document.getElementById('departmentFilter').addEventListener('change', filterData);
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayTableData(filteredData, currentPage);
+            }
+        });
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentPage * rowsPerPage < filteredData.length) {
+                currentPage++;
+                displayTableData(filteredData, currentPage);
+            }
+        });
+        document.getElementById('exportBtn').addEventListener('click', exportToCSV);
+        document.getElementById('refreshBtn').addEventListener('click', fetchDataFromSheet);
+
+        // Inisialisasi: Ambil data dari Google Sheets saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', fetchDataFromSheet);
+    </script>
+</body>
+</html>
