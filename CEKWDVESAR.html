@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,7 +10,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
-<script src="https://unpkg.com/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 <style>
 /* Variabel warna global */
 :root {
@@ -1572,53 +1574,6 @@ gap: 15px;
 justify-content: flex-end;
 }
 
-/* OCR Styles */
-.ocr-result {
-background: rgba(30, 46, 40, 0.7);
-border: 1px solid var(--border-dark);
-border-radius: 10px;
-padding: 20px;
-margin-top: 15px;
-max-height: 300px;
-overflow-y: auto;
-white-space: pre-wrap;
-font-family: 'Courier New', monospace;
-line-height: 1.5;
-color: var(--text-light);
-}
-
-.ocr-result pre {
-margin: 0;
-font-family: inherit;
-}
-
-.ocr-controls {
-display: flex;
-gap: 15px;
-flex-wrap: wrap;
-}
-
-.ocr-controls .setting-group {
-flex: 1;
-min-width: 200px;
-}
-
-.ocr-loading {
-text-align: center;
-padding: 20px;
-color: var(--gold-primary);
-}
-
-.ocr-loading .loader-spinner {
-width: 40px;
-height: 40px;
-border: 3px solid rgba(212, 175, 55, 0.1);
-border-radius: 50%;
-border-top-color: var(--gold-primary);
-animation: spin 1s ease-in-out infinite;
-margin: 0 auto 15px;
-}
-
 /* Responsive */
 @media (max-width: 992px) {
 .app-container {
@@ -1766,7 +1721,7 @@ font-size: 12px;
 </div>
 <div>
 <h1 class="app-title">WD BESAR & GABUNG GAMBAR</span></h1>
-<p class="app-subtitle">Dua alat profesional dalam satu aplikasi: Analisis kemenangan besar, penggabung gambar canggih, dan OCR teks dari gambar</p>
+<p class="app-subtitle">Dua alat profesional dalam satu aplikasi: Analisis kemenangan besar dan penggabung gambar canggih</p>
 </div>
 </div>
 </header>
@@ -1777,7 +1732,7 @@ font-size: 12px;
 <i class="fas fa-coins"></i> Analisis WD Besar
 </button>
 <button class="tab-btn" data-tab="image-app">
-<i class="fas fa-image"></i> Penggabung Gambar & OCR
+<i class="fas fa-image"></i> Penggabung Gambar
 </button>
 </div>
 
@@ -1918,7 +1873,7 @@ SALIN PESAN
 </div>
 </div>
 
-<!-- Tab: Penggabung Gambar & OCR -->
+<!-- Tab: Penggabung Gambar -->
 <div id="image-app" class="tab-content">
 <div class="panel">
 <h2 class="panel-title">
@@ -2073,108 +2028,6 @@ SALIN PESAN
 <i class="fas fa-edit"></i> Edit Gambar
 </button>
 </div>
-</div>
-
-<!-- Panel OCR -->
-<div class="panel" id="ocr-panel">
-  <h2 class="panel-title">
-    <i class="fas fa-text-height"></i> OCR Gambar (Ekstrak Teks)
-  </h2>
-  
-  <div class="url-input-section">
-    <div class="url-input-header">
-      <h3><i class="fas fa-link"></i> Masukkan URL Gambar untuk OCR</h3>
-    </div>
-    
-    <div class="url-input-group">
-      <input type="text" id="ocrImageUrl" placeholder="https://example.com/image.png">
-      <button id="ocrUrlBtn">
-        <i class="fas fa-search"></i> Ekstrak Teks
-      </button>
-    </div>
-    
-    <div class="supported-services">
-      <span class="service-badge">
-        <i class="fas fa-check-circle"></i> PNG
-      </span>
-      <span class="service-badge">
-        <i class="fas fa-check-circle"></i> JPG/JPEG
-      </span>
-      <span class="service-badge">
-        <i class="fas fa-check-circle"></i> GIF
-      </span>
-      <span class="service-badge">
-        <i class="fas fa-check-circle"></i> BMP
-      </span>
-    </div>
-  </div>
-
-  <div class="upload-section">
-    <div class="upload-header">
-      <i class="fas fa-upload"></i>
-      <h3>Atau Unggah Gambar untuk OCR</h3>
-    </div>
-    
-    <div class="upload-btn-wrapper">
-      <button class="upload-btn">
-        <i class="fas fa-cloud-upload-alt"></i> Pilih File Gambar
-      </button>
-      <input type="file" id="ocrFileUpload" accept="image/*">
-    </div>
-    
-    <p class="upload-hint">
-      <i class="fas fa-info-circle"></i> Format yang didukung: PNG, JPG, JPEG, GIF, BMP
-    </p>
-  </div>
-
-  <div class="action-buttons">
-    <button id="ocrMergedBtn" class="action-btn-large merge-btn">
-      <i class="fas fa-font"></i> OCR Gambar Gabungan
-    </button>
-    <button id="clearOcrBtn" class="action-btn-large reset-btn">
-      <i class="fas fa-broom"></i> Bersihkan Hasil
-    </button>
-  </div>
-
-  <div class="preview-container">
-    <div class="counter">
-      <i class="fas fa-image"></i> Preview Gambar OCR:
-    </div>
-    <div class="image-previews" id="ocrPreviewContainer">
-      <div class="placeholder" style="text-align: center; padding: 40px;">
-        <i class="fas fa-image" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
-        <div>Gambar untuk OCR akan muncul di sini</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="result-container" id="ocrResultContainer" style="min-height: 200px;">
-    <div class="ocr-controls" style="margin-bottom: 20px;">
-      <div class="setting-group">
-        <label for="ocrLanguage">Bahasa OCR:</label>
-        <select id="ocrLanguage">
-          <option value="eng">English</option>
-          <option value="ind">Indonesian</option>
-          <option value="eng+ind">English + Indonesian</option>
-          <option value="chi_sim">Chinese Simplified</option>
-          <option value="chi_tra">Chinese Traditional</option>
-        </select>
-      </div>
-    </div>
-
-    <div id="ocrTextResult" class="ocr-result">
-      <p class="placeholder">Hasil ekstraksi teks akan muncul di sini</p>
-    </div>
-
-    <div class="action-buttons" id="ocrActionButtons" style="display: none;">
-      <button id="copyOcrTextBtn" class="action-btn-large merge-btn">
-        <i class="fas fa-copy"></i> Salin Teks
-      </button>
-      <button id="downloadOcrTextBtn" class="action-btn-large" style="background: linear-gradient(to right, #2196F3, #1976D2);">
-        <i class="fas fa-download"></i> Unduh sebagai TXT
-      </button>
-    </div>
-  </div>
 </div>
 </div>
 
@@ -2389,11 +2242,6 @@ button.classList.add('active');
 // Tampilkan konten tab yang sesuai
 const tabId = button.getAttribute('data-tab');
 document.getElementById(tabId).classList.add('active');
-
-// Inisialisasi OCR jika tab image diaktifkan
-if (tabId === 'image-app') {
-setTimeout(initializeOCR, 500);
-}
 });
 });
 
@@ -2738,19 +2586,6 @@ const closeTextModal = document.getElementById('closeTextModal');
 const cancelTextBtn = document.getElementById('cancelTextBtn');
 const addTextBtn = document.getElementById('addTextBtn');
 
-// OCR Elements
-const ocrImageUrl = document.getElementById('ocrImageUrl');
-const ocrUrlBtn = document.getElementById('ocrUrlBtn');
-const ocrFileUpload = document.getElementById('ocrFileUpload');
-const ocrMergedBtn = document.getElementById('ocrMergedBtn');
-const clearOcrBtn = document.getElementById('clearOcrBtn');
-const ocrPreviewContainer = document.getElementById('ocrPreviewContainer');
-const ocrTextResult = document.getElementById('ocrTextResult');
-const ocrActionButtons = document.getElementById('ocrActionButtons');
-const copyOcrTextBtn = document.getElementById('copyOcrTextBtn');
-const downloadOcrTextBtn = document.getElementById('downloadOcrTextBtn');
-const ocrLanguage = document.getElementById('ocrLanguage');
-
 // Array untuk menyimpan gambar
 let images = [];
 let mergedImageData = null;
@@ -2766,10 +2601,6 @@ let canvasOffsetX = 0;
 let canvasOffsetY = 0;
 let isPanning = false;
 let panStartX, panStartY;
-
-// OCR variables
-let ocrWorker = null;
-let currentOcrImage = null;
 
 // Inisialisasi kualitas
 qualityValue.textContent = `${qualitySlider.value}%`;
@@ -2914,20 +2745,6 @@ showCyberToast('Klik pada gambar untuk menempatkan teks', 'info');
 }
 });
 
-// OCR Event Listeners
-ocrUrlBtn.addEventListener('click', performOCRFromUrl);
-ocrFileUpload.addEventListener('change', handleOCRFileUpload);
-ocrMergedBtn.addEventListener('click', performOCRFromMerged);
-clearOcrBtn.addEventListener('click', clearOCRResults);
-copyOcrTextBtn.addEventListener('click', copyOCRText);
-downloadOcrTextBtn.addEventListener('click', downloadOCRText);
-
-ocrImageUrl.addEventListener('keypress', function(e) {
-if (e.key === 'Enter') {
-performOCRFromUrl();
-}
-});
-
 // Keyboard shortcuts for editor
 document.addEventListener('keydown', (e) => {
 // Only apply shortcuts when editor is active
@@ -3006,321 +2823,6 @@ return;
 // If no modifier key is pressed, do nothing
 // This removes automatic zoom behavior
 }
-
-// ================ OCR FUNCTIONS ================ //
-
-// Inisialisasi OCR
-async function initializeOCR() {
-    try {
-        showCyberToast('Menginisialisasi OCR...', 'info');
-        
-        // Load Tesseract.js
-        if (typeof Tesseract === 'undefined') {
-            showCyberToast('Gagal memuat OCR engine!', 'error');
-            return;
-        }
-        
-        await createOCRWorker();
-    } catch (error) {
-        console.error('Error initializing OCR:', error);
-        showCyberToast('Error inisialisasi OCR!', 'error');
-    }
-}
-
-// Create OCR Worker
-async function createOCRWorker() {
-    try {
-        ocrWorker = await Tesseract.createWorker();
-        await ocrWorker.load();
-        await ocrWorker.loadLanguage('eng');
-        await ocrWorker.initialize('eng');
-        showCyberToast('OCR engine siap!', 'success');
-    } catch (error) {
-        console.error('Error creating OCR worker:', error);
-        showCyberToast('Gagal membuat OCR worker!', 'error');
-    }
-}
-
-// Fungsi untuk OCR dari URL
-async function performOCRFromUrl() {
-    const imageUrl = ocrImageUrl.value.trim();
-    
-    if (!imageUrl) {
-        showCyberToast('Masukkan URL gambar!', 'error');
-        return;
-    }
-
-    if (!ocrWorker) {
-        showCyberToast('OCR engine belum siap!', 'error');
-        return;
-    }
-
-    // Tampilkan loading
-    showOCRLoading();
-
-    try {
-        // Validasi URL
-        if (!isValidUrl(imageUrl)) {
-            throw new Error('URL tidak valid');
-        }
-
-        // Tampilkan preview gambar
-        await displayOCRPreview(imageUrl);
-
-        // Dapatkan bahasa yang dipilih
-        const language = ocrLanguage.value;
-
-        // Lakukan OCR
-        const { data: { text, confidence } } = await ocrWorker.recognize(imageUrl, language);
-
-        // Tampilkan hasil
-        displayOCRResult(text, confidence, imageUrl);
-
-        showCyberToast(`OCR berhasil! Akurasi: ${confidence.toFixed(2)}%`, 'success');
-        
-    } catch (error) {
-        console.error('OCR Error:', error);
-        showCyberToast('Gagal melakukan OCR! Pastikan URL gambar valid.', 'error');
-        ocrTextResult.innerHTML = 
-            '<p style="color: #ef5350; text-align: center;">Error: Gagal memproses gambar</p>';
-    } finally {
-        hideOCRLoading();
-    }
-}
-
-// Fungsi untuk OCR dari file upload
-async function handleOCRFileUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    if (!file.type.match('image.*')) {
-        showCyberToast('Hanya file gambar yang diizinkan!', 'error');
-        return;
-    }
-
-    if (!ocrWorker) {
-        showCyberToast('OCR engine belum siap!', 'error');
-        return;
-    }
-
-    // Tampilkan loading
-    showOCRLoading();
-
-    try {
-        const imageUrl = URL.createObjectURL(file);
-        
-        // Tampilkan preview gambar
-        await displayOCRPreview(imageUrl);
-
-        // Dapatkan bahasa yang dipilih
-        const language = ocrLanguage.value;
-
-        // Lakukan OCR
-        const { data: { text, confidence } } = await ocrWorker.recognize(file, language);
-
-        // Tampilkan hasil
-        displayOCRResult(text, confidence, file.name);
-
-        showCyberToast(`OCR berhasil! Akurasi: ${confidence.toFixed(2)}%`, 'success');
-        
-    } catch (error) {
-        console.error('OCR Error:', error);
-        showCyberToast('Gagal melakukan OCR pada file!', 'error');
-        ocrTextResult.innerHTML = 
-            '<p style="color: #ef5350; text-align: center;">Error: Gagal memproses gambar</p>';
-    } finally {
-        hideOCRLoading();
-        // Reset file input
-        event.target.value = '';
-    }
-}
-
-// Fungsi untuk OCR dari gambar gabungan
-async function performOCRFromMerged() {
-    if (!mergedImageData) {
-        showCyberToast('Tidak ada gambar gabungan!', 'error');
-        return;
-    }
-
-    if (!ocrWorker) {
-        showCyberToast('OCR engine belum siap!', 'error');
-        return;
-    }
-
-    // Tampilkan loading
-    showOCRLoading();
-
-    try {
-        // Tampilkan preview gambar gabungan
-        await displayOCRPreview(mergedImageData);
-
-        // Dapatkan bahasa yang dipilih
-        const language = ocrLanguage.value;
-
-        // Lakukan OCR
-        const { data: { text, confidence } } = await ocrWorker.recognize(mergedImageData, language);
-
-        // Tampilkan hasil
-        displayOCRResult(text, confidence, 'Gambar Gabungan');
-
-        showCyberToast(`OCR berhasil! Akurasi: ${confidence.toFixed(2)}%`, 'success');
-        
-    } catch (error) {
-        console.error('OCR Error:', error);
-        showCyberToast('Gagal melakukan OCR pada gambar gabungan!', 'error');
-        ocrTextResult.innerHTML = 
-            '<p style="color: #ef5350; text-align: center;">Error: Gagal memproses gambar</p>';
-    } finally {
-        hideOCRLoading();
-    }
-}
-
-// Fungsi untuk menampilkan preview gambar OCR
-async function displayOCRPreview(imageSrc) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = function() {
-            ocrPreviewContainer.innerHTML = '';
-            
-            const previewItem = document.createElement('div');
-            previewItem.className = 'preview-item';
-            
-            const previewImg = document.createElement('img');
-            previewImg.src = imageSrc;
-            previewImg.alt = 'OCR Preview';
-            previewImg.style.cursor = 'pointer';
-            previewImg.onclick = () => {
-                lightboxImg.src = imageSrc;
-                lightbox.style.display = 'block';
-            };
-            
-            previewItem.appendChild(previewImg);
-            ocrPreviewContainer.appendChild(previewItem);
-            
-            currentOcrImage = imageSrc;
-            resolve();
-        };
-        
-        img.onerror = function() {
-            reject(new Error('Gagal memuat gambar'));
-        };
-        
-        img.src = imageSrc;
-    });
-}
-
-// Fungsi untuk menampilkan hasil OCR
-function displayOCRResult(text, confidence, source) {
-    if (!text || text.trim() === '') {
-        ocrTextResult.innerHTML = '<p style="color: #ff9800; text-align: center;">Tidak ada teks yang terdeteksi dalam gambar</p>';
-        ocrActionButtons.style.display = 'none';
-        return;
-    }
-    
-    const confidenceBadge = `<span style="background: var(--primary-green); color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; margin-left: 10px;">Akurasi: ${confidence.toFixed(2)}%</span>`;
-    
-    ocrTextResult.innerHTML = `
-        <div style="margin-bottom: 15px; display: flex; justify-content: between; align-items: center;">
-            <strong>Sumber: ${source}</strong>
-            ${confidenceBadge}
-        </div>
-        <pre style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin: 0; white-space: pre-wrap; word-wrap: break-word;">${text}</pre>
-    `;
-    
-    ocrActionButtons.style.display = 'flex';
-}
-
-// Fungsi untuk menampilkan loading OCR
-function showOCRLoading() {
-    ocrTextResult.innerHTML = `
-        <div class="ocr-loading">
-            <div class="loader-spinner"></div>
-            <div>Memproses OCR...</div>
-            <div style="font-size: 12px; margin-top: 10px; opacity: 0.7;">Ini mungkin memakan waktu beberapa detik</div>
-        </div>
-    `;
-    ocrActionButtons.style.display = 'none';
-}
-
-// Fungsi untuk menyembunyikan loading OCR
-function hideOCRLoading() {
-    // Loading akan diganti dengan hasil, jadi tidak perlu action khusus
-}
-
-// Fungsi untuk membersihkan hasil OCR
-function clearOCRResults() {
-    ocrImageUrl.value = '';
-    ocrFileUpload.value = '';
-    ocrPreviewContainer.innerHTML = `
-        <div class="placeholder" style="text-align: center; padding: 40px;">
-            <i class="fas fa-image" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
-            <div>Gambar untuk OCR akan muncul di sini</div>
-        </div>
-    `;
-    ocrTextResult.innerHTML = '<p class="placeholder">Hasil ekstraksi teks akan muncul di sini</p>';
-    ocrActionButtons.style.display = 'none';
-    currentOcrImage = null;
-    
-    showCyberToast('Hasil OCR dibersihkan', 'info');
-}
-
-// Fungsi untuk menyalin teks OCR
-function copyOCRText() {
-    const text = ocrTextResult.querySelector('pre') ? ocrTextResult.querySelector('pre').textContent : '';
-    
-    if (!text) {
-        showCyberToast('Tidak ada teks untuk disalin!', 'error');
-        return;
-    }
-    
-    navigator.clipboard.writeText(text)
-        .then(() => showCyberToast('Teks berhasil disalin!', 'success'))
-        .catch(err => {
-            console.error('Gagal menyalin teks:', err);
-            showCyberToast('Gagal menyalin teks!', 'error');
-        });
-}
-
-// Fungsi untuk mengunduh teks OCR
-function downloadOCRText() {
-    const text = ocrTextResult.querySelector('pre') ? ocrTextResult.querySelector('pre').textContent : '';
-    
-    if (!text) {
-        showCyberToast('Tidak ada teks untuk diunduh!', 'error');
-        return;
-    }
-    
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `hasil-ocr-${new Date().getTime()}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    showCyberToast('Teks berhasil diunduh!', 'success');
-}
-
-// Fungsi utilitas untuk validasi URL
-function isValidUrl(string) {
-    try {
-        new URL(string);
-        return true;
-    } catch (_) {
-        return false;
-    }
-}
-
-// Cleanup OCR worker ketika tab ditutup atau halaman di-refresh
-window.addEventListener('beforeunload', function() {
-    if (ocrWorker) {
-        ocrWorker.terminate();
-    }
-});
-
-// ================ IMAGE MERGER FUNCTIONS CONTINUED ================ //
 
 // Fungsi untuk menambahkan gambar dari URL
 async function addImageFromUrl() {
@@ -4097,14 +3599,6 @@ document.getElementById('providerNameText').textContent = this.value;
 document.getElementById('gameName').addEventListener('input', function() {
 document.getElementById('gameNameText').textContent = this.value;
 });
-
-// Initialize OCR when image tab is activated
-const imageTabBtn = document.querySelector('[data-tab="image-app"]');
-if (imageTabBtn) {
-imageTabBtn.addEventListener('click', function() {
-setTimeout(initializeOCR, 500);
-});
-}
 });
 </script>
 </body>
