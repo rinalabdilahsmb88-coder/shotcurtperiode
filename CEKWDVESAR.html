@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
+<script src="https://unpkg.com/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 <style>
 /* Variabel warna global */
 :root {
@@ -920,7 +921,7 @@ display: block;
 position: absolute;
 top: 8px;
 right: 8px;
-background: rgba(239, 83, 80, 0.9);
+background: rgba(239, 83, 80, 0.8);
 color: white;
 border: none;
 border-radius: 50%;
@@ -932,12 +933,6 @@ display: flex;
 align-items: center;
 justify-content: center;
 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-transition: all 0.3s;
-}
-
-.preview-item .remove-btn:hover {
-background: rgba(239, 83, 80, 1);
-transform: scale(1.1);
 }
 
 .result-container {
@@ -1577,38 +1572,51 @@ gap: 15px;
 justify-content: flex-end;
 }
 
-/* Improved preview styles */
-.preview-badge {
-position: absolute;
-bottom: 5px;
-left: 5px;
-background: rgba(0,0,0,0.7);
-color: white;
-padding: 2px 6px;
-border-radius: 4px;
-font-size: 10px;
+/* OCR Styles */
+.ocr-result {
+background: rgba(30, 46, 40, 0.7);
+border: 1px solid var(--border-dark);
+border-radius: 10px;
+padding: 20px;
+margin-top: 15px;
+max-height: 300px;
+overflow-y: auto;
+white-space: pre-wrap;
+font-family: 'Courier New', monospace;
+line-height: 1.5;
+color: var(--text-light);
 }
 
-/* Improved URL input validation */
-.url-input-group input:invalid {
-border-color: #ff6b6b;
+.ocr-result pre {
+margin: 0;
+font-family: inherit;
 }
 
-.url-input-group input:valid {
-border-color: var(--primary-light);
+.ocr-controls {
+display: flex;
+gap: 15px;
+flex-wrap: wrap;
 }
 
-/* Service indicator */
-.service-indicator {
-position: absolute;
-top: 8px;
-left: 8px;
-background: rgba(30, 122, 76, 0.9);
-color: white;
-padding: 2px 6px;
-border-radius: 4px;
-font-size: 10px;
-font-weight: bold;
+.ocr-controls .setting-group {
+flex: 1;
+min-width: 200px;
+}
+
+.ocr-loading {
+text-align: center;
+padding: 20px;
+color: var(--gold-primary);
+}
+
+.ocr-loading .loader-spinner {
+width: 40px;
+height: 40px;
+border: 3px solid rgba(212, 175, 55, 0.1);
+border-radius: 50%;
+border-top-color: var(--gold-primary);
+animation: spin 1s ease-in-out infinite;
+margin: 0 auto 15px;
 }
 
 /* Responsive */
@@ -1758,7 +1766,7 @@ font-size: 12px;
 </div>
 <div>
 <h1 class="app-title">WD BESAR & GABUNG GAMBAR</span></h1>
-<p class="app-subtitle">Dua alat profesional dalam satu aplikasi: Analisis kemenangan besar dan penggabung gambar canggih</p>
+<p class="app-subtitle">Dua alat profesional dalam satu aplikasi: Analisis kemenangan besar, penggabung gambar canggih, dan OCR teks dari gambar</p>
 </div>
 </div>
 </header>
@@ -1769,7 +1777,7 @@ font-size: 12px;
 <i class="fas fa-coins"></i> Analisis WD Besar
 </button>
 <button class="tab-btn" data-tab="image-app">
-<i class="fas fa-image"></i> Penggabung Gambar
+<i class="fas fa-image"></i> Penggabung Gambar & OCR
 </button>
 </div>
 
@@ -1910,7 +1918,7 @@ SALIN PESAN
 </div>
 </div>
 
-<!-- Tab: Penggabung Gambar -->
+<!-- Tab: Penggabung Gambar & OCR -->
 <div id="image-app" class="tab-content">
 <div class="panel">
 <h2 class="panel-title">
@@ -2065,6 +2073,108 @@ SALIN PESAN
 <i class="fas fa-edit"></i> Edit Gambar
 </button>
 </div>
+</div>
+
+<!-- Panel OCR -->
+<div class="panel" id="ocr-panel">
+  <h2 class="panel-title">
+    <i class="fas fa-text-height"></i> OCR Gambar (Ekstrak Teks)
+  </h2>
+  
+  <div class="url-input-section">
+    <div class="url-input-header">
+      <h3><i class="fas fa-link"></i> Masukkan URL Gambar untuk OCR</h3>
+    </div>
+    
+    <div class="url-input-group">
+      <input type="text" id="ocrImageUrl" placeholder="https://example.com/image.png">
+      <button id="ocrUrlBtn">
+        <i class="fas fa-search"></i> Ekstrak Teks
+      </button>
+    </div>
+    
+    <div class="supported-services">
+      <span class="service-badge">
+        <i class="fas fa-check-circle"></i> PNG
+      </span>
+      <span class="service-badge">
+        <i class="fas fa-check-circle"></i> JPG/JPEG
+      </span>
+      <span class="service-badge">
+        <i class="fas fa-check-circle"></i> GIF
+      </span>
+      <span class="service-badge">
+        <i class="fas fa-check-circle"></i> BMP
+      </span>
+    </div>
+  </div>
+
+  <div class="upload-section">
+    <div class="upload-header">
+      <i class="fas fa-upload"></i>
+      <h3>Atau Unggah Gambar untuk OCR</h3>
+    </div>
+    
+    <div class="upload-btn-wrapper">
+      <button class="upload-btn">
+        <i class="fas fa-cloud-upload-alt"></i> Pilih File Gambar
+      </button>
+      <input type="file" id="ocrFileUpload" accept="image/*">
+    </div>
+    
+    <p class="upload-hint">
+      <i class="fas fa-info-circle"></i> Format yang didukung: PNG, JPG, JPEG, GIF, BMP
+    </p>
+  </div>
+
+  <div class="action-buttons">
+    <button id="ocrMergedBtn" class="action-btn-large merge-btn">
+      <i class="fas fa-font"></i> OCR Gambar Gabungan
+    </button>
+    <button id="clearOcrBtn" class="action-btn-large reset-btn">
+      <i class="fas fa-broom"></i> Bersihkan Hasil
+    </button>
+  </div>
+
+  <div class="preview-container">
+    <div class="counter">
+      <i class="fas fa-image"></i> Preview Gambar OCR:
+    </div>
+    <div class="image-previews" id="ocrPreviewContainer">
+      <div class="placeholder" style="text-align: center; padding: 40px;">
+        <i class="fas fa-image" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+        <div>Gambar untuk OCR akan muncul di sini</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-container" id="ocrResultContainer" style="min-height: 200px;">
+    <div class="ocr-controls" style="margin-bottom: 20px;">
+      <div class="setting-group">
+        <label for="ocrLanguage">Bahasa OCR:</label>
+        <select id="ocrLanguage">
+          <option value="eng">English</option>
+          <option value="ind">Indonesian</option>
+          <option value="eng+ind">English + Indonesian</option>
+          <option value="chi_sim">Chinese Simplified</option>
+          <option value="chi_tra">Chinese Traditional</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="ocrTextResult" class="ocr-result">
+      <p class="placeholder">Hasil ekstraksi teks akan muncul di sini</p>
+    </div>
+
+    <div class="action-buttons" id="ocrActionButtons" style="display: none;">
+      <button id="copyOcrTextBtn" class="action-btn-large merge-btn">
+        <i class="fas fa-copy"></i> Salin Teks
+      </button>
+      <button id="downloadOcrTextBtn" class="action-btn-large" style="background: linear-gradient(to right, #2196F3, #1976D2);">
+        <i class="fas fa-download"></i> Unduh sebagai TXT
+      </button>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -2266,304 +2376,305 @@ SALIN PESAN
 </div>
 
 <script>
-// ================ TAB FUNCTIONS ================ //
-
 // Fungsi untuk mengubah tab
 document.querySelectorAll('.tab-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        // Hapus kelas active dari semua tab dan tombol
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+button.addEventListener('click', () => {
+// Hapus kelas active dari semua tab dan tombol
+document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-        // Tambahkan kelas active ke tombol yang diklik
-        button.classList.add('active');
+// Tambahkan kelas active ke tombol yang diklik
+button.classList.add('active');
 
-        // Tampilkan konten tab yang sesuai
-        const tabId = button.getAttribute('data-tab');
-        document.getElementById(tabId).classList.add('active');
-    });
+// Tampilkan konten tab yang sesuai
+const tabId = button.getAttribute('data-tab');
+document.getElementById(tabId).classList.add('active');
+
+// Inisialisasi OCR jika tab image diaktifkan
+if (tabId === 'image-app') {
+setTimeout(initializeOCR, 500);
+}
+});
 });
 
 // Format number with dots for thousands separator
 function formatNumberWithDots(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 // Toast Notification
 function showCyberToast(message, type = 'info') {
-    const toast = document.getElementById('cyberToast');
-    const toastIcon = toast.querySelector('.toast-icon');
-    const toastMessage = document.getElementById('cyberToastMessage');
+const toast = document.getElementById('cyberToast');
+const toastIcon = toast.querySelector('.toast-icon');
+const toastMessage = document.getElementById('cyberToastMessage');
 
-    toastMessage.textContent = message;
+toastMessage.textContent = message;
 
-    // Set icon and color based on type
-    toast.className = 'toast';
+// Set icon and color based on type
+toast.className = 'toast';
 
-    switch(type) {
-        case 'success':
-            toast.classList.add('success');
-            toastIcon.className = 'fas fa-check-circle toast-icon';
-            break;
-        case 'error':
-            toast.classList.add('error');
-            toastIcon.className = 'fas fa-exclamation-circle toast-icon';
-            break;
-        case 'warning':
-            toast.classList.add('info');
-            toastIcon.className = 'fas fa-exclamation-triangle toast-icon';
-            break;
-        default:
-            toast.classList.add('info');
-            toastIcon.className = 'fas fa-info-circle toast-icon';
-    }
+switch(type) {
+case 'success':
+toast.classList.add('success');
+toastIcon.className = 'fas fa-check-circle toast-icon';
+break;
+case 'error':
+toast.classList.add('error');
+toastIcon.className = 'fas fa-exclamation-circle toast-icon';
+break;
+case 'warning':
+toast.classList.add('info');
+toastIcon.className = 'fas fa-exclamation-triangle toast-icon';
+break;
+default:
+toast.classList.add('info');
+toastIcon.className = 'fas fa-info-circle toast-icon';
+}
 
-    toast.classList.remove('show', 'hide');
-    void toast.offsetWidth; // Trigger reflow
-    toast.classList.add('show');
+toast.classList.remove('show', 'hide');
+void toast.offsetWidth; // Trigger reflow
+toast.classList.add('show');
 
-    setTimeout(() => {
-        toast.classList.remove('show');
-        toast.classList.add('hide');
-    }, 3000);
+setTimeout(() => {
+toast.classList.remove('show');
+toast.classList.add('hide');
+}, 3000);
 }
 
 // ================ WD ANALYSIS FUNCTIONS ================ //
-
 // Auto analyze when data is pasted
 document.getElementById('cyberData').addEventListener('paste', function(e) {
-    setTimeout(() => {
-        analyzeCyberWD();
-    }, 100);
+setTimeout(() => {
+analyzeCyberWD();
+}, 100);
 });
 
 // Format rupiah input
 document.getElementById('cyberMinAmount').addEventListener('input', function(e) {
-    // Get current cursor position
-    const cursorPosition = e.target.selectionStart;
+// Get current cursor position
+const cursorPosition = e.target.selectionStart;
 
-    // Format the value
-    let value = e.target.value.replace(/[^\d]/g, '');
+// Format the value
+let value = e.target.value.replace(/[^\d]/g, '');
 
-    if (value) {
-        // Format as Indonesian currency (with dots)
-        const formattedValue = formatNumberWithDots(parseInt(value));
-        e.target.value = formattedValue;
+if (value) {
+// Format as Indonesian currency (with dots)
+const formattedValue = formatNumberWithDots(parseInt(value));
+e.target.value = formattedValue;
 
-        // Restore cursor position
-        const newCursorPosition = cursorPosition + (e.target.value.length - formattedValue.length);
-        e.target.setSelectionRange(newCursorPosition, newCursorPosition);
-    }
+// Restore cursor position
+const newCursorPosition = cursorPosition + (e.target.value.length - formattedValue.length);
+e.target.setSelectionRange(newCursorPosition, newCursorPosition);
+}
 });
 
 // Main Cyber Analysis Function
 function analyzeCyberWD() {
-    const rawData = document.getElementById('cyberData').value.trim();
-    if (!rawData) {
-        showCyberToast('Tidak ada data untuk dianalisis!', 'error');
-        document.getElementById('cyberResults').style.display = 'none';
-        return;
-    }
+const rawData = document.getElementById('cyberData').value.trim();
+if (!rawData) {
+showCyberToast('Tidak ada data untuk dianalisis!', 'error');
+document.getElementById('cyberResults').style.display = 'none';
+return;
+}
 
-    // Get filter amount
-    let minAmount = 30000000;
-    try {
-        const minAmountStr = document.getElementById('cyberMinAmount').value.replace(/[^0-9]/g, '');
-        minAmount = parseInt(minAmountStr) || 30000000;
-    } catch (e) {
-        console.error('Error parsing min amount:', e);
-    }
+// Get filter amount
+let minAmount = 30000000;
+try {
+const minAmountStr = document.getElementById('cyberMinAmount').value.replace(/[^0-9]/g, '');
+minAmount = parseInt(minAmountStr) || 30000000;
+} catch (e) {
+console.error('Error parsing min amount:', e);
+}
 
-    // Update UI to show current filter
-    document.getElementById('cyberFilter').textContent = 'Rp ' + minAmount.toLocaleString('id-ID').replace(/,/g, '.');
+// Update UI to show current filter
+document.getElementById('cyberFilter').textContent = 'Rp ' + minAmount.toLocaleString('id-ID').replace(/,/g, '.');
 
-    // Simulate processing delay
-    setTimeout(() => {
-        try {
-            const lines = rawData.split('\n');
-            const largeWDs = [];
-            let totalAmount = 0;
-            let count = 0;
-            let maxAmount = 0;
+// Simulate processing delay
+setTimeout(() => {
+try {
+const lines = rawData.split('\n');
+const largeWDs = [];
+let totalAmount = 0;
+let count = 0;
+let maxAmount = 0;
 
-            for (const line of lines) {
-                if (!line.trim()) continue;
+for (const line of lines) {
+if (!line.trim()) continue;
 
-                const parts = line.split(/\t|\s{2,}/).filter(part => part.trim() !== '');
-                if (parts.length < 6) continue;
+const parts = line.split(/\t|\s{2,}/).filter(part => part.trim() !== '');
+if (parts.length < 6) continue;
 
-                if (parts[1] === 'Withdraw') {
-                    const amountStr = parts[4].replace(/\./g, '').replace('Rp', '').replace(/,/g, '.').trim();
-                    const amount = parseInt(amountStr);
+if (parts[1] === 'Withdraw') {
+const amountStr = parts[4].replace(/\./g, '').replace('Rp', '').replace(/,/g, '.').trim();
+const amount = parseInt(amountStr);
 
-                    if (amount > minAmount) {
-                        const originalUserId = parts[2];
-                        const maskedUserId = cyberMaskID(originalUserId);
+if (amount > minAmount) {
+const originalUserId = parts[2];
+const maskedUserId = cyberMaskID(originalUserId);
 
-                        largeWDs.push({
-                            dateTime: parts[0],
-                            originalUserId,
-                            maskedUserId,
-                            amount
-                        });
+largeWDs.push({
+dateTime: parts[0],
+originalUserId,
+maskedUserId,
+amount
+});
 
-                        totalAmount += amount;
-                        count++;
+totalAmount += amount;
+count++;
 
-                        if (amount > maxAmount) {
-                            maxAmount = amount;
-                        }
-                    }
-                }
-            }
+if (amount > maxAmount) {
+maxAmount = amount;
+}
+}
+}
+}
 
-            displayCyberResults(largeWDs, count, totalAmount, maxAmount);
+displayCyberResults(largeWDs, count, totalAmount, maxAmount);
 
-            if (count > 0) {
-                showCyberToast(`Ditemukan ${count} WD besar (>${cyberFormatCurrency(minAmount)})`, 'success');
-            } else {
-                showCyberToast(`Tidak ditemukan WD di atas ${cyberFormatCurrency(minAmount)}`, 'warning');
-            }
-        } catch (error) {
-            console.error('Error analyzing data:', error);
-            showCyberToast('Error saat menganalisis data!', 'error');
-        }
-    }, 800);
+if (count > 0) {
+showCyberToast(`Ditemukan ${count} WD besar (>${cyberFormatCurrency(minAmount)})`, 'success');
+} else {
+showCyberToast(`Tidak ditemukan WD di atas ${cyberFormatCurrency(minAmount)}`, 'warning');
+}
+} catch (error) {
+console.error('Error analyzing data:', error);
+showCyberToast('Error saat menganalisis data!', 'error');
+}
+}, 800);
 }
 
 function cyberMaskID(userId) {
-    if (!userId) return 'N/A';
-    if (userId.length <= 3) return userId.charAt(0) + '***';
-    const firstTwo = userId.substring(0, 2);
-    const lastOne = userId.charAt(userId.length - 1);
-    return firstTwo + '*'.repeat(Math.max(userId.length - 3, 1)) + lastOne;
+if (!userId) return 'N/A';
+if (userId.length <= 3) return userId.charAt(0) + '***';
+const firstTwo = userId.substring(0, 2);
+const lastOne = userId.charAt(userId.length - 1);
+return firstTwo + '*'.repeat(Math.max(userId.length - 3, 1)) + lastOne;
 }
 
 function displayCyberResults(results, count, total, maxAmount) {
-    const resultContainer = document.getElementById('cyberResults');
-    const resultBody = document.getElementById('cyberResultsBody');
-    const countElement = document.getElementById('cyberCount');
-    const totalElement = document.getElementById('cyberTotal');
-    const maxAmountElement = document.getElementById('cyberMax');
+const resultContainer = document.getElementById('cyberResults');
+const resultBody = document.getElementById('cyberResultsBody');
+const countElement = document.getElementById('cyberCount');
+const totalElement = document.getElementById('cyberTotal');
+const maxAmountElement = document.getElementById('cyberMax');
 
-    resultBody.innerHTML = '';
-    countElement.textContent = formatNumberWithDots(count);
-    totalElement.textContent = cyberFormatCurrency(total);
-    maxAmountElement.textContent = cyberFormatCurrency(maxAmount);
+resultBody.innerHTML = '';
+countElement.textContent = formatNumberWithDots(count);
+totalElement.textContent = cyberFormatCurrency(total);
+maxAmountElement.textContent = cyberFormatCurrency(maxAmount);
 
-    if (results.length === 0) {
-        resultContainer.style.display = 'none';
-        return;
-    }
+if (results.length === 0) {
+resultContainer.style.display = 'none';
+return;
+}
 
-    // Sort by amount descending
-    results.sort((a, b) => b.amount - a.amount);
+// Sort by amount descending
+results.sort((a, b) => b.amount - a.amount);
 
-    results.forEach(tx => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td class="timestamp-cell">
-                <span>${tx.dateTime}</span>
-            </td>
-            <td>
-                <span class="user-id-cell">${tx.originalUserId}</span>
-            </td>
-            <td>
-                <span class="masked-id-cell">${tx.maskedUserId}</span>
-            </td>
-            <td class="amount-cell">
-                <span>${cyberFormatCurrency(tx.amount)}</span>
-            </td>
-            <td>
-                <div class="action-cell">
-                    <button class="action-btn" onclick="cyberCopy('${tx.originalUserId}', 'ID User')" title="Salin ID Asli">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <button class="action-btn" onclick="cyberCopy('${tx.maskedUserId}', 'ID Disamarkan')" title="Salin ID Disamarkan">
-                        <i class="fas fa-user-secret"></i>
-                    </button>
-                    <button class="action-btn" onclick="cyberCopy('${tx.amount.toLocaleString('en-US')}', 'Jumlah')" title="Salin Jumlah">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                    <button class="action-btn" onclick="generateCongratsMessage('${tx.originalUserId}', '${tx.maskedUserId}', ${tx.amount})" title="Buat Ucapan">
-                        <i class="fas fa-gift"></i>
-                    </button>
-                </div>
-            </td>
-        `;
-        resultBody.appendChild(row);
-    });
+results.forEach(tx => {
+const row = document.createElement('tr');
+row.innerHTML = `
+<td class="timestamp-cell">
+<span>${tx.dateTime}</span>
+</td>
+<td>
+<span class="user-id-cell">${tx.originalUserId}</span>
+</td>
+<td>
+<span class="masked-id-cell">${tx.maskedUserId}</span>
+</td>
+<td class="amount-cell">
+<span>${cyberFormatCurrency(tx.amount)}</span>
+</td>
+<td>
+<div class="action-cell">
+<button class="action-btn" onclick="cyberCopy('${tx.originalUserId}', 'ID User')" title="Salin ID Asli">
+<i class="fas fa-user"></i>
+</button>
+<button class="action-btn" onclick="cyberCopy('${tx.maskedUserId}', 'ID Disamarkan')" title="Salin ID Disamarkan">
+<i class="fas fa-user-secret"></i>
+</button>
+<button class="action-btn" onclick="cyberCopy('${tx.amount.toLocaleString('en-US')}', 'Jumlah')" title="Salin Jumlah">
+<i class="fas fa-copy"></i>
+</button>
+<button class="action-btn" onclick="generateCongratsMessage('${tx.originalUserId}', '${tx.maskedUserId}', ${tx.amount})" title="Buat Ucapan">
+<i class="fas fa-gift"></i>
+</button>
+</div>
+</td>
+`;
+resultBody.appendChild(row);
+});
 
-    resultContainer.style.display = 'block';
+resultContainer.style.display = 'block';
 }
 
 function cyberCopy(text, label = 'Teks') {
-    navigator.clipboard.writeText(text)
-        .then(() => showCyberToast(`${label} disalin: ${text}`, 'success'))
-        .catch(err => {
-            console.error('Gagal menyalin: ', err);
-            showCyberToast(`Gagal menyalin ${label.toLowerCase()}!`, 'error');
-        });
+navigator.clipboard.writeText(text)
+.then(() => showCyberToast(`${label} disalin: ${text}`, 'success'))
+.catch(err => {
+console.error('Gagal menyalin: ', err);
+showCyberToast(`Gagal menyalin ${label.toLowerCase()}!`, 'error');
+});
 }
 
 function cyberFormatCurrency(amount) {
-    return 'Rp ' + amount.toLocaleString('id-ID').replace(/,/g, '.');
+return 'Rp ' + amount.toLocaleString('id-ID').replace(/,/g, '.');
 }
 
 function clearCyberData() {
-    document.getElementById('cyberData').value = '';
-    document.getElementById('cyberMinAmount').value = '30.000.000';
-    document.getElementById('cyberResults').style.display = 'none';
-    document.getElementById('cyberCongrats').style.display = 'none';
-    showCyberToast('Data telah direset', 'info');
+document.getElementById('cyberData').value = '';
+document.getElementById('cyberMinAmount').value = '30.000.000';
+document.getElementById('cyberResults').style.display = 'none';
+document.getElementById('cyberCongrats').style.display = 'none';
+showCyberToast('Data telah direset', 'info');
 }
 
 // Generate congratulation message
 function generateCongratsMessage(originalUserId, maskedUserId, amount) {
-    // Format amount with commas
-    const formattedAmount = 'Rp.' + amount.toLocaleString('en-US') + ',-';
+// Format amount with commas
+const formattedAmount = 'Rp.' + amount.toLocaleString('en-US') + ',-';
 
-    // Update UI elements
-    document.getElementById('congratsUserId').textContent = maskedUserId;
-    document.getElementById('congratsAmount').textContent = formattedAmount;
+// Update UI elements
+document.getElementById('congratsUserId').textContent = maskedUserId;
+document.getElementById('congratsAmount').textContent = formattedAmount;
 
-    // Update provider and game name in message
-    const provider = document.getElementById('providerInput').value;
-    const gameName = document.getElementById('gameName').value;
-    document.getElementById('providerNameText').textContent = provider;
-    document.getElementById('gameNameText').textContent = gameName;
+// Update provider and game name in message
+const provider = document.getElementById('providerInput').value;
+const gameName = document.getElementById('gameName').value;
+document.getElementById('providerNameText').textContent = provider;
+document.getElementById('gameNameText').textContent = gameName;
 
-    // Show the congratulations section
-    document.getElementById('cyberCongrats').style.display = 'block';
+// Show the congratulations section
+document.getElementById('cyberCongrats').style.display = 'block';
 
-    // Scroll to the congratulations section
-    document.getElementById('cyberCongrats').scrollIntoView({
-        behavior: 'smooth'
-    });
+// Scroll to the congratulations section
+document.getElementById('cyberCongrats').scrollIntoView({
+behavior: 'smooth'
+});
 
-    showCyberToast(`Pesan ucapan untuk ${maskedUserId} siap!`, 'success');
+showCyberToast(`Pesan ucapan untuk ${maskedUserId} siap!`, 'success');
 }
 
 // Copy congratulation message to clipboard
 function copyCongratsMessage() {
-    const userId = document.getElementById('congratsUserId').textContent;
-    const amount = document.getElementById('congratsAmount').textContent;
-    const provider = document.getElementById('providerInput').value;
-    const gameName = document.getElementById('gameName').value;
+const userId = document.getElementById('congratsUserId').textContent;
+const amount = document.getElementById('congratsAmount').textContent;
+const provider = document.getElementById('providerInput').value;
+const gameName = document.getElementById('gameName').value;
 
-    const message = `Selamat kepada User ID : ${userId} telah berhasil mendapat kemenangan besar pada permainan ${provider} "${gameName}" sebesar ${amount}\n\n` +
-        `Di Linetogel Kepercayaan dan kepuasan member adalah PRIORITAS utama kami. Sudah terbukti dan terpercaya, semua kemenangan member 100% Dibayarkan tanpa alasan apapun. Tak perlu ragu, ribuan member sudah merasakan sendiri sensasi menang besar dan langsung cair tanpa drama. Gabung sekarang di Linetogel dan rasakan pengalaman bermain yang aman, seru, dan tentunya menguntungkan.`;
+const message = `Selamat kepada User ID : ${userId} telah berhasil mendapat kemenangan besar pada permainan ${provider} "${gameName}" sebesar ${amount}\n\n` +
+`Di Linetogel Kepercayaan dan kepuasan member adalah PRIORITAS utama kami. Sudah terbukti dan terpercaya, semua kemenangan member 100% Dibayarkan tanpa alasan apapun. Tak perlu ragu, ribuan member sudah merasakan sendiri sensasi menang besar dan langsung cair tanpa drama. Gabung sekarang di Linetogel dan rasakan pengalaman bermain yang aman, seru, dan tentunya menguntungkan.`;
 
-    navigator.clipboard.writeText(message)
-        .then(() => showCyberToast('Pesan ucapan berhasil disalin!', 'success'))
-        .catch(err => {
-            console.error('Gagal menyalin pesan: ', err);
-            showCyberToast('Gagal menyalin pesan!', 'error');
-        });
+navigator.clipboard.writeText(message)
+.then(() => showCyberToast('Pesan ucapan berhasil disalin!', 'success'))
+.catch(err => {
+console.error('Gagal menyalin pesan: ', err);
+showCyberToast('Gagal menyalin pesan!', 'error');
+});
 }
 
 // ================ IMAGE MERGER FUNCTIONS ================ //
-
 // Elemen DOM
 const imageUrl = document.getElementById('imageUrl');
 const addUrlBtn = document.getElementById('addUrlBtn');
@@ -2627,6 +2738,19 @@ const closeTextModal = document.getElementById('closeTextModal');
 const cancelTextBtn = document.getElementById('cancelTextBtn');
 const addTextBtn = document.getElementById('addTextBtn');
 
+// OCR Elements
+const ocrImageUrl = document.getElementById('ocrImageUrl');
+const ocrUrlBtn = document.getElementById('ocrUrlBtn');
+const ocrFileUpload = document.getElementById('ocrFileUpload');
+const ocrMergedBtn = document.getElementById('ocrMergedBtn');
+const clearOcrBtn = document.getElementById('clearOcrBtn');
+const ocrPreviewContainer = document.getElementById('ocrPreviewContainer');
+const ocrTextResult = document.getElementById('ocrTextResult');
+const ocrActionButtons = document.getElementById('ocrActionButtons');
+const copyOcrTextBtn = document.getElementById('copyOcrTextBtn');
+const downloadOcrTextBtn = document.getElementById('downloadOcrTextBtn');
+const ocrLanguage = document.getElementById('ocrLanguage');
+
 // Array untuk menyimpan gambar
 let images = [];
 let mergedImageData = null;
@@ -2643,6 +2767,10 @@ let canvasOffsetY = 0;
 let isPanning = false;
 let panStartX, panStartY;
 
+// OCR variables
+let ocrWorker = null;
+let currentOcrImage = null;
+
 // Inisialisasi kualitas
 qualityValue.textContent = `${qualitySlider.value}%`;
 
@@ -2650,7 +2778,7 @@ qualityValue.textContent = `${qualitySlider.value}%`;
 addUrlBtn.addEventListener('click', addImageFromUrl);
 
 imageUrl.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') addImageFromUrl();
+if (e.key === 'Enter') addImageFromUrl();
 });
 
 mergeBtn.addEventListener('click', mergeImages);
@@ -2660,7 +2788,7 @@ resetBtn.addEventListener('click', resetAll);
 copyLinkBtn.addEventListener('click', copyImageLink);
 
 qualitySlider.addEventListener('input', () => {
-    qualityValue.textContent = `${qualitySlider.value}%`;
+qualityValue.textContent = `${qualitySlider.value}%`;
 });
 
 // Event listener untuk upload file
@@ -2668,20 +2796,20 @@ fileUpload.addEventListener('change', handleFileUpload);
 
 // Event listener untuk lightbox
 resultImage.addEventListener('click', () => {
-    if (mergedImageData) {
-        lightboxImg.src = mergedImageData;
-        lightbox.style.display = 'block';
-    }
+if (mergedImageData) {
+lightboxImg.src = mergedImageData;
+lightbox.style.display = 'block';
+}
 });
 
 closeBtn.addEventListener('click', () => {
-    lightbox.style.display = 'none';
+lightbox.style.display = 'none';
 });
 
 window.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-        lightbox.style.display = 'none';
-    }
+if (e.target === lightbox) {
+lightbox.style.display = 'none';
+}
 });
 
 // Fullscreen Editor event listeners
@@ -2694,26 +2822,26 @@ lineTool.addEventListener('click', () => selectTool('line'));
 
 // Brush size controls
 brushSize.addEventListener('input', () => {
-    brushSizeValue.textContent = brushSize.value;
-    updateCursorPreview();
+brushSizeValue.textContent = brushSize.value;
+updateCursorPreview();
 });
 
 brushSizeMinus.addEventListener('click', () => {
-    const newSize = Math.max(1, parseInt(brushSize.value) - 1);
-    brushSize.value = newSize;
-    brushSizeValue.textContent = newSize;
-    updateCursorPreview();
+const newSize = Math.max(1, parseInt(brushSize.value) - 1);
+brushSize.value = newSize;
+brushSizeValue.textContent = newSize;
+updateCursorPreview();
 });
 
 brushSizePlus.addEventListener('click', () => {
-    const newSize = Math.min(50, parseInt(brushSize.value) + 1);
-    brushSize.value = newSize;
-    brushSizeValue.textContent = newSize;
-    updateCursorPreview();
+const newSize = Math.min(50, parseInt(brushSize.value) + 1);
+brushSize.value = newSize;
+brushSizeValue.textContent = newSize;
+updateCursorPreview();
 });
 
 brushOpacity.addEventListener('input', () => {
-    brushOpacityValue.textContent = `${brushOpacity.value}%`;
+brushOpacityValue.textContent = `${brushOpacity.value}%`;
 });
 
 undoBtn.addEventListener('click', undo);
@@ -2732,1051 +2860,1251 @@ editorCanvas.addEventListener('mouseout', stopDrawing);
 editorCanvas.addEventListener('wheel', handleWheel);
 editorCanvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
+// Touch events for mobile
+editorCanvas.addEventListener('touchstart', (e) => {
+e.preventDefault();
+const touch = e.touches[0];
+const mouseEvent = new MouseEvent('mousedown', {
+clientX: touch.clientX,
+clientY: touch.clientY,
+button: 0
+});
+editorCanvas.dispatchEvent(mouseEvent);
+});
+
+editorCanvas.addEventListener('touchmove', (e) => {
+e.preventDefault();
+const touch = e.touches[0];
+const mouseEvent = new MouseEvent('mousemove', {
+clientX: touch.clientX,
+clientY: touch.clientY
+});
+editorCanvas.dispatchEvent(mouseEvent);
+});
+
+editorCanvas.addEventListener('touchend', (e) => {
+e.preventDefault();
+const mouseEvent = new MouseEvent('mouseup', {});
+editorCanvas.dispatchEvent(mouseEvent);
+});
+
 // Text modal event listeners
 closeTextModal.addEventListener('click', () => {
-    textModal.style.display = 'none';
+textModal.style.display = 'none';
 });
 
 cancelTextBtn.addEventListener('click', () => {
-    textModal.style.display = 'none';
+textModal.style.display = 'none';
 });
 
 addTextBtn.addEventListener('click', () => {
-    const text = textInput.value.trim();
-    if (text) {
-        const font = fontSelect.value;
-        const fontSize = fontSizeSelect.value;
+const text = textInput.value.trim();
+if (text) {
+const font = fontSelect.value;
+const fontSize = fontSizeSelect.value;
 
-        editorCtx.font = `${fontSize}px ${font}`;
-        editorCtx.fillStyle = colorPicker.value;
-        editorCtx.globalAlpha = brushOpacity.value / 100;
+editorCtx.font = `${fontSize}px ${font}`;
+editorCtx.fillStyle = colorPicker.value;
+editorCtx.globalAlpha = brushOpacity.value / 100;
 
-        // Set text tool mode
-        currentTool = 'text-place';
-        textModal.style.display = 'none';
-        showCyberToast('Klik pada gambar untuk menempatkan teks', 'info');
-    }
+// Set text tool mode
+currentTool = 'text-place';
+textModal.style.display = 'none';
+showCyberToast('Klik pada gambar untuk menempatkan teks', 'info');
+}
+});
+
+// OCR Event Listeners
+ocrUrlBtn.addEventListener('click', performOCRFromUrl);
+ocrFileUpload.addEventListener('change', handleOCRFileUpload);
+ocrMergedBtn.addEventListener('click', performOCRFromMerged);
+clearOcrBtn.addEventListener('click', clearOCRResults);
+copyOcrTextBtn.addEventListener('click', copyOCRText);
+downloadOcrTextBtn.addEventListener('click', downloadOCRText);
+
+ocrImageUrl.addEventListener('keypress', function(e) {
+if (e.key === 'Enter') {
+performOCRFromUrl();
+}
 });
 
 // Keyboard shortcuts for editor
 document.addEventListener('keydown', (e) => {
-    // Only apply shortcuts when editor is active
-    if (!fullscreenEditor.classList.contains('active')) return;
+// Only apply shortcuts when editor is active
+if (!fullscreenEditor.classList.contains('active')) return;
 
-    // Ctrl+Z for undo
-    if (e.ctrlKey && e.key === 'z' && !e.shiftKey) {
-        e.preventDefault();
-        undo();
-        return;
-    }
+// Ctrl+Z for undo
+if (e.ctrlKey && e.key === 'z' && !e.shiftKey) {
+e.preventDefault();
+undo();
+return;
+}
 
-    // Ctrl+Shift+Z for redo
-    if (e.ctrlKey && e.shiftKey && e.key === 'Z') {
-        e.preventDefault();
-        redo();
-        return;
-    }
+// Ctrl+Shift+Z for redo
+if (e.ctrlKey && e.shiftKey && e.key === 'Z') {
+e.preventDefault();
+redo();
+return;
+}
 
-    // Ctrl+S to save
-    if (e.ctrlKey && e.key === 's') {
-        e.preventDefault();
-        saveEditedImage();
-        return;
-    }
+// Ctrl+S to save
+if (e.ctrlKey && e.key === 's') {
+e.preventDefault();
+saveEditedImage();
+return;
+}
 
-    // Escape to close editor
-    if (e.key === 'Escape') {
-        closeFullscreenEditor();
-        return;
-    }
+// Escape to close editor
+if (e.key === 'Escape') {
+closeFullscreenEditor();
+return;
+}
 
-    // Plus key to increase brush size
-    if (e.key === '+' || e.key === '=') {
-        e.preventDefault();
-        const newSize = Math.min(50, parseInt(brushSize.value) + 1);
-        brushSize.value = newSize;
-        brushSizeValue.textContent = newSize;
-        updateCursorPreview();
-        return;
-    }
+// Plus key to increase brush size
+if (e.key === '+' || e.key === '=') {
+e.preventDefault();
+const newSize = Math.min(50, parseInt(brushSize.value) + 1);
+brushSize.value = newSize;
+brushSizeValue.textContent = newSize;
+updateCursorPreview();
+return;
+}
 
-    // Minus key to decrease brush size
-    if (e.key === '-' || e.key === '_') {
-        e.preventDefault();
-        const newSize = Math.max(1, parseInt(brushSize.value) - 1);
-        brushSize.value = newSize;
-        brushSizeValue.textContent = newSize;
-        updateCursorPreview();
-        return;
-    }
+// Minus key to decrease brush size
+if (e.key === '-' || e.key === '_') {
+e.preventDefault();
+const newSize = Math.max(1, parseInt(brushSize.value) - 1);
+brushSize.value = newSize;
+brushSizeValue.textContent = newSize;
+updateCursorPreview();
+return;
+}
 });
 
-// ================ IMAGE PROCESSING FUNCTIONS ================ //
+// Custom wheel event for editor with modifier keys
+function handleWheel(e) {
+e.preventDefault();
 
-// Fungsi untuk mengambil gambar dari URL Sleekshot dan layanan lainnya
-async function fetchSleekshotImage(url) {
+// Ctrl+Scroll for zoom
+if (e.ctrlKey) {
+const delta = e.deltaY > 0 ? 0.9 : 1.1;
+const newZoom = currentZoom * delta;
+setZoom(newZoom);
+return;
+}
+
+// Alt+Scroll for brush size
+if (e.altKey) {
+const delta = e.deltaY > 0 ? -1 : 1;
+const newSize = Math.max(1, Math.min(50, parseInt(brushSize.value) + delta));
+brushSize.value = newSize;
+brushSizeValue.textContent = newSize;
+updateCursorPreview();
+return;
+}
+
+// If no modifier key is pressed, do nothing
+// This removes automatic zoom behavior
+}
+
+// ================ OCR FUNCTIONS ================ //
+
+// Inisialisasi OCR
+async function initializeOCR() {
     try {
-        showCyberToast('Mengambil gambar dari Sleekshot...', 'info');
+        showCyberToast('Menginisialisasi OCR...', 'info');
         
-        // Gunakan CORS proxy untuk menghindari masalah CORS
-        const proxyUrl = 'https://corsproxy.io/?';
-        const targetUrl = url;
-        
-        const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
-        const html = await response.text();
-        
-        // Parsing HTML untuk mencari URL gambar
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        
-        // Cari elemen gambar dalam halaman Sleekshot
-        let imageUrl = null;
-        
-        // Coba berbagai selector yang mungkin
-        const selectors = [
-            'img.screenshot-image',
-            'img.preview-image',
-            '.image-container img',
-            'img[src*="sleekshot"]',
-            'meta[property="og:image"]',
-            'meta[name="twitter:image"]'
-        ];
-        
-        for (const selector of selectors) {
-            if (selector.startsWith('meta')) {
-                const meta = doc.querySelector(selector);
-                if (meta) {
-                    imageUrl = meta.getAttribute('content');
-                    break;
-                }
-            } else {
-                const img = doc.querySelector(selector);
-                if (img) {
-                    imageUrl = img.getAttribute('src');
-                    break;
-                }
-            }
+        // Load Tesseract.js
+        if (typeof Tesseract === 'undefined') {
+            showCyberToast('Gagal memuat OCR engine!', 'error');
+            return;
         }
         
-        if (!imageUrl) {
-            throw new Error('Tidak dapat menemukan gambar di halaman Sleekshot');
-        }
-        
-        // Pastikan URL lengkap
-        if (imageUrl.startsWith('//')) {
-            imageUrl = 'https:' + imageUrl;
-        } else if (imageUrl.startsWith('/')) {
-            const urlObj = new URL(targetUrl);
-            imageUrl = urlObj.origin + imageUrl;
-        }
-        
-        // Load gambar untuk memastikan dapat diakses
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        
-        return new Promise((resolve, reject) => {
-            img.onload = () => resolve(img);
-            img.onerror = () => reject(new Error('Gagal memuat gambar dari Sleekshot'));
-            img.src = proxyUrl + imageUrl;
-        });
-        
+        await createOCRWorker();
     } catch (error) {
-        console.error('Error fetching Sleekshot image:', error);
-        showCyberToast('Gagal mengambil gambar dari Sleekshot: ' + error.message, 'error');
-        return null;
+        console.error('Error initializing OCR:', error);
+        showCyberToast('Error inisialisasi OCR!', 'error');
     }
 }
 
-// Fungsi untuk memproses URL gambar dari berbagai layanan
-async function processImageUrl(url) {
-    // Jika URL sudah langsung ke gambar (jpg, png, gif, webp)
-    if (/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i.test(url)) {
-        return await loadImageFromUrl(url);
-    }
-    
-    // Jika URL dari Sleekshot
-    if (url.includes('sleekshot.app')) {
-        return await fetchSleekshotImage(url);
-    }
-    
-    // Jika URL dari layanan screenshot lainnya
-    if (url.includes('prnt.sc') || url.includes('imgur.com') || url.includes('imghostr.com')) {
-        return await fetchScreenshotImage(url);
-    }
-    
-    // Default: coba load sebagai gambar langsung
-    return await loadImageFromUrl(url);
-}
-
-// Fungsi untuk mengambil gambar dari layanan screenshot lainnya
-async function fetchScreenshotImage(url) {
+// Create OCR Worker
+async function createOCRWorker() {
     try {
-        showCyberToast('Mengambil gambar dari layanan screenshot...', 'info');
-        
-        const proxyUrl = 'https://corsproxy.io/?';
-        const response = await fetch(proxyUrl + url);
-        const html = await response.text();
-        
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        
-        // Cari gambar dengan berbagai selector umum
-        const selectors = [
-            'meta[property="og:image"]',
-            'meta[name="twitter:image"]',
-            'img.screenshot',
-            'img.preview',
-            '.screenshot-container img',
-            'img[src*="screenshot"]',
-            'img[alt*="screenshot"]'
-        ];
-        
-        let imageUrl = null;
-        for (const selector of selectors) {
-            if (selector.startsWith('meta')) {
-                const meta = doc.querySelector(selector);
-                if (meta) {
-                    imageUrl = meta.getAttribute('content');
-                    break;
-                }
-            } else {
-                const img = doc.querySelector(selector);
-                if (img) {
-                    imageUrl = img.getAttribute('src');
-                    break;
-                }
-            }
-        }
-        
-        if (!imageUrl) {
-            // Fallback: cari semua gambar dan ambil yang terbesar
-            const allImages = doc.querySelectorAll('img');
-            let largestImage = null;
-            let largestSize = 0;
-            
-            allImages.forEach(img => {
-                const src = img.getAttribute('src');
-                if (src && !src.includes('icon') && !src.includes('logo')) {
-                    const width = parseInt(img.getAttribute('width')) || 0;
-                    const height = parseInt(img.getAttribute('height')) || 0;
-                    const size = width * height;
-                    
-                    if (size > largestSize) {
-                        largestSize = size;
-                        largestImage = src;
-                    }
-                }
-            });
-            
-            imageUrl = largestImage;
-        }
-        
-        if (!imageUrl) {
-            throw new Error('Tidak dapat menemukan gambar di halaman tersebut');
-        }
-        
-        // Pastikan URL lengkap
-        if (imageUrl.startsWith('//')) {
-            imageUrl = 'https:' + imageUrl;
-        } else if (imageUrl.startsWith('/')) {
-            const urlObj = new URL(url);
-            imageUrl = urlObj.origin + imageUrl;
-        }
-        
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        
-        return new Promise((resolve, reject) => {
-            img.onload = () => resolve(img);
-            img.onerror = () => reject(new Error('Gagal memuat gambar'));
-            img.src = proxyUrl + imageUrl;
-        });
-        
+        ocrWorker = await Tesseract.createWorker();
+        await ocrWorker.load();
+        await ocrWorker.loadLanguage('eng');
+        await ocrWorker.initialize('eng');
+        showCyberToast('OCR engine siap!', 'success');
     } catch (error) {
-        console.error('Error fetching screenshot image:', error);
-        showCyberToast('Gagal mengambil gambar: ' + error.message, 'error');
-        return null;
+        console.error('Error creating OCR worker:', error);
+        showCyberToast('Gagal membuat OCR worker!', 'error');
     }
 }
 
-// Fungsi untuk memuat gambar dari URL langsung
-function loadImageFromUrl(url) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        
-        img.onload = () => resolve(img);
-        img.onerror = () => reject(new Error('Gagal memuat gambar dari URL'));
-        img.src = url;
-    });
-}
-
-// Fungsi untuk menambahkan gambar dari URL
-async function addImageFromUrl() {
-    const url = imageUrl.value.trim();
-    if (!url) {
+// Fungsi untuk OCR dari URL
+async function performOCRFromUrl() {
+    const imageUrl = ocrImageUrl.value.trim();
+    
+    if (!imageUrl) {
         showCyberToast('Masukkan URL gambar!', 'error');
         return;
     }
 
-    if (images.length >= 10) {
-        showCyberToast('Maksimal 10 gambar!', 'warning');
+    if (!ocrWorker) {
+        showCyberToast('OCR engine belum siap!', 'error');
         return;
     }
 
-    // Tampilkan loader
-    loader.style.display = 'block';
+    // Tampilkan loading
+    showOCRLoading();
 
     try {
-        const img = await processImageUrl(url);
-        
-        if (img) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-
-            const imageData = {
-                src: canvas.toDataURL('image/png'),
-                name: 'url-image',
-                type: 'url',
-                originalUrl: url,
-                width: img.width,
-                height: img.height
-            };
-
-            images.push(imageData);
-            updatePreviews();
-            imageUrl.value = '';
-            showCyberToast('Gambar berhasil ditambahkan!', 'success');
+        // Validasi URL
+        if (!isValidUrl(imageUrl)) {
+            throw new Error('URL tidak valid');
         }
+
+        // Tampilkan preview gambar
+        await displayOCRPreview(imageUrl);
+
+        // Dapatkan bahasa yang dipilih
+        const language = ocrLanguage.value;
+
+        // Lakukan OCR
+        const { data: { text, confidence } } = await ocrWorker.recognize(imageUrl, language);
+
+        // Tampilkan hasil
+        displayOCRResult(text, confidence, imageUrl);
+
+        showCyberToast(`OCR berhasil! Akurasi: ${confidence.toFixed(2)}%`, 'success');
+        
     } catch (error) {
-        console.error('Error adding image:', error);
-        showCyberToast('Gagal menambahkan gambar: ' + error.message, 'error');
+        console.error('OCR Error:', error);
+        showCyberToast('Gagal melakukan OCR! Pastikan URL gambar valid.', 'error');
+        ocrTextResult.innerHTML = 
+            '<p style="color: #ef5350; text-align: center;">Error: Gagal memproses gambar</p>';
     } finally {
-        // Sembunyikan loader
-        loader.style.display = 'none';
+        hideOCRLoading();
     }
+}
+
+// Fungsi untuk OCR dari file upload
+async function handleOCRFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.match('image.*')) {
+        showCyberToast('Hanya file gambar yang diizinkan!', 'error');
+        return;
+    }
+
+    if (!ocrWorker) {
+        showCyberToast('OCR engine belum siap!', 'error');
+        return;
+    }
+
+    // Tampilkan loading
+    showOCRLoading();
+
+    try {
+        const imageUrl = URL.createObjectURL(file);
+        
+        // Tampilkan preview gambar
+        await displayOCRPreview(imageUrl);
+
+        // Dapatkan bahasa yang dipilih
+        const language = ocrLanguage.value;
+
+        // Lakukan OCR
+        const { data: { text, confidence } } = await ocrWorker.recognize(file, language);
+
+        // Tampilkan hasil
+        displayOCRResult(text, confidence, file.name);
+
+        showCyberToast(`OCR berhasil! Akurasi: ${confidence.toFixed(2)}%`, 'success');
+        
+    } catch (error) {
+        console.error('OCR Error:', error);
+        showCyberToast('Gagal melakukan OCR pada file!', 'error');
+        ocrTextResult.innerHTML = 
+            '<p style="color: #ef5350; text-align: center;">Error: Gagal memproses gambar</p>';
+    } finally {
+        hideOCRLoading();
+        // Reset file input
+        event.target.value = '';
+    }
+}
+
+// Fungsi untuk OCR dari gambar gabungan
+async function performOCRFromMerged() {
+    if (!mergedImageData) {
+        showCyberToast('Tidak ada gambar gabungan!', 'error');
+        return;
+    }
+
+    if (!ocrWorker) {
+        showCyberToast('OCR engine belum siap!', 'error');
+        return;
+    }
+
+    // Tampilkan loading
+    showOCRLoading();
+
+    try {
+        // Tampilkan preview gambar gabungan
+        await displayOCRPreview(mergedImageData);
+
+        // Dapatkan bahasa yang dipilih
+        const language = ocrLanguage.value;
+
+        // Lakukan OCR
+        const { data: { text, confidence } } = await ocrWorker.recognize(mergedImageData, language);
+
+        // Tampilkan hasil
+        displayOCRResult(text, confidence, 'Gambar Gabungan');
+
+        showCyberToast(`OCR berhasil! Akurasi: ${confidence.toFixed(2)}%`, 'success');
+        
+    } catch (error) {
+        console.error('OCR Error:', error);
+        showCyberToast('Gagal melakukan OCR pada gambar gabungan!', 'error');
+        ocrTextResult.innerHTML = 
+            '<p style="color: #ef5350; text-align: center;">Error: Gagal memproses gambar</p>';
+    } finally {
+        hideOCRLoading();
+    }
+}
+
+// Fungsi untuk menampilkan preview gambar OCR
+async function displayOCRPreview(imageSrc) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = function() {
+            ocrPreviewContainer.innerHTML = '';
+            
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
+            
+            const previewImg = document.createElement('img');
+            previewImg.src = imageSrc;
+            previewImg.alt = 'OCR Preview';
+            previewImg.style.cursor = 'pointer';
+            previewImg.onclick = () => {
+                lightboxImg.src = imageSrc;
+                lightbox.style.display = 'block';
+            };
+            
+            previewItem.appendChild(previewImg);
+            ocrPreviewContainer.appendChild(previewItem);
+            
+            currentOcrImage = imageSrc;
+            resolve();
+        };
+        
+        img.onerror = function() {
+            reject(new Error('Gagal memuat gambar'));
+        };
+        
+        img.src = imageSrc;
+    });
+}
+
+// Fungsi untuk menampilkan hasil OCR
+function displayOCRResult(text, confidence, source) {
+    if (!text || text.trim() === '') {
+        ocrTextResult.innerHTML = '<p style="color: #ff9800; text-align: center;">Tidak ada teks yang terdeteksi dalam gambar</p>';
+        ocrActionButtons.style.display = 'none';
+        return;
+    }
+    
+    const confidenceBadge = `<span style="background: var(--primary-green); color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; margin-left: 10px;">Akurasi: ${confidence.toFixed(2)}%</span>`;
+    
+    ocrTextResult.innerHTML = `
+        <div style="margin-bottom: 15px; display: flex; justify-content: between; align-items: center;">
+            <strong>Sumber: ${source}</strong>
+            ${confidenceBadge}
+        </div>
+        <pre style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin: 0; white-space: pre-wrap; word-wrap: break-word;">${text}</pre>
+    `;
+    
+    ocrActionButtons.style.display = 'flex';
+}
+
+// Fungsi untuk menampilkan loading OCR
+function showOCRLoading() {
+    ocrTextResult.innerHTML = `
+        <div class="ocr-loading">
+            <div class="loader-spinner"></div>
+            <div>Memproses OCR...</div>
+            <div style="font-size: 12px; margin-top: 10px; opacity: 0.7;">Ini mungkin memakan waktu beberapa detik</div>
+        </div>
+    `;
+    ocrActionButtons.style.display = 'none';
+}
+
+// Fungsi untuk menyembunyikan loading OCR
+function hideOCRLoading() {
+    // Loading akan diganti dengan hasil, jadi tidak perlu action khusus
+}
+
+// Fungsi untuk membersihkan hasil OCR
+function clearOCRResults() {
+    ocrImageUrl.value = '';
+    ocrFileUpload.value = '';
+    ocrPreviewContainer.innerHTML = `
+        <div class="placeholder" style="text-align: center; padding: 40px;">
+            <i class="fas fa-image" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+            <div>Gambar untuk OCR akan muncul di sini</div>
+        </div>
+    `;
+    ocrTextResult.innerHTML = '<p class="placeholder">Hasil ekstraksi teks akan muncul di sini</p>';
+    ocrActionButtons.style.display = 'none';
+    currentOcrImage = null;
+    
+    showCyberToast('Hasil OCR dibersihkan', 'info');
+}
+
+// Fungsi untuk menyalin teks OCR
+function copyOCRText() {
+    const text = ocrTextResult.querySelector('pre') ? ocrTextResult.querySelector('pre').textContent : '';
+    
+    if (!text) {
+        showCyberToast('Tidak ada teks untuk disalin!', 'error');
+        return;
+    }
+    
+    navigator.clipboard.writeText(text)
+        .then(() => showCyberToast('Teks berhasil disalin!', 'success'))
+        .catch(err => {
+            console.error('Gagal menyalin teks:', err);
+            showCyberToast('Gagal menyalin teks!', 'error');
+        });
+}
+
+// Fungsi untuk mengunduh teks OCR
+function downloadOCRText() {
+    const text = ocrTextResult.querySelector('pre') ? ocrTextResult.querySelector('pre').textContent : '';
+    
+    if (!text) {
+        showCyberToast('Tidak ada teks untuk diunduh!', 'error');
+        return;
+    }
+    
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `hasil-ocr-${new Date().getTime()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    showCyberToast('Teks berhasil diunduh!', 'success');
+}
+
+// Fungsi utilitas untuk validasi URL
+function isValidUrl(string) {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
+}
+
+// Cleanup OCR worker ketika tab ditutup atau halaman di-refresh
+window.addEventListener('beforeunload', function() {
+    if (ocrWorker) {
+        ocrWorker.terminate();
+    }
+});
+
+// ================ IMAGE MERGER FUNCTIONS CONTINUED ================ //
+
+// Fungsi untuk menambahkan gambar dari URL
+async function addImageFromUrl() {
+const url = imageUrl.value.trim();
+if (!url) {
+showCyberToast('Masukkan URL gambar!', 'error');
+return;
+}
+
+if (images.length >= 10) {
+showCyberToast('Maksimal 10 gambar!', 'warning');
+return;
+}
+
+// Tampilkan loader
+loader.style.display = 'block';
+
+try {
+// Ekstrak URL gambar sebenarnya menggunakan teknik khusus
+const directImageUrl = await extractImageUrl(url);
+
+// Validasi URL gambar
+const img = new Image();
+img.crossOrigin = 'Anonymous';
+
+await new Promise((resolve, reject) => {
+img.onload = resolve;
+img.onerror = () => {
+reject(new Error('Gagal memuat gambar'));
+};
+img.src = directImageUrl;
+});
+
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = img.width;
+canvas.height = img.height;
+ctx.drawImage(img, 0, 0);
+
+const imageData = {
+src: canvas.toDataURL('image/png'),
+name: 'url-image',
+type: 'url',
+originalUrl: url
+};
+
+images.push(imageData);
+updatePreviews();
+imageUrl.value = '';
+showCyberToast('Gambar berhasil ditambahkan!', 'success');
+} catch (error) {
+console.error('Error:', error);
+showCyberToast('Gagal memuat gambar. Pastikan URL benar dan mendukung CORS.', 'error');
+} finally {
+// Sembunyikan loader
+loader.style.display = 'none';
+}
 }
 
 // Fungsi untuk menangani upload file
 function handleFileUpload(e) {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+const files = e.target.files;
+if (!files || files.length === 0) return;
 
-    if (images.length + files.length > 10) {
-        showCyberToast('Maksimal 10 gambar!', 'warning');
-        return;
-    }
+if (images.length + files.length > 10) {
+showCyberToast('Maksimal 10 gambar!', 'warning');
+return;
+}
 
-    // Tampilkan loader
-    loader.style.display = 'block';
+// Tampilkan loader
+loader.style.display = 'block';
 
-    let processed = 0;
-    const totalFiles = files.length;
+let processed = 0;
+const totalFiles = files.length;
 
-    Array.from(files).forEach(file => {
-        if (!file.type.match('image.*')) {
-            processed++;
-            if (processed === totalFiles) loader.style.display = 'none';
-            showCyberToast('Hanya file gambar yang diizinkan!', 'error');
-            return;
-        }
+Array.from(files).forEach(file => {
+if (!file.type.match('image.*')) {
+processed++;
+if (processed === totalFiles) loader.style.display = 'none';
+showCyberToast('Hanya file gambar yang diizinkan!', 'error');
+return;
+}
 
-        const reader = new FileReader();
+const reader = new FileReader();
 
-        reader.onload = function(event) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
+reader.onload = function(event) {
+const img = new Image();
+img.onload = function() {
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = img.width;
+canvas.height = img.height;
+ctx.drawImage(img, 0, 0);
 
-                const imageData = {
-                    src: canvas.toDataURL('image/png'),
-                    name: file.name,
-                    type: 'upload',
-                    file: file,
-                    width: img.width,
-                    height: img.height
-                };
+const imageData = {
+src: canvas.toDataURL('image/png'),
+name: file.name,
+type: 'upload',
+file: file
+};
 
-                images.push(imageData);
-                processed++;
+images.push(imageData);
+processed++;
 
-                if (processed === totalFiles) {
-                    updatePreviews();
-                    loader.style.display = 'none';
-                    showCyberToast(`${totalFiles} gambar berhasil diunggah!`, 'success');
-                }
-            };
-            img.src = event.target.result;
-        };
+if (processed === totalFiles) {
+updatePreviews();
+loader.style.display = 'none';
+showCyberToast(`${totalFiles} gambar berhasil diunggah!`, 'success');
+}
+};
+img.src = event.target.result;
+};
 
-        reader.onerror = function() {
-            processed++;
-            if (processed === totalFiles) loader.style.display = 'none';
-            showCyberToast('Gagal membaca file!', 'error');
-        };
+reader.onerror = function() {
+processed++;
+if (processed === totalFiles) loader.style.display = 'none';
+showCyberToast('Gagal membaca file!', 'error');
+};
 
-        reader.readAsDataURL(file);
-    });
+reader.readAsDataURL(file);
+});
 
-    // Reset input file
-    fileUpload.value = '';
+// Reset input file
+fileUpload.value = '';
+}
+
+// Fungsi untuk mengekstrak URL gambar sebenarnya dari berbagai layanan
+async function extractImageUrl(url) {
+try {
+// Untuk layanan prnt.sc
+if (url.includes('prnt.sc')) {
+// Coba ambil dari meta og:image
+try {
+const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+const data = await response.json();
+const html = data.contents;
+
+// Metode 1: Cari meta property og:image
+const ogImageRegex = /<meta\s+property="og:image"\s+content="([^"]+)"/i;
+const ogMatch = ogImageRegex.exec(html);
+if (ogMatch && ogMatch[1]) {
+return ogMatch[1].replace(/&amp;/g, '&');
+}
+
+// Metode 2: Cari gambar dengan class khusus
+const classRegex = /<img[^>]+class="[^"]*screenshot-image[^"]*"[^>]+src="([^">]+)"/i;
+const classMatches = classRegex.exec(html);
+if (classMatches && classMatches[1]) {
+return classMatches[1].startsWith('//') ? 'https:' + classMatches[1] : classMatches[1];
+}
+} catch (e) {
+console.error('Error extracting image URL:', e);
+}
+
+return url;
+}
+
+// Untuk layanan lainnya, kembalikan URL asli
+return url;
+} catch (error) {
+console.error('Extraction error:', error);
+return url;
+}
 }
 
 // Fungsi untuk memperbarui preview gambar
 function updatePreviews() {
-    previewContainer.innerHTML = '';
+previewContainer.innerHTML = '';
 
-    images.forEach((image, index) => {
-        const previewItem = document.createElement('div');
-        previewItem.className = 'preview-item';
-        previewItem.title = `${image.name || 'Gambar'} (${image.width}x${image.height})`;
+images.forEach((image, index) => {
+const previewItem = document.createElement('div');
+previewItem.className = 'preview-item';
 
-        const img = document.createElement('img');
-        img.src = image.src;
-        img.alt = `Preview ${index + 1}`;
+const img = document.createElement('img');
+img.src = image.src;
+img.alt = `Preview ${index + 1}`;
 
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'remove-btn';
-        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-        removeBtn.onclick = () => removeImage(index);
-        
-        // Tambahkan badge untuk menunjukkan jenis gambar
-        const badge = document.createElement('div');
-        badge.className = 'preview-badge';
-        badge.textContent = image.type === 'url' ? 'URL' : 'File';
+const removeBtn = document.createElement('button');
+removeBtn.className = 'remove-btn';
+removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+removeBtn.onclick = () => removeImage(index);
 
-        previewItem.appendChild(img);
-        previewItem.appendChild(removeBtn);
-        previewItem.appendChild(badge);
-        previewContainer.appendChild(previewItem);
-    });
+previewItem.appendChild(img);
+previewItem.appendChild(removeBtn);
+previewContainer.appendChild(previewItem);
+});
 
-    imageCount.textContent = images.length;
+imageCount.textContent = images.length;
 
-    // Update status tombol
-    mergeBtn.disabled = images.length === 0;
-    mergeBtn.style.opacity = images.length === 0 ? '0.6' : '1';
+// Disable tombol gabungkan jika tidak ada gambar
+mergeBtn.disabled = images.length === 0;
 }
 
 // Fungsi untuk menghapus gambar
 function removeImage(index) {
-    images.splice(index, 1);
-    updatePreviews();
-    showCyberToast('Gambar dihapus', 'info');
+images.splice(index, 1);
+updatePreviews();
+showCyberToast('Gambar dihapus', 'info');
 }
 
 // Fungsi untuk menggabungkan gambar
 async function mergeImages() {
-    if (images.length === 0) {
-        showCyberToast('Tidak ada gambar untuk digabungkan!', 'error');
-        return;
-    }
+if (images.length === 0) {
+showCyberToast('Tidak ada gambar untuk digabungkan!', 'error');
+return;
+}
 
-    if (images.length === 1) {
-        showCyberToast('Minimal 2 gambar diperlukan untuk penggabungan!', 'warning');
-        return;
-    }
+// Tampilkan loader
+loader.style.display = 'block';
+resultContainer.style.display = 'none';
 
-    // Tampilkan loader
-    loader.style.display = 'block';
-    resultContainer.style.display = 'none';
+try {
+// Sembunyikan placeholder
+const placeholder = resultContainer.querySelector('.placeholder');
+if (placeholder) placeholder.style.display = 'none';
 
-    try {
-        // Sembunyikan placeholder
-        const placeholder = resultContainer.querySelector('.placeholder');
-        if (placeholder) placeholder.style.display = 'none';
+// Buat canvas untuk penggabungan
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
 
-        // Validasi semua gambar sebelum penggabungan
-        for (let i = 0; i < images.length; i++) {
-            const img = new Image();
-            await new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = () => reject(new Error(`Gambar ${i + 1} tidak valid`));
-                img.src = images[i].src;
-            });
-        }
+// Dapatkan pengaturan
+const layout = layoutSelect.value;
+const spacing = parseInt(spacingSelect.value);
+const background = backgroundSelect.value;
+const quality = parseInt(qualitySlider.value) / 100;
 
-        // Buat canvas untuk penggabungan
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+// Preload semua gambar
+const imgElements = await Promise.all(images.map(imageData => {
+return new Promise((resolve) => {
+const img = new Image();
+img.onload = () => resolve(img);
+img.src = imageData.src;
+});
+}));
 
-        // Dapatkan pengaturan
-        const layout = layoutSelect.value;
-        const spacing = parseInt(spacingSelect.value);
-        const background = backgroundSelect.value;
-        const quality = parseInt(qualitySlider.value) / 100;
+// Hitung dimensi canvas
+let canvasWidth = 0;
+let canvasHeight = 0;
 
-        // Preload semua gambar dengan dimensi sebenarnya
-        const imgElements = await Promise.all(images.map((imageData, index) => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => {
-                    console.log(`Gambar ${index + 1} dimuat: ${img.width}x${img.height}`);
-                    resolve(img);
-                };
-                img.onerror = () => reject(new Error(`Gagal memuat gambar ${index + 1}`));
-                img.src = imageData.src;
-            });
-        }));
+if (layout === 'horizontal') {
+canvasWidth = imgElements.reduce((sum, img) => sum + img.width, 0) +
+spacing * (imgElements.length - 1);
+canvasHeight = Math.max(...imgElements.map(img => img.height));
+} else if (layout === 'vertical') {
+canvasWidth = Math.max(...imgElements.map(img => img.width));
+canvasHeight = imgElements.reduce((sum, img) => sum + img.height, 0) +
+spacing * (imgElements.length - 1);
+} else {
+const columns = layout === 'grid2' ? 2 : 3;
+const rows = Math.ceil(imgElements.length / columns);
 
-        // Hitung dimensi canvas dengan algoritma yang lebih baik
-        let canvasWidth = 0;
-        let canvasHeight = 0;
-        let positions = [];
+let maxWidths = Array(columns).fill(0);
+let maxHeights = Array(rows).fill(0);
 
-        if (layout === 'horizontal') {
-            canvasWidth = imgElements.reduce((sum, img) => sum + img.width, 0) + spacing * (imgElements.length - 1);
-            canvasHeight = Math.max(...imgElements.map(img => img.height));
-            
-            let x = 0;
-            positions = imgElements.map(img => {
-                const pos = { x, y: (canvasHeight - img.height) / 2, width: img.width, height: img.height };
-                x += img.width + spacing;
-                return pos;
-            });
-        } else if (layout === 'vertical') {
-            canvasWidth = Math.max(...imgElements.map(img => img.width));
-            canvasHeight = imgElements.reduce((sum, img) => sum + img.height, 0) + spacing * (imgElements.length - 1);
-            
-            let y = 0;
-            positions = imgElements.map(img => {
-                const pos = { x: (canvasWidth - img.width) / 2, y, width: img.width, height: img.height };
-                y += img.height + spacing;
-                return pos;
-            });
-        } else {
-            const columns = layout === 'grid2' ? 2 : 3;
-            const rows = Math.ceil(imgElements.length / columns);
-            
-            // Hitung dimensi maksimum per kolom dan baris
-            const colWidths = Array(columns).fill(0);
-            const rowHeights = Array(rows).fill(0);
-            
-            imgElements.forEach((img, i) => {
-                const col = i % columns;
-                const row = Math.floor(i / columns);
-                if (img.width > colWidths[col]) colWidths[col] = img.width;
-                if (img.height > rowHeights[row]) rowHeights[row] = img.height;
-            });
-            
-            canvasWidth = colWidths.reduce((sum, w) => sum + w, 0) + spacing * (columns - 1);
-            canvasHeight = rowHeights.reduce((sum, h) => sum + h, 0) + spacing * (rows - 1);
-            
-            positions = imgElements.map((img, i) => {
-                const col = i % columns;
-                const row = Math.floor(i / columns);
-                const x = colWidths.slice(0, col).reduce((sum, w) => sum + w, 0) + spacing * col;
-                const y = rowHeights.slice(0, row).reduce((sum, h) => sum + h, 0) + spacing * row;
-                return { x, y, width: img.width, height: img.height };
-            });
-        }
+imgElements.forEach((img, i) => {
+const col = i % columns;
+const row = Math.floor(i / columns);
 
-        // Set ukuran canvas
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
+if (img.width > maxWidths[col]) maxWidths[col] = img.width;
+if (img.height > maxHeights[row]) maxHeights[row] = img.height;
+});
 
-        // Isi background
-        if (background === 'white') {
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        } else if (background === 'black') {
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        }
-        // Untuk transparent, tidak perlu fill
+canvasWidth = maxWidths.reduce((sum, w) => sum + w, 0) +
+spacing * (columns - 1);
+canvasHeight = maxHeights.reduce((sum, h) => sum + h, 0) +
+spacing * (rows - 1);
+}
 
-        // Gambar semua gambar di posisi yang tepat
-        imgElements.forEach((img, i) => {
-            const pos = positions[i];
-            ctx.drawImage(img, pos.x, pos.y, pos.width, pos.height);
-        });
+// Set ukuran canvas
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
 
-        // Konversi canvas ke data URL dengan kualitas yang dipilih
-        const format = background === 'transparent' ? 'image/png' : 'image/jpeg';
-        mergedImageData = canvas.toDataURL(format, quality);
+// Isi background
+if (background === 'white') {
+ctx.fillStyle = '#ffffff';
+ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+} else if (background === 'black') {
+ctx.fillStyle = '#000000';
+ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+}
 
-        // Tampilkan hasil
-        resultImage.src = mergedImageData;
-        resultImage.style.display = 'block';
-        downloadBtn.style.display = 'block';
-        editBtn.style.display = 'block';
+// Gambar semua gambar di canvas
+let x = 0;
+let y = 0;
 
-        // Tampilkan link gambar
-        imageLink.value = mergedImageData;
-        linkContainer.style.display = 'block';
+imgElements.forEach((img, i) => {
+if (layout === 'horizontal') {
+ctx.drawImage(img, x, 0);
+x += img.width + spacing;
+} else if (layout === 'vertical') {
+ctx.drawImage(img, 0, y);
+y += img.height + spacing;
+} else {
+const columns = layout === 'grid2' ? 2 : 3;
+const col = i % columns;
+const row = Math.floor(i / columns);
 
-        // Tampilkan kembali kontainer hasil
-        resultContainer.style.display = 'flex';
+// Cari lebar maks kolom sebelumnya
+let offsetX = 0;
+for (let c = 0; c < col; c++) {
+let maxW = 0;
+for (let r = row * columns; r < (row + 1) * columns; r++) {
+if (r < imgElements.length && imgElements[r].width > maxW) {
+maxW = imgElements[r].width;
+}
+}
+offsetX += maxW + spacing;
+}
 
-        showCyberToast(`Gambar berhasil digabungkan! (${canvasWidth}x${canvasHeight})`, 'success');
-        
-    } catch (error) {
-        console.error('Merge error:', error);
-        showCyberToast(`Terjadi kesalahan: ${error.message}`, 'error');
-        
-        // Tampilkan placeholder kembali
-        const placeholder = resultContainer.querySelector('.placeholder');
-        if (placeholder) placeholder.style.display = 'block';
-    } finally {
-        // Sembunyikan loader
-        loader.style.display = 'none';
-    }
+// Cari tinggi maks baris sebelumnya
+let offsetY = 0;
+for (let r = 0; r < row; r++) {
+let maxH = 0;
+for (let c = 0; c < columns; c++) {
+const idx = r * columns + c;
+if (idx < imgElements.length && imgElements[idx].height > maxH) {
+maxH = imgElements[idx].height;
+}
+}
+offsetY += maxH + spacing;
+}
+
+ctx.drawImage(img, offsetX, offsetY);
+}
+});
+
+// Konversi canvas ke data URL dengan kualitas yang dipilih
+const format = background === 'transparent' ? 'image/png' : 'image/jpeg';
+mergedImageData = canvas.toDataURL(format, quality);
+
+// Tampilkan hasil
+resultImage.src = mergedImageData;
+resultImage.style.display = 'block';
+downloadBtn.style.display = 'block';
+editBtn.style.display = 'block';
+
+// Tampilkan link gambar
+imageLink.value = mergedImageData;
+linkContainer.style.display = 'block';
+
+// Tampilkan kembali kontainer hasil
+resultContainer.style.display = 'flex';
+
+showCyberToast('Gambar berhasil digabungkan! Klik pada gambar untuk memperbesar.', 'success');
+} catch (error) {
+console.error('Merge error:', error);
+showCyberToast('Terjadi kesalahan saat menggabungkan gambar.', 'error');
+} finally {
+// Sembunyikan loader
+loader.style.display = 'none';
+}
 }
 
 // Fungsi untuk mengunduh gambar
 function downloadImage() {
-    if (!mergedImageData) return;
+if (!mergedImageData) return;
 
-    const link = document.createElement('a');
-    link.href = mergedImageData;
-    link.download = `gabungan-gambar-${new Date().getTime()}.${backgroundSelect.value === 'transparent' ? 'png' : 'jpg'}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    showCyberToast('Gambar berhasil diunduh!', 'success');
+const link = document.createElement('a');
+link.href = mergedImageData;
+link.download = `gabungan-gambar-${new Date().getTime()}.${backgroundSelect.value === 'transparent' ? 'png' : 'jpg'}`;
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+showCyberToast('Gambar berhasil diunduh!', 'success');
 }
 
 // Fungsi untuk menyalin link gambar
 function copyImageLink() {
-    imageLink.select();
-    imageLink.setSelectionRange(0, 99999);
-    document.execCommand('copy');
-    showCyberToast('Link berhasil disalin ke clipboard!', 'success');
+imageLink.select();
+imageLink.setSelectionRange(0, 99999);
+document.execCommand('copy');
+showCyberToast('Link berhasil disalin ke clipboard!', 'success');
 }
 
 // Fungsi untuk mereset semua
 function resetAll() {
-    images = [];
-    mergedImageData = null;
-    previewContainer.innerHTML = '';
-    imageCount.textContent = '0';
-    resultImage.style.display = 'none';
-    linkContainer.style.display = 'none';
-    downloadBtn.style.display = 'none';
-    editBtn.style.display = 'none';
-    const placeholder = resultContainer.querySelector('.placeholder');
-    if (placeholder) placeholder.style.display = 'block';
-    mergeBtn.disabled = true;
-    imageUrl.value = '';
-    fileUpload.value = '';
+images = [];
+mergedImageData = null;
+previewContainer.innerHTML = '';
+imageCount.textContent = '0';
+resultImage.style.display = 'none';
+linkContainer.style.display = 'none';
+downloadBtn.style.display = 'none';
+editBtn.style.display = 'none';
+const placeholder = resultContainer.querySelector('.placeholder');
+if (placeholder) placeholder.style.display = 'block';
+mergeBtn.disabled = true;
+imageUrl.value = '';
+fileUpload.value = '';
 
-    showCyberToast('Semua gambar telah direset', 'info');
+showCyberToast('Semua gambar telah direset', 'info');
 }
 
 // ================ FULLSCREEN EDITOR FUNCTIONS ================ //
 
 // Fungsi untuk membuka editor fullscreen
 function openFullscreenEditor() {
-    if (!mergedImageData) {
-        showCyberToast('Tidak ada gambar untuk diedit!', 'error');
-        return;
-    }
+if (!mergedImageData) {
+showCyberToast('Tidak ada gambar untuk diedit!', 'error');
+return;
+}
 
-    // Tampilkan fullscreen editor
-    fullscreenEditor.classList.add('active');
+// Tampilkan fullscreen editor
+fullscreenEditor.classList.add('active');
 
-    // Load image to editor canvas
-    const img = new Image();
-    img.onload = function() {
-        // Set canvas size to match image
-        editorCanvas.width = img.width;
-        editorCanvas.height = img.height;
+// Load image to editor canvas
+const img = new Image();
+img.onload = function() {
+// Set canvas size to match image
+editorCanvas.width = img.width;
+editorCanvas.height = img.height;
 
-        // Calculate optimal zoom to fit image in viewport
-        const containerRect = canvasContainer.getBoundingClientRect();
-        const viewportWidth = containerRect.width - 100; // Padding
-        const viewportHeight = containerRect.height - 100; // Padding
+// Calculate optimal zoom to fit image in viewport
+const containerRect = canvasContainer.getBoundingClientRect();
+const viewportWidth = containerRect.width - 100; // Padding
+const viewportHeight = containerRect.height - 100; // Padding
 
-        const scaleX = viewportWidth / img.width;
-        const scaleY = viewportHeight / img.height;
-        const optimalZoom = Math.min(scaleX, scaleY, 1); // Don't zoom in by default
+const scaleX = viewportWidth / img.width;
+const scaleY = viewportHeight / img.height;
+const optimalZoom = Math.min(scaleX, scaleY, 1); // Don't zoom in by default
 
-        // Set zoom and center
-        currentZoom = optimalZoom;
-        canvasOffsetX = 0;
-        canvasOffsetY = 0;
+// Set zoom and center
+currentZoom = optimalZoom;
+canvasOffsetX = 0;
+canvasOffsetY = 0;
 
-        // Draw image on canvas
-        editorCtx.drawImage(img, 0, 0);
+// Draw image on canvas
+editorCtx.drawImage(img, 0, 0);
 
-        // Update canvas info
-        updateCanvasInfo();
+// Update canvas info
+updateCanvasInfo();
 
-        // Apply zoom and center
-        applyTransform();
+// Apply zoom and center
+applyTransform();
 
-        // Save initial state for undo/redo
-        saveHistory();
-    };
-    img.src = mergedImageData;
+// Save initial state for undo/redo
+saveHistory();
+};
+img.src = mergedImageData;
 
-    showCyberToast('Editor fullscreen dibuka. Gunakan Ctrl+Z untuk undo dan Ctrl+Shift+Z untuk redo.', 'info');
+showCyberToast('Editor fullscreen dibuka. Gunakan Ctrl+Z untuk undo dan Ctrl+Shift+Z untuk redo.', 'info');
 }
 
 // Fungsi untuk menutup editor fullscreen
 function closeFullscreenEditor() {
-    fullscreenEditor.classList.remove('active');
-    showCyberToast('Editor ditutup', 'info');
+fullscreenEditor.classList.remove('active');
+showCyberToast('Editor ditutup', 'info');
 }
 
 // Fungsi untuk memilih tool
 function selectTool(tool) {
-    // Remove active class from all tools
-    document.querySelectorAll('.tool-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
+// Remove active class from all tools
+document.querySelectorAll('.tool-btn').forEach(btn => {
+btn.classList.remove('active');
+});
 
-    // Add active class to selected tool
-    switch(tool) {
-        case 'brush':
-            brushTool.classList.add('active');
-            break;
-        case 'eraser':
-            eraserTool.classList.add('active');
-            break;
-        case 'text':
-            textTool.classList.add('active');
-            break;
-        case 'rectangle':
-            rectangleTool.classList.add('active');
-            break;
-        case 'circle':
-            circleTool.classList.add('active');
-            break;
-        case 'line':
-            lineTool.classList.add('active');
-            break;
-    }
+// Add active class to selected tool
+switch(tool) {
+case 'brush':
+brushTool.classList.add('active');
+break;
+case 'eraser':
+eraserTool.classList.add('active');
+break;
+case 'text':
+textTool.classList.add('active');
+break;
+case 'rectangle':
+rectangleTool.classList.add('active');
+break;
+case 'circle':
+circleTool.classList.add('active');
+break;
+case 'line':
+lineTool.classList.add('active');
+break;
+}
 
-    currentTool = tool;
+currentTool = tool;
 
-    // Update cursor based on tool
-    if (tool === 'text' || tool === 'text-place') {
-        editorCanvas.style.cursor = 'text';
-    } else {
-        editorCanvas.style.cursor = 'crosshair';
-        updateCursorPreview();
-    }
+// Update cursor based on tool
+if (tool === 'text' || tool === 'text-place') {
+editorCanvas.style.cursor = 'text';
+} else {
+editorCanvas.style.cursor = 'crosshair';
+updateCursorPreview();
+}
 }
 
 // Fungsi untuk menyimpan history
 function saveHistory() {
-    historyStep++;
-    if (historyStep < history.length) {
-        history.length = historyStep;
-    }
-    history.push(editorCanvas.toDataURL());
+historyStep++;
+if (historyStep < history.length) {
+history.length = historyStep;
+}
+history.push(editorCanvas.toDataURL());
 
-    // Limit history to 20 steps
-    if (history.length > 20) {
-        history.shift();
-        historyStep--;
-    }
+// Limit history to 20 steps
+if (history.length > 20) {
+history.shift();
+historyStep--;
+}
 }
 
 // Fungsi untuk undo
 function undo() {
-    if (historyStep > 0) {
-        historyStep--;
-        const img = new Image();
-        img.src = history[historyStep];
-        img.onload = function() {
-            editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
-            editorCtx.drawImage(img, 0, 0);
-        };
-        showCyberToast('Undo berhasil', 'info');
-    }
+if (historyStep > 0) {
+historyStep--;
+const img = new Image();
+img.src = history[historyStep];
+img.onload = function() {
+editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+editorCtx.drawImage(img, 0, 0);
+};
+showCyberToast('Undo berhasil', 'info');
+}
 }
 
 // Fungsi untuk redo
 function redo() {
-    if (historyStep < history.length - 1) {
-        historyStep++;
-        const img = new Image();
-        img.src = history[historyStep];
-        img.onload = function() {
-            editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
-            editorCtx.drawImage(img, 0, 0);
-        };
-        showCyberToast('Redo berhasil', 'info');
-    }
+if (historyStep < history.length - 1) {
+historyStep++;
+const img = new Image();
+img.src = history[historyStep];
+img.onload = function() {
+editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+editorCtx.drawImage(img, 0, 0);
+};
+showCyberToast('Redo berhasil', 'info');
+}
 }
 
 // Fungsi untuk mengatur zoom
 function setZoom(zoom) {
-    zoom = Math.max(0.1, Math.min(5, zoom));
-    currentZoom = zoom;
+zoom = Math.max(0.1, Math.min(5, zoom));
+currentZoom = zoom;
 
-    // Apply zoom transformation
-    applyTransform();
+// Apply zoom transformation
+applyTransform();
 
-    // Update zoom display
-    zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+// Update zoom display
+zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
 }
 
 // Fungsi untuk apply transform
 function applyTransform() {
-    editorCanvas.style.transform = `scale(${currentZoom}) translate(${canvasOffsetX}px, ${canvasOffsetY}px)`;
+editorCanvas.style.transform = `scale(${currentZoom}) translate(${canvasOffsetX}px, ${canvasOffsetY}px)`;
+}
+
+// Fungsi untuk mengatur posisi canvas
+function centerCanvas() {
+const container = canvasContainer;
+const containerRect = container.getBoundingClientRect();
+const canvasRect = editorCanvas.getBoundingClientRect();
+
+// Calculate center position
+canvasOffsetX = (containerRect.width - editorCanvas.width * currentZoom) / (2 * currentZoom);
+canvasOffsetY = (containerRect.height - editorCanvas.height * currentZoom) / (2 * currentZoom);
+
+applyTransform();
 }
 
 // Fungsi untuk update info canvas
 function updateCanvasInfo() {
-    canvasSize.textContent = `${editorCanvas.width} x ${editorCanvas.height}`;
-    zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+canvasSize.textContent = `${editorCanvas.width} x ${editorCanvas.height}`;
+zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
 }
 
 // Fungsi untuk update cursor preview
 function updateCursorPreview() {
-    // This would create a custom cursor if needed
-    // For now, we'll use default crosshair
+// This would create a custom cursor if needed
+// For now, we'll use default crosshair
 }
 
 // Fungsi untuk mendapatkan posisi mouse relatif terhadap canvas dengan zoom dan offset
 function getMousePos(e) {
-    const rect = editorCanvas.getBoundingClientRect();
+const rect = editorCanvas.getBoundingClientRect();
 
-    // Hitung posisi relatif terhadap canvas
-    const x = (e.clientX - rect.left) / currentZoom;
-    const y = (e.clientY - rect.top) / currentZoom;
+// Hitung posisi relatif terhadap canvas
+const x = (e.clientX - rect.left) / currentZoom;
+const y = (e.clientY - rect.top) / currentZoom;
 
-    // Kurangi offset untuk mendapatkan posisi yang benar
-    return {
-        x: x - canvasOffsetX,
-        y: y - canvasOffsetY
-    };
+// Kurangi offset untuk mendapatkan posisi yang benar
+return {
+x: x - canvasOffsetX,
+y: y - canvasOffsetY
+};
 }
 
 // Fungsi untuk mulai menggambar
 function startDrawing(e) {
-    if (e.button === 2) { // Right click for panning
-        isPanning = true;
-        panStartX = e.clientX;
-        panStartY = e.clientY;
-        editorCanvas.style.cursor = 'move';
-        return;
-    }
+if (e.button === 2) { // Right click for panning
+isPanning = true;
+panStartX = e.clientX;
+panStartY = e.clientY;
+editorCanvas.style.cursor = 'move';
+return;
+}
 
-    if (currentTool === 'text-place') {
-        const pos = getMousePos(e);
-        const text = textInput.value.trim();
-        if (text) {
-            const font = fontSelect.value;
-            const fontSize = fontSizeSelect.value;
+if (currentTool === 'text-place') {
+const pos = getMousePos(e);
+const text = textInput.value.trim();
+if (text) {
+const font = fontSelect.value;
+const fontSize = fontSizeSelect.value;
 
-            editorCtx.font = `${fontSize}px ${font}`;
-            editorCtx.fillStyle = colorPicker.value;
-            editorCtx.globalAlpha = brushOpacity.value / 100;
+editorCtx.font = `${fontSize}px ${font}`;
+editorCtx.fillStyle = colorPicker.value;
+editorCtx.globalAlpha = brushOpacity.value / 100;
 
-            editorCtx.fillText(text, pos.x, pos.y);
-            saveHistory();
+editorCtx.fillText(text, pos.x, pos.y);
+saveHistory();
 
-            // Reset tool
-            selectTool('text');
-            textInput.value = '';
-        }
-        return;
-    }
+// Reset tool
+selectTool('text');
+textInput.value = '';
+}
+return;
+}
 
-    isDrawing = true;
-    const pos = getMousePos(e);
-    startX = pos.x;
-    startY = pos.y;
+isDrawing = true;
+const pos = getMousePos(e);
+startX = pos.x;
+startY = pos.y;
 }
 
 // Fungsi untuk menggambar
 function draw(e) {
-    const pos = getMousePos(e);
+const pos = getMousePos(e);
 
-    // Update cursor position display
-    cursorPos.textContent = `X: ${Math.round(pos.x)}, Y: ${Math.round(pos.y)}`;
+// Update cursor position display
+cursorPos.textContent = `X: ${Math.round(pos.x)}, Y: ${Math.round(pos.y)}`;
 
-    if (isPanning) {
-        const deltaX = e.clientX - panStartX;
-        const deltaY = e.clientY - panStartY;
+if (isPanning) {
+const deltaX = e.clientX - panStartX;
+const deltaY = e.clientY - panStartY;
 
-        canvasOffsetX += deltaX / currentZoom;
-        canvasOffsetY += deltaY / currentZoom;
+canvasOffsetX += deltaX / currentZoom;
+canvasOffsetY += deltaY / currentZoom;
 
-        applyTransform();
+applyTransform();
 
-        panStartX = e.clientX;
-        panStartY = e.clientY;
-        return;
-    }
+panStartX = e.clientX;
+panStartY = e.clientY;
+return;
+}
 
-    if (!isDrawing) return;
+if (!isDrawing) return;
 
-    editorCtx.lineWidth = brushSize.value;
-    editorCtx.lineCap = 'round';
-    editorCtx.lineJoin = 'round';
+editorCtx.lineWidth = brushSize.value;
+editorCtx.lineCap = 'round';
+editorCtx.lineJoin = 'round';
 
-    if (currentTool === 'brush') {
-        editorCtx.globalCompositeOperation = 'source-over';
-        editorCtx.strokeStyle = colorPicker.value;
-        editorCtx.globalAlpha = brushOpacity.value / 100;
+if (currentTool === 'brush') {
+editorCtx.globalCompositeOperation = 'source-over';
+editorCtx.strokeStyle = colorPicker.value;
+editorCtx.globalAlpha = brushOpacity.value / 100;
 
-        editorCtx.beginPath();
-        editorCtx.moveTo(startX, startY);
-        editorCtx.lineTo(pos.x, pos.y);
-        editorCtx.stroke();
+editorCtx.beginPath();
+editorCtx.moveTo(startX, startY);
+editorCtx.lineTo(pos.x, pos.y);
+editorCtx.stroke();
 
-        startX = pos.x;
-        startY = pos.y;
-    } else if (currentTool === 'eraser') {
-        editorCtx.globalCompositeOperation = 'destination-out';
-        editorCtx.globalAlpha = 1;
+startX = pos.x;
+startY = pos.y;
+} else if (currentTool === 'eraser') {
+editorCtx.globalCompositeOperation = 'destination-out';
+editorCtx.globalAlpha = 1;
 
-        editorCtx.beginPath();
-        editorCtx.moveTo(startX, startY);
-        editorCtx.lineTo(pos.x, pos.y);
-        editorCtx.stroke();
+editorCtx.beginPath();
+editorCtx.moveTo(startX, startY);
+editorCtx.lineTo(pos.x, pos.y);
+editorCtx.stroke();
 
-        startX = pos.x;
-        startY = pos.y;
-    } else if (currentTool === 'rectangle') {
-        // Clear and redraw
-        const img = new Image();
-        img.src = history[historyStep];
-        img.onload = function() {
-            editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
-            editorCtx.drawImage(img, 0, 0);
+startX = pos.x;
+startY = pos.y;
+} else if (currentTool === 'rectangle') {
+// Clear and redraw
+const img = new Image();
+img.src = history[historyStep];
+img.onload = function() {
+editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+editorCtx.drawImage(img, 0, 0);
 
-            // Draw rectangle
-            editorCtx.globalCompositeOperation = 'source-over';
-            editorCtx.strokeStyle = colorPicker.value;
-            editorCtx.globalAlpha = brushOpacity.value / 100;
+// Draw rectangle
+editorCtx.globalCompositeOperation = 'source-over';
+editorCtx.strokeStyle = colorPicker.value;
+editorCtx.globalAlpha = brushOpacity.value / 100;
 
-            editorCtx.beginPath();
-            editorCtx.rect(startX, startY, pos.x - startX, pos.y - startY);
-            editorCtx.stroke();
-        };
-    } else if (currentTool === 'circle') {
-        // Clear and redraw
-        const img = new Image();
-        img.src = history[historyStep];
-        img.onload = function() {
-            editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
-            editorCtx.drawImage(img, 0, 0);
+editorCtx.beginPath();
+editorCtx.rect(startX, startY, pos.x - startX, pos.y - startY);
+editorCtx.stroke();
+};
+} else if (currentTool === 'circle') {
+// Clear and redraw
+const img = new Image();
+img.src = history[historyStep];
+img.onload = function() {
+editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+editorCtx.drawImage(img, 0, 0);
 
-            // Calculate radius
-            const radius = Math.sqrt(Math.pow(pos.x - startX, 2) + Math.pow(pos.y - startY, 2));
+// Calculate radius
+const radius = Math.sqrt(Math.pow(pos.x - startX, 2) + Math.pow(pos.y - startY, 2));
 
-            // Draw circle
-            editorCtx.globalCompositeOperation = 'source-over';
-            editorCtx.strokeStyle = colorPicker.value;
-            editorCtx.globalAlpha = brushOpacity.value / 100;
+// Draw circle
+editorCtx.globalCompositeOperation = 'source-over';
+editorCtx.strokeStyle = colorPicker.value;
+editorCtx.globalAlpha = brushOpacity.value / 100;
 
-            editorCtx.beginPath();
-            editorCtx.arc(startX, startY, radius, 0, 2 * Math.PI);
-            editorCtx.stroke();
-        };
-    } else if (currentTool === 'line') {
-        // Clear and redraw
-        const img = new Image();
-        img.src = history[historyStep];
-        img.onload = function() {
-            editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
-            editorCtx.drawImage(img, 0, 0);
+editorCtx.beginPath();
+editorCtx.arc(startX, startY, radius, 0, 2 * Math.PI);
+editorCtx.stroke();
+};
+} else if (currentTool === 'line') {
+// Clear and redraw
+const img = new Image();
+img.src = history[historyStep];
+img.onload = function() {
+editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+editorCtx.drawImage(img, 0, 0);
 
-            // Draw line
-            editorCtx.globalCompositeOperation = 'source-over';
-            editorCtx.strokeStyle = colorPicker.value;
-            editorCtx.globalAlpha = brushOpacity.value / 100;
+// Draw line
+editorCtx.globalCompositeOperation = 'source-over';
+editorCtx.strokeStyle = colorPicker.value;
+editorCtx.globalAlpha = brushOpacity.value / 100;
 
-            editorCtx.beginPath();
-            editorCtx.moveTo(startX, startY);
-            editorCtx.lineTo(pos.x, pos.y);
-            editorCtx.stroke();
-        };
-    }
+editorCtx.beginPath();
+editorCtx.moveTo(startX, startY);
+editorCtx.lineTo(pos.x, pos.y);
+editorCtx.stroke();
+};
+}
 }
 
 // Fungsi untuk berhenti menggambar
 function stopDrawing(e) {
-    if (e.button === 2) {
-        isPanning = false;
-        editorCanvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
-        return;
-    }
-
-    if (isDrawing) {
-        isDrawing = false;
-        saveHistory();
-    }
+if (e.button === 2) {
+isPanning = false;
+editorCanvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+return;
 }
 
-// Custom wheel event for editor with modifier keys
-function handleWheel(e) {
-    e.preventDefault();
-
-    // Ctrl+Scroll for zoom
-    if (e.ctrlKey) {
-        const delta = e.deltaY > 0 ? 0.9 : 1.1;
-        const newZoom = currentZoom * delta;
-        setZoom(newZoom);
-        return;
-    }
-
-    // Alt+Scroll for brush size
-    if (e.altKey) {
-        const delta = e.deltaY > 0 ? -1 : 1;
-        const newSize = Math.max(1, Math.min(50, parseInt(brushSize.value) + delta));
-        brushSize.value = newSize;
-        brushSizeValue.textContent = newSize;
-        updateCursorPreview();
-        return;
-    }
-
-    // If no modifier key is pressed, do nothing
-    // This removes automatic zoom behavior
+if (isDrawing) {
+isDrawing = false;
+saveHistory();
+}
 }
 
 // Fungsi untuk menyimpan gambar yang diedit
 function saveEditedImage() {
-    // Convert canvas to data URL
-    const editedImageData = editorCanvas.toDataURL('image/png');
+// Convert canvas to data URL
+const editedImageData = editorCanvas.toDataURL('image/png');
 
-    // Update the result image
-    resultImage.src = editedImageData;
-    mergedImageData = editedImageData;
-    imageLink.value = editedImageData;
+// Update the result image
+resultImage.src = editedImageData;
+mergedImageData = editedImageData;
+imageLink.value = editedImageData;
 
-    // Close editor and show result
-    closeFullscreenEditor();
+// Close editor and show result
+closeFullscreenEditor();
 
-    showCyberToast('Gambar berhasil disimpan!', 'success');
+showCyberToast('Gambar berhasil disimpan!', 'success');
 }
-
-// ================ INITIALIZATION ================ //
 
 // Initial setup
 document.addEventListener('DOMContentLoaded', function() {
-    showCyberToast('Sistem siap digunakan', 'success');
+showCyberToast('Sistem siap digunakan', 'success');
 
-    // Update provider and game name when inputs change
-    document.getElementById('providerInput').addEventListener('input', function() {
-        document.getElementById('providerNameText').textContent = this.value;
-    });
+// Update provider and game name when inputs change
+document.getElementById('providerInput').addEventListener('input', function() {
+document.getElementById('providerNameText').textContent = this.value;
+});
 
-    document.getElementById('gameName').addEventListener('input', function() {
-        document.getElementById('gameNameText').textContent = this.value;
-    });
-    
-    // Set kualitas default
-    qualityValue.textContent = `${qualitySlider.value}%`;
-    
-    // Inisialisasi status tombol
-    mergeBtn.disabled = true;
-    mergeBtn.style.opacity = '0.6';
-    
-    console.log('Aplikasi Penggabung Gambar diinisialisasi');
+document.getElementById('gameName').addEventListener('input', function() {
+document.getElementById('gameNameText').textContent = this.value;
+});
+
+// Initialize OCR when image tab is activated
+const imageTabBtn = document.querySelector('[data-tab="image-app"]');
+if (imageTabBtn) {
+imageTabBtn.addEventListener('click', function() {
+setTimeout(initializeOCR, 500);
+});
+}
 });
 </script>
 </body>
