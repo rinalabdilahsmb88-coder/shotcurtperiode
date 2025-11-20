@@ -1852,7 +1852,7 @@ scrollToResults();
 }
 }
 
-// ===== FUNGSI YANG DIUBAH: Fungsi untuk memproses data scatter tunggal =====
+// Fungsi untuk memproses data scatter tunggal
 function processSingleScatterData(data) {
 if (!data) {
 return {
@@ -1867,62 +1867,43 @@ isCancelled: false
 };
 }
 
-// Split data menjadi array berdasarkan tab atau spasi ganda
-const parts = data.split(/\t|\s{2,}/).filter(part => part.trim() !== '');
+// Split data menjadi array
+const parts = data.split(/\s+/);
 
-// Ekstrak data berdasarkan pola yang terdeteksi dalam contoh
-let userId = '-';
-let ticketCode = '-';
-let imageLinks = [];
-let betValue = '-';
+// Ekstrak kode tiket (19 digit)
+const ticketMatch = data.match(/\b\d{19}\b/);
+const ticketCode = ticketMatch ? ticketMatch[0] : '-';
 
-// Cari User ID (biasanya di bagian awal setelah KITING)
-const userIdMatch = data.match(/(?<=KITING\s+)\w+/);
-if (userIdMatch) {
-userId = userIdMatch[0];
-} else {
-// Fallback: ambil kata kedua jika pola tidak ditemukan
-if (parts.length > 1) userId = parts[1];
+// Ekstrak username (kata sebelum link pertama)
+let username = '-';
+const firstLinkIndex = parts.findIndex(part => part.startsWith('http'));
+if (firstLinkIndex > 0) {
+username = parts[firstLinkIndex - 1];
+} else if (parts.length > 0) {
+username = parts[0];
 }
 
-// Ekstrak kode tiket (19 digit dengan pola khusus)
-const ticketMatch = data.match(/\d{19}-\d{19}-\d+-\d+/);
-if (ticketMatch) {
-ticketCode = ticketMatch[0];
-} else {
-// Fallback: cari pola lain untuk kode tiket
-const fallbackTicketMatch = data.match(/\b\d{10,}-\d{10,}-\d+-\d+\b/);
-if (fallbackTicketMatch) ticketCode = fallbackTicketMatch[0];
-}
-
-// Ekstrak link gambar
-imageLinks = (data.match(/https?:\/\/[^\s]+/g) || []).slice(0, 3);
+// Ekstrak link (maksimal 3)
+const imageLinks = (data.match(/https?:\/\/[^\s]+/g) || []).slice(0, 3);
 const linksText = imageLinks.join(', ') || '-';
 const hasImages = imageLinks.length > 0;
 
 // Ekstrak nilai BET
-const betMatch = data.match(/\b\d{1,3}(?:,\d{3})*\b(?=\s+-)/);
-if (betMatch) {
-betValue = betMatch[0];
-} else {
-// Fallback: cari pola angka dengan koma di dekat kata "BET"
-const betFallbackMatch = data.match(/(?<=BET\s*)\d{1,3}(?:,\d{3})*/i);
-if (betFallbackMatch) betValue = betFallbackMatch[0];
-}
+const betMatch = data.match(/BET\s*([\d,]+)/i);
+const betValue = betMatch ? formatNumber(betMatch[1].replace(/,/g, '')) : '-';
 
 return {
-userId: userId,
-ticketCode: ticketCode,
+userId: username,
+ticketCode,
 links: imageLinks,
-linksText: linksText,
-betValue: betValue,
+linksText,
+betValue,
 hasData: true,
 hasImages: hasImages,
 isCancelled: false
 };
 }
 
-// ===== FUNGSI LAINNYA TETAP SAMA =====
 // Fungsi untuk merender semua hasil
 function renderScatter6Results() {
 // Kosongkan hasil sebelumnya
