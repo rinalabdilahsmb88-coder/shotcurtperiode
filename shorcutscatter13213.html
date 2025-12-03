@@ -1423,7 +1423,6 @@ IDR 2,500"></textarea>
 </div>
 </div>
 </div>
-</div>
 
 <!-- Modal untuk preview gambar -->
 <div id="imageModal" class="modal">
@@ -1871,48 +1870,39 @@ isCancelled: false
 };
 }
 
-// Split data menjadi array berdasarkan tab atau spasi ganda
-const parts = data.split(/\t|\s{2,}/).filter(part => part.trim() !== '');
+// Pisahkan data berdasarkan tab
+const parts = data.split(/\t/).filter(part => part.trim() !== '');
 
-// Ekstrak data berdasarkan pola yang terdeteksi dalam contoh
+// Inisialisasi variabel
 let userId = '-';
 let ticketCode = '-';
 let imageLinks = [];
 let betValue = '-';
 
-// Cari User ID (biasanya di bagian awal setelah KITING)
-const userIdMatch = data.match(/(?<=KITING\s+)\w+/);
-if (userIdMatch) {
-userId = userIdMatch[0];
-} else {
-// Fallback: ambil kata kedua jika pola tidak ditemukan
-if (parts.length > 1) userId = parts[1];
+// Ekstrak User ID (posisi ke-3 dalam format baru)
+if (parts.length > 2) {
+userId = parts[2].trim();
 }
 
-// Ekstrak kode tiket (19 digit dengan pola khusus)
-const ticketMatch = data.match(/\d{19}-\d{19}-\d+-\d+/);
-if (ticketMatch) {
-ticketCode = ticketMatch[0];
-} else {
-// Fallback: cari pola lain untuk kode tiket
-const fallbackTicketMatch = data.match(/\b\d{10,}-\d{10,}-\d+-\d+\b/);
-if (fallbackTicketMatch) ticketCode = fallbackTicketMatch[0];
+// Ekstrak Kode Tiket (posisi ke-4 dalam format baru)
+if (parts.length > 3) {
+ticketCode = parts[3].trim();
 }
 
-// Ekstrak link gambar
-imageLinks = (data.match(/https?:\/\/[^\s]+/g) || []).slice(0, 3);
+// Ekstrak Link Bukti (posisi ke-5 dalam format baru)
+if (parts.length > 4) {
+const linksPart = parts[4].trim();
+// Pisahkan berdasarkan koma dan hapus spasi berlebih
+imageLinks = linksPart.split(',').map(link => link.trim()).filter(link => link.length > 0);
+}
+
+// PERBAIKAN: Ekstrak Bettingan (posisi ke-6 dalam format baru, indeks 5)
+if (parts.length > 5) {
+betValue = parts[5].trim();
+}
+
 const linksText = imageLinks.join(', ') || '-';
 const hasImages = imageLinks.length > 0;
-
-// Ekstrak nilai betting (format baru: "2,000 - 8,000")
-const betMatch = data.match(/\b\d{1,3}(?:,\d{3})*\b(?=\s+-)/);
-if (betMatch) {
-betValue = betMatch[0];
-} else {
-// Fallback: cari pola angka dengan koma
-const betFallbackMatch = data.match(/\b\d{1,3}(?:,\d{3})*\b/);
-if (betFallbackMatch) betValue = betFallbackMatch[0];
-}
 
 return {
 userId: userId,
@@ -1996,7 +1986,7 @@ colDiv.innerHTML = `
 <div class="column-result-item">
 <div class="column-result-label">User ID :</div>
 <div class="column-result-value">${showData ? displayUserId : '-'}</div>
-${showData ? `
+ ${showData ? `
 <button class="column-btn-copy" data-value="${displayUserId}" title="Salin User ID">
 <i class="far fa-copy"></i>
 </button>
@@ -2005,7 +1995,7 @@ ${showData ? `
 <div class="column-result-item">
 <div class="column-result-label">Kode Tiket :</div>
 <div class="column-result-value">${showData ? ticketCode : '-'}</div>
-${showData ? `
+ ${showData ? `
 <button class="column-btn-copy" data-value="${ticketCode}" title="Salin Kode Tiket">
 <i class="far fa-copy"></i>
 </button>
@@ -2016,7 +2006,7 @@ ${showData ? `
 <div class="column-result-value">
 <div class="link-preview-container">
 <div class="link-placeholder">..</div>
-${showData ? `
+ ${showData ? `
 <button class="column-btn-copy" data-value="${linksText}" title="Salin Link">
 <i class="far fa-copy"></i>
 </button>
@@ -2027,13 +2017,13 @@ ${showData ? `
 <div class="column-result-item">
 <div class="column-result-label">Bettingan :</div>
 <div class="column-result-value">${showData ? betValue : '-'}</div>
-${showData ? `
+ ${showData ? `
 <button class="column-btn-copy" data-value="${betValue}" title="Salin Bettingan">
 <i class="far fa-copy"></i>
 </button>
 ` : ''}
 </div>
-${showData && hasImages ? `
+ ${showData && hasImages ? `
 <button class="view-image-btn" data-col-index="${colIndex}">
 <i class="fas fa-images"></i> Lihat Gambar
 </button>
