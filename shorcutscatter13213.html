@@ -1402,7 +1402,6 @@ IDR 2,500"></textarea>
 </button>
 </div>
 </div>
-
 <div class="credit-result-section">
 <div class="credit-result-box">
 <div class="credit-result-header">
@@ -1892,8 +1891,11 @@ ticketCode = parts[3].trim();
 // Ekstrak Link Bukti (posisi ke-5 dalam format baru)
 if (parts.length > 4) {
 const linksPart = parts[4].trim();
-// Pisahkan berdasarkan koma dan hapus spasi berlebih
-imageLinks = linksPart.split(',').map(link => link.trim()).filter(link => link.length > 0);
+// PERBAIKAN: Pisahkan berdasarkan spasi, lalu bersihkan koma di akhir setiap link
+imageLinks = linksPart.split(/\s+/) // Split by one or more spaces
+                            .map(link => link.trim()) // Trim whitespace from each part
+                            .map(link => link.replace(/,+$/, '')) // Remove any trailing commas
+                            .filter(link => link.length > 0); // Remove any empty strings
 }
 
 // PERBAIKAN: Ekstrak Bettingan (posisi ke-6 dalam format baru, indeks 5)
