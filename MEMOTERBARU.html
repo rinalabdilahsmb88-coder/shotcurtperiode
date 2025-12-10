@@ -628,7 +628,7 @@
     const API_KEY = ''; // You'll need to add your Google Sheets API key here
     const SHEETS = {
       'MEMO PEMBAGIAN BONUS': 0,
-      'MEMO INFORMASI BANK': 297621304,
+      'MEMO INFORMASI BANK': 0, // DIUBAH: Menggunakan 0 agar menggunakan nama sheet
       'MEMO KENDALA PERMAINAN': 0,
       'MEMO KENDALA SISTEM': 0,
       'REPORT KENDALA ALL SITUS': 0,
@@ -703,17 +703,48 @@
         const gid = SHEETS[sheetName];
         let url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json`;
         
-        if (gid !== 0) {
-          url += `&gid=${gid}`;
-        } else {
-          // If gid is 0, we need to get the sheet by name
-          // This is a simplified approach - in production you might need to use the Sheets API
+        // PENAMBAHAN: Logika khusus untuk MEMO INFORMASI BANK
+        if (sheetName === "MEMO INFORMASI BANK") {
+          console.log(`Mencoba memuat data untuk: ${sheetName}`);
+          
+          // Coba metode alternatif terlebih dahulu untuk MEMO INFORMASI BANK
+          try {
+            const alternativeData = await tryAlternativeMethodForBankInfo();
+            if (alternativeData && alternativeData.length > 0) {
+              console.log(`Berhasil memuat data ${sheetName} dengan metode alternatif: ${alternativeData.length} item`);
+              return alternativeData;
+            }
+          } catch (altError) {
+            console.warn(`Metode alternatif gagal untuk ${sheetName}:`, altError);
+          }
+          
+          // Jika metode alternatif gagal, coba metode standar
           url += `&sheet=${encodeURIComponent(sheetName)}`;
+          console.log(`Menggunakan URL standar untuk ${sheetName}`);
+        } else {
+          // Untuk sheet lain, gunakan logika asli
+          if (gid !== 0) {
+            url += `&gid=${gid}`;
+          } else {
+            url += `&sheet=${encodeURIComponent(sheetName)}`;
+          }
         }
         
         try {
           const response = await fetch(url);
+          
+          // Periksa apakah response valid
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
           const text = await response.text();
+          
+          // Periksa apakah response kosong
+          if (!text || text.trim().length === 0) {
+            console.warn(`Response kosong untuk sheet: ${sheetName}`);
+            return [];
+          }
           
           // Parse the JSONP response
           const jsonText = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
@@ -723,28 +754,112 @@
           const sheetData = [];
           if (json.table && json.table.rows) {
             json.table.rows.forEach((row, index) => {
-              // Skip header row (index 0)
-              if (index > 0 && row.c && row.c[0] && row.c[0].v) {
-                const title = row.c[0].v;
-                const content = row.c[1] ? row.c[1].v : '';
+              // Skip header row (index 0) dan cek apakah row memiliki data
+              if (index > 0 && row.c && row.c.length > 0) {
+                // Ambil data kolom 1 sebagai judul
+                const title = row.c[0] ? (row.c[0].v || '') : '';
+                // Ambil data kolom 2 sebagai konten (jika ada)
+                const content = row.c[1] ? (row.c[1].v || '') : '';
                 
-                if (title.trim() !== '') {
+                if (title && title.toString().trim() !== '') {
                   sheetData.push({
-                    title: title,
-                    content: content
+                    title: title.toString(),
+                    content: content.toString()
                   });
                 }
               }
             });
           }
           
+          console.log(`Data loaded for ${sheetName}:`, sheetData.length, "items");
           return sheetData;
         } catch (error) {
           console.error(`Error loading sheet ${sheetName}:`, error);
+          
+          // PENAMBAHAN: Untuk MEMO INFORMASI BANK, coba metode cadangan lain
+          if (sheetName === "MEMO INFORMASI BANK") {
+            console.log("Mencoba metode cadangan untuk MEMO INFORMASI BANK...");
+            return tryAlternativeMethodForBankInfo();
+          }
+          
           return [];
         }
       }
 
+      // PENAMBAHAN: Fungsi khusus untuk MEMO INFORMASI BANK
+      async function tryAlternativeMethodForBankInfo() {
+        try {
+          console.log("Mencoba metode alternatif khusus untuk MEMO INFORMASI BANK");
+          
+          // Coba beberapa kemungkinan struktur URL
+          const urlVariations = [
+            // Coba dengan nama sheet yang berbeda (mungkin ada spasi atau format berbeda)
+            `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=MEMO%20INFORMASI%20BANK`,
+            `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Memo%20Informasi%20Bank`,
+            `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Memo%20Informasi%20bank`,
+            // Coba tanpa parameter sheet (mungkin sheet pertama atau default)
+            `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json`
+          ];
+          
+          for (let i = 0; i < urlVariations.length; i++) {
+            try {
+              const url = urlVariations[i];
+              console.log(`Mencoba URL: ${url}`);
+              
+              const response = await fetch(url);
+              if (!response.ok) continue;
+              
+              const text = await response.text();
+              if (!text || text.trim().length === 0) continue;
+              
+              const jsonText = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+              const json = JSON.parse(jsonText);
+              
+              // Cek apakah ini sheet yang kita cari
+              if (json.table && json.table.rows && json.table.rows.length > 1) {
+                // Cek baris pertama untuk konfirmasi apakah ini MEMO INFORMASI BANK
+                const firstRow = json.table.rows[0];
+                if (firstRow.c && firstRow.c[0] && firstRow.c[0].v) {
+                  const firstCell = firstRow.c[0].v.toString().toUpperCase();
+                  if (firstCell.includes("BANK") || firstCell.includes("INFORMASI")) {
+                    console.log(`Found potential MEMO INFORMASI BANK data at variation ${i}`);
+                  }
+                }
+                
+                const sheetData = [];
+                json.table.rows.forEach((row, index) => {
+                  if (index > 0 && row.c && row.c[0] && row.c[0].v) {
+                    const title = row.c[0].v;
+                    const content = row.c[1] ? row.c[1].v : '';
+                    
+                    if (title.toString().trim() !== '') {
+                      sheetData.push({
+                        title: title.toString(),
+                        content: content.toString()
+                      });
+                    }
+                  }
+                });
+                
+                if (sheetData.length > 0) {
+                  console.log(`Berhasil memuat data dengan metode alternatif: ${sheetData.length} item`);
+                  return sheetData;
+                }
+              }
+            } catch (variationError) {
+              console.log(`Variation ${i} gagal:`, variationError);
+              continue;
+            }
+          }
+          
+          console.warn("Semua metode alternatif gagal untuk MEMO INFORMASI BANK");
+          return [];
+        } catch (altError) {
+          console.error("Metode alternatif khusus gagal:", altError);
+          return [];
+        }
+      }
+      
       // Fungsi untuk memuat data sheet
       function loadSheetData(sheetName) {
         if (allData[sheetName]) {
@@ -753,10 +868,14 @@
           // Clear tables when loading new sheet
           titleTableBody.innerHTML = '';
           contentTableBody.innerHTML = '';
+          
+          // PENAMBAHAN: Log untuk debugging
+          console.log(`${sheetName} data loaded:`, currentData.length, "items");
         } else {
           currentData = [];
           renderTitleList();
           showAlert(`Data untuk ${sheetName} tidak ditemukan`, 'error');
+          console.error(`Data ${sheetName} tidak ada di allData`);
         }
       }
       
@@ -924,4 +1043,5 @@
     });
   </script>
 </body>
+
 </html>
