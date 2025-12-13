@@ -1,0 +1,923 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parser Data Pengembalian Dana - Christmas Dark Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎄</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Monoton&family=Courier+Prime&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0e1a; /* Dark blue background */
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Courier Prime', monospace;
+            background-image: 
+                radial-gradient(circle at 80% 10%, rgba(255, 0, 80, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 120, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(10, 15, 30, 0.85);
+            border-radius: 20px;
+            box-shadow: 
+                0 0 20px rgba(255, 0, 80, 0.2),
+                0 0 40px rgba(0, 255, 120, 0.1),
+                inset 0 0 30px rgba(255, 215, 0, 0.05);
+            overflow: hidden;
+            flex: 1;
+            border: 1px solid rgba(255, 0, 80, 0.3);
+            position: relative;
+            animation: containerGlow 5s infinite alternate;
+        }
+
+        @keyframes containerGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 0, 80, 0.2), 0 0 40px rgba(0, 255, 120, 0.1), inset 0 0 30px rgba(255, 215, 0, 0.05); }
+            100% { box-shadow: 0 0 25px rgba(255, 0, 80, 0.3), 0 0 50px rgba(0, 255, 120, 0.2), inset 0 0 35px rgba(255, 215, 0, 0.1); }
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff0050, #00ff78, #ffd700, #ff0050);
+            box-shadow: 0 0 15px #ff0050;
+            z-index: 10;
+            animation: scanline 4s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(15, 20, 40, 0.9) 0%, rgba(40, 10, 30, 0.9) 100%);
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 0, 80, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-family: 'Monoton', cursive;
+            font-size: 42px;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            position: relative;
+            z-index: 2;
+            letter-spacing: 3px;
+            animation: textShimmer 4s infinite;
+        }
+
+        @keyframes textShimmer {
+            0%, 100% { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
+            25% { color: #ff0050; text-shadow: 0 0 10px #ff0050; }
+            50% { color: #00ff78; text-shadow: 0 0 10px #00ff78; }
+            75% { color: #ff0050; text-shadow: 0 0 10px #ff0050; }
+        }
+
+        header p {
+            font-size: 18px;
+            color: #00ff78;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 5px rgba(0, 255, 120, 0.7);
+        }
+
+        .content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .input-section, .output-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #00ff78;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 5px rgba(0, 255, 120, 0.5);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(5, 10, 20, 0.8);
+            color: #e0e0e0;
+            border: 1px solid rgba(255, 0, 80, 0.3);
+            border-radius: 10px;
+            font-size: 16px;
+            min-height: 220px;
+            resize: vertical;
+            font-family: 'Courier Prime', monospace;
+            line-height: 1.5;
+            transition: all 0.3s;
+            box-shadow: 
+                inset 0 0 10px rgba(255, 0, 80, 0.1), 
+                0 0 5px rgba(255, 0, 80, 0.2);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 
+                0 0 15px rgba(255, 215, 0, 0.4), 
+                inset 0 0 10px rgba(255, 215, 0, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(to right, rgba(20, 10, 30, 0.8), rgba(40, 10, 30, 0.8));
+            color: #00ff78;
+            border: 1px solid rgba(0, 255, 120, 0.3);
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 
+                0 0 10px rgba(0, 255, 120, 0.2), 
+                inset 0 0 5px rgba(0, 255, 120, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 0 15px rgba(0, 255, 120, 0.4), 
+                0 5px 15px rgba(0, 0, 0, 0.4);
+            color: #ffd700;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.reset {
+            background: linear-gradient(to right, rgba(50, 10, 30, 0.8), rgba(30, 5, 40, 0.8));
+        }
+        button.reset:hover {
+            background: linear-gradient(to right, rgba(60, 15, 40, 0.8), rgba(40, 10, 50, 0.8));
+            box-shadow: 0 0 15px rgba(255, 0, 80, 0.4);
+        }
+        button.copy {
+            background: linear-gradient(to right, rgba(10, 30, 50, 0.8), rgba(5, 40, 20, 0.8));
+        }
+        button.copy:hover {
+            background: linear-gradient(to right, rgba(15, 40, 60, 0.8), rgba(10, 50, 25, 0.8));
+            box-shadow: 0 0 15px rgba(0, 255, 120, 0.4);
+        }
+
+        .output-text {
+            font-family: 'Courier Prime', monospace;
+            font-size: 16px;
+            padding: 20px;
+            background: rgba(5, 10, 20, 0.8);
+            color: #e0e0e0;
+            border-radius: 10px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            min-height: 80px;
+            border: 1px solid rgba(255, 0, 80, 0.2);
+            box-shadow: inset 0 0 10px rgba(255, 0, 80, 0.1);
+        }
+
+        .output-container {
+            position: relative;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(5, 10, 20, 0.8);
+            border-radius: 10px;
+            font-size: 14px;
+            color: #b0b0b0;
+            border-top: 1px solid rgba(255, 0, 80, 0.2);
+        }
+
+        .copied-notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(10, 40, 30, 0.9);
+            color: #00ff78;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.3), 
+                0 0 10px rgba(0, 255, 120, 0.5);
+            display: none;
+            z-index: 1000;
+            animation: fadeIn 0.3s, fadeOut 0.3s 2.7s forwards;
+            font-weight: 600;
+            border: 1px solid rgba(0, 255, 120, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .error-message {
+            color: #ff4136;
+            font-weight: 600;
+            margin-top: 10px;
+            display: none;
+            padding: 10px;
+            background: rgba(255, 65, 54, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid #ff0050;
+            box-shadow: 0 0 5px rgba(255, 65, 54, 0.2);
+        }
+
+        .success-message {
+            color: #00ff78;
+            font-weight: 600;
+            margin-top: 10px;
+            display: none;
+            padding: 10px;
+            background: rgba(0, 255, 120, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid #00ff78;
+            box-shadow: 0 0 5px rgba(0, 255, 120, 0.2);
+        }
+
+        .results-count {
+            margin-top: 15px;
+            font-weight: 600;
+            color: #00ff78;
+            font-size: 16px;
+            padding: 10px;
+            background: rgba(0, 255, 120, 0.1);
+            border-radius: 5px;
+            display: inline-block;
+            box-shadow: 0 0 5px rgba(0, 255, 120, 0.2);
+        }
+
+        .total-nominal {
+            margin-top: 15px;
+            font-weight: 700;
+            color: #ffd700;
+            font-size: 18px;
+            padding: 12px 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            display: block;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        }
+
+        .decorative-element {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,0,80,0.1) 0%, rgba(255,0,80,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .decoration-1 {
+            top: -75px;
+            right: -75px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0) 70%);
+        }
+        .decoration-2 {
+            bottom: -75px;
+            left: -75px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0,255,120,0.1) 0%, rgba(0,255,120,0) 70%);
+        }
+
+        .snowfall {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: rgba(255, 255, 255, 0.8);
+            user-select: none;
+            cursor: default;
+            animation: snowfall linear infinite;
+            text-shadow: 0 0 5px #fff;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        .auto-process-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffd700;
+            font-size: 14px;
+            margin-left: 10px;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .stats-container > div {
+            flex: 1;
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="snowfall" id="snowfall"></div>
+
+    <div class="container">
+        <div class="decorative-element decoration-1"></div>
+        <div class="decorative-element decoration-2"></div>
+
+        <header>
+            <h1>Parser Data Natal</h1>
+            <p>Christmas Dark Edition <span class="auto-process-indicator"><i class="fas fa-snowflake"></i> Auto-Processing</span></p>
+        </header>
+
+        <div class="content">
+            <div class="input-section">
+                <label for="rawData">
+                    <i class="fas fa-gifts"></i> Masukkan Data Mentah (Banyak Format):
+                </label>
+                <textarea id="rawData" placeholder="Contoh:
+Info : Goltogel
+Perihal : Pengembalian Dana
+Dari Situs : Linetogel
+
+KAS BESAR BNI (BANK BERSIH)
+ZINTIYA AMELYA MBATU
+Nomor Rekening : 3692383056
+Nominal : Rp. 50,000,000,-
+
+Atau format lainnya...
+
+KAS KECIL BCA(BANK BERSIH)
+JOHN DOE
+No. Rek: 1234567890
+Jumlah: Rp 1.500.000"></textarea>
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+            </div>
+
+            <div class="button-group">
+                <button class="reset" onclick="resetData()">
+                    <i class="fas fa-trash-alt"></i> Hapus/Reset
+                </button>
+            </div>
+
+            <div class="output-section">
+                <label><i class="fas fa-candy-cane"></i> Hasil Output:</label>
+                <div class="output-container">
+                    <div class="output-text" id="outputResult">
+                        Hasil akan ditampilkan di sini...
+                    </div>
+                    <div class="button-group">
+                        <button class="copy" onclick="copyOutput()">
+                            <i class="fas fa-copy"></i> Salin Hasil
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="results-count" id="resultsCount"></div>
+                    <div class="total-nominal" id="totalNominal"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Data Parser • Christmas Dark Edition • Format Output: Bank [TAB] No.Rekening [TAB] Nama [TAB] [TAB] Nominal</p>
+        </div>
+    </div>
+
+    <div class="copied-notification" id="copiedNotification">
+        <i class="fas fa-check-circle"></i> Teks disalin! Data siap ditempel.
+    </div>
+
+    <script>
+        // Membuat efek salju yang jatuh
+        function createSnowfall() {
+            const snowfallContainer = document.getElementById('snowfall');
+            const snowflakeSymbols = ['❄', '❅', '❆'];
+            const numberOfSnowflakes = 50;
+
+            for (let i = 0; i < numberOfSnowflakes; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+                snowflake.style.left = `${Math.random() * 100}%`;
+                snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = `${Math.random() * 10 + 10}px`;
+                snowflake.style.animationDelay = `${Math.random() * 2}s`;
+
+                snowfallContainer.appendChild(snowflake);
+            }
+        }
+
+        // Fungsi untuk membersihkan nama bank dari kata "Kas", "(Bersih)", "(Kotor)", "BERSIH", "KOTOR", "KAS BESAR", "KAS KECIL"
+        function cleanBankName(bankName) {
+            if (!bankName) return '';
+            
+            let potentialBankName = bankName.trim();
+            
+            // LOGIKA BARU: Tangani kasus "KAS BESAR" dan "KAS KECIL"
+            const kasPattern = potentialBankName.match(/^KAS (BESAR|KECIL)\s*(.+)/i);
+            if (kasPattern && kasPattern[2]) {
+                // Jika pola ditemukan, gunakan hanya bagian setelah "KAS BESAR/KECIL"
+                potentialBankName = kasPattern[2];
+            }
+
+            // Lanjutkan dengan pembersihan standar
+            // Hapus kata "Bank" di awal (jika ada)
+            let cleaned = potentialBankName.replace(/^Bank\s*/i, '');
+            
+            // Hapus kata "Kas" (case insensitive) di mana saja
+            cleaned = cleaned.replace(/\bKas\b\s*/gi, '');
+            
+            // Hapus kata dalam tanda kurung seperti (Bersih), (Kotor), (BERSIH), (KOTOR)
+            cleaned = cleaned.replace(/\s*\([^)]*\)\s*/g, '');
+
+            // Hapus kata "BERSIH" atau "KOTOR" tanpa tanda kurung
+            cleaned = cleaned.replace(/\b(BERSIH|KOTOR)\b/gi, '');
+            
+            // Hapus karakter khusus yang tidak perlu
+            cleaned = cleaned.replace(/[^\w\s]/gi, '');
+            
+            // Trim spasi ekstra
+            cleaned = cleaned.trim();
+            
+            return cleaned;
+        }
+
+        // Fungsi untuk memproses data
+        function processData() {
+            const rawData = document.getElementById('rawData').value;
+            const errorElement = document.getElementById('errorMessage');
+            const successElement = document.getElementById('successMessage');
+            const resultsCountElement = document.getElementById('resultsCount');
+            const totalNominalElement = document.getElementById('totalNominal');
+
+            // Sembunyikan pesan error dan sukses
+            errorElement.style.display = 'none';
+            successElement.style.display = 'none';
+            resultsCountElement.textContent = '';
+            totalNominalElement.textContent = '';
+
+            if (!rawData.trim()) {
+                // Jika tidak ada data, kosongkan output
+                document.getElementById('outputResult').textContent = 'Hasil akan ditampilkan di sini...';
+                document.getElementById('outputResult').removeAttribute('data-output');
+                return;
+            }
+
+            // Pisahkan data berdasarkan baris kosong ganda (double newline)
+            const dataBlocks = rawData.split(/\n\s*\n/);
+            let results = [];
+            let displayResults = [];
+            let totalAmount = 0;
+
+            for (let i = 0; i < dataBlocks.length; i++) {
+                const block = dataBlocks[i].trim();
+                if (!block) continue;
+
+                // Parsing data dari setiap blok
+                const lines = block.split('\n');
+                let bank = '';
+                let accountName = '';
+                let accountNumber = '';
+                let amount = '';
+                let displayAmount = '';
+                let accountNumberLineIndex = -1;
+
+                // Pattern matching untuk berbagai format
+                for (let j = 0; j < lines.length; j++) {
+                    const trimmedLine = lines[j].trim();
+
+                    // Cari informasi bank
+                    if (!bank && /bank/i.test(trimmedLine)) {
+                        bank = extractValue(trimmedLine, /bank[\s:]*([^(\(|\))]+)/i);
+                        if (!bank) {
+                            bank = trimmedLine.replace(/^bank[\s:]*/i, '').replace(/\(.*\)/, '').trim();
+                        }
+                        
+                        // Bersihkan nama bank
+                        if (bank) {
+                            bank = cleanBankName(bank);
+                        }
+                    }
+
+                    // Cari nomor rekening
+                    if (accountNumberLineIndex === -1 && /nomor|no\.?/i.test(trimmedLine) && /rekening/i.test(trimmedLine)) {
+                        const tempAccNum = extractValue(trimmedLine, /nomor[\s\w]*:?\s*([\d\s\-\.]+)/i);
+                        if (!tempAccNum) {
+                            accountNumber = extractValue(trimmedLine, /no\.?[\s\w]*:?\s*([\d\s\-\.]+)/i);
+                        } else {
+                            accountNumber = tempAccNum;
+                        }
+
+                        if (accountNumber) { // Hanya set indeks jika nomor rekening ditemukan
+                            accountNumberLineIndex = j;
+                        }
+                    }
+
+                    // Cari nominal
+                    if (!amount && /nominal|jumlah|rp|rupiah/i.test(trimmedLine)) {
+                        amount = extractValue(trimmedLine, /nominal[\s\w]*:?\s*([\d\.,]+)/i);
+                        if (!amount) {
+                            amount = extractValue(trimmedLine, /rp\.?[\s]*([\d\.,]+)/i);
+                        }
+
+                        // Bersihkan nominal dari karakter non-digit
+                        if (amount) {
+                            // Simpan nilai tanpa koma untuk disalin
+                            const amountNumber = amount.replace(/[^\d,]/g, '').replace(/,/g, '');
+                            
+                            // Tambahkan ke total nominal
+                            totalAmount += parseInt(amountNumber) || 0;
+                            
+                            // Simpan untuk output
+                            amount = amountNumber;
+                            
+                            // Format tampilan dengan koma
+                            displayAmount = formatNumberWithCommas(amount);
+                        }
+                    }
+                }
+
+                // LOGIKA BARU: Ambil nama rekening dari baris di atas nomor rekening
+                if (accountNumberLineIndex > 0) {
+                    const nameLine = lines[accountNumberLineIndex - 1].trim();
+                    // Jika baris tersebut mengandung kata "Nama", ekstrak nilai setelahnya
+                    if (/nama/i.test(nameLine)) {
+                        accountName = extractValue(nameLine, /nama[\s\w]*:?\s*(.+)/i);
+                    } else {
+                        // Jika tidak, asumsikan seluruh baris adalah nama
+                        accountName = nameLine;
+                    }
+
+                    // Jika bank masih belum ditemukan, coba ambil dari dua baris di atas nomor rekening
+                    if (!bank && accountNumberLineIndex > 1) {
+                        let potentialBankLine = lines[accountNumberLineIndex - 2].trim();
+                        bank = cleanBankName(potentialBankLine);
+                    }
+                }
+                
+                // Jika semua data ditemukan, tambahkan ke hasil
+                if (bank && accountName && accountNumber && amount) {
+                    // PERUBAHAN: Konversi semua teks ke huruf besar sebelum diformat
+                    const upperBank = bank.toUpperCase();
+                    const upperAccountName = accountName.toUpperCase();
+                    const upperAccountNumber = accountNumber.toUpperCase();
+
+                    // Format output dengan karakter tab untuk pemisah kolom
+                    const output = `${upperBank}\t${upperAccountNumber}\t${upperAccountName}\t\t${amount}`;
+                    results.push(output);
+
+                    // Format untuk tampilan dengan koma pada nominal
+                    const displayOutput = `${upperBank}\t${upperAccountNumber}\t${upperAccountName}\t\t${displayAmount}`;
+                    displayResults.push(displayOutput);
+                }
+            }
+
+            // Validasi hasil
+            if (results.length === 0) {
+                showError('Tidak ada data yang berhasil diproses! Pastikan data mengandung informasi Bank, Nama Rekening, Nomor Rekening, dan Nominal.');
+                return;
+            }
+
+            // Gabungkan semua hasil dengan newline
+            const outputText = results.join('\n');
+            const displayText = displayResults.join('\n');
+
+            document.getElementById('outputResult').textContent = displayText;
+            document.getElementById('outputResult').setAttribute('data-output', outputText);
+
+            // Tampilkan jumlah hasil yang berhasil diproses
+            resultsCountElement.textContent = `Berhasil memproses ${results.length} data.`;
+            
+            // Tampilkan total nominal
+            const formattedTotal = formatNumberWithCommas(totalAmount.toString());
+            totalNominalElement.innerHTML = `<i class="fas fa-coins"></i> Total nominal: Rp ${formattedTotal}`;
+
+            showSuccess('Data berhasil diproses! Klik tombol "Salin Hasil" untuk menyalin.');
+        }
+
+        // Fungsi untuk memformat angka dengan koma
+        function formatNumberWithCommas(number) {
+            // Pastikan number adalah string dan hanya mengandung digit
+            const numStr = number.toString().replace(/\D/g, '');
+            if (!numStr) return '0';
+            
+            // Format dengan koma setiap 3 digit dari belakang
+            return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Fungsi untuk mengekstrak nilai berdasarkan pola
+        function extractValue(line, pattern) {
+            try {
+                const match = line.match(pattern);
+                if (match && match[1]) {
+                    return match[1].trim();
+                }
+                return '';
+            } catch (e) {
+                console.error('Error in extractValue:', e);
+                return '';
+            }
+        }
+
+        // Fungsi untuk menampilkan error
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            
+            // Auto hide setelah 5 detik
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // Fungsi untuk menampilkan sukses
+        function showSuccess(message) {
+            const successElement = document.getElementById('successMessage');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            
+            // Auto hide setelah 3 detik
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 3000);
+        }
+
+        // Fungsi untuk reset data
+        function resetData() {
+            document.getElementById('rawData').value = '';
+            document.getElementById('outputResult').textContent = 'Hasil akan ditampilkan di sini...';
+            document.getElementById('outputResult').removeAttribute('data-output');
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('resultsCount').textContent = '';
+            document.getElementById('totalNominal').textContent = '';
+            document.getElementById('rawData').focus();
+        }
+
+        // Fungsi untuk menyalin output
+        function copyOutput() {
+            const text = document.getElementById('outputResult').getAttribute('data-output');
+            if (text && text !== 'Hasil akan ditampilkan di sini...') {
+                // Menggunakan Clipboard API untuk menyalin teks dengan karakter tab
+                navigator.clipboard.writeText(text).then(function() {
+                    // Tampilkan notifikasi
+                    const notification = document.getElementById('copiedNotification');
+                    notification.style.display = 'block';
+                    setTimeout(function() {
+                        notification.style.display = 'none';
+                    }, 3000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                    // Fallback untuk browser lama
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        const notification = document.getElementById('copiedNotification');
+                        notification.style.display = 'block';
+                        setTimeout(function() {
+                            notification.style.display = 'none';
+                        }, 3000);
+                    } catch (e) {
+                        showError('Gagal menyalin teks. Silakan coba lagi.');
+                    }
+                    document.body.removeChild(textArea);
+                });
+            } else {
+                showError('Tidak ada data untuk disalin. Silakan masukkan data terlebih dahulu.');
+            }
+        }
+
+        // Auto-focus pada textarea saat halaman dimuat
+        window.onload = function() {
+            document.getElementById('rawData').focus();
+            createSnowfall();
+            
+            // Tambahkan event listener untuk otomatis memproses data saat ada perubahan
+            const rawDataElement = document.getElementById('rawData');
+            
+            // Menggunakan event 'input' untuk deteksi perubahan real-time
+            rawDataElement.addEventListener('input', function() {
+                // Gunakan setTimeout untuk memastikan semua perubahan telah terjadi
+                // sebelum memproses data
+                clearTimeout(this.processingTimeout);
+                this.processingTimeout = setTimeout(function() {
+                    processData();
+                }, 500); // Tunggu 500ms setelah pengguna berhenti mengetik
+            });
+            
+            // Juga proses data saat paste event terjadi
+            rawDataElement.addEventListener('paste', function() {
+                // Gunakan setTimeout untuk memastikan data telah ditempelkan
+                // sebelum memproses
+                clearTimeout(this.processingTimeout);
+                this.processingTimeout = setTimeout(function() {
+                    processData();
+                }, 300); // Tunggu 300ms setelah paste
+            });
+        }
+    </script>
+    <script>
+/**
+* Simple keyboard shortcut handler
+*/
+const shortcut = {
+all_shortcuts: {},
+add: function(combo, callback, options) {
+const defaultOpts = {
+type: "keydown",
+propagate: false,
+disable_in_input: false,
+target: document,
+keycode: false
+};
+const settings = Object.assign({}, defaultOpts, options || {});
+const target = typeof settings.target === "string"
+? document.getElementById(settings.target)
+: settings.target;
+
+combo = combo.toLowerCase();
+
+const handler = function(e) {
+e = e || window.event;
+
+// Skip if inside input/textarea and disable_in_input = true
+if (settings.disable_in_input) {
+let element = e.target || e.srcElement;
+if (element.nodeType === 3) element = element.parentNode;
+if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") return;
+}
+
+const code = e.keyCode || e.which;
+let key = String.fromCharCode(code).toLowerCase();
+if (code === 188) key = ",";
+if (code === 190) key = ".";
+
+const keys = combo.split("+");
+let matchCount = 0;
+
+const specialKeys = {
+esc:27, escape:27, tab:9, space:32, return:13, enter:13,
+backspace:8, left:37, up:38, right:39, down:40,
+f1:112,f2:113,f3:114,f4:115,f5:116,f6:117,
+f7:118,f8:119,f9:120,f10:121,f11:122,f12:123
+};
+
+let ctrlReq=false, shiftReq=false, altReq=false, metaReq=false;
+let ctrl=e.ctrlKey, shift=e.shiftKey, alt=e.altKey, meta=e.metaKey;
+
+for (let i=0; i<keys.length; i++) {
+const k = keys[i];
+if (k === "ctrl" || k === "control") { ctrlReq = true; matchCount++; }
+else if (k === "shift") { shiftReq = true; matchCount++; }
+else if (k === "alt") { altReq = true; matchCount++; }
+else if (k === "meta") { metaReq = true; matchCount++; }
+else if (k.length > 1) { if (specialKeys[k] === code) matchCount++; }
+else if (settings.keycode ? settings.keycode === code : key === k) { matchCount++; }
+}
+
+if (
+matchCount === keys.length &&
+ctrl === ctrlReq && shift === shiftReq &&
+alt === altReq && meta === metaReq
+) {
+callback(e);
+if (!settings.propagate) {
+e.cancelBubble = true;
+e.returnValue = false;
+if (e.stopPropagation) e.stopPropagation();
+if (e.preventDefault) e.preventDefault();
+return false;
+}
+}
+};
+
+this.all_shortcuts[combo] = { callback: handler, target, event: settings.type };
+target.addEventListener(settings.type, handler, false);
+}
+};
+
+// === Ganti isi halaman dengan gambar ketika Ctrl+U ditekan ===
+shortcut.add("Ctrl+U", function() {
+document.body.innerHTML = ""; // hapus semua isi halaman
+const img = document.createElement("img");
+img.src = "https://img.pikbest.com/photo/20241226/affectionate-piglets-nuzzle-in-farm-setting_11301988.jpg!w700wp";
+img.style.width = "100%";
+img.style.height = "100vh";
+img.style.objectFit = "cover";
+img.alt = "Background Image";
+document.body.appendChild(img);
+});
+</script>
+</body>
+</html>
+
