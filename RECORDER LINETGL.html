@@ -1,0 +1,1781 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Recorder Lokal - Database Video Besar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(25, 25, 35, 0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        header h1 i {
+            font-size: 3rem;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        @media (max-width: 1100px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .recorder-section {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .video-container {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            margin-bottom: 25px;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #previewVideo {
+            width: 100%;
+            height: 100%;
+            display: none;
+            object-fit: contain;
+        }
+
+        .video-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #94a3b8;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .video-placeholder i {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            color: #475569;
+        }
+
+        .recording-indicator {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .recording-dot {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn {
+            padding: 16px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-record {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-record:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+        }
+
+        .btn-stop:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(100, 116, 139, 0.4);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-download:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-manage {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .btn-manage:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0ea5e9;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .settings-section {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #0ea5e9;
+        }
+
+        .settings-group {
+            margin-bottom: 25px;
+        }
+
+        .setting-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .select-control:focus {
+            outline: none;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-group:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #0ea5e9;
+        }
+
+        .checkbox-group label {
+            color: #e2e8f0;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .radio-option input[type="radio"] {
+            accent-color: #0ea5e9;
+        }
+
+        .instructions {
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+        }
+
+        .instructions h3 {
+            color: #0ea5e9;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+            color: #e2e8f0;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            padding-left: 5px;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .success-message i {
+            font-size: 1.5rem;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .error-message i {
+            font-size: 1.5rem;
+        }
+
+        .video-library-section {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .library-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .library-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .library-search {
+            padding: 8px 15px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            width: 250px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .video-card {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .storage-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .storage-bar {
+            flex: 1;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 0 15px;
+        }
+
+        .storage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #0ea5e9);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .storage-stats {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-video {
+            width: 100%;
+            max-height: 60vh;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .permission-tips {
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .permission-tips h4 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hint-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 4px solid #0ea5e9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <i class="fas fa-video"></i>
+                Screen Recorder LINETOGEL
+            </h1>
+            <p class="tagline">
+                Rekam dan simpan video besar langsung di browser Anda dengan IndexedDB.
+                <br>Mendukung penyimpanan hingga 2GB per video!
+            </p>
+        </header>
+
+        <div class="main-content">
+            <!-- Left: Recorder Section -->
+            <div class="recorder-section">
+                <!-- Video Preview -->
+                <div class="video-container">
+                    <div class="recording-indicator" id="recordingIndicator">
+                        <div class="recording-dot"></div>
+                        <span>Sedang Merekam</span>
+                    </div>
+                    
+                    <video id="previewVideo" controls></video>
+                    <div class="video-placeholder" id="videoPlaceholder">
+                        <i class="fas fa-desktop"></i>
+                        <h3>Pratinjau Video</h3>
+                        <p>Video rekaman akan muncul di sini setelah selesai merekam</p>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="controls">
+                    <button id="recordBtn" class="btn btn-record">
+                        <i class="fas fa-circle"></i> Mulai Rekaman
+                    </button>
+                    <button id="stopBtn" class="btn btn-stop" disabled>
+                        <i class="fas fa-stop"></i> Hentikan
+                    </button>
+                    <button id="downloadBtn" class="btn btn-download" disabled>
+                        <i class="fas fa-download"></i> Unduh Video
+                    </button>
+                </div>
+
+                <button id="manageBtn" class="btn btn-manage">
+                    <i class="fas fa-database"></i> Kelola Video (0)
+                </button>
+
+                <!-- Stats -->
+                <div class="stats-panel">
+                    <div class="stat-box">
+                        <span class="stat-value" id="timerDisplay">00:00</span>
+                        <span class="stat-label">Durasi</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="fileSize">0 MB</span>
+                        <span class="stat-label">Ukuran File</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="resolution">1920x1080</span>
+                        <span class="stat-label">Resolusi</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="fpsDisplay">30</span>
+                        <span class="stat-label">FPS</span>
+                    </div>
+                </div>
+
+                <!-- Success/Error Messages -->
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Berhasil!</strong>
+                        <p id="successText">Video siap diunduh</p>
+                    </div>
+                </div>
+
+                <div class="error-message" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div>
+                        <strong>Terjadi Kesalahan</strong>
+                        <p id="errorText">Silakan coba lagi</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Settings Section -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-sliders-h"></i> Pengaturan
+                </h2>
+
+                <!-- Recording Source -->
+                <div class="settings-group">
+                    <label class="setting-label">Sumber Rekaman</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="source" value="screen" checked>
+                            <span>Seluruh Layar</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="source" value="window">
+                            <span>Jendela Aplikasi</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="source" value="tab">
+                            <span>Tab Browser</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Video Quality -->
+                <div class="settings-group">
+                    <label class="setting-label">Kualitas Video</label>
+                    <select id="qualitySelect" class="select-control">
+                        <option value="4k">4K Ultra HD (3840x2160)</option>
+                        <option value="1440p">2K QHD (2560x1440)</option>
+                        <option value="1080p">Full HD (1920x1080)</option>
+                        <option value="720p" selected>HD (1280x720)</option>
+                        <option value="480p">SD (854x480)</option>
+                    </select>
+                </div>
+
+                <!-- Audio Settings -->
+                <div class="settings-group">
+                    <label class="setting-label">Pengaturan Audio</label>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="systemAudio" checked>
+                        <label for="systemAudio">Rekam Audio Sistem</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="microphoneAudio">
+                        <label for="microphoneAudio">Rekam Mikrofon</label>
+                    </div>
+                </div>
+
+                <!-- Storage Settings -->
+                <div class="settings-group">
+                    <label class="setting-label">Penyimpanan</label>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="autoSave" checked>
+                        <label for="autoSave">Simpan otomatis ke database</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="chunkRecording">
+                        <label for="chunkRecording">Rekam per bagian (untuk video panjang)</label>
+                    </div>
+
+                    <div class="storage-info" id="storageInfo">
+                        <span>Penyimpanan:</span>
+                        <div class="storage-bar">
+                            <div class="storage-fill" id="storageFill"></div>
+                        </div>
+                        <span class="storage-stats" id="storageStats">0 MB / 2 GB</span>
+                    </div>
+                </div>
+
+                <!-- Additional Options -->
+                <div class="settings-group">
+                    <label class="setting-label">Opsi Tambahan</label>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="showCursor" checked>
+                        <label for="showCursor">Tampilkan Kursor Mouse</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="showTimer">
+                        <label for="showTimer">Tampilkan Timer di Video</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="autoDownload">
+                        <label for="autoDownload">Auto-download setelah selesai</label>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> Petunjuk Penggunaan</h3>
+                    <ol>
+                        <li>Pilih sumber rekaman yang diinginkan</li>
+                        <li>Atur kualitas video dan audio sesuai kebutuhan</li>
+                        <li>Klik "Mulai Rekaman" dan izinkan akses ke layar</li>
+                        <li>Lakukan aktivitas yang ingin direkam</li>
+                        <li>Klik "Hentikan" untuk mengakhiri rekaman</li>
+                        <li>Video otomatis tersimpan di database lokal</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Library Section -->
+        <div class="video-library-section">
+            <div class="library-header">
+                <h2 class="section-title">
+                    <i class="fas fa-photo-video"></i> Perpustakaan Video
+                </h2>
+                <div class="library-controls">
+                    <input type="text" id="searchVideos" class="library-search" placeholder="Cari video...">
+                    <button id="clearAllBtn" class="action-btn">
+                        <i class="fas fa-trash"></i> Hapus Semua
+                    </button>
+                </div>
+            </div>
+            
+            <div class="video-grid" id="videoGrid">
+                <!-- Video cards will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Video Modal -->
+        <div class="modal" id="videoModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalTitle">Video Detail</h2>
+                    <button class="close-modal" id="closeModal">&times;</button>
+                </div>
+                <video class="modal-video" id="modalVideo" controls></video>
+                <div class="video-info">
+                    <h3 id="modalVideoTitle"></h3>
+                    <div class="video-meta">
+                        <span id="modalVideoSize"></span>
+                        <span id="modalVideoDate"></span>
+                        <span id="modalVideoDuration"></span>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="modalDownloadBtn" class="btn btn-download">
+                        <i class="fas fa-download"></i> Unduh
+                    </button>
+                    <button id="modalDeleteBtn" class="btn btn-record">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                    <button id="modalCloseBtn" class="btn btn-stop">
+                        <i class="fas fa-times"></i> Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Screen Recorder dengan IndexedDB &copy; 2023 | Mendukung video besar hingga 2GB</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; color: #64748b;">
+                <i class="fas fa-database"></i>
+                Data tersimpan secara lokal di browser Anda dan tidak dikirim ke server manapun
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // ====================
+        // DATABASE SETUP
+        // ====================
+        const DB_NAME = 'ScreenRecorderDB';
+        const DB_VERSION = 3;
+        const STORE_NAME = 'videos';
+        let db;
+        let currentVideoId = null;
+
+        // Initialize IndexedDB
+        async function initDatabase() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve();
+                    updateStorageInfo();
+                    loadVideoLibrary();
+                };
+                
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    
+                    // Create object store for videos
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        const store = db.createObjectStore(STORE_NAME, {
+                            keyPath: 'id',
+                            autoIncrement: true
+                        });
+                        
+                        // Create indexes for searching
+                        store.createIndex('title', 'title', { unique: false });
+                        store.createIndex('date', 'date', { unique: false });
+                        store.createIndex('size', 'size', { unique: false });
+                    }
+                };
+            });
+        }
+
+        // Save video to database
+        async function saveVideoToDB(blob, metadata) {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject(new Error('Database not initialized'));
+                    return;
+                }
+
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                
+                // Convert blob to ArrayBuffer for storage
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const videoData = {
+                        ...metadata,
+                        data: reader.result,
+                        date: new Date().toISOString()
+                    };
+                    
+                    const request = store.add(videoData);
+                    
+                    request.onsuccess = () => {
+                        resolve(request.result);
+                        updateStorageInfo();
+                        loadVideoLibrary();
+                    };
+                    
+                    request.onerror = () => reject(request.error);
+                };
+                
+                reader.onerror = () => reject(reader.error);
+                reader.readAsArrayBuffer(blob);
+            });
+        }
+
+        // Get all videos from database
+        async function getAllVideos() {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject(new Error('Database not initialized'));
+                    return;
+                }
+
+                const transaction = db.transaction([STORE_NAME], 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.getAll();
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Get video by ID
+        async function getVideoById(id) {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject(new Error('Database not initialized'));
+                    return;
+                }
+
+                const transaction = db.transaction([STORE_NAME], 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.get(id);
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Delete video from database
+        async function deleteVideo(id) {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject(new Error('Database not initialized'));
+                    return;
+                }
+
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.delete(id);
+                
+                request.onsuccess = () => {
+                    resolve();
+                    updateStorageInfo();
+                    loadVideoLibrary();
+                };
+                
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Clear all videos
+        async function clearAllVideos() {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject(new Error('Database not initialized'));
+                    return;
+                }
+
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.clear();
+                
+                request.onsuccess = () => {
+                    resolve();
+                    updateStorageInfo();
+                    loadVideoLibrary();
+                };
+                
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Update storage info
+        async function updateStorageInfo() {
+            try {
+                const videos = await getAllVideos();
+                const totalSize = videos.reduce((sum, video) => sum + video.size, 0);
+                const videoCount = videos.length;
+                
+                // Update storage bar
+                const maxStorage = 2 * 1024 * 1024 * 1024; // 2GB
+                const percentUsed = (totalSize / maxStorage) * 100;
+                
+                document.getElementById('storageFill').style.width = `${Math.min(percentUsed, 100)}%`;
+                document.getElementById('storageStats').textContent = 
+                    `${formatFileSize(totalSize)} / 2 GB`;
+                
+                // Update manage button count
+                document.getElementById('manageBtn').innerHTML = 
+                    `<i class="fas fa-database"></i> Kelola Video (${videoCount})`;
+                
+                // Warn if storage is almost full
+                if (percentUsed > 90) {
+                    showError('Penyimpanan hampir penuh! Hapus beberapa video lama.');
+                }
+                
+            } catch (error) {
+                console.error('Error updating storage info:', error);
+            }
+        }
+
+        // ====================
+        // VARIABLES & ELEMENTS
+        // ====================
+        const recordBtn = document.getElementById('recordBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const manageBtn = document.getElementById('manageBtn');
+        const previewVideo = document.getElementById('previewVideo');
+        const videoPlaceholder = document.getElementById('videoPlaceholder');
+        const recordingIndicator = document.getElementById('recordingIndicator');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const fileSizeDisplay = document.getElementById('fileSize');
+        const resolutionDisplay = document.getElementById('resolution');
+        const fpsDisplay = document.getElementById('fpsDisplay');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const successText = document.getElementById('successText');
+        const errorText = document.getElementById('errorText');
+        const videoGrid = document.getElementById('videoGrid');
+        const searchVideos = document.getElementById('searchVideos');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const videoModal = document.getElementById('videoModal');
+        const modalVideo = document.getElementById('modalVideo');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalVideoTitle = document.getElementById('modalVideoTitle');
+        const modalVideoSize = document.getElementById('modalVideoSize');
+        const modalVideoDate = document.getElementById('modalVideoDate');
+        const modalVideoDuration = document.getElementById('modalVideoDuration');
+        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+        const modalDeleteBtn = document.getElementById('modalDeleteBtn');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const closeModal = document.getElementById('closeModal');
+        
+        // Settings elements
+        const qualitySelect = document.getElementById('qualitySelect');
+        const systemAudio = document.getElementById('systemAudio');
+        const microphoneAudio = document.getElementById('microphoneAudio');
+        const autoSave = document.getElementById('autoSave');
+        const chunkRecording = document.getElementById('chunkRecording');
+        const showCursor = document.getElementById('showCursor');
+        const showTimer = document.getElementById('showTimer');
+        const autoDownload = document.getElementById('autoDownload');
+
+        // Recording variables
+        let mediaRecorder;
+        let recordedChunks = [];
+        let stream;
+        let startTime;
+        let timerInterval;
+        let isRecording = false;
+        let currentBlob = null;
+        let chunkIndex = 0;
+        let chunkSize = 0;
+        const MAX_CHUNK_SIZE = 100 * 1024 * 1024; // 100MB per chunk
+
+        // ====================
+        // HELPER FUNCTIONS
+        // ====================
+        
+        function showSuccess(message) {
+            successText.textContent = message;
+            successMessage.style.display = 'flex';
+            errorMessage.style.display = 'none';
+            
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.style.display = 'flex';
+            successMessage.style.display = 'none';
+            
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            
+            if (hours > 0) {
+                return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function getResolution(quality) {
+            const resolutions = {
+                '4k': '3840x2160',
+                '1440p': '2560x1440',
+                '1080p': '1920x1080',
+                '720p': '1280x720',
+                '480p': '854x480'
+            };
+            return resolutions[quality] || '1280x720';
+        }
+
+        function getFPS(quality) {
+            const fpsMap = {
+                '4k': 30,
+                '1440p': 30,
+                '1080p': 30,
+                '720p': 30,
+                '480p': 24
+            };
+            return fpsMap[quality] || 30;
+        }
+
+        function getBitrate(quality) {
+            const bitrateMap = {
+                '4k': 8000000,
+                '1440p': 5000000,
+                '1080p': 2500000,
+                '720p': 1500000,
+                '480p': 500000
+            };
+            return bitrateMap[quality] || 1500000;
+        }
+
+        function getVideoConstraints() {
+            const quality = qualitySelect.value;
+            const cursorSetting = showCursor.checked ? 'always' : 'never';
+            
+            const baseConstraints = {
+                cursor: cursorSetting
+            };
+
+            switch(quality) {
+                case '4k':
+                    baseConstraints.width = { ideal: 3840 };
+                    baseConstraints.height = { ideal: 2160 };
+                    break;
+                case '1440p':
+                    baseConstraints.width = { ideal: 2560 };
+                    baseConstraints.height = { ideal: 1440 };
+                    break;
+                case '1080p':
+                    baseConstraints.width = { ideal: 1920 };
+                    baseConstraints.height = { ideal: 1080 };
+                    break;
+                case '720p':
+                    baseConstraints.width = { ideal: 1280 };
+                    baseConstraints.height = { ideal: 720 };
+                    break;
+                case '480p':
+                    baseConstraints.width = { ideal: 854 };
+                    baseConstraints.height = { ideal: 480 };
+                    break;
+            }
+
+            return baseConstraints;
+        }
+
+        // ====================
+        // VIDEO LIBRARY
+        // ====================
+        
+        async function loadVideoLibrary(searchTerm = '') {
+            try {
+                const videos = await getAllVideos();
+                videoGrid.innerHTML = '';
+                
+                let filteredVideos = videos;
+                if (searchTerm) {
+                    filteredVideos = videos.filter(video => 
+                        video.title.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                }
+                
+                if (filteredVideos.length === 0) {
+                    videoGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #94a3b8;">
+                            <i class="fas fa-video-slash" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                            <h3>Tidak ada video</h3>
+                            <p>Mulai merekam untuk menambahkan video pertama Anda</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Sort by date (newest first)
+                filteredVideos.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                filteredVideos.forEach(video => {
+                    const card = document.createElement('div');
+                    card.className = 'video-card';
+                    card.dataset.id = video.id;
+                    
+                    const duration = video.duration ? formatTime(video.duration) : '--:--';
+                    
+                    card.innerHTML = `
+                        <div class="video-thumbnail">
+                            <i class="fas fa-play-circle" style="font-size: 2.5rem; color: rgba(255,255,255,0.5);"></i>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">${video.title}</div>
+                            <div class="video-meta">
+                                <span>${formatFileSize(video.size)}</span>
+                                <span>${duration}</span>
+                                <span>${formatDate(video.date).split(' ')[0]}</span>
+                            </div>
+                            <div class="video-actions">
+                                <button class="action-btn play-video" title="Putar">
+                                    <i class="fas fa-play"></i> Putar
+                                </button>
+                                <button class="action-btn download-video" title="Unduh">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="action-btn delete-video" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    videoGrid.appendChild(card);
+                    
+                    // Add event listeners
+                    card.querySelector('.play-video').addEventListener('click', () => playVideo(video.id));
+                    card.querySelector('.download-video').addEventListener('click', () => downloadVideoFromDB(video.id));
+                    card.querySelector('.delete-video').addEventListener('click', () => deleteVideoPrompt(video.id));
+                });
+                
+            } catch (error) {
+                console.error('Error loading video library:', error);
+                showError('Gagal memuat perpustakaan video');
+            }
+        }
+
+        async function playVideo(id) {
+            try {
+                const video = await getVideoById(id);
+                if (!video) {
+                    showError('Video tidak ditemukan');
+                    return;
+                }
+                
+                currentVideoId = id;
+                
+                // Convert ArrayBuffer back to blob
+                const blob = new Blob([video.data], { type: video.type });
+                const url = URL.createObjectURL(blob);
+                
+                // Update modal
+                modalVideo.src = url;
+                modalVideoTitle.textContent = video.title;
+                modalVideoSize.textContent = formatFileSize(video.size);
+                modalVideoDate.textContent = formatDate(video.date);
+                modalVideoDuration.textContent = video.duration ? formatTime(video.duration) : '--:--';
+                modalTitle.textContent = video.title;
+                
+                // Show modal
+                videoModal.style.display = 'flex';
+                
+            } catch (error) {
+                console.error('Error playing video:', error);
+                showError('Gagal memutar video');
+            }
+        }
+
+        async function downloadVideoFromDB(id) {
+            try {
+                const video = await getVideoById(id);
+                if (!video) {
+                    showError('Video tidak ditemukan');
+                    return;
+                }
+                
+                // Convert ArrayBuffer back to blob
+                const blob = new Blob([video.data], { type: video.type });
+                const url = URL.createObjectURL(blob);
+                
+                // Create download link
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = video.title + (video.type.includes('mp4') ? '.mp4' : '.webm');
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                // Clean up
+                setTimeout(() => URL.revokeObjectURL(url), 100);
+                
+                showSuccess('Video berhasil diunduh!');
+                
+            } catch (error) {
+                console.error('Error downloading video:', error);
+                showError('Gagal mengunduh video');
+            }
+        }
+
+        async function deleteVideoPrompt(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus video ini?')) {
+                try {
+                    await deleteVideo(id);
+                    showSuccess('Video berhasil dihapus!');
+                    
+                    // Close modal if currently viewing this video
+                    if (currentVideoId === id) {
+                        closeVideoModal();
+                    }
+                    
+                } catch (error) {
+                    console.error('Error deleting video:', error);
+                    showError('Gagal menghapus video');
+                }
+            }
+        }
+
+        function closeVideoModal() {
+            videoModal.style.display = 'none';
+            if (modalVideo.src) {
+                URL.revokeObjectURL(modalVideo.src);
+                modalVideo.src = '';
+            }
+            currentVideoId = null;
+        }
+
+        // ====================
+        // SCREEN RECORDING
+        // ====================
+        
+        async function startRecording() {
+            try {
+                // Get video constraints
+                const videoConstraints = getVideoConstraints();
+                const sourceType = document.querySelector('input[name="source"]:checked').value;
+                
+                // Request screen capture
+                const displayStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: videoConstraints,
+                    audio: systemAudio.checked
+                });
+
+                // Handle audio
+                let audioStream;
+                let finalStream = displayStream;
+                
+                if (microphoneAudio.checked) {
+                    try {
+                        audioStream = await navigator.mediaDevices.getUserMedia({
+                            audio: {
+                                echoCancellation: true,
+                                noiseSuppression: true,
+                                autoGainControl: true
+                            }
+                        });
+                        
+                        // Combine streams
+                        const combinedStream = new MediaStream();
+                        displayStream.getVideoTracks().forEach(track => combinedStream.addTrack(track));
+                        
+                        if (systemAudio.checked) {
+                            displayStream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
+                        }
+                        
+                        audioStream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
+                        finalStream = combinedStream;
+                        
+                    } catch (micError) {
+                        console.warn('Tidak dapat mengakses mikrofon:', micError);
+                    }
+                }
+
+                stream = finalStream;
+                recordedChunks = [];
+                chunkIndex = 0;
+                chunkSize = 0;
+
+                // Setup MediaRecorder with appropriate mime type
+                const mimeTypes = [
+                    'video/webm;codecs=vp9',
+                    'video/webm;codecs=vp8',
+                    'video/webm;codecs=h264',
+                    'video/webm',
+                    'video/mp4'
+                ];
+                
+                let selectedMimeType = '';
+                for (const mimeType of mimeTypes) {
+                    if (MediaRecorder.isTypeSupported(mimeType)) {
+                        selectedMimeType = mimeType;
+                        break;
+                    }
+                }
+                
+                if (!selectedMimeType) {
+                    selectedMimeType = 'video/webm';
+                }
+
+                // Setup MediaRecorder
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: selectedMimeType,
+                    videoBitsPerSecond: getBitrate(qualitySelect.value)
+                });
+
+                // Handle data available
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                        chunkSize += event.data.size;
+                        
+                        // Update file size display
+                        const totalSize = recordedChunks.reduce((total, chunk) => total + chunk.size, 0);
+                        fileSizeDisplay.textContent = formatFileSize(totalSize).replace(' ', '');
+                        
+                        // Handle chunked recording if enabled
+                        if (chunkRecording.checked && chunkSize > MAX_CHUNK_SIZE) {
+                            chunkIndex++;
+                            chunkSize = 0;
+                            // For now, we just log it
+                            console.log(`Chunk ${chunkIndex} completed`);
+                        }
+                    }
+                };
+
+                // Handle recording stop
+                mediaRecorder.onstop = async () => {
+                    try {
+                        // Create final blob
+                        currentBlob = new Blob(recordedChunks, { 
+                            type: mediaRecorder.mimeType 
+                        });
+                        
+                        // Create preview URL
+                        const videoURL = URL.createObjectURL(currentBlob);
+                        previewVideo.src = videoURL;
+                        previewVideo.style.display = 'block';
+                        videoPlaceholder.style.display = 'none';
+                        
+                        // Calculate duration
+                        const duration = Math.floor((Date.now() - startTime) / 1000);
+                        
+                        // Prepare metadata
+                        const metadata = {
+                            title: `Rekaman Layar ${new Date().toLocaleDateString('id-ID')} ${formatTime(duration)}`,
+                            type: mediaRecorder.mimeType,
+                            size: currentBlob.size,
+                            duration: duration,
+                            resolution: getResolution(qualitySelect.value),
+                            fps: getFPS(qualitySelect.value),
+                            quality: qualitySelect.value
+                        };
+                        
+                        // Save to database if enabled
+                        if (autoSave.checked) {
+                            const videoId = await saveVideoToDB(currentBlob, metadata);
+                            showSuccess(`Video berhasil disimpan! ID: ${videoId}`);
+                        } else {
+                            downloadBtn.disabled = false;
+                            showSuccess('Rekaman selesai! Klik "Unduh Video" untuk menyimpan.');
+                        }
+                        
+                        // Auto-download if enabled
+                        if (autoDownload.checked && !autoSave.checked) {
+                            downloadRecording();
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error processing recording:', error);
+                        showError('Gagal memproses rekaman: ' + error.message);
+                    } finally {
+                        // Stop all tracks
+                        if (stream) {
+                            stream.getTracks().forEach(track => track.stop());
+                        }
+                    }
+                };
+
+                // Handle errors
+                mediaRecorder.onerror = (event) => {
+                    console.error('MediaRecorder error:', event);
+                    showError('Terjadi kesalahan saat merekam');
+                    resetRecording();
+                };
+
+                // Start recording with appropriate interval
+                const timeSlice = chunkRecording.checked ? 5000 : 1000; // 5 seconds for chunked recording
+                mediaRecorder.start(timeSlice);
+
+                // Start timer
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimer, 1000);
+                
+                // Update UI
+                isRecording = true;
+                recordBtn.disabled = true;
+                stopBtn.disabled = false;
+                recordingIndicator.style.display = 'flex';
+                
+                // Update resolution and FPS displays
+                resolutionDisplay.textContent = getResolution(qualitySelect.value);
+                fpsDisplay.textContent = getFPS(qualitySelect.value);
+                
+                showSuccess('Rekaman dimulai! Lakukan aktivitas yang ingin direkam.');
+
+                // Handle when user stops recording from browser dialog
+                displayStream.getVideoTracks()[0].onended = () => {
+                    stopRecording();
+                };
+
+            } catch (error) {
+                console.error('Error starting recording:', error);
+                
+                if (error.name === 'NotAllowedError') {
+                    showError('Permission ditolak. Silakan izinkan akses ke layar.');
+                } else if (error.name === 'NotFoundError') {
+                    showError('Tidak dapat menemukan sumber layar.');
+                } else if (error.name === 'NotReadableError') {
+                    showError('Tidak dapat membaca sumber layar.');
+                } else {
+                    showError('Gagal memulai rekaman: ' + error.message);
+                }
+                
+                resetRecording();
+            }
+        }
+
+        function updateTimer() {
+            if (!isRecording) return;
+            
+            const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            timerDisplay.textContent = formatTime(elapsedSeconds);
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                clearInterval(timerInterval);
+                isRecording = false;
+                resetRecordingUI();
+            }
+        }
+
+        function resetRecordingUI() {
+            recordBtn.disabled = false;
+            stopBtn.disabled = true;
+            recordingIndicator.style.display = 'none';
+            timerDisplay.textContent = '00:00';
+            fileSizeDisplay.textContent = '0 MB';
+        }
+
+        function resetRecording() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            recordedChunks = [];
+            isRecording = false;
+            currentBlob = null;
+            resetRecordingUI();
+        }
+
+        function downloadRecording() {
+            if (!currentBlob) {
+                showError('Tidak ada video untuk diunduh');
+                return;
+            }
+
+            try {
+                const url = URL.createObjectURL(currentBlob);
+                const a = document.createElement('a');
+                
+                const mimeType = mediaRecorder?.mimeType || 'video/webm';
+                const extension = mimeType.includes('mp4') ? 'mp4' : 'webm';
+                
+                a.href = url;
+                a.download = `rekaman-layar-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.${extension}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                setTimeout(() => URL.revokeObjectURL(url), 100);
+                
+                showSuccess('Video berhasil diunduh!');
+                
+            } catch (error) {
+                showError('Gagal mengunduh video: ' + error.message);
+            }
+        }
+
+        // ====================
+        // EVENT LISTENERS
+        // ====================
+        recordBtn.addEventListener('click', startRecording);
+        stopBtn.addEventListener('click', stopRecording);
+        downloadBtn.addEventListener('click', downloadRecording);
+        manageBtn.addEventListener('click', () => {
+            videoLibrarySection.scrollIntoView({ behavior: 'smooth' });
+        });
+        searchVideos.addEventListener('input', (e) => {
+            loadVideoLibrary(e.target.value);
+        });
+        clearAllBtn.addEventListener('click', () => {
+            if (confirm('Apakah Anda yakin ingin menghapus SEMUA video? Tindakan ini tidak dapat dibatalkan!')) {
+                clearAllVideos()
+                    .then(() => showSuccess('Semua video berhasil dihapus!'))
+                    .catch(error => {
+                        console.error('Error clearing videos:', error);
+                        showError('Gagal menghapus video');
+                    });
+            }
+        });
+        closeModal.addEventListener('click', closeVideoModal);
+        modalCloseBtn.addEventListener('click', closeVideoModal);
+        modalDownloadBtn.addEventListener('click', () => {
+            if (currentVideoId) {
+                downloadVideoFromDB(currentVideoId);
+            }
+        });
+        modalDeleteBtn.addEventListener('click', () => {
+            if (currentVideoId) {
+                deleteVideoPrompt(currentVideoId);
+            }
+        });
+        qualitySelect.addEventListener('change', () => {
+            resolutionDisplay.textContent = getResolution(qualitySelect.value);
+            fpsDisplay.textContent = getFPS(qualitySelect.value);
+        });
+        
+        // Close modal on outside click
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+
+        // ====================
+        // INITIALIZATION
+        // ====================
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check browser support
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+                showError('Browser Anda tidak mendukung fitur perekaman layar.');
+                recordBtn.disabled = true;
+                recordBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Browser Tidak Didukung';
+                return;
+            }
+            
+            if (!MediaRecorder) {
+                showError('Browser Anda tidak mendukung MediaRecorder API.');
+                recordBtn.disabled = true;
+                recordBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> API Tidak Didukung';
+                return;
+            }
+            
+            // Check IndexedDB support
+            if (!window.indexedDB) {
+                showError('Browser Anda tidak mendukung IndexedDB. Tidak dapat menyimpan video.');
+                autoSave.checked = false;
+                autoSave.disabled = true;
+            } else {
+                try {
+                    await initDatabase();
+                    console.log('Database initialized successfully');
+                } catch (error) {
+                    console.error('Failed to initialize database:', error);
+                    showError('Gagal menginisialisasi database. Fitur penyimpanan tidak tersedia.');
+                    autoSave.checked = false;
+                    autoSave.disabled = true;
+                }
+            }
+            
+            // Update initial displays
+            resolutionDisplay.textContent = getResolution(qualitySelect.value);
+            fpsDisplay.textContent = getFPS(qualitySelect.value);
+            
+            // Show welcome message
+            setTimeout(() => {
+                showSuccess('Screen Recorder siap digunakan! Video disimpan di database lokal.');
+            }, 1000);
+        });
+
+        // Handle before unload
+        window.addEventListener('beforeunload', (event) => {
+            if (isRecording) {
+                event.preventDefault();
+                event.returnValue = 'Anda sedang merekam. Yakin ingin meninggalkan halaman?';
+                return event.returnValue;
+            }
+        });
+    </script>
+</body>
+</html>
