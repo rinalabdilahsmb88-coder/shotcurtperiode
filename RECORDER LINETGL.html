@@ -4,970 +4,1700 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Screen Recorder Lokal - Database Video Besar</title>
+    <title>Screen Recorder Premium - Enterprise Cloud</title>
     <style>
+        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Premium Container */
+        .premium-container {
+            max-width: 1800px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: rgba(25, 25, 35, 0.9);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        /* Premium Header */
+        .premium-header {
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.1) 0%, 
+                rgba(168, 85, 247, 0.1) 50%, 
+                rgba(236, 72, 153, 0.1) 100%);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
         }
 
-        header {
-            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
-            padding: 30px;
-            text-align: center;
+        .premium-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
         }
 
-        header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-brand {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 20px;
         }
 
-        header h1 i {
-            font-size: 3rem;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
         }
 
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto;
+        .brand-text h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #667eea 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
         }
 
-        .main-content {
+        .brand-text .tagline {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+        }
+
+        /* Main Grid */
+        .main-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.4fr 0.6fr;
             gap: 30px;
-            padding: 30px;
+            margin-bottom: 30px;
         }
 
-        @media (max-width: 1100px) {
-            .main-content {
+        @media (max-width: 1200px) {
+            .main-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        .recorder-section {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 15px;
-            padding: 25px;
+        /* Recorder Panel */
+        .recorder-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .video-container {
-            background: rgba(15, 23, 42, 0.9);
-            border-radius: 12px;
+        .recorder-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Premium Video Container */
+        .premium-video-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
             overflow: hidden;
             aspect-ratio: 16/9;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             position: relative;
             border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
-        #previewVideo {
-            width: 100%;
-            height: 100%;
-            display: none;
-            object-fit: contain;
-        }
-
-        .video-placeholder {
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.1) 0%, 
+                rgba(168, 85, 247, 0.1) 100%);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            color: #94a3b8;
-            text-align: center;
-            padding: 20px;
+            flex-direction: column;
+            gap: 20px;
+            color: #cbd5e1;
         }
 
-        .video-placeholder i {
-            font-size: 4.5rem;
-            margin-bottom: 20px;
-            color: #475569;
+        .video-overlay i {
+            font-size: 4rem;
+            opacity: 0.5;
         }
 
-        .recording-indicator {
+        .recording-status {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 20px;
+            left: 20px;
             background: rgba(239, 68, 68, 0.9);
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 10px 24px;
+            border-radius: 25px;
             display: none;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             font-weight: 600;
-            z-index: 10;
-        }
-
-        .recording-dot {
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3);
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.7; }
         }
 
-        .controls {
+        /* Premium Controls */
+        .premium-controls {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
-        @media (max-width: 600px) {
-            .controls {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .btn {
-            padding: 16px 25px;
+        .premium-btn {
+            padding: 18px 24px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-record {
+        .premium-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.6s;
+        }
+
+        .premium-btn:hover::before {
+            left: 100%;
+        }
+
+        .premium-btn.record {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3);
         }
 
-        .btn-record:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+        .premium-btn.record:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(239, 68, 68, 0.4);
         }
 
-        .btn-stop {
+        .premium-btn.stop {
             background: linear-gradient(135deg, #64748b 0%, #475569 100%);
             color: white;
+            box-shadow: 0 8px 32px rgba(100, 116, 139, 0.2);
         }
 
-        .btn-stop:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(100, 116, 139, 0.4);
+        .premium-btn.stop:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(100, 116, 139, 0.3);
         }
 
-        .btn-download {
+        .premium-btn.download {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
         }
 
-        .btn-download:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        .premium-btn.download:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.3);
         }
 
-        .btn-manage {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        .premium-btn.cloud {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
-            margin-top: 15px;
-            width: 100%;
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
         }
 
-        .btn-manage:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+        .premium-btn.cloud:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.3);
         }
 
-        .btn:disabled {
+        .premium-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
             box-shadow: none !important;
         }
 
-        .stats-panel {
+        /* Premium Stats */
+        .premium-stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
-        .stat-box {
+        .stat-card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .stat-value {
-            font-family: 'Courier New', monospace;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #0ea5e9;
-            display: block;
+            font-family: 'SF Mono', 'Cascadia Code', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 5px;
         }
 
         .stat-label {
             font-size: 0.9rem;
             color: #94a3b8;
+            font-weight: 500;
         }
 
-        .settings-section {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 15px;
-            padding: 25px;
+        /* Settings Panel */
+        .settings-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .settings-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 0% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .section-title {
             font-size: 1.5rem;
-            color: white;
-            margin-bottom: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            color: #e2e8f0;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .section-title i {
-            color: #0ea5e9;
+            color: #60a5fa;
+            font-size: 1.3rem;
         }
 
-        .settings-group {
+        /* Storage Selector */
+        .storage-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .storage-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storage-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+        }
+
+        .storage-option:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(59, 130, 246, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .storage-option.active {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .storage-option.active .storage-icon {
+            color: #10b981;
+        }
+
+        .storage-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #60a5fa;
+        }
+
+        .storage-option h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #e2e8f0;
+        }
+
+        .storage-option p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .storage-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Cloud Status */
+        .cloud-status {
+            background: linear-gradient(135deg, 
+                rgba(59, 130, 246, 0.1) 0%, 
+                rgba(16, 185, 129, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cloud-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(59, 130, 246, 0.5), 
+                transparent);
+        }
+
+        .drive-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .drive-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .drive-details h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #e2e8f0;
+        }
+
+        .drive-details p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .drive-storage {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .storage-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .storage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .storage-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Quality Selector */
+        .quality-selector {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
             margin-bottom: 25px;
         }
 
-        .setting-label {
-            display: block;
-            margin-bottom: 10px;
+        .quality-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quality-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .quality-option:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .quality-option.selected {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .quality-option input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .quality-option input[type="radio"]:checked {
+            border-color: #3b82f6;
+            background: #3b82f6;
+        }
+
+        .quality-option input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .quality-label {
+            flex: 1;
             color: #e2e8f0;
             font-weight: 500;
         }
 
-        .select-control {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+        .quality-badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .select-control:focus {
-            outline: none;
-            border-color: #0ea5e9;
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+        /* Audio Settings */
+        .audio-settings {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
         }
 
-        .checkbox-group {
+        .audio-options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .audio-option {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 15px;
             padding: 12px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            border-radius: 12px;
             transition: all 0.3s ease;
         }
 
-        .checkbox-group:hover {
+        .audio-option:hover {
             background: rgba(255, 255, 255, 0.08);
         }
 
-        .checkbox-group input[type="checkbox"] {
+        .audio-option input[type="checkbox"] {
             width: 20px;
             height: 20px;
-            accent-color: #0ea5e9;
+            accent-color: #3b82f6;
+            cursor: pointer;
         }
 
-        .checkbox-group label {
-            color: #e2e8f0;
-            cursor: pointer;
+        .audio-option label {
             flex: 1;
-        }
-
-        .radio-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .radio-option:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .radio-option input[type="radio"] {
-            accent-color: #0ea5e9;
-        }
-
-        .instructions {
-            background: rgba(14, 165, 233, 0.1);
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
-            border: 1px solid rgba(14, 165, 233, 0.3);
-        }
-
-        .instructions h3 {
-            color: #0ea5e9;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .instructions ol {
-            padding-left: 20px;
             color: #e2e8f0;
+            cursor: pointer;
+            font-weight: 500;
         }
 
-        .instructions li {
-            margin-bottom: 10px;
-            line-height: 1.6;
-            padding-left: 5px;
-        }
-
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+        .audio-tag {
+            background: rgba(16, 185, 129, 0.2);
             color: #10b981;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            display: none;
-            align-items: center;
-            gap: 15px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .success-message i {
-            font-size: 1.5rem;
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            display: none;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .error-message i {
-            font-size: 1.5rem;
-        }
-
-        .video-library-section {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
+        /* Video Library */
+        .video-library {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
         }
 
         .library-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .library-controls {
             display: flex;
-            gap: 10px;
+            gap: 15px;
+            align-items: center;
         }
 
-        .library-search {
-            padding: 8px 15px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: white;
-            width: 250px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
+        .search-box input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .filter-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .filter-tab {
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-tab:hover {
+            color: #e2e8f0;
+        }
+
+        .filter-tab.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        /* Video Grid */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
-            max-height: 400px;
+            max-height: 600px;
             overflow-y: auto;
             padding: 10px;
         }
 
+        .video-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .video-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .video-grid::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+
         .video-card {
-            background: rgba(15, 23, 42, 0.9);
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         .video-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .video-thumbnail {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            background: rgba(0, 0, 0, 0.3);
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #ec4899 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.8) 0%, 
+                rgba(236, 72, 153, 0.6) 100%);
+        }
+
+        .video-badges {
+            position: absolute;
+            top: 15px;
+            left: 15px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 8px;
+            z-index: 1;
+        }
+
+        .video-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .video-badge.quality {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .video-badge.cloud {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
         }
 
         .video-info {
-            padding: 15px;
+            padding: 20px;
         }
 
         .video-title {
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            color: #e2e8f0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .video-meta {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .meta-item {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
+            align-items: center;
+            gap: 8px;
             color: #94a3b8;
-            margin-bottom: 10px;
+            font-size: 0.9rem;
         }
 
         .video-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .action-btn {
             flex: 1;
-            padding: 6px 10px;
+            padding: 10px;
             background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             color: white;
             cursor: pointer;
-            font-size: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .action-btn:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
-        .storage-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
+        .action-btn.cloud-btn {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
         }
 
-        .storage-bar {
-            flex: 1;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 0 15px;
+        .action-btn.cloud-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
         }
 
-        .storage-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #10b981, #0ea5e9);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .storage-stats {
-            font-size: 0.9rem;
-            color: #94a3b8;
-        }
-
-        .modal {
+        /* Modal */
+        .modal-overlay {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .modal-content {
-            background: #1e293b;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 800px;
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.95) 0%, 
+                rgba(30, 41, 59, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 1000px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .modal-title {
-            font-size: 1.5rem;
-            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .close-modal {
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             color: white;
-            font-size: 1.5rem;
             cursor: pointer;
-        }
-
-        .modal-video {
-            width: 100%;
-            max-height: 60vh;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        .permission-tips {
-            background: rgba(245, 158, 11, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .permission-tips h4 {
-            color: #f59e0b;
-            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
-        .hint-box {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 12px;
-            margin: 10px 0;
-            border-left: 4px solid #0ea5e9;
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        footer {
+        /* Progress Overlay */
+        .progress-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-container {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
             text-align: center;
-            padding: 25px;
-            color: #94a3b8;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #e2e8f0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 25px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Messages */
+        .message {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+            z-index: 3000;
+            animation: slideInRight 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message.success {
+            border-left: 4px solid #10b981;
+        }
+
+        .message.error {
+            border-left: 4px solid #ef4444;
+        }
+
+        .message.warning {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .message-icon {
+            font-size: 1.8rem;
+        }
+
+        .message.success .message-icon {
+            color: #10b981;
+        }
+
+        .message.error .message-icon {
+            color: #ef4444;
+        }
+
+        .message.warning .message-icon {
+            color: #f59e0b;
+        }
+
+        .message-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #e2e8f0;
+        }
+
+        .message-content p {
             font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* Footer */
+        .premium-footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .footer-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #e2e8f0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .premium-controls {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .premium-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .storage-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .library-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google API -->
+    <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>
-                <i class="fas fa-video"></i>
-                Screen Recorder LINETOGEL
-            </h1>
-            <p class="tagline">
-                Rekam dan simpan video besar langsung di browser Anda dengan IndexedDB.
-                <br>Mendukung penyimpanan hingga 2GB per video!
-            </p>
-        </header>
-
-        <div class="main-content">
-            <!-- Left: Recorder Section -->
-            <div class="recorder-section">
-                <!-- Video Preview -->
-                <div class="video-container">
-                    <div class="recording-indicator" id="recordingIndicator">
-                        <div class="recording-dot"></div>
-                        <span>Sedang Merekam</span>
+    <div class="premium-container">
+        <!-- Premium Header -->
+        <header class="premium-header">
+            <div class="header-content">
+                <div class="logo-brand">
+                    <div class="logo">
+                        <i class="fas fa-video"></i>
                     </div>
-                    
-                    <video id="previewVideo" controls></video>
-                    <div class="video-placeholder" id="videoPlaceholder">
-                        <i class="fas fa-desktop"></i>
-                        <h3>Pratinjau Video</h3>
-                        <p>Video rekaman akan muncul di sini setelah selesai merekam</p>
+                    <div class="brand-text">
+                        <h1>Screen Recorder Premium <span class="premium-badge"><i class="fas fa-crown"></i> ENTERPRISE</span></h1>
+                        <p class="tagline">Rekam layar 8K dengan penyimpanan cloud unlimited</p>
                     </div>
                 </div>
-
-                <!-- Controls -->
-                <div class="controls">
-                    <button id="recordBtn" class="btn btn-record">
-                        <i class="fas fa-circle"></i> Mulai Rekaman
-                    </button>
-                    <button id="stopBtn" class="btn btn-stop" disabled>
-                        <i class="fas fa-stop"></i> Hentikan
-                    </button>
-                    <button id="downloadBtn" class="btn btn-download" disabled>
-                        <i class="fas fa-download"></i> Unduh Video
-                    </button>
-                </div>
-
-                <button id="manageBtn" class="btn btn-manage">
-                    <i class="fas fa-database"></i> Kelola Video (0)
-                </button>
-
-                <!-- Stats -->
-                <div class="stats-panel">
-                    <div class="stat-box">
-                        <span class="stat-value" id="timerDisplay">00:00</span>
-                        <span class="stat-label">Durasi</span>
+                <div class="cloud-status" id="cloudStatus">
+                    <div class="drive-info">
+                        <div class="drive-icon">
+                            <i class="fab fa-google-drive"></i>
+                        </div>
+                        <div class="drive-details">
+                            <h4 id="driveAccount">Google Drive Enterprise</h4>
+                            <p id="driveSpace">Menyinkronkan dengan cloud...</p>
+                        </div>
                     </div>
-                    <div class="stat-box">
-                        <span class="stat-value" id="fileSize">0 MB</span>
-                        <span class="stat-label">Ukuran File</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-value" id="resolution">1920x1080</span>
-                        <span class="stat-label">Resolusi</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-value" id="fpsDisplay">30</span>
-                        <span class="stat-label">FPS</span>
-                    </div>
-                </div>
-
-                <!-- Success/Error Messages -->
-                <div class="success-message" id="successMessage">
-                    <i class="fas fa-check-circle"></i>
-                    <div>
-                        <strong>Berhasil!</strong>
-                        <p id="successText">Video siap diunduh</p>
-                    </div>
-                </div>
-
-                <div class="error-message" id="errorMessage">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <div>
-                        <strong>Terjadi Kesalahan</strong>
-                        <p id="errorText">Silakan coba lagi</p>
+                    <div class="drive-storage">
+                        <div class="storage-bar">
+                            <div class="storage-fill" id="driveStorageFill"></div>
+                        </div>
+                        <span id="driveStorageText">0 GB / Unlimited</span>
                     </div>
                 </div>
             </div>
+        </header>
 
-            <!-- Right: Settings Section -->
-            <div class="settings-section">
-                <h2 class="section-title">
-                    <i class="fas fa-sliders-h"></i> Pengaturan
-                </h2>
-
-                <!-- Recording Source -->
-                <div class="settings-group">
-                    <label class="setting-label">Sumber Rekaman</label>
-                    <div class="radio-group">
-                        <label class="radio-option">
-                            <input type="radio" name="source" value="screen" checked>
-                            <span>Seluruh Layar</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="source" value="window">
-                            <span>Jendela Aplikasi</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="source" value="tab">
-                            <span>Tab Browser</span>
-                        </label>
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Left: Recorder Panel -->
+            <div class="recorder-panel">
+                <!-- Video Container -->
+                <div class="premium-video-container">
+                    <video id="previewVideo" style="width: 100%; height: 100%; display: none;"></video>
+                    <div class="video-overlay" id="videoOverlay">
+                        <i class="fas fa-broadcast-tower"></i>
+                        <h3>PRATINJAU VIDEO 8K</h3>
+                        <p>Mulai merekam untuk melihat pratinjau</p>
+                    </div>
+                    <div class="recording-status" id="recordingStatus">
+                        <div class="recording-dot"></div>
+                        <span>MEREKAM • 8K UHD • LIVE</span>
                     </div>
                 </div>
 
-                <!-- Video Quality -->
-                <div class="settings-group">
-                    <label class="setting-label">Kualitas Video</label>
-                    <select id="qualitySelect" class="select-control">
-                        <option value="4k">4K Ultra HD (3840x2160)</option>
-                        <option value="1440p">2K QHD (2560x1440)</option>
-                        <option value="1080p">Full HD (1920x1080)</option>
-                        <option value="720p" selected>HD (1280x720)</option>
-                        <option value="480p">SD (854x480)</option>
-                    </select>
+                <!-- Premium Controls -->
+                <div class="premium-controls">
+                    <button id="recordBtn" class="premium-btn record">
+                        <i class="fas fa-satellite-dish"></i>
+                        <span>REKAM 8K</span>
+                    </button>
+                    <button id="stopBtn" class="premium-btn stop" disabled>
+                        <i class="fas fa-stop-circle"></i>
+                        <span>STOP</span>
+                    </button>
+                    <button id="downloadBtn" class="premium-btn download" disabled>
+                        <i class="fas fa-file-download"></i>
+                        <span>UNDUH</span>
+                    </button>
+                    <button id="cloudBtn" class="premium-btn cloud" disabled>
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>CLOUD</span>
+                    </button>
+                </div>
+
+                <!-- Premium Stats -->
+                <div class="premium-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="timerDisplay">00:00:00</div>
+                        <div class="stat-label">DURASI</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="fileSize">0 GB</div>
+                        <div class="stat-label">UKURAN</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="resolution">7680×4320</div>
+                        <div class="stat-label">RESOLUSI</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="fpsDisplay">60 FPS</div>
+                        <div class="stat-label">FRAME RATE</div>
+                    </div>
+                </div>
+
+                <!-- Additional Controls -->
+                <div style="margin-top: 30px; display: flex; gap: 15px;">
+                    <button id="manageBtn" class="premium-btn" style="flex: 1; background: rgba(255, 255, 255, 0.1);">
+                        <i class="fas fa-photo-video"></i>
+                        <span>KELOLA VIDEO (0)</span>
+                    </button>
+                    <button id="settingsBtn" class="premium-btn" style="width: 60px; background: rgba(255, 255, 255, 0.1);">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Settings Panel -->
+            <div class="settings-panel">
+                <h2 class="section-title">
+                    <i class="fas fa-sliders-h"></i>
+                    PENGATURAN PREMIUM
+                </h2>
+
+                <!-- Storage Selector -->
+                <div class="storage-selector">
+                    <div class="storage-option active" id="storageHybrid">
+                        <i class="fas fa-sync-alt storage-icon"></i>
+                        <h4>Hybrid Cloud</h4>
+                        <p>Lokal + Cloud Sync</p>
+                        <div class="storage-badge">REKOMENDASI</div>
+                    </div>
+                    <div class="storage-option" id="storageCloud">
+                        <i class="fas fa-cloud storage-icon"></i>
+                        <h4>Cloud Only</h4>
+                        <p>Hanya Google Drive</p>
+                        <div class="storage-badge">UNLIMITED</div>
+                    </div>
+                    <div class="storage-option" id="storageLocal">
+                        <i class="fas fa-hdd storage-icon"></i>
+                        <h4>Lokal Only</h4>
+                        <p>Hanya di Browser</p>
+                        <div class="storage-badge">10GB</div>
+                    </div>
+                </div>
+
+                <!-- Quality Selector -->
+                <div class="quality-selector">
+                    <h4 style="margin-bottom: 15px; color: #e2e8f0;">KUALITAS VIDEO</h4>
+                    <div class="quality-options">
+                        <label class="quality-option selected">
+                            <input type="radio" name="quality" value="8k" checked>
+                            <span class="quality-label">8K ULTRA HD (7680×4320)</span>
+                            <span class="quality-badge">PREMIUM</span>
+                        </label>
+                        <label class="quality-option">
+                            <input type="radio" name="quality" value="4k">
+                            <span class="quality-label">4K UHD (3840×2160)</span>
+                        </label>
+                        <label class="quality-option">
+                            <input type="radio" name="quality" value="1440p">
+                            <span class="quality-label">2K QHD (2560×1440)</span>
+                        </label>
+                        <label class="quality-option">
+                            <input type="radio" name="quality" value="1080p">
+                            <span class="quality-label">FULL HD (1920×1080)</span>
+                        </label>
+                    </div>
                 </div>
 
                 <!-- Audio Settings -->
-                <div class="settings-group">
-                    <label class="setting-label">Pengaturan Audio</label>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="systemAudio" checked>
-                        <label for="systemAudio">Rekam Audio Sistem</label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="microphoneAudio">
-                        <label for="microphoneAudio">Rekam Mikrofon</label>
-                    </div>
-                </div>
-
-                <!-- Storage Settings -->
-                <div class="settings-group">
-                    <label class="setting-label">Penyimpanan</label>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="autoSave" checked>
-                        <label for="autoSave">Simpan otomatis ke database</label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="chunkRecording">
-                        <label for="chunkRecording">Rekam per bagian (untuk video panjang)</label>
-                    </div>
-
-                    <div class="storage-info" id="storageInfo">
-                        <span>Penyimpanan:</span>
-                        <div class="storage-bar">
-                            <div class="storage-fill" id="storageFill"></div>
+                <div class="audio-settings">
+                    <h4 style="margin-bottom: 15px; color: #e2e8f0;">AUDIO PREMIUM</h4>
+                    <div class="audio-options">
+                        <div class="audio-option">
+                            <input type="checkbox" id="audioSystem" checked>
+                            <label for="audioSystem">Audio Sistem HD</label>
+                            <span class="audio-tag">STEREO</span>
                         </div>
-                        <span class="storage-stats" id="storageStats">0 MB / 2 GB</span>
+                        <div class="audio-option">
+                            <input type="checkbox" id="audioMic">
+                            <label for="audioMic">Mikrofon Pro</label>
+                            <span class="audio-tag">NOISE CANCEL</span>
+                        </div>
+                        <div class="audio-option">
+                            <input type="checkbox" id="audioSurround">
+                            <label for="audioSurround">Virtual Surround 7.1</label>
+                            <span class="audio-tag">PREMIUM</span>
+                        </div>
+                        <div class="audio-option">
+                            <input type="checkbox" id="audioCompress">
+                            <label for="audioCompress">Kompresi Cerdas</label>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Additional Options -->
-                <div class="settings-group">
-                    <label class="setting-label">Opsi Tambahan</label>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="showCursor" checked>
-                        <label for="showCursor">Tampilkan Kursor Mouse</label>
+                <!-- Cloud Settings -->
+                <div class="audio-settings">
+                    <h4 style="margin-bottom: 15px; color: #e2e8f0;">SETTING CLOUD</h4>
+                    <div class="audio-options">
+                        <div class="audio-option">
+                            <input type="checkbox" id="cloudAutoBackup" checked>
+                            <label for="cloudAutoBackup">Backup Otomatis</label>
+                        </div>
+                        <div class="audio-option">
+                            <input type="checkbox" id="cloudCompress" checked>
+                            <label for="cloudCompress">Kompresi Cloud</label>
+                        </div>
+                        <div class="audio-option">
+                            <input type="checkbox" id="cloudSync">
+                            <label for="cloudSync">Sync Antar Device</label>
+                        </div>
                     </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="showTimer">
-                        <label for="showTimer">Tampilkan Timer di Video</label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="autoDownload">
-                        <label for="autoDownload">Auto-download setelah selesai</label>
-                    </div>
+                    <button id="connectDriveBtn" class="premium-btn" style="width: 100%; margin-top: 15px;">
+                        <i class="fab fa-google-drive"></i>
+                        <span id="driveConnectText">KONEK KE GOOGLE DRIVE</span>
+                    </button>
                 </div>
 
-                <!-- Instructions -->
-                <div class="instructions">
-                    <h3><i class="fas fa-info-circle"></i> Petunjuk Penggunaan</h3>
-                    <ol>
-                        <li>Pilih sumber rekaman yang diinginkan</li>
-                        <li>Atur kualitas video dan audio sesuai kebutuhan</li>
-                        <li>Klik "Mulai Rekaman" dan izinkan akses ke layar</li>
-                        <li>Lakukan aktivitas yang ingin direkam</li>
-                        <li>Klik "Hentikan" untuk mengakhiri rekaman</li>
-                        <li>Video otomatis tersimpan di database lokal</li>
-                    </ol>
+                <!-- Recording Source -->
+                <div class="audio-settings">
+                    <h4 style="margin-bottom: 15px; color: #e2e8f0;">SUMBER REKAMAN</h4>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+                            <input type="radio" name="source" value="screen" checked style="accent-color: #3b82f6;">
+                            <span>Seluruh Layar (Multi Monitor)</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+                            <input type="radio" name="source" value="window" style="accent-color: #3b82f6;">
+                            <span>Jendela Aplikasi</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+                            <input type="radio" name="source" value="camera" style="accent-color: #3b82f6;">
+                            <span>Kamera PIP + Layar</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Video Library Section -->
-        <div class="video-library-section">
+        <!-- Video Library -->
+        <div class="video-library">
             <div class="library-header">
                 <h2 class="section-title">
-                    <i class="fas fa-photo-video"></i> Perpustakaan Video
+                    <i class="fas fa-film"></i>
+                    VIDEO LIBRARY PREMIUM
                 </h2>
                 <div class="library-controls">
-                    <input type="text" id="searchVideos" class="library-search" placeholder="Cari video...">
-                    <button id="clearAllBtn" class="action-btn">
-                        <i class="fas fa-trash"></i> Hapus Semua
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Cari video...">
+                    </div>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">SEMUA</button>
+                        <button class="filter-tab" data-filter="local">LOKAL</button>
+                        <button class="filter-tab" data-filter="cloud">CLOUD</button>
+                    </div>
+                    <button id="syncBtn" class="action-btn cloud-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        SYNC
+                    </button>
+                    <button id="clearBtn" class="action-btn" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">
+                        <i class="fas fa-trash"></i>
+                        BERSIHKAN
                     </button>
                 </div>
             </div>
             
             <div class="video-grid" id="videoGrid">
-                <!-- Video cards will be inserted here -->
+                <!-- Video cards will be loaded here -->
+            </div>
+            
+            <div style="text-align: center; padding: 30px; color: #64748b;" id="emptyLibrary">
+                <i class="fas fa-video-slash" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                <h3 style="margin-bottom: 10px; color: #94a3b8;">Tidak ada video</h3>
+                <p>Mulai merekam untuk menambahkan video pertama Anda</p>
             </div>
         </div>
 
-        <!-- Video Modal -->
-        <div class="modal" id="videoModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title" id="modalTitle">Video Detail</h2>
-                    <button class="close-modal" id="closeModal">&times;</button>
-                </div>
-                <video class="modal-video" id="modalVideo" controls></video>
-                <div class="video-info">
-                    <h3 id="modalVideoTitle"></h3>
-                    <div class="video-meta">
-                        <span id="modalVideoSize"></span>
-                        <span id="modalVideoDate"></span>
-                        <span id="modalVideoDuration"></span>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button id="modalDownloadBtn" class="btn btn-download">
-                        <i class="fas fa-download"></i> Unduh
-                    </button>
-                    <button id="modalDeleteBtn" class="btn btn-record">
-                        <i class="fas fa-trash"></i> Hapus
-                    </button>
-                    <button id="modalCloseBtn" class="btn btn-stop">
-                        <i class="fas fa-times"></i> Tutup
-                    </button>
-                </div>
+        <!-- Footer -->
+        <footer class="premium-footer">
+            <p>© 2024 Screen Recorder Premium Enterprise • Enkripsi End-to-End • Privasi Terjamin</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Support</a>
+                <a href="#" class="footer-link">Documentation</a>
             </div>
-        </div>
-
-        <footer>
-            <p>Screen Recorder dengan IndexedDB &copy; 2023 | Mendukung video besar hingga 2GB</p>
-            <p style="margin-top: 10px; font-size: 0.8rem; color: #64748b;">
-                <i class="fas fa-database"></i>
-                Data tersimpan secara lokal di browser Anda dan tidak dikirim ke server manapun
-            </p>
         </footer>
     </div>
 
-    <script>
-        // ====================
-        // DATABASE SETUP
-        // ====================
-        const DB_NAME = 'ScreenRecorderDB';
-        const DB_VERSION = 3;
-        const STORE_NAME = 'videos';
-        let db;
-        let currentVideoId = null;
+    <!-- Modals -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-play-circle"></i>
+                    <span id="modalTitle">VIDEO PLAYER</span>
+                </h2>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <video id="modalVideo" controls style="width: 100%; border-radius: 16px; margin-bottom: 30px;"></video>
+            <div class="video-info">
+                <h3 id="modalVideoTitle" style="margin-bottom: 15px;"></h3>
+                <div class="video-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-expand-alt"></i>
+                        <span id="modalResolution"></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span id="modalSize"></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="modalDate"></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="modalDuration"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-actions" style="margin-top: 30px;">
+                <button id="modalDownloadBtn" class="action-btn">
+                    <i class="fas fa-download"></i> UNDUH
+                </button>
+                <button id="modalCloudBtn" class="action-btn cloud-btn">
+                    <i class="fas fa-cloud-upload-alt"></i> UPLOAD CLOUD
+                </button>
+                <button id="modalDeleteBtn" class="action-btn" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">
+                    <i class="fas fa-trash"></i> HAPUS
+                </button>
+                <button id="modalCloseBtn" class="action-btn">
+                    <i class="fas fa-times"></i> TUTUP
+                </button>
+            </div>
+        </div>
+    </div>
 
-        // Initialize IndexedDB
-        async function initDatabase() {
+    <!-- Progress Overlay -->
+    <div class="progress-overlay" id="progressOverlay">
+        <div class="progress-container">
+            <h3 class="progress-title" id="progressTitle">Mengunggah ke Google Drive</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="progressText">0% • Memulai upload...</p>
+            <button id="cancelProgressBtn" class="premium-btn stop" style="margin-top: 20px;">
+                <i class="fas fa-times"></i> BATALKAN
+            </button>
+        </div>
+    </div>
+
+    <!-- Message Container -->
+    <div id="messageContainer"></div>
+
+    <script>
+        // ==============================================
+        // PREMIUM CONFIGURATION
+        // ==============================================
+        const APP_NAME = 'ScreenRecorderPremium';
+        const APP_VERSION = '1.0.0';
+        const DB_NAME = 'ScreenRecorderEnterpriseDB';
+        const DB_VERSION = 5;
+        const STORE_NAME = 'videos';
+        const MAX_LOCAL_STORAGE = 10 * 1024 * 1024 * 1024; // 10GB
+        
+        // Google Drive Configuration
+        const GOOGLE_CLIENT_ID = '1067487219077-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com';
+        const GOOGLE_API_KEY = 'AIzaSyABCDEFGHIJKLMNOPQRSTUVWXYZ123456';
+        const GOOGLE_SCOPES = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.metadata.readonly';
+        
+        let db = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let currentStream = null;
+        let recordingStartTime = null;
+        let recordingTimer = null;
+        let currentVideoBlob = null;
+        let isRecording = false;
+        let isGoogleDriveConnected = false;
+        let googleAccessToken = null;
+        let storageMode = 'hybrid'; // hybrid, cloud, local
+        let currentVideoId = null;
+        
+        // ==============================================
+        // PREMIUM INITIALIZATION
+        // ==============================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Initialize UI
+                initializeUI();
+                
+                // Initialize IndexedDB
+                await initializeDatabase();
+                
+                // Initialize Google Drive
+                await initializeGoogleDrive();
+                
+                // Load video library
+                await loadVideoLibrary();
+                
+                // Update storage info
+                await updateStorageInfo();
+                
+                // Show welcome message
+                showMessage('Screen Recorder Premium siap digunakan!', 'success');
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                showMessage('Gagal menginisialisasi aplikasi: ' + error.message, 'error');
+            }
+        });
+        
+        // ==============================================
+        // DATABASE MANAGEMENT (PREMIUM)
+        // ==============================================
+        async function initializeDatabase() {
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open(DB_NAME, DB_VERSION);
                 
                 request.onerror = () => reject(request.error);
+                
                 request.onsuccess = () => {
                     db = request.result;
+                    
+                    // Handle database version changes
+                    db.onversionchange = () => {
+                        db.close();
+                        showMessage('Database perlu diupdate. Silakan refresh halaman.', 'warning');
+                    };
+                    
                     resolve();
-                    updateStorageInfo();
-                    loadVideoLibrary();
                 };
                 
                 request.onupgradeneeded = (event) => {
-                    const db = event.target.result;
+                    const database = event.target.result;
                     
-                    // Create object store for videos
-                    if (!db.objectStoreNames.contains(STORE_NAME)) {
-                        const store = db.createObjectStore(STORE_NAME, {
+                    // Create videos store with enhanced schema
+                    if (!database.objectStoreNames.contains(STORE_NAME)) {
+                        const store = database.createObjectStore(STORE_NAME, {
                             keyPath: 'id',
                             autoIncrement: true
                         });
                         
-                        // Create indexes for searching
+                        // Create indexes for advanced queries
                         store.createIndex('title', 'title', { unique: false });
                         store.createIndex('date', 'date', { unique: false });
                         store.createIndex('size', 'size', { unique: false });
+                        store.createIndex('quality', 'quality', { unique: false });
+                        store.createIndex('isCloud', 'isCloud', { unique: false });
+                        store.createIndex('cloudId', 'cloudId', { unique: true });
+                        store.createIndex('duration', 'duration', { unique: false });
+                        store.createIndex('resolution', 'resolution', { unique: false });
+                    }
+                    
+                    // Create settings store
+                    if (!database.objectStoreNames.contains('settings')) {
+                        const settingsStore = database.createObjectStore('settings', { keyPath: 'key' });
+                        settingsStore.createIndex('key', 'key', { unique: true });
                     }
                 };
             });
         }
-
-        // Save video to database
-        async function saveVideoToDB(blob, metadata) {
-            return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('Database not initialized'));
-                    return;
-                }
-
-                const transaction = db.transaction([STORE_NAME], 'readwrite');
-                const store = transaction.objectStore(STORE_NAME);
-                
-                // Convert blob to ArrayBuffer for storage
-                const reader = new FileReader();
-                reader.onload = () => {
+        
+        async function saveVideo(blob, metadata) {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    // Convert blob to ArrayBuffer for storage
+                    const arrayBuffer = await blob.arrayBuffer();
+                    
                     const videoData = {
                         ...metadata,
-                        data: reader.result,
-                        date: new Date().toISOString()
+                        data: arrayBuffer,
+                        date: new Date().toISOString(),
+                        isCloud: false,
+                        cloudId: null,
+                        cloudUrl: null,
+                        syncStatus: 'local'
                     };
+                    
+                    const transaction = db.transaction([STORE_NAME], 'readwrite');
+                    const store = transaction.objectStore(STORE_NAME);
                     
                     const request = store.add(videoData);
                     
-                    request.onsuccess = () => {
-                        resolve(request.result);
-                        updateStorageInfo();
-                        loadVideoLibrary();
+                    request.onsuccess = async () => {
+                        const videoId = request.result;
+                        
+                        // Auto backup to cloud if enabled
+                        if (storageMode !== 'local' && 
+                            document.getElementById('cloudAutoBackup').checked &&
+                            isGoogleDriveConnected) {
+                            
+                            try {
+                                await uploadToGoogleDrive(blob, { ...videoData, id: videoId });
+                            } catch (cloudError) {
+                                console.warn('Cloud backup failed:', cloudError);
+                            }
+                        }
+                        
+                        resolve(videoId);
+                        await updateStorageInfo();
+                        await loadVideoLibrary();
                     };
                     
                     request.onerror = () => reject(request.error);
-                };
-                
-                reader.onerror = () => reject(reader.error);
-                reader.readAsArrayBuffer(blob);
+                    
+                } catch (error) {
+                    reject(error);
+                }
             });
         }
-
-        // Get all videos from database
+        
         async function getAllVideos() {
             return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('Database not initialized'));
-                    return;
-                }
-
                 const transaction = db.transaction([STORE_NAME], 'readonly');
                 const store = transaction.objectStore(STORE_NAME);
                 const request = store.getAll();
@@ -976,15 +1706,9 @@
                 request.onerror = () => reject(request.error);
             });
         }
-
-        // Get video by ID
-        async function getVideoById(id) {
+        
+        async function getVideo(id) {
             return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('Database not initialized'));
-                    return;
-                }
-
                 const transaction = db.transaction([STORE_NAME], 'readonly');
                 const store = transaction.objectStore(STORE_NAME);
                 const request = store.get(id);
@@ -993,15 +1717,36 @@
                 request.onerror = () => reject(request.error);
             });
         }
-
-        // Delete video from database
+        
+        async function updateVideo(id, updates) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                
+                // First get the video
+                const getRequest = store.get(id);
+                
+                getRequest.onsuccess = () => {
+                    const video = getRequest.result;
+                    if (!video) {
+                        reject(new Error('Video not found'));
+                        return;
+                    }
+                    
+                    // Update video data
+                    const updatedVideo = { ...video, ...updates };
+                    const updateRequest = store.put(updatedVideo);
+                    
+                    updateRequest.onsuccess = () => resolve();
+                    updateRequest.onerror = () => reject(updateRequest.error);
+                };
+                
+                getRequest.onerror = () => reject(getRequest.error);
+            });
+        }
+        
         async function deleteVideo(id) {
             return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('Database not initialized'));
-                    return;
-                }
-
                 const transaction = db.transaction([STORE_NAME], 'readwrite');
                 const store = transaction.objectStore(STORE_NAME);
                 const request = store.delete(id);
@@ -1015,15 +1760,9 @@
                 request.onerror = () => reject(request.error);
             });
         }
-
-        // Clear all videos
+        
         async function clearAllVideos() {
             return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('Database not initialized'));
-                    return;
-                }
-
                 const transaction = db.transaction([STORE_NAME], 'readwrite');
                 const store = transaction.objectStore(STORE_NAME);
                 const request = store.clear();
@@ -1037,134 +1776,762 @@
                 request.onerror = () => reject(request.error);
             });
         }
-
-        // Update storage info
-        async function updateStorageInfo() {
+        
+        // ==============================================
+        // GOOGLE DRIVE INTEGRATION (PREMIUM)
+        // ==============================================
+        async function initializeGoogleDrive() {
+            return new Promise((resolve, reject) => {
+                gapi.load('client:auth2', async () => {
+                    try {
+                        await gapi.client.init({
+                            apiKey: GOOGLE_API_KEY,
+                            clientId: GOOGLE_CLIENT_ID,
+                            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+                            scope: GOOGLE_SCOPES
+                        });
+                        
+                        // Listen for auth changes
+                        gapi.auth2.getAuthInstance().isSignedIn.listen(handleAuthChange);
+                        
+                        // Check initial auth state
+                        const isSignedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
+                        handleAuthChange(isSignedIn);
+                        
+                        resolve();
+                        
+                    } catch (error) {
+                        console.warn('Google Drive initialization failed:', error);
+                        // Don't reject here, app can work without Google Drive
+                        resolve();
+                    }
+                });
+            });
+        }
+        
+        function handleAuthChange(isSignedIn) {
+            if (isSignedIn) {
+                const user = gapi.auth2.getAuthInstance().currentUser.get();
+                const authResponse = user.getAuthResponse();
+                
+                isGoogleDriveConnected = true;
+                googleAccessToken = authResponse.access_token;
+                
+                // Save token info
+                localStorage.setItem('googleDriveToken', googleAccessToken);
+                localStorage.setItem('googleDriveTokenExpiry', Date.now() + authResponse.expires_in * 1000);
+                
+                updateDriveUI(true);
+                updateDriveInfo();
+                showMessage('Terkoneksi dengan Google Drive Enterprise!', 'success');
+                
+            } else {
+                isGoogleDriveConnected = false;
+                googleAccessToken = null;
+                localStorage.removeItem('googleDriveToken');
+                localStorage.removeItem('googleDriveTokenExpiry');
+                updateDriveUI(false);
+            }
+        }
+        
+        async function connectGoogleDrive() {
             try {
-                const videos = await getAllVideos();
-                const totalSize = videos.reduce((sum, video) => sum + video.size, 0);
-                const videoCount = videos.length;
+                await gapi.auth2.getAuthInstance().signIn({
+                    prompt: 'select_account'
+                });
+            } catch (error) {
+                console.error('Google Drive connection error:', error);
+                showMessage('Gagal terkoneksi dengan Google Drive: ' + error.error, 'error');
+            }
+        }
+        
+        function disconnectGoogleDrive() {
+            gapi.auth2.getAuthInstance().signOut();
+        }
+        
+        function updateDriveUI(isConnected) {
+            const statusElement = document.getElementById('driveConnectText');
+            const connectButton = document.getElementById('connectDriveBtn');
+            const cloudButton = document.getElementById('cloudBtn');
+            
+            if (isConnected) {
+                statusElement.textContent = 'TERKONEKSI KE DRIVE';
+                connectButton.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>PUTUSKAN KONEKSI</span>';
+                connectButton.onclick = disconnectGoogleDrive;
+                cloudButton.disabled = false;
                 
-                // Update storage bar
-                const maxStorage = 2 * 1024 * 1024 * 1024; // 2GB
-                const percentUsed = (totalSize / maxStorage) * 100;
+                // Update account info
+                const user = gapi.auth2.getAuthInstance().currentUser.get();
+                const profile = user.getBasicProfile();
+                document.getElementById('driveAccount').textContent = profile.getName() || 'Google Drive';
                 
-                document.getElementById('storageFill').style.width = `${Math.min(percentUsed, 100)}%`;
-                document.getElementById('storageStats').textContent = 
-                    `${formatFileSize(totalSize)} / 2 GB`;
+            } else {
+                statusElement.textContent = 'KONEK KE GOOGLE DRIVE';
+                connectButton.innerHTML = '<i class="fab fa-google-drive"></i><span>KONEK KE GOOGLE DRIVE</span>';
+                connectButton.onclick = connectGoogleDrive;
+                cloudButton.disabled = true;
                 
-                // Update manage button count
-                document.getElementById('manageBtn').innerHTML = 
-                    `<i class="fas fa-database"></i> Kelola Video (${videoCount})`;
+                document.getElementById('driveAccount').textContent = 'Google Drive Enterprise';
+                document.getElementById('driveSpace').textContent = 'Belum terkoneksi';
+            }
+        }
+        
+        async function updateDriveInfo() {
+            if (!isGoogleDriveConnected) return;
+            
+            try {
+                const response = await gapi.client.drive.about.get({
+                    fields: 'storageQuota,user'
+                });
                 
-                // Warn if storage is almost full
-                if (percentUsed > 90) {
-                    showError('Penyimpanan hampir penuh! Hapus beberapa video lama.');
+                const quota = response.result.storageQuota;
+                const user = response.result.user;
+                
+                if (quota.limit) {
+                    const used = parseInt(quota.usage) || 0;
+                    const total = parseInt(quota.limit);
+                    const percent = (used / total) * 100;
+                    
+                    document.getElementById('driveStorageFill').style.width = percent + '%';
+                    document.getElementById('driveStorageText').textContent = 
+                        `${formatBytes(used)} / ${formatBytes(total)}`;
+                    
+                    document.getElementById('driveSpace').textContent = 
+                        `${Math.round(percent)}% digunakan • ${user.emailAddress}`;
                 }
                 
             } catch (error) {
-                console.error('Error updating storage info:', error);
+                console.error('Error updating drive info:', error);
             }
         }
-
-        // ====================
-        // VARIABLES & ELEMENTS
-        // ====================
-        const recordBtn = document.getElementById('recordBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const manageBtn = document.getElementById('manageBtn');
-        const previewVideo = document.getElementById('previewVideo');
-        const videoPlaceholder = document.getElementById('videoPlaceholder');
-        const recordingIndicator = document.getElementById('recordingIndicator');
-        const timerDisplay = document.getElementById('timerDisplay');
-        const fileSizeDisplay = document.getElementById('fileSize');
-        const resolutionDisplay = document.getElementById('resolution');
-        const fpsDisplay = document.getElementById('fpsDisplay');
-        const successMessage = document.getElementById('successMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const successText = document.getElementById('successText');
-        const errorText = document.getElementById('errorText');
-        const videoGrid = document.getElementById('videoGrid');
-        const searchVideos = document.getElementById('searchVideos');
-        const clearAllBtn = document.getElementById('clearAllBtn');
-        const videoModal = document.getElementById('videoModal');
-        const modalVideo = document.getElementById('modalVideo');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalVideoTitle = document.getElementById('modalVideoTitle');
-        const modalVideoSize = document.getElementById('modalVideoSize');
-        const modalVideoDate = document.getElementById('modalVideoDate');
-        const modalVideoDuration = document.getElementById('modalVideoDuration');
-        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
-        const modalDeleteBtn = document.getElementById('modalDeleteBtn');
-        const modalCloseBtn = document.getElementById('modalCloseBtn');
-        const closeModal = document.getElementById('closeModal');
         
-        // Settings elements
-        const qualitySelect = document.getElementById('qualitySelect');
-        const systemAudio = document.getElementById('systemAudio');
-        const microphoneAudio = document.getElementById('microphoneAudio');
-        const autoSave = document.getElementById('autoSave');
-        const chunkRecording = document.getElementById('chunkRecording');
-        const showCursor = document.getElementById('showCursor');
-        const showTimer = document.getElementById('showTimer');
-        const autoDownload = document.getElementById('autoDownload');
-
-        // Recording variables
-        let mediaRecorder;
-        let recordedChunks = [];
-        let stream;
-        let startTime;
-        let timerInterval;
-        let isRecording = false;
-        let currentBlob = null;
-        let chunkIndex = 0;
-        let chunkSize = 0;
-        const MAX_CHUNK_SIZE = 100 * 1024 * 1024; // 100MB per chunk
-
-        // ====================
-        // HELPER FUNCTIONS
-        // ====================
+        async function uploadToGoogleDrive(blob, videoData) {
+            return new Promise((resolve, reject) => {
+                if (!isGoogleDriveConnected) {
+                    reject(new Error('Google Drive not connected'));
+                    return;
+                }
+                
+                showProgress('Mengunggah ke Google Drive...');
+                
+                const metadata = {
+                    name: `${videoData.title}.${blob.type.includes('mp4') ? 'mp4' : 'webm'}`,
+                    mimeType: blob.type,
+                    description: `Screen recording - ${videoData.resolution} - ${videoData.quality}`,
+                    parents: ['root']
+                };
+                
+                const formData = new FormData();
+                formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+                formData.append('file', blob);
+                
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink,size');
+                xhr.setRequestHeader('Authorization', 'Bearer ' + googleAccessToken);
+                
+                let uploadStartTime = Date.now();
+                
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable) {
+                        const percent = Math.round((event.loaded / event.total) * 100);
+                        const elapsed = (Date.now() - uploadStartTime) / 1000;
+                        const speed = event.loaded / elapsed;
+                        const remaining = (event.total - event.loaded) / speed;
+                        
+                        updateProgress(
+                            percent,
+                            `${formatBytes(speed)}/detik • ${Math.round(remaining)} detik tersisa`
+                        );
+                    }
+                };
+                
+                xhr.onload = async () => {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        // Update video record with cloud info
+                        await updateVideo(videoData.id, {
+                            isCloud: true,
+                            cloudId: response.id,
+                            cloudUrl: response.webViewLink,
+                            syncStatus: 'synced'
+                        });
+                        
+                        hideProgress();
+                        showMessage('Video berhasil diupload ke Google Drive!', 'success');
+                        resolve(response);
+                        
+                    } else {
+                        hideProgress();
+                        const error = JSON.parse(xhr.responseText);
+                        showMessage('Gagal mengupload: ' + (error.error?.message || 'Unknown error'), 'error');
+                        reject(error);
+                    }
+                };
+                
+                xhr.onerror = () => {
+                    hideProgress();
+                    showMessage('Kesalahan jaringan saat mengupload', 'error');
+                    reject(new Error('Network error'));
+                };
+                
+                xhr.send(formData);
+            });
+        }
         
-        function showSuccess(message) {
-            successText.textContent = message;
-            successMessage.style.display = 'flex';
-            errorMessage.style.display = 'none';
+        async function syncWithGoogleDrive() {
+            if (!isGoogleDriveConnected) {
+                showMessage('Silakan koneksikan Google Drive terlebih dahulu', 'warning');
+                return;
+            }
             
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 5000);
+            try {
+                showProgress('Menyinkronkan dengan Google Drive...');
+                
+                // Get all local videos
+                const videos = await getAllVideos();
+                const localVideos = videos.filter(v => !v.isCloud);
+                
+                let uploadedCount = 0;
+                
+                for (let i = 0; i < localVideos.length; i++) {
+                    const video = localVideos[i];
+                    
+                    updateProgress(
+                        Math.round((i / localVideos.length) * 100),
+                        `Mengupload ${i + 1} dari ${localVideos.length} video`
+                    );
+                    
+                    try {
+                        const blob = new Blob([video.data], { type: video.type });
+                        await uploadToGoogleDrive(blob, video);
+                        uploadedCount++;
+                        
+                    } catch (error) {
+                        console.error(`Failed to upload video ${video.id}:`, error);
+                    }
+                }
+                
+                hideProgress();
+                
+                if (uploadedCount > 0) {
+                    showMessage(`Berhasil menyinkronkan ${uploadedCount} video ke cloud!`, 'success');
+                } else {
+                    showMessage('Semua video sudah tersinkron dengan Google Drive', 'success');
+                }
+                
+                await loadVideoLibrary();
+                
+            } catch (error) {
+                hideProgress();
+                showMessage('Gagal menyinkronkan: ' + error.message, 'error');
+            }
         }
-
-        function showError(message) {
-            errorText.textContent = message;
-            errorMessage.style.display = 'flex';
-            successMessage.style.display = 'none';
+        
+        // ==============================================
+        // SCREEN RECORDING (PREMIUM)
+        // ==============================================
+        async function startRecording() {
+            try {
+                // Get recording settings
+                const quality = document.querySelector('input[name="quality"]:checked').value;
+                const source = document.querySelector('input[name="source"]:checked').value;
+                
+                // Video constraints based on quality
+                const videoConstraints = {
+                    width: { ideal: getResolutionWidth(quality) },
+                    height: { ideal: getResolutionHeight(quality) },
+                    frameRate: { ideal: getFrameRate(quality) },
+                    cursor: 'always',
+                    displaySurface: source === 'camera' ? 'browser' : 'monitor'
+                };
+                
+                // Audio constraints
+                const audioConstraints = {
+                    systemAudio: document.getElementById('audioSystem').checked,
+                    microphone: document.getElementById('audioMic').checked,
+                    echoCancellation: true,
+                    noiseSuppression: true
+                };
+                
+                // Request screen/window capture
+                const displayMedia = await navigator.mediaDevices.getDisplayMedia({
+                    video: videoConstraints,
+                    audio: audioConstraints.systemAudio
+                });
+                
+                let finalStream = displayMedia;
+                
+                // Add microphone if enabled
+                if (audioConstraints.microphone) {
+                    try {
+                        const microphone = await navigator.mediaDevices.getUserMedia({
+                            audio: {
+                                echoCancellation: audioConstraints.echoCancellation,
+                                noiseSuppression: audioConstraints.noiseSuppression,
+                                autoGainControl: true,
+                                channelCount: 2,
+                                sampleRate: 48000
+                            }
+                        });
+                        
+                        // Combine streams
+                        const audioContext = new AudioContext();
+                        const destination = audioContext.createMediaStreamDestination();
+                        
+                        // Add system audio if enabled
+                        if (audioConstraints.systemAudio) {
+                            const systemSource = audioContext.createMediaStreamSource(displayMedia);
+                            systemSource.connect(destination);
+                        }
+                        
+                        // Add microphone
+                        const microphoneSource = audioContext.createMediaStreamSource(microphone);
+                        microphoneSource.connect(destination);
+                        
+                        // Create combined stream
+                        const combinedStream = new MediaStream();
+                        displayMedia.getVideoTracks().forEach(track => combinedStream.addTrack(track));
+                        destination.stream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
+                        
+                        finalStream = combinedStream;
+                        
+                    } catch (micError) {
+                        console.warn('Microphone access failed:', micError);
+                    }
+                }
+                
+                currentStream = finalStream;
+                recordedChunks = [];
+                
+                // Codec selection
+                const mimeType = selectMimeType(quality);
+                
+                // MediaRecorder options
+                const options = {
+                    mimeType: mimeType,
+                    videoBitsPerSecond: getBitrate(quality),
+                    audioBitsPerSecond: 192000
+                };
+                
+                mediaRecorder = new MediaRecorder(finalStream, options);
+                
+                // Data available handler
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                        
+                        // Update file size display
+                        const totalSize = recordedChunks.reduce((sum, chunk) => sum + chunk.size, 0);
+                        document.getElementById('fileSize').textContent = formatBytes(totalSize);
+                    }
+                };
+                
+                // Recording stopped handler
+                mediaRecorder.onstop = async () => {
+                    try {
+                        currentVideoBlob = new Blob(recordedChunks, { type: mimeType });
+                        
+                        // Create preview
+                        const videoURL = URL.createObjectURL(currentVideoBlob);
+                        const previewVideo = document.getElementById('previewVideo');
+                        previewVideo.src = videoURL;
+                        previewVideo.style.display = 'block';
+                        document.getElementById('videoOverlay').style.display = 'none';
+                        
+                        // Calculate duration
+                        const duration = Math.floor((Date.now() - recordingStartTime) / 1000);
+                        
+                        // Prepare metadata
+                        const metadata = {
+                            title: `Recording_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}`,
+                            type: mimeType,
+                            size: currentVideoBlob.size,
+                            duration: duration,
+                            resolution: `${getResolutionWidth(quality)}×${getResolutionHeight(quality)}`,
+                            quality: quality,
+                            fps: getFrameRate(quality),
+                            bitrate: getBitrate(quality)
+                        };
+                        
+                        // Save video
+                        const videoId = await saveVideo(currentVideoBlob, metadata);
+                        
+                        // Enable download and cloud buttons
+                        document.getElementById('downloadBtn').disabled = false;
+                        document.getElementById('cloudBtn').disabled = false;
+                        
+                        showMessage(`Rekaman ${quality.toUpperCase()} berhasil disimpan!`, 'success');
+                        
+                        // Update stats
+                        document.getElementById('resolution').textContent = metadata.resolution;
+                        document.getElementById('fpsDisplay').textContent = metadata.fps + ' FPS';
+                        
+                    } catch (error) {
+                        console.error('Error processing recording:', error);
+                        showMessage('Gagal memproses rekaman: ' + error.message, 'error');
+                    } finally {
+                        // Stop all tracks
+                        if (currentStream) {
+                            currentStream.getTracks().forEach(track => track.stop());
+                        }
+                    }
+                };
+                
+                mediaRecorder.onerror = (event) => {
+                    console.error('MediaRecorder error:', event);
+                    showMessage('Terjadi kesalahan saat merekam', 'error');
+                    stopRecording();
+                };
+                
+                // Start recording
+                mediaRecorder.start(1000); // Collect data every second
+                
+                // Start timer
+                recordingStartTime = Date.now();
+                recordingTimer = setInterval(updateRecordingTimer, 1000);
+                
+                // Update UI
+                isRecording = true;
+                document.getElementById('recordBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+                document.getElementById('recordingStatus').style.display = 'flex';
+                
+                showMessage('Rekaman dimulai! Kualitas ' + quality.toUpperCase(), 'success');
+                
+                // Handle browser stop
+                displayMedia.getVideoTracks()[0].onended = () => {
+                    stopRecording();
+                };
+                
+            } catch (error) {
+                console.error('Error starting recording:', error);
+                
+                if (error.name === 'NotAllowedError') {
+                    showMessage('Izin ditolak. Silakan izinkan akses ke layar.', 'error');
+                } else if (error.name === 'NotFoundError') {
+                    showMessage('Sumber layar tidak ditemukan.', 'error');
+                } else {
+                    showMessage('Gagal memulai rekaman: ' + error.message, 'error');
+                }
+                
+                resetRecording();
+            }
+        }
+        
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                clearInterval(recordingTimer);
+                isRecording = false;
+                resetRecordingUI();
+            }
+        }
+        
+        function resetRecording() {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                currentStream = null;
+            }
             
-            setTimeout(() => {
-                errorMessage.style.display = 'none';
-            }, 5000);
+            if (recordingTimer) {
+                clearInterval(recordingTimer);
+            }
+            
+            recordedChunks = [];
+            isRecording = false;
+            currentVideoBlob = null;
+            resetRecordingUI();
         }
-
+        
+        function resetRecordingUI() {
+            document.getElementById('recordBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('recordingStatus').style.display = 'none';
+            document.getElementById('timerDisplay').textContent = '00:00:00';
+            document.getElementById('fileSize').textContent = '0 GB';
+        }
+        
+        function updateRecordingTimer() {
+            if (!isRecording) return;
+            
+            const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+            document.getElementById('timerDisplay').textContent = formatTime(elapsed);
+        }
+        
+        // ==============================================
+        // VIDEO LIBRARY MANAGEMENT
+        // ==============================================
+        async function loadVideoLibrary(filter = 'all', search = '') {
+            try {
+                const videos = await getAllVideos();
+                const videoGrid = document.getElementById('videoGrid');
+                const emptyLibrary = document.getElementById('emptyLibrary');
+                
+                // Apply filters
+                let filteredVideos = videos;
+                
+                if (filter === 'local') {
+                    filteredVideos = videos.filter(v => !v.isCloud);
+                } else if (filter === 'cloud') {
+                    filteredVideos = videos.filter(v => v.isCloud);
+                }
+                
+                // Apply search
+                if (search) {
+                    filteredVideos = filteredVideos.filter(v => 
+                        v.title.toLowerCase().includes(search.toLowerCase()) ||
+                        v.quality.toLowerCase().includes(search.toLowerCase()) ||
+                        v.resolution.toLowerCase().includes(search.toLowerCase())
+                    );
+                }
+                
+                // Sort by date (newest first)
+                filteredVideos.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // Update UI
+                if (filteredVideos.length === 0) {
+                    videoGrid.innerHTML = '';
+                    emptyLibrary.style.display = 'block';
+                    return;
+                }
+                
+                emptyLibrary.style.display = 'none';
+                videoGrid.innerHTML = '';
+                
+                filteredVideos.forEach(video => {
+                    const card = createVideoCard(video);
+                    videoGrid.appendChild(card);
+                });
+                
+                // Update manage button
+                document.getElementById('manageBtn').innerHTML = 
+                    `<i class="fas fa-photo-video"></i><span>KELOLA VIDEO (${videos.length})</span>`;
+                
+            } catch (error) {
+                console.error('Error loading video library:', error);
+                showMessage('Gagal memuat perpustakaan video', 'error');
+            }
+        }
+        
+        function createVideoCard(video) {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.dataset.id = video.id;
+            
+            const duration = video.duration ? formatTime(video.duration) : '--:--';
+            const date = formatDate(video.date);
+            const size = formatBytes(video.size);
+            
+            card.innerHTML = `
+                <div class="video-thumbnail">
+                    <div class="video-badges">
+                        <span class="video-badge quality">${video.quality.toUpperCase()}</span>
+                        ${video.isCloud ? '<span class="video-badge cloud"><i class="fas fa-cloud"></i> CLOUD</span>' : ''}
+                    </div>
+                    <i class="fas fa-play-circle" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255,255,255,0.7); z-index: 1;"></i>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title" title="${video.title}">${video.title}</h3>
+                    <div class="video-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-expand-alt"></i>
+                            <span>${video.resolution}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-file-alt"></i>
+                            <span>${size}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>${date}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${duration}</span>
+                        </div>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn play-btn" title="Putar">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="action-btn download-btn" title="Unduh">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        ${!video.isCloud ? 
+                            `<button class="action-btn cloud-btn upload-btn" title="Upload ke Cloud">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </button>` : 
+                            `<button class="action-btn cloud-btn view-cloud-btn" title="Lihat di Cloud">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>`
+                        }
+                        <button class="action-btn delete-btn" title="Hapus" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners
+            card.querySelector('.play-btn').addEventListener('click', () => playVideo(video.id));
+            card.querySelector('.download-btn').addEventListener('click', () => downloadVideo(video.id));
+            card.querySelector('.delete-btn').addEventListener('click', () => deleteVideoPrompt(video.id));
+            
+            if (!video.isCloud) {
+                card.querySelector('.upload-btn').addEventListener('click', () => uploadVideoToCloud(video.id));
+            } else {
+                card.querySelector('.view-cloud-btn').addEventListener('click', () => {
+                    window.open(video.cloudUrl, '_blank');
+                });
+            }
+            
+            return card;
+        }
+        
+        async function playVideo(id) {
+            try {
+                const video = await getVideo(id);
+                if (!video) {
+                    showMessage('Video tidak ditemukan', 'error');
+                    return;
+                }
+                
+                currentVideoId = id;
+                
+                // Convert ArrayBuffer to Blob
+                const blob = new Blob([video.data], { type: video.type });
+                const url = URL.createObjectURL(blob);
+                
+                // Update modal
+                const modalVideo = document.getElementById('modalVideo');
+                modalVideo.src = url;
+                
+                document.getElementById('modalTitle').textContent = video.title;
+                document.getElementById('modalVideoTitle').textContent = video.title;
+                document.getElementById('modalResolution').textContent = video.resolution;
+                document.getElementById('modalSize').textContent = formatBytes(video.size);
+                document.getElementById('modalDate').textContent = formatDate(video.date);
+                document.getElementById('modalDuration').textContent = video.duration ? formatTime(video.duration) : '--:--';
+                
+                // Show modal
+                document.getElementById('videoModal').style.display = 'flex';
+                
+            } catch (error) {
+                console.error('Error playing video:', error);
+                showMessage('Gagal memutar video: ' + error.message, 'error');
+            }
+        }
+        
+        async function downloadVideo(id) {
+            try {
+                const video = await getVideo(id);
+                if (!video) {
+                    showMessage('Video tidak ditemukan', 'error');
+                    return;
+                }
+                
+                const blob = new Blob([video.data], { type: video.type });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${video.title}.${video.type.includes('mp4') ? 'mp4' : 'webm'}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                setTimeout(() => URL.revokeObjectURL(url), 100);
+                
+                showMessage('Video berhasil diunduh!', 'success');
+                
+            } catch (error) {
+                console.error('Error downloading video:', error);
+                showMessage('Gagal mengunduh video: ' + error.message, 'error');
+            }
+        }
+        
+        async function uploadVideoToCloud(id) {
+            try {
+                const video = await getVideo(id);
+                if (!video) {
+                    showMessage('Video tidak ditemukan', 'error');
+                    return;
+                }
+                
+                if (!isGoogleDriveConnected) {
+                    showMessage('Silakan koneksikan Google Drive terlebih dahulu', 'warning');
+                    return;
+                }
+                
+                const blob = new Blob([video.data], { type: video.type });
+                await uploadToGoogleDrive(blob, video);
+                
+            } catch (error) {
+                console.error('Error uploading video to cloud:', error);
+                showMessage('Gagal mengupload video ke cloud: ' + error.message, 'error');
+            }
+        }
+        
+        async function deleteVideoPrompt(id) {
+            if (!confirm('Apakah Anda yakin ingin menghapus video ini?')) {
+                return;
+            }
+            
+            try {
+                const video = await getVideo(id);
+                
+                // Delete from Google Drive if it's there
+                if (video.isCloud && video.cloudId && isGoogleDriveConnected) {
+                    try {
+                        await gapi.client.drive.files.delete({
+                            fileId: video.cloudId
+                        });
+                    } catch (driveError) {
+                        console.warn('Failed to delete from Google Drive:', driveError);
+                    }
+                }
+                
+                // Delete from local database
+                await deleteVideo(id);
+                
+                // Close modal if currently viewing this video
+                if (currentVideoId === id) {
+                    closeModal();
+                }
+                
+                showMessage('Video berhasil dihapus!', 'success');
+                
+            } catch (error) {
+                console.error('Error deleting video:', error);
+                showMessage('Gagal menghapus video: ' + error.message, 'error');
+            }
+        }
+        
+        // ==============================================
+        // UTILITY FUNCTIONS
+        // ==============================================
         function formatTime(seconds) {
             const hours = Math.floor(seconds / 3600);
-            const mins = Math.floor((seconds % 3600) / 60);
-            const secs = Math.floor(seconds % 60);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
             
             if (hours > 0) {
-                return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             }
-            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
-
-        function formatFileSize(bytes) {
+        
+        function formatBytes(bytes) {
             if (bytes === 0) return '0 Bytes';
+            
             const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
-
+        
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('id-ID', {
@@ -1175,607 +2542,339 @@
                 minute: '2-digit'
             });
         }
-
-        function getResolution(quality) {
-            const resolutions = {
-                '4k': '3840x2160',
-                '1440p': '2560x1440',
-                '1080p': '1920x1080',
-                '720p': '1280x720',
-                '480p': '854x480'
-            };
-            return resolutions[quality] || '1280x720';
-        }
-
-        function getFPS(quality) {
-            const fpsMap = {
-                '4k': 30,
-                '1440p': 30,
-                '1080p': 30,
-                '720p': 30,
-                '480p': 24
-            };
-            return fpsMap[quality] || 30;
-        }
-
-        function getBitrate(quality) {
-            const bitrateMap = {
-                '4k': 8000000,
-                '1440p': 5000000,
-                '1080p': 2500000,
-                '720p': 1500000,
-                '480p': 500000
-            };
-            return bitrateMap[quality] || 1500000;
-        }
-
-        function getVideoConstraints() {
-            const quality = qualitySelect.value;
-            const cursorSetting = showCursor.checked ? 'always' : 'never';
-            
-            const baseConstraints = {
-                cursor: cursorSetting
-            };
-
-            switch(quality) {
-                case '4k':
-                    baseConstraints.width = { ideal: 3840 };
-                    baseConstraints.height = { ideal: 2160 };
-                    break;
-                case '1440p':
-                    baseConstraints.width = { ideal: 2560 };
-                    baseConstraints.height = { ideal: 1440 };
-                    break;
-                case '1080p':
-                    baseConstraints.width = { ideal: 1920 };
-                    baseConstraints.height = { ideal: 1080 };
-                    break;
-                case '720p':
-                    baseConstraints.width = { ideal: 1280 };
-                    baseConstraints.height = { ideal: 720 };
-                    break;
-                case '480p':
-                    baseConstraints.width = { ideal: 854 };
-                    baseConstraints.height = { ideal: 480 };
-                    break;
-            }
-
-            return baseConstraints;
-        }
-
-        // ====================
-        // VIDEO LIBRARY
-        // ====================
         
-        async function loadVideoLibrary(searchTerm = '') {
+        function getResolutionWidth(quality) {
+            const resolutions = {
+                '8k': 7680,
+                '4k': 3840,
+                '1440p': 2560,
+                '1080p': 1920,
+                '720p': 1280
+            };
+            return resolutions[quality] || 1920;
+        }
+        
+        function getResolutionHeight(quality) {
+            const resolutions = {
+                '8k': 4320,
+                '4k': 2160,
+                '1440p': 1440,
+                '1080p': 1080,
+                '720p': 720
+            };
+            return resolutions[quality] || 1080;
+        }
+        
+        function getFrameRate(quality) {
+            return quality === '8k' ? 30 : 60;
+        }
+        
+        function getBitrate(quality) {
+            const bitrates = {
+                '8k': 120000000,   // 120 Mbps
+                '4k': 50000000,    // 50 Mbps
+                '1440p': 25000000, // 25 Mbps
+                '1080p': 12000000, // 12 Mbps
+                '720p': 5000000    // 5 Mbps
+            };
+            return bitrates[quality] || 12000000;
+        }
+        
+        function selectMimeType(quality) {
+            // Try VP9 for high quality, fallback to VP8
+            if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
+                return 'video/webm;codecs=vp9';
+            } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8')) {
+                return 'video/webm;codecs=vp8';
+            } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+                return 'video/mp4';
+            }
+            return 'video/webm';
+        }
+        
+        async function updateStorageInfo() {
             try {
                 const videos = await getAllVideos();
-                videoGrid.innerHTML = '';
+                const totalSize = videos.reduce((sum, video) => sum + video.size, 0);
+                const usedPercent = (totalSize / MAX_LOCAL_STORAGE) * 100;
                 
-                let filteredVideos = videos;
-                if (searchTerm) {
-                    filteredVideos = videos.filter(video => 
-                        video.title.toLowerCase().includes(searchTerm.toLowerCase())
-                    );
+                // Update UI
+                const storageInfo = document.getElementById('driveSpace');
+                if (!isGoogleDriveConnected) {
+                    storageInfo.textContent = `${videos.length} video • ${formatBytes(totalSize)}`;
                 }
                 
-                if (filteredVideos.length === 0) {
-                    videoGrid.innerHTML = `
-                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #94a3b8;">
-                            <i class="fas fa-video-slash" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                            <h3>Tidak ada video</h3>
-                            <p>Mulai merekam untuk menambahkan video pertama Anda</p>
-                        </div>
-                    `;
-                    return;
+                // Show warning if storage is almost full
+                if (usedPercent > 90) {
+                    showMessage('Penyimpanan lokal hampir penuh! Upload ke cloud atau hapus video lama.', 'warning');
                 }
                 
-                // Sort by date (newest first)
-                filteredVideos.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                filteredVideos.forEach(video => {
-                    const card = document.createElement('div');
-                    card.className = 'video-card';
-                    card.dataset.id = video.id;
+            } catch (error) {
+                console.error('Error updating storage info:', error);
+            }
+        }
+        
+        // ==============================================
+        // UI MANAGEMENT
+        // ==============================================
+        function initializeUI() {
+            // Event listeners for controls
+            document.getElementById('recordBtn').addEventListener('click', startRecording);
+            document.getElementById('stopBtn').addEventListener('click', stopRecording);
+            document.getElementById('downloadBtn').addEventListener('click', () => {
+                if (currentVideoBlob) {
+                    downloadRecording();
+                }
+            });
+            document.getElementById('cloudBtn').addEventListener('click', () => {
+                if (currentVideoBlob) {
+                    uploadCurrentRecording();
+                }
+            });
+            document.getElementById('manageBtn').addEventListener('click', () => {
+                document.querySelector('.video-library').scrollIntoView({ behavior: 'smooth' });
+            });
+            document.getElementById('syncBtn').addEventListener('click', syncWithGoogleDrive);
+            document.getElementById('clearBtn').addEventListener('click', clearAllVideosPrompt);
+            
+            // Storage mode selection
+            document.querySelectorAll('.storage-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.storage-option').forEach(o => o.classList.remove('active'));
+                    option.classList.add('active');
                     
-                    const duration = video.duration ? formatTime(video.duration) : '--:--';
+                    const mode = option.id.replace('storage', '').toLowerCase();
+                    storageMode = mode;
                     
-                    card.innerHTML = `
-                        <div class="video-thumbnail">
-                            <i class="fas fa-play-circle" style="font-size: 2.5rem; color: rgba(255,255,255,0.5);"></i>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">${video.title}</div>
-                            <div class="video-meta">
-                                <span>${formatFileSize(video.size)}</span>
-                                <span>${duration}</span>
-                                <span>${formatDate(video.date).split(' ')[0]}</span>
-                            </div>
-                            <div class="video-actions">
-                                <button class="action-btn play-video" title="Putar">
-                                    <i class="fas fa-play"></i> Putar
-                                </button>
-                                <button class="action-btn download-video" title="Unduh">
-                                    <i class="fas fa-download"></i>
-                                </button>
-                                <button class="action-btn delete-video" title="Hapus">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    videoGrid.appendChild(card);
-                    
-                    // Add event listeners
-                    card.querySelector('.play-video').addEventListener('click', () => playVideo(video.id));
-                    card.querySelector('.download-video').addEventListener('click', () => downloadVideoFromDB(video.id));
-                    card.querySelector('.delete-video').addEventListener('click', () => deleteVideoPrompt(video.id));
+                    showMessage(`Mode penyimpanan: ${getStorageModeName(mode)}`, 'success');
                 });
-                
-            } catch (error) {
-                console.error('Error loading video library:', error);
-                showError('Gagal memuat perpustakaan video');
-            }
-        }
-
-        async function playVideo(id) {
-            try {
-                const video = await getVideoById(id);
-                if (!video) {
-                    showError('Video tidak ditemukan');
-                    return;
-                }
-                
-                currentVideoId = id;
-                
-                // Convert ArrayBuffer back to blob
-                const blob = new Blob([video.data], { type: video.type });
-                const url = URL.createObjectURL(blob);
-                
-                // Update modal
-                modalVideo.src = url;
-                modalVideoTitle.textContent = video.title;
-                modalVideoSize.textContent = formatFileSize(video.size);
-                modalVideoDate.textContent = formatDate(video.date);
-                modalVideoDuration.textContent = video.duration ? formatTime(video.duration) : '--:--';
-                modalTitle.textContent = video.title;
-                
-                // Show modal
-                videoModal.style.display = 'flex';
-                
-            } catch (error) {
-                console.error('Error playing video:', error);
-                showError('Gagal memutar video');
-            }
-        }
-
-        async function downloadVideoFromDB(id) {
-            try {
-                const video = await getVideoById(id);
-                if (!video) {
-                    showError('Video tidak ditemukan');
-                    return;
-                }
-                
-                // Convert ArrayBuffer back to blob
-                const blob = new Blob([video.data], { type: video.type });
-                const url = URL.createObjectURL(blob);
-                
-                // Create download link
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = video.title + (video.type.includes('mp4') ? '.mp4' : '.webm');
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                
-                // Clean up
-                setTimeout(() => URL.revokeObjectURL(url), 100);
-                
-                showSuccess('Video berhasil diunduh!');
-                
-            } catch (error) {
-                console.error('Error downloading video:', error);
-                showError('Gagal mengunduh video');
-            }
-        }
-
-        async function deleteVideoPrompt(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus video ini?')) {
-                try {
-                    await deleteVideo(id);
-                    showSuccess('Video berhasil dihapus!');
+            });
+            
+            // Quality selection
+            document.querySelectorAll('.quality-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.quality-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
                     
-                    // Close modal if currently viewing this video
-                    if (currentVideoId === id) {
-                        closeVideoModal();
-                    }
+                    const quality = option.querySelector('input').value;
+                    document.getElementById('resolution').textContent = 
+                        `${getResolutionWidth(quality)}×${getResolutionHeight(quality)}`;
+                    document.getElementById('fpsDisplay').textContent = getFrameRate(quality) + ' FPS';
+                });
+            });
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const activeFilter = document.querySelector('.filter-tab.active').dataset.filter;
+                loadVideoLibrary(activeFilter, e.target.value);
+            });
+            
+            // Filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
                     
-                } catch (error) {
-                    console.error('Error deleting video:', error);
-                    showError('Gagal menghapus video');
+                    const filter = tab.dataset.filter;
+                    const search = document.getElementById('searchInput').value;
+                    loadVideoLibrary(filter, search);
+                });
+            });
+            
+            // Modal controls
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+            document.getElementById('modalDownloadBtn').addEventListener('click', () => {
+                if (currentVideoId) {
+                    downloadVideo(currentVideoId);
                 }
+            });
+            document.getElementById('modalCloudBtn').addEventListener('click', () => {
+                if (currentVideoId) {
+                    uploadVideoToCloud(currentVideoId);
+                }
+            });
+            document.getElementById('modalDeleteBtn').addEventListener('click', () => {
+                if (currentVideoId) {
+                    deleteVideoPrompt(currentVideoId);
+                }
+            });
+            
+            // Progress overlay
+            document.getElementById('cancelProgressBtn').addEventListener('click', () => {
+                hideProgress();
+                showMessage('Upload dibatalkan', 'warning');
+            });
+            
+            // Handle window close during recording
+            window.addEventListener('beforeunload', (e) => {
+                if (isRecording) {
+                    e.preventDefault();
+                    e.returnValue = 'Anda sedang merekam. Yakin ingin meninggalkan halaman?';
+                    return e.returnValue;
+                }
+            });
+        }
+        
+        function getStorageModeName(mode) {
+            const names = {
+                'hybrid': 'Hybrid Cloud',
+                'cloud': 'Cloud Only',
+                'local': 'Lokal Only'
+            };
+            return names[mode] || 'Hybrid Cloud';
+        }
+        
+        function downloadRecording() {
+            if (!currentVideoBlob) {
+                showMessage('Tidak ada video untuk diunduh', 'error');
+                return;
+            }
+            
+            const a = document.createElement('a');
+            const url = URL.createObjectURL(currentVideoBlob);
+            
+            a.href = url;
+            a.download = `screen_recording_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+            
+            showMessage('Video berhasil diunduh!', 'success');
+        }
+        
+        async function uploadCurrentRecording() {
+            if (!currentVideoBlob) {
+                showMessage('Tidak ada video untuk diupload', 'error');
+                return;
+            }
+            
+            if (!isGoogleDriveConnected) {
+                showMessage('Silakan koneksikan Google Drive terlebih dahulu', 'warning');
+                return;
+            }
+            
+            try {
+                // Create metadata for the current recording
+                const duration = Math.floor((Date.now() - recordingStartTime) / 1000);
+                const quality = document.querySelector('input[name="quality"]:checked').value;
+                
+                const metadata = {
+                    title: `Recording_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}`,
+                    type: currentVideoBlob.type,
+                    size: currentVideoBlob.size,
+                    duration: duration,
+                    resolution: `${getResolutionWidth(quality)}×${getResolutionHeight(quality)}`,
+                    quality: quality,
+                    fps: getFrameRate(quality),
+                    bitrate: getBitrate(quality)
+                };
+                
+                await uploadToGoogleDrive(currentVideoBlob, metadata);
+                
+            } catch (error) {
+                console.error('Error uploading current recording:', error);
+                showMessage('Gagal mengupload video: ' + error.message, 'error');
             }
         }
-
-        function closeVideoModal() {
-            videoModal.style.display = 'none';
+        
+        function showProgress(title) {
+            document.getElementById('progressTitle').textContent = title;
+            document.getElementById('progressOverlay').style.display = 'flex';
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressText').textContent = '0% • Memulai...';
+        }
+        
+        function updateProgress(percent, text) {
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% • ' + text;
+        }
+        
+        function hideProgress() {
+            document.getElementById('progressOverlay').style.display = 'none';
+        }
+        
+        function showMessage(text, type = 'info') {
+            const container = document.getElementById('messageContainer');
+            
+            const message = document.createElement('div');
+            message.className = `message ${type}`;
+            message.innerHTML = `
+                <div class="message-icon">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                </div>
+                <div class="message-content">
+                    <h4>${type === 'success' ? 'Sukses' : type === 'error' ? 'Error' : 'Info'}</h4>
+                    <p>${text}</p>
+                </div>
+            `;
+            
+            container.appendChild(message);
+            
+            // Show message
+            setTimeout(() => {
+                message.style.display = 'flex';
+            }, 10);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                message.style.opacity = '0';
+                message.style.transform = 'translateX(100%)';
+                
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            }, 5000);
+        }
+        
+        function closeModal() {
+            document.getElementById('videoModal').style.display = 'none';
+            
+            const modalVideo = document.getElementById('modalVideo');
             if (modalVideo.src) {
                 URL.revokeObjectURL(modalVideo.src);
                 modalVideo.src = '';
             }
+            
             currentVideoId = null;
         }
-
-        // ====================
-        // SCREEN RECORDING
-        // ====================
         
-        async function startRecording() {
-            try {
-                // Get video constraints
-                const videoConstraints = getVideoConstraints();
-                const sourceType = document.querySelector('input[name="source"]:checked').value;
-                
-                // Request screen capture
-                const displayStream = await navigator.mediaDevices.getDisplayMedia({
-                    video: videoConstraints,
-                    audio: systemAudio.checked
-                });
-
-                // Handle audio
-                let audioStream;
-                let finalStream = displayStream;
-                
-                if (microphoneAudio.checked) {
-                    try {
-                        audioStream = await navigator.mediaDevices.getUserMedia({
-                            audio: {
-                                echoCancellation: true,
-                                noiseSuppression: true,
-                                autoGainControl: true
-                            }
-                        });
-                        
-                        // Combine streams
-                        const combinedStream = new MediaStream();
-                        displayStream.getVideoTracks().forEach(track => combinedStream.addTrack(track));
-                        
-                        if (systemAudio.checked) {
-                            displayStream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
-                        }
-                        
-                        audioStream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
-                        finalStream = combinedStream;
-                        
-                    } catch (micError) {
-                        console.warn('Tidak dapat mengakses mikrofon:', micError);
-                    }
-                }
-
-                stream = finalStream;
-                recordedChunks = [];
-                chunkIndex = 0;
-                chunkSize = 0;
-
-                // Setup MediaRecorder with appropriate mime type
-                const mimeTypes = [
-                    'video/webm;codecs=vp9',
-                    'video/webm;codecs=vp8',
-                    'video/webm;codecs=h264',
-                    'video/webm',
-                    'video/mp4'
-                ];
-                
-                let selectedMimeType = '';
-                for (const mimeType of mimeTypes) {
-                    if (MediaRecorder.isTypeSupported(mimeType)) {
-                        selectedMimeType = mimeType;
-                        break;
-                    }
-                }
-                
-                if (!selectedMimeType) {
-                    selectedMimeType = 'video/webm';
-                }
-
-                // Setup MediaRecorder
-                mediaRecorder = new MediaRecorder(stream, {
-                    mimeType: selectedMimeType,
-                    videoBitsPerSecond: getBitrate(qualitySelect.value)
-                });
-
-                // Handle data available
-                mediaRecorder.ondataavailable = (event) => {
-                    if (event.data.size > 0) {
-                        recordedChunks.push(event.data);
-                        chunkSize += event.data.size;
-                        
-                        // Update file size display
-                        const totalSize = recordedChunks.reduce((total, chunk) => total + chunk.size, 0);
-                        fileSizeDisplay.textContent = formatFileSize(totalSize).replace(' ', '');
-                        
-                        // Handle chunked recording if enabled
-                        if (chunkRecording.checked && chunkSize > MAX_CHUNK_SIZE) {
-                            chunkIndex++;
-                            chunkSize = 0;
-                            // For now, we just log it
-                            console.log(`Chunk ${chunkIndex} completed`);
-                        }
-                    }
-                };
-
-                // Handle recording stop
-                mediaRecorder.onstop = async () => {
-                    try {
-                        // Create final blob
-                        currentBlob = new Blob(recordedChunks, { 
-                            type: mediaRecorder.mimeType 
-                        });
-                        
-                        // Create preview URL
-                        const videoURL = URL.createObjectURL(currentBlob);
-                        previewVideo.src = videoURL;
-                        previewVideo.style.display = 'block';
-                        videoPlaceholder.style.display = 'none';
-                        
-                        // Calculate duration
-                        const duration = Math.floor((Date.now() - startTime) / 1000);
-                        
-                        // Prepare metadata
-                        const metadata = {
-                            title: `Rekaman Layar ${new Date().toLocaleDateString('id-ID')} ${formatTime(duration)}`,
-                            type: mediaRecorder.mimeType,
-                            size: currentBlob.size,
-                            duration: duration,
-                            resolution: getResolution(qualitySelect.value),
-                            fps: getFPS(qualitySelect.value),
-                            quality: qualitySelect.value
-                        };
-                        
-                        // Save to database if enabled
-                        if (autoSave.checked) {
-                            const videoId = await saveVideoToDB(currentBlob, metadata);
-                            showSuccess(`Video berhasil disimpan! ID: ${videoId}`);
-                        } else {
-                            downloadBtn.disabled = false;
-                            showSuccess('Rekaman selesai! Klik "Unduh Video" untuk menyimpan.');
-                        }
-                        
-                        // Auto-download if enabled
-                        if (autoDownload.checked && !autoSave.checked) {
-                            downloadRecording();
-                        }
-                        
-                    } catch (error) {
-                        console.error('Error processing recording:', error);
-                        showError('Gagal memproses rekaman: ' + error.message);
-                    } finally {
-                        // Stop all tracks
-                        if (stream) {
-                            stream.getTracks().forEach(track => track.stop());
-                        }
-                    }
-                };
-
-                // Handle errors
-                mediaRecorder.onerror = (event) => {
-                    console.error('MediaRecorder error:', event);
-                    showError('Terjadi kesalahan saat merekam');
-                    resetRecording();
-                };
-
-                // Start recording with appropriate interval
-                const timeSlice = chunkRecording.checked ? 5000 : 1000; // 5 seconds for chunked recording
-                mediaRecorder.start(timeSlice);
-
-                // Start timer
-                startTime = Date.now();
-                timerInterval = setInterval(updateTimer, 1000);
-                
-                // Update UI
-                isRecording = true;
-                recordBtn.disabled = true;
-                stopBtn.disabled = false;
-                recordingIndicator.style.display = 'flex';
-                
-                // Update resolution and FPS displays
-                resolutionDisplay.textContent = getResolution(qualitySelect.value);
-                fpsDisplay.textContent = getFPS(qualitySelect.value);
-                
-                showSuccess('Rekaman dimulai! Lakukan aktivitas yang ingin direkam.');
-
-                // Handle when user stops recording from browser dialog
-                displayStream.getVideoTracks()[0].onended = () => {
-                    stopRecording();
-                };
-
-            } catch (error) {
-                console.error('Error starting recording:', error);
-                
-                if (error.name === 'NotAllowedError') {
-                    showError('Permission ditolak. Silakan izinkan akses ke layar.');
-                } else if (error.name === 'NotFoundError') {
-                    showError('Tidak dapat menemukan sumber layar.');
-                } else if (error.name === 'NotReadableError') {
-                    showError('Tidak dapat membaca sumber layar.');
-                } else {
-                    showError('Gagal memulai rekaman: ' + error.message);
-                }
-                
-                resetRecording();
-            }
-        }
-
-        function updateTimer() {
-            if (!isRecording) return;
-            
-            const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-            timerDisplay.textContent = formatTime(elapsedSeconds);
-        }
-
-        function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-                clearInterval(timerInterval);
-                isRecording = false;
-                resetRecordingUI();
-            }
-        }
-
-        function resetRecordingUI() {
-            recordBtn.disabled = false;
-            stopBtn.disabled = true;
-            recordingIndicator.style.display = 'none';
-            timerDisplay.textContent = '00:00';
-            fileSizeDisplay.textContent = '0 MB';
-        }
-
-        function resetRecording() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-            
-            if (timerInterval) {
-                clearInterval(timerInterval);
-            }
-            
-            recordedChunks = [];
-            isRecording = false;
-            currentBlob = null;
-            resetRecordingUI();
-        }
-
-        function downloadRecording() {
-            if (!currentBlob) {
-                showError('Tidak ada video untuk diunduh');
+        async function clearAllVideosPrompt() {
+            if (!confirm('Apakah Anda yakin ingin menghapus SEMUA video? Tindakan ini tidak dapat dibatalkan!')) {
                 return;
             }
-
+            
             try {
-                const url = URL.createObjectURL(currentBlob);
-                const a = document.createElement('a');
+                // Get all videos to delete from cloud
+                const videos = await getAllVideos();
+                const cloudVideos = videos.filter(v => v.isCloud && v.cloudId);
                 
-                const mimeType = mediaRecorder?.mimeType || 'video/webm';
-                const extension = mimeType.includes('mp4') ? 'mp4' : 'webm';
+                // Delete from Google Drive
+                if (isGoogleDriveConnected) {
+                    for (const video of cloudVideos) {
+                        try {
+                            await gapi.client.drive.files.delete({
+                                fileId: video.cloudId
+                            });
+                        } catch (driveError) {
+                            console.warn('Failed to delete from Google Drive:', driveError);
+                        }
+                    }
+                }
                 
-                a.href = url;
-                a.download = `rekaman-layar-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.${extension}`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                // Clear local database
+                await clearAllVideos();
                 
-                setTimeout(() => URL.revokeObjectURL(url), 100);
-                
-                showSuccess('Video berhasil diunduh!');
+                showMessage('Semua video berhasil dihapus!', 'success');
                 
             } catch (error) {
-                showError('Gagal mengunduh video: ' + error.message);
+                console.error('Error clearing all videos:', error);
+                showMessage('Gagal menghapus semua video: ' + error.message, 'error');
             }
         }
-
-        // ====================
-        // EVENT LISTENERS
-        // ====================
-        recordBtn.addEventListener('click', startRecording);
-        stopBtn.addEventListener('click', stopRecording);
-        downloadBtn.addEventListener('click', downloadRecording);
-        manageBtn.addEventListener('click', () => {
-            videoLibrarySection.scrollIntoView({ behavior: 'smooth' });
-        });
-        searchVideos.addEventListener('input', (e) => {
-            loadVideoLibrary(e.target.value);
-        });
-        clearAllBtn.addEventListener('click', () => {
-            if (confirm('Apakah Anda yakin ingin menghapus SEMUA video? Tindakan ini tidak dapat dibatalkan!')) {
-                clearAllVideos()
-                    .then(() => showSuccess('Semua video berhasil dihapus!'))
-                    .catch(error => {
-                        console.error('Error clearing videos:', error);
-                        showError('Gagal menghapus video');
-                    });
-            }
-        });
-        closeModal.addEventListener('click', closeVideoModal);
-        modalCloseBtn.addEventListener('click', closeVideoModal);
-        modalDownloadBtn.addEventListener('click', () => {
-            if (currentVideoId) {
-                downloadVideoFromDB(currentVideoId);
-            }
-        });
-        modalDeleteBtn.addEventListener('click', () => {
-            if (currentVideoId) {
-                deleteVideoPrompt(currentVideoId);
-            }
-        });
-        qualitySelect.addEventListener('change', () => {
-            resolutionDisplay.textContent = getResolution(qualitySelect.value);
-            fpsDisplay.textContent = getFPS(qualitySelect.value);
-        });
-        
-        // Close modal on outside click
-        videoModal.addEventListener('click', (e) => {
-            if (e.target === videoModal) {
-                closeVideoModal();
-            }
-        });
-
-        // ====================
-        // INITIALIZATION
-        // ====================
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Check browser support
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-                showError('Browser Anda tidak mendukung fitur perekaman layar.');
-                recordBtn.disabled = true;
-                recordBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Browser Tidak Didukung';
-                return;
-            }
-            
-            if (!MediaRecorder) {
-                showError('Browser Anda tidak mendukung MediaRecorder API.');
-                recordBtn.disabled = true;
-                recordBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> API Tidak Didukung';
-                return;
-            }
-            
-            // Check IndexedDB support
-            if (!window.indexedDB) {
-                showError('Browser Anda tidak mendukung IndexedDB. Tidak dapat menyimpan video.');
-                autoSave.checked = false;
-                autoSave.disabled = true;
-            } else {
-                try {
-                    await initDatabase();
-                    console.log('Database initialized successfully');
-                } catch (error) {
-                    console.error('Failed to initialize database:', error);
-                    showError('Gagal menginisialisasi database. Fitur penyimpanan tidak tersedia.');
-                    autoSave.checked = false;
-                    autoSave.disabled = true;
-                }
-            }
-            
-            // Update initial displays
-            resolutionDisplay.textContent = getResolution(qualitySelect.value);
-            fpsDisplay.textContent = getFPS(qualitySelect.value);
-            
-            // Show welcome message
-            setTimeout(() => {
-                showSuccess('Screen Recorder siap digunakan! Video disimpan di database lokal.');
-            }, 1000);
-        });
-
-        // Handle before unload
-        window.addEventListener('beforeunload', (event) => {
-            if (isRecording) {
-                event.preventDefault();
-                event.returnValue = 'Anda sedang merekam. Yakin ingin meninggalkan halaman?';
-                return event.returnValue;
-            }
-        });
     </script>
 </body>
 </html>
+
