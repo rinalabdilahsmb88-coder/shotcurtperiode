@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEST // CS ERROR DATABASE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS TRANSFORMERS THEME --- */
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-red: #ff003c;
+            --optimus-red: #b71234;
+            --dark-bg: #050505;
+            --panel-bg: #0a0a0a;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .container {
+            max-width: 1400px; /* Diperlebar sedikit untuk menampung kolom baru */
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 2px solid var(--optimus-red);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            margin: 0;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px var(--optimus-red);
+        }
+
+        .doc-info {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        /* --- TABLE DESIGN --- */
+        .cyber-frame {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--neon-blue);
+            padding: 2px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+        }
+
+        .corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon-blue);
+            z-index: 2;
+        }
+        .c-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .c-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        .c-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .c-br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem; /* Sedikit diperkecil agar muat di layar */
+        }
+
+        thead {
+            background: rgba(0, 243, 255, 0.15);
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            border-bottom: 2px solid var(--neon-blue);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #333;
+            color: #ccc;
+        }
+
+        tr:hover {
+            background: rgba(255, 0, 60, 0.1);
+        }
+        
+        tr:hover td {
+            color: #fff;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: #333;
+            color: #fff;
+            clip-path: polygon(5px 0, 100% 0, 100% 100%, 0 100%, 0 5px);
+        }
+
+        /* Styling khusus kolom Total */
+        .col-total {
+            color: #ffd700; /* Warna emas untuk kolom tambahan */
+            font-family: 'Orbitron';
+            text-align: center;
+        }
+
+        /* --- LOADER --- */
+        #loader {
+            text-align: center;
+            padding: 50px;
+            color: var(--neon-blue);
+            font-family: 'Orbitron';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* --- SEARCH --- */
+        .search-box {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+            background: transparent;
+            border: 1px solid var(--neon-blue);
+            padding: 10px;
+            color: var(--neon-blue);
+            font-family: 'Orbitron';
+            outline: none;
+        }
+        .search-box:focus {
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>NEST // ARCHIVES</h1>
+            <div style="color: #888;">LIVE DATA FEED</div>
+        </div>
+        <div class="doc-info">
+            SOURCE ID: 1DezDJsH0_oz57tkGAwREq_V6B-H4ztTV8xVrbdq_Ef4<br>
+            STATUS: <span style="color:#0f0;">ONLINE</span>
+        </div>
+    </header>
+
+    <input type="text" id="searchInput" class="search-box" placeholder="SEARCH DATABASE..." onkeyup="filterTable()">
+
+    <div class="cyber-frame">
+        <div class="corner c-tl"></div>
+        <div class="corner c-tr"></div>
+        <div class="corner c-bl"></div>
+        <div class="corner c-br"></div>
+
+        <div class="table-wrapper">
+            <div id="loader">CONNECTING TO SATELLITE...</div>
+            <table id="dataTable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Nama CS</th>
+                        <th>Tipe Kesalahan</th>
+                        <th>Keterangan</th>
+                        <th>Penalti</th>
+                        <!-- KOLOM BARU DITAMBAHKAN DI SINI -->
+                        <th>Total Kesalahan (H)</th>
+                        <th>Total Kesalahan (I)</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data akan masuk di sini -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ID Google Sheet Anda
+    const SHEET_ID = '1DezDJsH0_oz57tkGAwREq_V6B-H4ztTV8xVrbdq_Ef4';
+    const SHEET_GID = '550844886'; 
+
+    // Fungsi untuk mengambil data CSV
+    async function fetchSheetData() {
+        const loader = document.getElementById('loader');
+        const table = document.getElementById('dataTable');
+
+        try {
+            const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+            
+            const response = await fetch(csvUrl);
+            if (!response.ok) throw new Error("Gagal mengambil data");
+            
+            const csvText = await response.text();
+            const data = parseCSV(csvText);
+            
+            renderTable(data);
+            
+            loader.style.display = 'none';
+            table.style.display = 'table';
+
+        } catch (error) {
+            console.error(error);
+            loader.innerHTML = "CONNECTION ERROR: PASTIKAN SHEET TELAH DIPUBLIKASIKAN.";
+            loader.style.color = "red";
+        }
+    }
+
+    // Fungsi parsing CSV manual
+    function parseCSV(text) {
+        const rows = text.split('\n').filter(row => row.trim() !== '');
+        // Asumsi baris pertama adalah header, kita skip
+        // rows[0] = header
+        // rows[1]... = data
+        
+        const result = [];
+
+        for (let i = 1; i < rows.length; i++) {
+            // Split sederhana berdasarkan koma
+            const values = rows[i].split(','); 
+            
+            // Mapping Kolom:
+            // A=0, B=1, C=2, D=3, E=4
+            // F=5, G=6, H=7, I=8
+            
+            // Pastikan baris punya data cukup minimal (ambil sampai kolom I index 8)
+            if(values.length >= 5) {
+                result.push({
+                    date: values[0] || '',
+                    name: values[1] || '',
+                    type: values[2] || '',
+                    desc: values[3] || '',
+                    score: values[4] || '0',
+                    // --- DATA BARU DARI KOLOM H & I ---
+                    totalH: values[7] || '-', // Kolom H (Index 7)
+                    totalI: values[8] || '-'  // Kolom I (Index 8)
+                });
+            }
+        }
+        return result;
+    }
+
+    // Render ke HTML
+    let globalData = [];
+    function renderTable(data) {
+        globalData = data;
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        // Sort by Date Descending
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            
+            // Styling kondisional untuk score (Kolom E)
+            let scoreColor = 'white';
+            let score = parseInt(row.score);
+            if (score >= 50) scoreColor = 'var(--neon-red)';
+            else if (score >= 20) scoreColor = '#ffd700';
+
+            tr.innerHTML = `
+                <td>${row.date}</td>
+                <td style="font-weight:bold;">${row.name}</td>
+                <td><span class="badge">${row.type}</span></td>
+                <td>${row.desc}</td>
+                <td style="font-family:'Orbitron'; color:${scoreColor}">-${score}</td>
+                
+                <!-- TAMBAHAN KOLOM H & I -->
+                <td class="col-total">${row.totalH}</td>
+                <td class="col-total">${row.totalI}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Fitur Search
+    function filterTable() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = globalData.filter(row => {
+            return (row.name.toLowerCase().includes(query) || 
+                    row.type.toLowerCase().includes(query) ||
+                    row.desc.toLowerCase().includes(query));
+        });
+        renderTable(filtered);
+    }
+
+    // Jalankan saat load
+    window.onload = fetchSheetData;
+
+</script>
+
+</body>
+</html>
