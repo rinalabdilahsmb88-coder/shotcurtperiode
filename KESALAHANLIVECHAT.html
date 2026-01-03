@@ -385,17 +385,40 @@
             transition: all 0.3s;
         }
 
-        .date-cell {
-            font-family: 'Orbitron', sans-serif;
-            color: #aaa;
-            font-size: 0.9rem;
-            min-width: 100px;
-        }
-
         .name-cell {
             font-weight: 600;
             color: white;
             min-width: 150px;
+            text-transform: uppercase;
+        }
+
+        /* New Styles for Screenshot Button */
+        .screenshot-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 4px;
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .screenshot-link:hover {
+            background: var(--neon-blue);
+            color: black;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .no-screenshot {
+            color: #555;
+            font-style: italic;
+            font-size: 0.8rem;
         }
 
         .type-cell {
@@ -824,7 +847,6 @@
     let lastDataLength = 0;
     
     // ==================== WEBSOCKET SIMULATION ====================
-    // Karena Google Sheets tidak menyediakan WebSocket, kita simulasikan dengan polling real-time
     
     function initializeRealTimeConnection() {
         showLoading();
@@ -963,16 +985,28 @@
                 
                 if (values.length < 5) continue;
                 
+                // PEMETAAN DATA SESUAI HEADER HTML:
+                // 0: NAMA CS
+                // 1: SCREENSHOT (URL)
+                // 2: KETERANGAN (Error Type)
+                // 3: DESCRIPTION
+                // 4: PENALTY
+                // 5: H-COUNT
+                // 6: I-COUNT
+                
                 // Format data
                 const entry = {
                     id: i,
-                    timestamp: values[0] || new Date().toISOString().split('T')[0],
-                    agent: values[1] || 'UNKNOWN',
-                    errorType: values[2] || 'UNKNOWN',
-                    description: values[3] || 'No description',
-                    penalty: parseFloat(values[4]) || 0,
-                    hCount: parseInt(values[5]) || 0,
-                    iCount: parseInt(values[6]) || 0,
+                    // Kita gunakan waktu sekarang sebagai timestamp untuk sorting, 
+                    // karena CSV biasanya tidak punya timestamp spesifik per baris kecuali kolom terpisah.
+                    timestamp: new Date().toISOString(), 
+                    agent: values[0] || 'UNKNOWN',           // Kolom 1: NAMA CS
+                    screenshot: values[1] || null,          // Kolom 2: SCREENSHOT URL
+                    errorType: values[2] || 'UNKNOWN',      // Kolom 3: KETERANGAN
+                    description: values[3] || 'No description', // Kolom 4: DESCRIPTION
+                    penalty: parseFloat(values[4]) || 0,   // Kolom 5: PENALTY
+                    hCount: parseInt(values[5]) || 0,       // Kolom 6: H-COUNT
+                    iCount: parseInt(values[6]) || 0,       // Kolom 7: I-COUNT
                     severity: getSeverity(parseFloat(values[4]) || 0)
                 };
                 
@@ -1081,22 +1115,44 @@
                     break;
             }
             
-            // Format timestamp for display
-            const displayTime = formatDateTime(entry.timestamp);
-            
+            // Logic Screenshot Link
+            let screenshotHtml = '<span class="no-screenshot">NO DATA</span>';
+            if (entry.screenshot && entry.screenshot.trim() !== '') {
+                screenshotHtml = `
+                    <a href="${entry.screenshot}" target="_blank" class="screenshot-link" title="Open screenshot in new tab">
+                        📸 BUKTI
+                    </a>
+                `;
+            }
+
             row.innerHTML = `
-                <td class="date-cell" title="${entry.timestamp}">${displayTime}</td>
+                <!-- Kolom 1: NAMA CS -->
                 <td class="name-cell">
                     <span style="color: var(--neon-blue); font-weight: bold;">${entry.agent}</span>
                 </td>
+                
+                <!-- Kolom 2: SCREENSHOT (URL) -->
+                <td class="screenshot-cell">
+                    ${screenshotHtml}
+                </td>
+                
+                <!-- Kolom 3: KETERANGAN -->
                 <td class="type-cell">
                     <span class="error-badge ${badgeClass}">${entry.errorType}</span>
                 </td>
+                
+                <!-- Kolom 4: DESCRIPTION -->
                 <td class="description-cell" title="${entry.description}">${entry.description}</td>
+                
+                <!-- Kolom 5: PENALTY -->
                 <td class="penalty-cell" style="color: ${penaltyColor}">
                     ${entry.penalty > 0 ? `-${entry.penalty}` : '0'}
                 </td>
+                
+                <!-- Kolom 6: H-COUNT -->
                 <td class="total-cell">${entry.hCount}</td>
+                
+                <!-- Kolom 7: I-COUNT -->
                 <td class="total-cell">${entry.iCount}</td>
             `;
             
@@ -1216,7 +1272,7 @@
             return;
         }
         
-        const headers = ['Timestamp', 'Agent', 'Error Type', 'Description', 'Penalty', 'H-Count', 'I-Count'];
+        const headers = ['Timestamp', 'Agent', 'Screenshot', 'Error Type', 'Description', 'Penalty', 'H-Count', 'I-Count'];
         const csvRows = [];
         
         // Header
@@ -1227,6 +1283,7 @@
             const row = [
                 `"${item.timestamp}"`,
                 `"${item.agent}"`,
+                `"${item.screenshot || ''}"`,
                 `"${item.errorType}"`,
                 `"${item.description}"`,
                 item.penalty,
@@ -1398,4 +1455,3 @@
 </script>
 </body>
 </html>
-
