@@ -59,13 +59,12 @@
             line-height: 1.5;
         }
 
-        /* --- CONTROLS (SEARCH + REFRESH) --- */
-        .controls-container {
+        /* --- AREA CONTROL (SEARCH + REFRESH) --- */
+        .controls-area {
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
             align-items: center;
-            flex-wrap: wrap;
         }
 
         .search-box {
@@ -86,16 +85,14 @@
             background: transparent;
             border: 1px solid var(--optimus-red);
             color: var(--optimus-red);
-            padding: 10px 25px;
+            padding: 10px 20px;
             font-family: 'Orbitron', sans-serif;
             font-weight: bold;
-            text-transform: uppercase;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s;
+            text-transform: uppercase;
             clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .refresh-btn:hover {
@@ -190,31 +187,19 @@
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* =========================================
-           MOBILE RESPONSIVE DESIGN (CARD VIEW)
-           ========================================= */
+        /* --- MOBILE RESPONSIVE DESIGN --- */
         @media screen and (max-width: 768px) {
-            /* Adjust Header */
             h1 { font-size: 1.5rem; }
             .doc-info { font-size: 0.6rem; }
             
-            /* Adjust Controls */
-            .controls-container { flex-direction: column; width: 100%; }
+            /* Stack controls on mobile */
+            .controls-area { flex-direction: column; width: 100%; }
             .search-box { max-width: 100%; width: 100%; }
-            .refresh-btn { width: 100%; justify-content: center; }
+            .refresh-btn { width: 100%; text-align: center; }
 
-            /* Table Transformation to Cards */
-            table, thead, tbody, th, td, tr {
-                display: block;
-            }
-
-            /* Hide Table Header */
-            thead tr {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { position: absolute; top: -9999px; left: -9999px; }
+            
             tr {
                 background: rgba(15, 23, 42, 0.9);
                 border: 1px solid var(--optimus-red);
@@ -235,30 +220,21 @@
                 align-items: center;
                 min-height: 30px;
             }
+            td:last-child { border-bottom: none; }
 
-            td:last-child {
-                border-bottom: none;
-            }
-
-            /* Create Labels using pseudo-elements */
             td::before {
                 position: absolute;
-                top: 0;
-                left: 0;
+                top: 0; left: 0;
                 width: 35%;
                 white-space: nowrap;
-                padding-top: 0; 
                 font-weight: bold;
                 color: var(--optimus-red);
                 font-family: 'Orbitron';
                 font-size: 0.7rem;
                 text-transform: uppercase;
-                display: flex;
-                align-items: center;
-                height: 100%;
+                display: flex; align-items: center; height: 100%;
             }
 
-            /* Mapping Labels */
             td:nth-of-type(1)::before { content: "TANGGAL"; }
             td:nth-of-type(2)::before { content: "NAMA CS"; color: var(--neon-blue); font-size: 0.8rem; }
             td:nth-of-type(3)::before { content: "TIPE"; }
@@ -288,14 +264,10 @@
         </div>
     </header>
 
-    <!-- SEARCH & REFRESH AREA -->
-    <div class="controls-container">
+    <!-- AREA CONTROLS: SEARCH & REFRESH -->
+    <div class="controls-area">
         <input type="text" id="searchInput" class="search-box" placeholder="SEARCH DATABASE..." onkeyup="filterTable()">
-        
-        <!-- TOMBOL REFRESH BARU -->
-        <button class="refresh-btn" onclick="refreshData()">
-            <span>↻</span> SYNC DATA
-        </button>
+        <button class="refresh-btn" onclick="refreshData()">⟳ REFRESH DATA</button>
     </div>
 
     <div class="cyber-frame">
@@ -358,48 +330,34 @@
         }
     }
 
-    // --- FUNGSI REFRESH BARU ---
+    // --- FUNGSI REFRESH BARU (TANPA MENGUBAH FUNGSI LAMA) ---
     function refreshData() {
         const loader = document.getElementById('loader');
         const table = document.getElementById('dataTable');
-        const searchInput = document.getElementById('searchInput');
 
-        // 1. Tampilkan loader dan sembunyikan tabel
+        // 1. Tampilkan indikator loading
         loader.style.display = 'block';
-        loader.style.color = 'var(--optimus-red)';
         loader.innerHTML = "SYNCING WITH NEST DATABASE...";
+        loader.style.color = "var(--neon-red)"; // Ubah warna jadi merah saat refresh
         table.style.display = 'none';
 
-        // 2. Simpan kata kunci pencarian saat ini agar tidak hilang setelah refresh
-        const currentSearch = searchInput.value;
-
-        // 3. Panggil fungsi fetch ulang
+        // 2. Panggil fetch data ulang
         fetchSheetData().then(() => {
-            // Setelah selesai fetch, kembalikan teks search
-            searchInput.value = currentSearch;
-            // Jalankan filter agar sesuai dengan kata kunci yang tersimpan
-            filterTable();
+            // 3. Setelah data selesai diambil, kembalikan warna loader dan re-apply filter pencarian
+            loader.style.color = "var(--neon-blue)";
+            filterTable(); 
         });
     }
 
-    // Fungsi parsing CSV manual
+    // Fungsi parsing CSV manual (TIDAK DIUBAH)
     function parseCSV(text) {
         const rows = text.split('\n').filter(row => row.trim() !== '');
-        // Asumsi baris pertama adalah header, kita skip
-        // rows[0] = header
-        // rows[1]... = data
         
         const result = [];
 
         for (let i = 1; i < rows.length; i++) {
-            // Split sederhana berdasarkan koma
             const values = rows[i].split(','); 
             
-            // Mapping Kolom:
-            // A=0, B=1, C=2, D=3, E=4
-            // F=5, G=6, H=7, I=8
-            
-            // Pastikan baris punya data cukup minimal (ambil sampai kolom I index 8)
             if(values.length >= 5) {
                 result.push({
                     date: values[0] || '',
@@ -407,29 +365,26 @@
                     type: values[2] || '',
                     desc: values[3] || '',
                     score: values[4] || '0',
-                    // --- DATA BARU DARI KOLOM H & I ---
-                    totalH: values[7] || '-', // Kolom H (Index 7)
-                    totalI: values[8] || '-'  // Kolom I (Index 8)
+                    totalH: values[7] || '-',
+                    totalI: values[8] || '-'
                 });
             }
         }
         return result;
     }
 
-    // Render ke HTML
+    // Render ke HTML (TIDAK DIUBAH)
     let globalData = [];
     function renderTable(data) {
         globalData = data;
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
 
-        // Sort by Date Descending
         data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         data.forEach(row => {
             const tr = document.createElement('tr');
             
-            // Styling kondisional untuk score (Kolom E)
             let scoreColor = 'white';
             let score = parseInt(row.score);
             if (score >= 50) scoreColor = 'var(--neon-red)';
@@ -442,7 +397,6 @@
                 <td>${row.desc}</td>
                 <td style="font-family:'Orbitron'; color:${scoreColor}">-${score}</td>
                 
-                <!-- TAMBAHAN KOLOM H & I -->
                 <td class="col-total">${row.totalH}</td>
                 <td class="col-total">${row.totalI}</td>
             `;
@@ -450,7 +404,7 @@
         });
     }
 
-    // Fitur Search
+    // Fitur Search (TIDAK DIUBAH)
     function filterTable() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         const filtered = globalData.filter(row => {
