@@ -13,6 +13,7 @@
             --optimus-red: #b71234;
             --dark-bg: #050505;
             --panel-bg: #0a0a0a;
+            --glass-bg: rgba(15, 23, 42, 0.95);
         }
 
         body {
@@ -20,11 +21,12 @@
             color: #fff;
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 15px; /* Sedikit lebih longgar untuk mobile */
             background-image: 
                 linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
+            min-height: 100vh;
         }
 
         .container {
@@ -34,65 +36,73 @@
 
         header {
             border-bottom: 2px solid var(--optimus-red);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
             display: flex;
+            flex-wrap: wrap; /* Agar responsif di layar sangat kecil */
             justify-content: space-between;
             align-items: flex-end;
+            gap: 10px;
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
             color: #fff;
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 1.8rem; /* Ukuran font disesuaikan agar pas */
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             text-shadow: 0 0 10px var(--optimus-red);
+            line-height: 1.2;
         }
 
         .doc-info {
             font-family: 'Orbitron', sans-serif;
             color: var(--neon-blue);
-            font-size: 0.8rem;
+            font-size: 0.65rem;
             text-align: right;
-            line-height: 1.5;
+            line-height: 1.4;
+            opacity: 0.8;
         }
 
         /* --- AREA CONTROL (SEARCH + REFRESH) --- */
         .controls-area {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 20px;
             align-items: center;
         }
 
         .search-box {
             flex-grow: 1;
-            max-width: 300px;
             background: transparent;
             border: 1px solid var(--neon-blue);
-            padding: 10px;
+            padding: 12px;
             color: var(--neon-blue);
-            font-family: 'Orbitron';
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
             outline: none;
+            border-radius: 4px;
         }
         .search-box:focus {
             box-shadow: 0 0 10px var(--neon-blue);
+            background: rgba(0, 243, 255, 0.05);
         }
 
         .refresh-btn {
             background: transparent;
             border: 1px solid var(--optimus-red);
             color: var(--optimus-red);
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-family: 'Orbitron', sans-serif;
             font-weight: bold;
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
-            clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+            white-space: nowrap;
+            /* Bentuk tombol sedikit dibulatkan di mobile agar nyaman ditekan */
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
         }
 
         .refresh-btn:hover {
@@ -101,7 +111,7 @@
             box-shadow: 0 0 15px var(--optimus-red);
         }
 
-        /* --- TABLE DESIGN --- */
+        /* --- TABLE DESIGN (DESKTOP DEFAULT) --- */
         .cyber-frame {
             background: rgba(10, 10, 10, 0.9);
             border: 1px solid var(--neon-blue);
@@ -151,30 +161,32 @@
             padding: 10px 12px;
             border-bottom: 1px solid #333;
             color: #ccc;
+            vertical-align: middle;
         }
 
         tr:hover {
             background: rgba(255, 0, 60, 0.1);
         }
-        
         tr:hover td {
             color: #fff;
         }
 
         .badge {
-            padding: 4px 10px;
-            font-size: 0.75rem;
+            padding: 4px 8px;
+            font-size: 0.7rem;
             font-weight: bold;
             text-transform: uppercase;
             background: #333;
             color: #fff;
-            clip-path: polygon(5px 0, 100% 0, 100% 100%, 0 100%, 0 5px);
+            border-radius: 2px;
+            display: inline-block;
         }
 
         .col-total {
             color: #ffd700;
             font-family: 'Orbitron';
             text-align: center;
+            font-size: 1.1rem;
         }
 
         #loader {
@@ -183,71 +195,172 @@
             color: var(--neon-blue);
             font-family: 'Orbitron';
             animation: blink 1s infinite;
+            font-size: 1.2rem;
         }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* --- MOBILE RESPONSIVE DESIGN --- */
+        /* --- MOBILE OPTIMIZATION (RESPONSIVE DESIGN) --- */
         @media screen and (max-width: 768px) {
-            h1 { font-size: 1.5rem; }
-            .doc-info { font-size: 0.6rem; }
             
-            /* Stack controls on mobile */
+            /* 1. Header Adjustments */
+            h1 { font-size: 1.4rem; letter-spacing: 1px; }
+            .doc-info { font-size: 0.6rem; max-width: 100px; } /* Kecilkan info di mobile */
+            
+            /* 2. Controls Stack */
             .controls-area { flex-direction: column; width: 100%; }
-            .search-box { max-width: 100%; width: 100%; }
-            .refresh-btn { width: 100%; text-align: center; }
+            .search-box { width: 100%; box-sizing: border-box; }
+            .refresh-btn { width: 100%; text-align: center; justify-content: center; }
 
+            /* 3. Transform Table to Cards */
             table, thead, tbody, th, td, tr { display: block; }
+            
+            /* Hide the original headers */
             thead tr { position: absolute; top: -9999px; left: -9999px; }
             
-            tr {
-                background: rgba(15, 23, 42, 0.9);
+            tr { 
+                display: block; /* Setiap baris menjadi kartu */
+                background: var(--glass-bg); /* Background gelap transparan */
                 border: 1px solid var(--optimus-red);
                 margin-bottom: 20px;
-                padding: 10px;
-                border-radius: 4px;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                padding: 0; /* Padding dihandle oleh td */
+                border-radius: 6px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Efek garis merah di kiri kartu (aksesoris UI) */
+            tr::before {
+                content: '';
+                position: absolute;
+                left: 0; top: 0; bottom: 0;
+                width: 4px;
+                background: var(--optimus-red);
             }
 
             td {
+                /* Reset default td styles */
                 border: none;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding: 12px 15px 12px 40px; /* Kiri kosong untuk Label */
                 position: relative;
-                padding-left: 40%;
-                text-align: right;
                 display: flex;
-                justify-content: space-between;
-                align-items: center;
-                min-height: 30px;
+                flex-direction: column; /* Label di atas, nilai di bawah */
+                justify-content: flex-start;
+                align-items: flex-start;
+                text-align: left;
+                width: 100%;
+                box-sizing: border-box;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                min-height: auto;
             }
+
             td:last-child { border-bottom: none; }
 
+            /* --- LABEL GENERATION (CSS Magic) --- */
+            /* Membuat label palsu untuk setiap kolom */
             td::before {
                 position: absolute;
-                top: 0; left: 0;
-                width: 35%;
+                left: 12px; /* Posisi label di kiri */
+                top: 50%;
+                transform: translateY(-50%);
                 white-space: nowrap;
                 font-weight: bold;
-                color: var(--optimus-red);
-                font-family: 'Orbitron';
-                font-size: 0.7rem;
+                color: var(--neon-blue);
+                font-family: 'Orbitron', sans-serif;
+                font-size: 0.65rem;
                 text-transform: uppercase;
-                display: flex; align-items: center; height: 100%;
+                width: 25%;
+                text-align: left;
             }
 
-            td:nth-of-type(1)::before { content: "TANGGAL"; }
-            td:nth-of-type(2)::before { content: "NAMA CS"; color: var(--neon-blue); font-size: 0.8rem; }
+            /* Mengisi konten label berdasarkan urutan kolom */
+            td:nth-of-type(1)::before { content: "TANGGAL"; color: #888; }
+            td:nth-of-type(2)::before { content: "NAMA CS"; color: var(--neon-red); font-size: 0.75rem; font-weight: 900; }
             td:nth-of-type(3)::before { content: "TIPE"; }
             td:nth-of-type(4)::before { content: "KET"; }
             td:nth-of-type(5)::before { content: "PENALTI"; }
             td:nth-of-type(6)::before { content: "TOT H"; }
             td:nth-of-type(7)::before { content: "TOT I"; }
             
-            td:nth-of-type(1), td:nth-of-type(2) { font-size: 1rem; color: #fff; font-weight: bold; }
-            td:nth-of-type(3) { justify-content: flex-end; }
-            td:nth-of-type(3) .badge { font-size: 0.7rem; }
+            /* --- STYLING ISI DATA --- */
+            
+            /* Kolom 1: Tanggal */
+            td:nth-of-type(1) { font-family: 'Orbitron'; font-size: 0.9rem; color: #aaa; padding-left: 80px; }
+
+            /* Kolom 2: Nama CS (Highlight Penting) */
+            td:nth-of-type(2) { 
+                background: rgba(255, 0, 60, 0.05); 
+                font-size: 1.1rem; 
+                color: #fff; 
+                font-weight: bold; 
+                padding-left: 80px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            /* Kolom 3: Tipe (Badge) */
+            td:nth-of-type(3) { display: block; text-align: right; padding: 10px 15px; }
+            td:nth-of-type(3) .badge { 
+                background: var(--neon-blue); 
+                color: #000; 
+                font-size: 0.8rem;
+                box-shadow: 0 0 5px var(--neon-blue);
+            }
+
+            /* Kolom 4: Keterangan */
+            td:nth-of-type(4) { 
+                font-style: italic; 
+                color: #ddd; 
+                font-size: 0.9rem; 
+                line-height: 1.4;
+                padding-left: 15px; /* Label KET disembunyikan visualnya, tapi dibaca screenreader */
+            }
+            td:nth-of-type(4)::before { display: none; } /* Sembunyikan label KET agar rapi */
+
+            /* Kolom 5: Penalti */
+            td:nth-of-type(5) { font-family: 'Orbitron'; font-weight: bold; text-align: right; padding-right: 20px; }
+            
+            /* Kolom 6 & 7: Total Stats (Grouped Footer Style) */
+            td:nth-of-type(6), td:nth-of-type(7) {
+                background: rgba(0,0,0,0.3);
+                display: inline-flex;
+                width: 50%;
+                box-sizing: border-box;
+                justify-content: center;
+                border-bottom: none;
+                border-right: 1px solid rgba(255,255,255,0.1);
+            }
+            td:nth-of-type(7) { border-right: none; }
+            
+            td:nth-of-type(6)::before, td:nth-of-type(7)::before {
+                position: static; 
+                display: block;
+                transform: none;
+                margin-bottom: 5px;
+                width: 100%;
+                text-align: center;
+                font-size: 0.6rem;
+                opacity: 0.7;
+            }
+
+            td:nth-of-type(6) .col-total, td:nth-of-type(7) .col-total {
+                font-size: 1.2rem;
+                text-shadow: 0 0 5px currentColor;
+            }
+
+            /* Fix agar penalti tidak ada labelnya karena sudah ada warna */
+            td:nth-of-type(5)::before { content: "-"; opacity: 0.5; }
         }
 
+        /* --- EXTRA SMALL SCREENS (< 360px) --- */
+        @media screen and (max-width: 360px) {
+            h1 { font-size: 1.2rem; }
+            .controls-area { gap: 5px; }
+            td:nth-of-type(2) { font-size: 1rem; }
+            .badge { font-size: 0.6rem; }
+        }
     </style>
 </head>
 <body>
@@ -256,17 +369,17 @@
     <header>
         <div>
             <h1>NEST // ARCHIVES</h1>
-            <div style="color: #888;">LIVE DATA FEED</div>
+            <div style="color: #888; font-size: 0.8rem; letter-spacing: 1px;">LIVE DATA FEED</div>
         </div>
         <div class="doc-info">
-            SOURCE ID: 1DezDJsH0_oz57tkGAwREq_V6B-H4ztTV8xVrbdq_Ef4<br>
+            SOURCE ID: 1DezDJsH0...<br>
             STATUS: <span style="color:#0f0;">ONLINE</span>
         </div>
     </header>
 
     <!-- AREA CONTROLS: SEARCH & REFRESH -->
     <div class="controls-area">
-        <input type="text" id="searchInput" class="search-box" placeholder="SEARCH DATABASE..." onkeyup="filterTable()">
+        <input type="text" id="searchInput" class="search-box" placeholder="CARI NAMA / KESALAHAN..." onkeyup="filterTable()">
         <button class="refresh-btn" onclick="refreshData()">⟳ REFRESH DATA</button>
     </div>
 
@@ -286,13 +399,12 @@
                         <th>Tipe Kesalahan</th>
                         <th>Keterangan</th>
                         <th>Penalti</th>
-                        <!-- KOLOM BARU DITAMBAHKAN DI SINI -->
                         <th>Total Kesalahan (H)</th>
                         <th>Total Kesalahan (I)</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Data akan masuk di sini -->
+                    <!-- Data akan masuk di sini via JS -->
                 </tbody>
             </table>
         </div>
@@ -300,11 +412,11 @@
 </div>
 
 <script>
-    // ID Google Sheet Anda
+    // ID Google Sheet Anda (SAMA PERSIS DENGAN ASLI)
     const SHEET_ID = '1DezDJsH0_oz57tkGAwREq_V6B-H4ztTV8xVrbdq_Ef4';
     const SHEET_GID = '550844886'; 
 
-    // Fungsi untuk mengambil data CSV
+    // Fungsi untuk mengambil data CSV (TIDAK DIUBAH)
     async function fetchSheetData() {
         const loader = document.getElementById('loader');
         const table = document.getElementById('dataTable');
@@ -330,7 +442,7 @@
         }
     }
 
-    // --- FUNGSI REFRESH BARU (TANPA MENGUBAH FUNGSI LAMA) ---
+    // --- FUNGSI REFRESH (TIDAK DIUBAH) ---
     function refreshData() {
         const loader = document.getElementById('loader');
         const table = document.getElementById('dataTable');
@@ -396,7 +508,6 @@
                 <td><span class="badge">${row.type}</span></td>
                 <td>${row.desc}</td>
                 <td style="font-family:'Orbitron'; color:${scoreColor}">-${score}</td>
-                
                 <td class="col-total">${row.totalH}</td>
                 <td class="col-total">${row.totalI}</td>
             `;
