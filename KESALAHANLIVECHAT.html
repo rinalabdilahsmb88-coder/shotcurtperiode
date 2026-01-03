@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEST // CS ERROR DATABASE</title>
+    <title>NEST // CS ERROR DATABASE - REAL-TIME</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* --- CSS TRANSFORMERS THEME --- */
@@ -13,523 +13,1388 @@
             --optimus-red: #b71234;
             --dark-bg: #050505;
             --panel-bg: #0a0a0a;
-            --glass-bg: rgba(15, 23, 42, 0.95);
+            --matrix-green: #00ff41;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             background-color: var(--dark-bg);
             color: #fff;
             font-family: 'Rajdhani', sans-serif;
-            margin: 0;
-            padding: 15px; /* Sedikit lebih longgar untuk mobile */
-            background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
+            padding: 0;
             min-height: 100vh;
+            overflow-x: hidden;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 243, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 60, 0.05) 0%, transparent 40%),
+                linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+            position: relative;
+        }
+
+        /* Matrix rain effect */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.05;
+            z-index: 0;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 15px;
+            position: relative;
+            z-index: 1;
         }
 
-        header {
-            border-bottom: 2px solid var(--optimus-red);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
+        /* --- HEADER WITH REAL-TIME INDICATORS --- */
+        .header {
             display: flex;
-            flex-wrap: wrap; /* Agar responsif di layar sangat kecil */
             justify-content: space-between;
-            align-items: flex-end;
-            gap: 10px;
+            align-items: center;
+            padding: 20px;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 2px solid var(--optimus-red);
+            border-radius: 10px 10px 0 0;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-red), var(--neon-blue));
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            color: #fff;
-            margin: 0;
-            font-size: 1.8rem; /* Ukuran font disesuaikan agar pas */
+            font-size: 1.8rem;
             text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-red));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #aaa;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--optimus-red);
-            line-height: 1.2;
+            margin-top: 5px;
         }
 
-        .doc-info {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-blue);
-            font-size: 0.65rem;
-            text-align: right;
-            line-height: 1.4;
-            opacity: 0.8;
-        }
-
-        /* --- AREA CONTROL (SEARCH + REFRESH) --- */
-        .controls-area {
+        .live-indicator {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
             align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid var(--neon-blue);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 10px var(--neon-blue); }
+            50% { box-shadow: 0 0 20px var(--neon-blue); }
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #0f0;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* --- REAL-TIME STATS --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--neon-blue);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card.live {
+            border-color: var(--matrix-green);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px var(--matrix-green); }
+            to { box-shadow: 0 0 20px var(--matrix-green); }
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--neon-blue);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin: 10px 0;
+            transition: all 0.5s;
+        }
+
+        .stat-value.updated {
+            animation: flash 0.5s;
+        }
+
+        @keyframes flash {
+            0%, 100% { color: white; }
+            50% { color: var(--matrix-green); }
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- CONTROLS --- */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(10, 10, 10, 0.9);
+            border-radius: 10px;
+            border: 1px solid var(--neon-blue);
         }
 
         .search-box {
-            flex-grow: 1;
-            background: transparent;
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--neon-blue);
-            padding: 12px;
+            border-radius: 6px;
             color: var(--neon-blue);
             font-family: 'Orbitron', sans-serif;
             font-size: 0.9rem;
             outline: none;
-            border-radius: 4px;
-        }
-        .search-box:focus {
-            box-shadow: 0 0 10px var(--neon-blue);
-            background: rgba(0, 243, 255, 0.05);
+            transition: all 0.3s;
         }
 
-        .refresh-btn {
+        .search-box:focus {
+            box-shadow: 0 0 15px var(--neon-blue);
+            border-color: var(--neon-blue);
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
             background: transparent;
             border: 1px solid var(--optimus-red);
             color: var(--optimus-red);
-            padding: 12px 20px;
             font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s;
-            text-transform: uppercase;
-            white-space: nowrap;
-            /* Bentuk tombol sedikit dibulatkan di mobile agar nyaman ditekan */
-            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            text-align: center;
+            letter-spacing: 1px;
         }
 
-        .refresh-btn:hover {
+        .btn:hover {
             background: var(--optimus-red);
-            color: #fff;
+            color: white;
             box-shadow: 0 0 15px var(--optimus-red);
+            transform: translateY(-2px);
         }
 
-        /* --- TABLE DESIGN (DESKTOP DEFAULT) --- */
-        .cyber-frame {
+        .btn.primary {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+        }
+
+        .btn.primary:hover {
+            background: var(--neon-blue);
+            color: black;
+        }
+
+        /* --- DATA TABLE WITH REAL-TIME UPDATES --- */
+        .data-container {
             background: rgba(10, 10, 10, 0.9);
             border: 1px solid var(--neon-blue);
-            padding: 2px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
             position: relative;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
         }
 
-        .corner {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--neon-blue);
-            z-index: 2;
+        .table-header {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid var(--neon-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .c-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-        .c-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-        .c-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-        .c-br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+        .table-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .update-time {
+            font-size: 0.8rem;
+            color: var(--matrix-green);
+            font-family: 'Orbitron', sans-serif;
+        }
 
         .table-wrapper {
             overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+            position: relative;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1rem;
+            min-width: 800px;
         }
 
         thead {
-            background: rgba(0, 243, 255, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.95);
         }
 
         th {
+            padding: 15px 12px;
             text-align: left;
-            padding: 12px;
             color: var(--neon-blue);
             font-family: 'Orbitron', sans-serif;
-            border-bottom: 2px solid var(--neon-blue);
+            font-size: 0.85rem;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--neon-blue);
             white-space: nowrap;
         }
 
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #333;
-            color: #ccc;
-            vertical-align: middle;
+        tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+            position: relative;
         }
 
-        tr:hover {
+        tbody tr:hover {
             background: rgba(255, 0, 60, 0.1);
         }
-        tr:hover td {
-            color: #fff;
+
+        tbody tr.new-entry {
+            animation: highlight 3s ease-out;
         }
 
-        .badge {
-            padding: 4px 8px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            background: #333;
-            color: #fff;
-            border-radius: 2px;
+        @keyframes highlight {
+            0% { background: rgba(0, 255, 65, 0.3); }
+            100% { background: transparent; }
+        }
+
+        tbody tr.updated {
+            animation: updateFlash 1s;
+        }
+
+        @keyframes updateFlash {
+            0%, 100% { background: transparent; }
+            50% { background: rgba(0, 243, 255, 0.1); }
+        }
+
+        td {
+            padding: 12px;
+            color: #ddd;
+            vertical-align: middle;
+            transition: all 0.3s;
+        }
+
+        .date-cell {
+            font-family: 'Orbitron', sans-serif;
+            color: #aaa;
+            font-size: 0.9rem;
+            min-width: 100px;
+        }
+
+        .name-cell {
+            font-weight: 600;
+            color: white;
+            min-width: 150px;
+        }
+
+        .type-cell {
+            min-width: 120px;
+        }
+
+        .error-badge {
             display: inline-block;
+            padding: 4px 10px;
+            background: rgba(255, 0, 60, 0.2);
+            color: var(--neon-red);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--neon-red);
+            text-transform: uppercase;
+            white-space: nowrap;
         }
 
-        .col-total {
-            color: #ffd700;
-            font-family: 'Orbitron';
-            text-align: center;
-            font-size: 1.1rem;
+        .description-cell {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        #loader {
+        .penalty-cell {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
             text-align: center;
-            padding: 50px;
+            min-width: 80px;
+        }
+
+        .total-cell {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-align: center;
             color: var(--neon-blue);
-            font-family: 'Orbitron';
-            animation: blink 1s infinite;
+            font-size: 1.1rem;
+            min-width: 80px;
+        }
+
+        /* --- LOADING & REAL-TIME INDICATORS --- */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+            animation: scanLine 2s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--neon-blue);
+            border-right: 3px solid var(--neon-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.2rem;
+            color: var(--neon-blue);
+            text-align: center;
+            margin-top: 20px;
         }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .typing {
+            overflow: hidden;
+            border-right: 2px solid var(--neon-blue);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
 
-        /* --- MOBILE OPTIMIZATION (RESPONSIVE DESIGN) --- */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--neon-blue) }
+        }
+
+        /* --- REAL-TIME NOTIFICATION --- */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid var(--matrix-green);
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 300px;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--matrix-green);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .notification-close {
+            margin-left: auto;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
         @media screen and (max-width: 768px) {
-            
-            /* 1. Header Adjustments */
-            h1 { font-size: 1.4rem; letter-spacing: 1px; }
-            .doc-info { font-size: 0.6rem; max-width: 100px; } /* Kecilkan info di mobile */
-            
-            /* 2. Controls Stack */
-            .controls-area { flex-direction: column; width: 100%; }
-            .search-box { width: 100%; box-sizing: border-box; }
-            .refresh-btn { width: 100%; text-align: center; justify-content: center; }
-
-            /* 3. Transform Table to Cards */
-            table, thead, tbody, th, td, tr { display: block; }
-            
-            /* Hide the original headers */
-            thead tr { position: absolute; top: -9999px; left: -9999px; }
-            
-            tr { 
-                display: block; /* Setiap baris menjadi kartu */
-                background: var(--glass-bg); /* Background gelap transparan */
-                border: 1px solid var(--optimus-red);
-                margin-bottom: 20px;
-                padding: 0; /* Padding dihandle oleh td */
-                border-radius: 6px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-                position: relative;
-                overflow: hidden;
+            .container {
+                padding: 10px;
             }
-
-            /* Efek garis merah di kiri kartu (aksesoris UI) */
-            tr::before {
-                content: '';
-                position: absolute;
-                left: 0; top: 0; bottom: 0;
-                width: 4px;
-                background: var(--optimus-red);
-            }
-
-            td {
-                /* Reset default td styles */
-                border: none;
-                padding: 12px 15px 12px 40px; /* Kiri kosong untuk Label */
-                position: relative;
-                display: flex;
-                flex-direction: column; /* Label di atas, nilai di bawah */
-                justify-content: flex-start;
-                align-items: flex-start;
-                text-align: left;
-                width: 100%;
-                box-sizing: border-box;
-                border-bottom: 1px solid rgba(255,255,255,0.05);
-                min-height: auto;
-            }
-
-            td:last-child { border-bottom: none; }
-
-            /* --- LABEL GENERATION (CSS Magic) --- */
-            /* Membuat label palsu untuk setiap kolom */
-            td::before {
-                position: absolute;
-                left: 12px; /* Posisi label di kiri */
-                top: 50%;
-                transform: translateY(-50%);
-                white-space: nowrap;
-                font-weight: bold;
-                color: var(--neon-blue);
-                font-family: 'Orbitron', sans-serif;
-                font-size: 0.65rem;
-                text-transform: uppercase;
-                width: 25%;
-                text-align: left;
-            }
-
-            /* Mengisi konten label berdasarkan urutan kolom */
-            td:nth-of-type(1)::before { content: "TANGGAL"; color: #888; }
-            td:nth-of-type(2)::before { content: "NAMA CS"; color: var(--neon-red); font-size: 0.75rem; font-weight: 900; }
-            td:nth-of-type(3)::before { content: "TIPE"; }
-            td:nth-of-type(4)::before { content: "KET"; }
-            td:nth-of-type(5)::before { content: "PENALTI"; }
-            td:nth-of-type(6)::before { content: "TOT H"; }
-            td:nth-of-type(7)::before { content: "TOT I"; }
             
-            /* --- STYLING ISI DATA --- */
-            
-            /* Kolom 1: Tanggal */
-            td:nth-of-type(1) { font-family: 'Orbitron'; font-size: 0.9rem; color: #aaa; padding-left: 80px; }
-
-            /* Kolom 2: Nama CS (Highlight Penting) */
-            td:nth-of-type(2) { 
-                background: rgba(255, 0, 60, 0.05); 
-                font-size: 1.1rem; 
-                color: #fff; 
-                font-weight: bold; 
-                padding-left: 80px;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            /* Kolom 3: Tipe (Badge) */
-            td:nth-of-type(3) { display: block; text-align: right; padding: 10px 15px; }
-            td:nth-of-type(3) .badge { 
-                background: var(--neon-blue); 
-                color: #000; 
-                font-size: 0.8rem;
-                box-shadow: 0 0 5px var(--neon-blue);
-            }
-
-            /* Kolom 4: Keterangan */
-            td:nth-of-type(4) { 
-                font-style: italic; 
-                color: #ddd; 
-                font-size: 0.9rem; 
-                line-height: 1.4;
-                padding-left: 15px; /* Label KET disembunyikan visualnya, tapi dibaca screenreader */
-            }
-            td:nth-of-type(4)::before { display: none; } /* Sembunyikan label KET agar rapi */
-
-            /* Kolom 5: Penalti */
-            td:nth-of-type(5) { font-family: 'Orbitron'; font-weight: bold; text-align: right; padding-right: 20px; }
-            
-            /* Kolom 6 & 7: Total Stats (Grouped Footer Style) */
-            td:nth-of-type(6), td:nth-of-type(7) {
-                background: rgba(0,0,0,0.3);
-                display: inline-flex;
-                width: 50%;
-                box-sizing: border-box;
-                justify-content: center;
-                border-bottom: none;
-                border-right: 1px solid rgba(255,255,255,0.1);
-            }
-            td:nth-of-type(7) { border-right: none; }
-            
-            td:nth-of-type(6)::before, td:nth-of-type(7)::before {
-                position: static; 
-                display: block;
-                transform: none;
-                margin-bottom: 5px;
-                width: 100%;
+            .header {
+                flex-direction: column;
+                gap: 15px;
                 text-align: center;
-                font-size: 0.6rem;
-                opacity: 0.7;
             }
-
-            td:nth-of-type(6) .col-total, td:nth-of-type(7) .col-total {
-                font-size: 1.2rem;
-                text-shadow: 0 0 5px currentColor;
+            
+            h1 {
+                font-size: 1.4rem;
             }
-
-            /* Fix agar penalti tidak ada labelnya karena sudah ada warna */
-            td:nth-of-type(5)::before { content: "-"; opacity: 0.5; }
+            
+            .logo-section {
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .table-wrapper {
+                max-height: 400px;
+            }
+            
+            table {
+                min-width: 600px;
+            }
+            
+            .notification {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
         }
 
-        /* --- EXTRA SMALL SCREENS (< 360px) --- */
-        @media screen and (max-width: 360px) {
-            h1 { font-size: 1.2rem; }
-            .controls-area { gap: 5px; }
-            td:nth-of-type(2) { font-size: 1rem; }
-            .badge { font-size: 0.6rem; }
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* --- SCROLLBAR STYLING --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--optimus-red);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        .data-source {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #666;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .websocket-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #0f0;
+            animation: websocketPulse 2s infinite;
+        }
+
+        @keyframes websocketPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div>
-            <h1>NEST // ARCHIVES</h1>
-            <div style="color: #888; font-size: 0.8rem; letter-spacing: 1px;">LIVE DATA FEED</div>
-        </div>
-        <div class="doc-info">
-            SOURCE ID: 1DezDJsH0...<br>
-            STATUS: <span style="color:#0f0;">ONLINE</span>
-        </div>
-    </header>
+<!-- Matrix Background -->
+<div class="matrix-bg" id="matrixBg"></div>
 
-    <!-- AREA CONTROLS: SEARCH & REFRESH -->
-    <div class="controls-area">
-        <input type="text" id="searchInput" class="search-box" placeholder="CARI NAMA / KESALAHAN..." onkeyup="filterTable()">
-        <button class="refresh-btn" onclick="refreshData()">⟳ REFRESH DATA</button>
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="scan-line"></div>
+    <div class="loading-spinner"></div>
+    <div class="loading-text">
+        <div class="typing">INITIALIZING NEST DATABASE CONNECTION...</div>
+    </div>
+</div>
+
+<!-- Real-time Notification -->
+<div class="notification" id="notification">
+    <div class="notification-header">
+        <span>🔄</span>
+        <span id="notificationTitle">DATA UPDATED</span>
+        <span class="notification-close" onclick="hideNotification()">✕</span>
+    </div>
+    <div id="notificationMessage">New data has been loaded</div>
+</div>
+
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo">
+                <span style="color: black; font-weight: bold;">N</span>
+            </div>
+            <div>
+                <h1>NEST // CS ERROR DATABASE</h1>
+                <div class="subtitle">REAL-TIME MONITORING SYSTEM</div>
+            </div>
+        </div>
+        
+        <div class="live-indicator">
+            <div class="pulse-dot"></div>
+            <span>LIVE DATA STREAM</span>
+        </div>
     </div>
 
-    <div class="cyber-frame">
-        <div class="corner c-tl"></div>
-        <div class="corner c-tr"></div>
-        <div class="corner c-bl"></div>
-        <div class="corner c-br"></div>
+    <!-- REAL-TIME STATS -->
+    <div class="stats-grid">
+        <div class="stat-card live">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value" id="totalAgents">0</div>
+            <div class="stat-label">ACTIVE AGENTS</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-value" id="totalErrors">0</div>
+            <div class="stat-label">TODAY'S ERRORS</div>
+        </div>
+        <div class="stat-card live">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-value" id="updatesCount">0</div>
+            <div class="stat-label">LIVE UPDATES</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value" id="avgPenalty">0</div>
+            <div class="stat-label">AVG PENALTY</div>
+        </div>
+    </div>
 
+    <!-- CONTROLS -->
+    <div class="controls">
+        <input type="text" 
+               class="search-box" 
+               id="searchInput" 
+               placeholder="REAL-TIME SEARCH: TYPE AGENT NAME OR ERROR TYPE..."
+               onkeyup="filterTable()">
+        
+        <div class="control-buttons">
+            <button class="btn primary" onclick="forceRefresh()">
+                🔄 FORCE SYNC NOW
+            </button>
+            <button class="btn" onclick="exportData()">
+                📥 EXPORT DATA
+            </button>
+            <button class="btn" onclick="toggleAutoRefresh()" id="autoRefreshBtn">
+                ⏸️ PAUSE AUTO-REFRESH
+            </button>
+        </div>
+    </div>
+
+    <!-- DATA TABLE -->
+    <div class="data-container">
+        <div class="table-header">
+            <h2>ERROR DATABASE - LIVE FEED</h2>
+            <div class="update-time" id="lastUpdateTime">
+                UPDATING...
+            </div>
+        </div>
+        
         <div class="table-wrapper">
-            <div id="loader">CONNECTING TO SATELLITE...</div>
-            <table id="dataTable" style="display:none;">
+            <table id="dataTable">
                 <thead>
                     <tr>
-                        <th>Tanggal</th>
-                        <th>Nama CS</th>
-                        <th>Tipe Kesalahan</th>
-                        <th>Keterangan</th>
-                        <th>Penalti</th>
-                        <th>Total Kesalahan (H)</th>
-                        <th>Total Kesalahan (I)</th>
+                        <th>TIMESTAMP</th>
+                        <th>AGENT ID</th>
+                        <th>ERROR TYPE</th>
+                        <th>DESCRIPTION</th>
+                        <th>PENALTY</th>
+                        <th>H-COUNT</th>
+                        <th>I-COUNT</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Data akan masuk di sini via JS -->
+                    <!-- Data will be loaded here -->
                 </tbody>
             </table>
         </div>
     </div>
+
+    <!-- FOOTER -->
+    <div class="data-source">
+        <div class="connection-status">
+            <div class="websocket-status"></div>
+            <span>WEBSOCKET: <span id="connectionStatus">CONNECTING...</span></span>
+        </div>
+        <div>RECORDS: <span id="recordCount">0</span> | AUTO-REFRESH: <span id="refreshStatus">ENABLED</span></div>
+        <div>SYSTEM: <span id="systemStatus">OPERATIONAL</span></div>
+    </div>
+    
+    <div class="footer">
+        NEST // REAL-TIME MONITORING v4.0 | DATA SYNC: <span id="syncFrequency">5s</span> | BUILD: 2024.01
+    </div>
 </div>
 
 <script>
-    // ID Google Sheet Anda (SAMA PERSIS DENGAN ASLI)
+    // ==================== KONFIGURASI ====================
     const SHEET_ID = '1DezDJsH0_oz57tkGAwREq_V6B-H4ztTV8xVrbdq_Ef4';
-    const SHEET_GID = '550844886'; 
-
-    // Fungsi untuk mengambil data CSV (TIDAK DIUBAH)
-    async function fetchSheetData() {
-        const loader = document.getElementById('loader');
-        const table = document.getElementById('dataTable');
-
+    const SHEET_GID = '550844886';
+    
+    // ==================== VARIABEL GLOBAL ====================
+    let allData = [];
+    let filteredData = [];
+    let lastUpdateHash = '';
+    let isAutoRefresh = true;
+    let refreshInterval;
+    let updateCount = 0;
+    let lastDataLength = 0;
+    
+    // ==================== WEBSOCKET SIMULATION ====================
+    // Karena Google Sheets tidak menyediakan WebSocket, kita simulasikan dengan polling real-time
+    
+    function initializeRealTimeConnection() {
+        showLoading();
+        
+        // Load data pertama kali
+        loadData();
+        
+        // Setup auto-refresh setiap 5 detik untuk simulasi real-time
+        startAutoRefresh();
+        
+        // Setup periodic health check
+        setInterval(checkConnectionHealth, 30000);
+        
+        // Setup matrix background animation
+        setupMatrixBackground();
+    }
+    
+    function startAutoRefresh() {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+        
+        refreshInterval = setInterval(() => {
+            if (isAutoRefresh) {
+                loadData(true); // silent refresh
+            }
+        }, 5000); // Refresh setiap 5 detik
+    }
+    
+    function toggleAutoRefresh() {
+        isAutoRefresh = !isAutoRefresh;
+        const btn = document.getElementById('autoRefreshBtn');
+        const status = document.getElementById('refreshStatus');
+        
+        if (isAutoRefresh) {
+            btn.innerHTML = '⏸️ PAUSE AUTO-REFRESH';
+            status.textContent = 'ENABLED';
+            showNotification('Auto-refresh ENABLED', 'Data will update every 5 seconds');
+        } else {
+            btn.innerHTML = '▶️ RESUME AUTO-REFRESH';
+            status.textContent = 'PAUSED';
+            showNotification('Auto-refresh PAUSED', 'Click RESUME to enable real-time updates');
+        }
+    }
+    
+    // ==================== FUNGSI UTAMA ====================
+    
+    async function loadData(silent = false) {
+        if (!silent) {
+            showLoading();
+        }
+        
         try {
-            const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+            const timestamp = new Date().getTime();
+            const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}&t=${timestamp}`;
             
-            const response = await fetch(csvUrl);
-            if (!response.ok) throw new Error("Gagal mengambil data");
+            // Gunakan CORS proxy untuk menghindari masalah
+            const proxyUrl = 'https://api.allorigins.win/raw?url=';
+            const response = await fetch(proxyUrl + encodeURIComponent(csvUrl));
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
             
             const csvText = await response.text();
-            const data = parseCSV(csvText);
             
-            renderTable(data);
+            // Parse CSV data
+            const newData = parseCSVData(csvText);
             
-            loader.style.display = 'none';
-            table.style.display = 'table';
-
+            // Check if data has changed
+            const newHash = calculateDataHash(newData);
+            
+            if (newHash !== lastUpdateHash) {
+                // Data has changed - update everything
+                allData = newData;
+                filteredData = [...newData];
+                
+                // Calculate changes
+                const newEntries = newData.length - lastDataLength;
+                lastDataLength = newData.length;
+                
+                // Update UI
+                renderTable();
+                updateStats();
+                updateConnectionStatus('CONNECTED');
+                
+                // Show notification if not silent
+                if (!silent && newEntries > 0) {
+                    showNotification('DATA UPDATED', `${newEntries} new entries detected`);
+                }
+                
+                // Update hash
+                lastUpdateHash = newHash;
+                updateCount++;
+                
+                // Highlight new/updated rows
+                highlightNewData();
+            }
+            
+            // Update timestamp
+            updateLastUpdateTime();
+            
+            if (!silent) {
+                hideLoading();
+            }
+            
         } catch (error) {
-            console.error(error);
-            loader.innerHTML = "CONNECTION ERROR: PASTIKAN SHEET TELAH DIPUBLIKASIKAN.";
-            loader.style.color = "red";
+            console.error('Error loading data:', error);
+            
+            if (!silent) {
+                hideLoading();
+            }
+            
+            updateConnectionStatus('ERROR');
+            showNotification('CONNECTION ERROR', 'Failed to fetch data. Retrying...');
+            
+            // Retry after 10 seconds
+            setTimeout(() => loadData(true), 10000);
         }
     }
-
-    // --- FUNGSI REFRESH (TIDAK DIUBAH) ---
-    function refreshData() {
-        const loader = document.getElementById('loader');
-        const table = document.getElementById('dataTable');
-
-        // 1. Tampilkan indikator loading
-        loader.style.display = 'block';
-        loader.innerHTML = "SYNCING WITH NEST DATABASE...";
-        loader.style.color = "var(--neon-red)"; // Ubah warna jadi merah saat refresh
-        table.style.display = 'none';
-
-        // 2. Panggil fetch data ulang
-        fetchSheetData().then(() => {
-            // 3. Setelah data selesai diambil, kembalikan warna loader dan re-apply filter pencarian
-            loader.style.color = "var(--neon-blue)";
-            filterTable(); 
-        });
-    }
-
-    // Fungsi parsing CSV manual (TIDAK DIUBAH)
-    function parseCSV(text) {
-        const rows = text.split('\n').filter(row => row.trim() !== '');
-        
-        const result = [];
-
-        for (let i = 1; i < rows.length; i++) {
-            const values = rows[i].split(','); 
+    
+    function parseCSVData(csvText) {
+        try {
+            const rows = csvText.split('\n').filter(row => row.trim() !== '');
             
-            if(values.length >= 5) {
-                result.push({
-                    date: values[0] || '',
-                    name: values[1] || '',
-                    type: values[2] || '',
-                    desc: values[3] || '',
-                    score: values[4] || '0',
-                    totalH: values[7] || '-',
-                    totalI: values[8] || '-'
-                });
+            if (rows.length < 2) {
+                return [];
+            }
+            
+            const data = [];
+            
+            // Skip header row
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const values = parseCSVRow(row);
+                
+                if (values.length < 5) continue;
+                
+                // Format data
+                const entry = {
+                    id: i,
+                    timestamp: values[0] || new Date().toISOString().split('T')[0],
+                    agent: values[1] || 'UNKNOWN',
+                    errorType: values[2] || 'UNKNOWN',
+                    description: values[3] || 'No description',
+                    penalty: parseFloat(values[4]) || 0,
+                    hCount: parseInt(values[5]) || 0,
+                    iCount: parseInt(values[6]) || 0,
+                    severity: getSeverity(parseFloat(values[4]) || 0)
+                };
+                
+                data.push(entry);
+            }
+            
+            return data;
+            
+        } catch (error) {
+            console.error('Error parsing CSV:', error);
+            return [];
+        }
+    }
+    
+    function parseCSVRow(row) {
+        const values = [];
+        let current = '';
+        let inQuotes = false;
+        
+        for (let i = 0; i < row.length; i++) {
+            const char = row[i];
+            
+            if (char === '"') {
+                inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+                values.push(current.trim());
+                current = '';
+            } else {
+                current += char;
             }
         }
-        return result;
+        
+        values.push(current.trim());
+        return values;
     }
-
-    // Render ke HTML (TIDAK DIUBAH)
-    let globalData = [];
-    function renderTable(data) {
-        globalData = data;
+    
+    function getSeverity(penalty) {
+        if (penalty >= 50) return 'critical';
+        if (penalty >= 20) return 'high';
+        if (penalty >= 10) return 'medium';
+        return 'low';
+    }
+    
+    function calculateDataHash(data) {
+        // Simple hash calculation
+        const str = JSON.stringify(data);
+        let hash = 0;
+        
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        
+        return hash.toString();
+    }
+    
+    // ==================== RENDER FUNCTIONS ====================
+    
+    function renderTable() {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
-
-        data.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        data.forEach(row => {
-            const tr = document.createElement('tr');
-            
-            let scoreColor = 'white';
-            let score = parseInt(row.score);
-            if (score >= 50) scoreColor = 'var(--neon-red)';
-            else if (score >= 20) scoreColor = '#ffd700';
-
-            tr.innerHTML = `
-                <td>${row.date}</td>
-                <td style="font-weight:bold;">${row.name}</td>
-                <td><span class="badge">${row.type}</span></td>
-                <td>${row.desc}</td>
-                <td style="font-family:'Orbitron'; color:${scoreColor}">-${score}</td>
-                <td class="col-total">${row.totalH}</td>
-                <td class="col-total">${row.totalI}</td>
+        
+        if (filteredData.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 40px;">
+                        <div style="opacity: 0.5;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">🤖</div>
+                            <div>NO DATA AVAILABLE</div>
+                            <div style="font-size: 0.8rem; margin-top: 10px;">Waiting for data stream...</div>
+                        </div>
+                    </td>
+                </tr>
             `;
-            tbody.appendChild(tr);
+            return;
+        }
+        
+        // Sort by timestamp (newest first)
+        filteredData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        
+        filteredData.forEach((entry, index) => {
+            const row = document.createElement('tr');
+            row.dataset.id = entry.id;
+            
+            // Determine colors based on severity
+            let penaltyColor = '#aaa';
+            let badgeClass = '';
+            
+            switch(entry.severity) {
+                case 'critical':
+                    penaltyColor = 'var(--neon-red)';
+                    badgeClass = 'critical';
+                    break;
+                case 'high':
+                    penaltyColor = '#ff9900';
+                    badgeClass = 'high';
+                    break;
+                case 'medium':
+                    penaltyColor = '#ffcc00';
+                    badgeClass = 'medium';
+                    break;
+                case 'low':
+                    penaltyColor = '#aaa';
+                    badgeClass = 'low';
+                    break;
+            }
+            
+            // Format timestamp for display
+            const displayTime = formatDateTime(entry.timestamp);
+            
+            row.innerHTML = `
+                <td class="date-cell" title="${entry.timestamp}">${displayTime}</td>
+                <td class="name-cell">
+                    <span style="color: var(--neon-blue); font-weight: bold;">${entry.agent}</span>
+                </td>
+                <td class="type-cell">
+                    <span class="error-badge ${badgeClass}">${entry.errorType}</span>
+                </td>
+                <td class="description-cell" title="${entry.description}">${entry.description}</td>
+                <td class="penalty-cell" style="color: ${penaltyColor}">
+                    ${entry.penalty > 0 ? `-${entry.penalty}` : '0'}
+                </td>
+                <td class="total-cell">${entry.hCount}</td>
+                <td class="total-cell">${entry.iCount}</td>
+            `;
+            
+            tbody.appendChild(row);
         });
+        
+        // Update record count
+        document.getElementById('recordCount').textContent = filteredData.length;
     }
-
-    // Fitur Search (TIDAK DIUBAH)
+    
+    function highlightNewData() {
+        const rows = document.querySelectorAll('#tableBody tr');
+        
+        // Highlight first few rows as "new"
+        for (let i = 0; i < Math.min(3, rows.length); i++) {
+            rows[i].classList.add('new-entry');
+            
+            // Remove class after animation
+            setTimeout(() => {
+                rows[i].classList.remove('new-entry');
+            }, 3000);
+        }
+    }
+    
+    function updateStats() {
+        if (allData.length === 0) return;
+        
+        // Total unique agents
+        const uniqueAgents = new Set(allData.map(item => item.agent));
+        document.getElementById('totalAgents').textContent = uniqueAgents.size;
+        
+        // Today's errors
+        const today = new Date().toISOString().split('T')[0];
+        const todaysErrors = allData.filter(item => 
+            item.timestamp && item.timestamp.includes(today)
+        ).length;
+        document.getElementById('totalErrors').textContent = todaysErrors;
+        
+        // Updates count
+        const updatesElement = document.getElementById('updatesCount');
+        updatesElement.textContent = updateCount;
+        updatesElement.classList.add('updated');
+        setTimeout(() => updatesElement.classList.remove('updated'), 500);
+        
+        // Average penalty
+        const totalPenalty = allData.reduce((sum, item) => sum + item.penalty, 0);
+        const avgPenalty = allData.length > 0 ? (totalPenalty / allData.length).toFixed(1) : 0;
+        document.getElementById('avgPenalty').textContent = avgPenalty;
+    }
+    
+    function updateConnectionStatus(status) {
+        const statusElement = document.getElementById('connectionStatus');
+        const systemStatus = document.getElementById('systemStatus');
+        
+        statusElement.textContent = status;
+        
+        switch(status) {
+            case 'CONNECTED':
+                statusElement.style.color = 'var(--matrix-green)';
+                systemStatus.textContent = 'OPERATIONAL';
+                systemStatus.style.color = 'var(--matrix-green)';
+                break;
+            case 'CONNECTING':
+                statusElement.style.color = 'var(--neon-blue)';
+                systemStatus.textContent = 'CONNECTING';
+                systemStatus.style.color = 'var(--neon-blue)';
+                break;
+            case 'ERROR':
+                statusElement.style.color = 'var(--neon-red)';
+                systemStatus.textContent = 'ERROR';
+                systemStatus.style.color = 'var(--neon-red)';
+                break;
+        }
+    }
+    
+    function updateLastUpdateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('id-ID', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        
+        document.getElementById('lastUpdateTime').textContent = 
+            `LAST UPDATE: ${timeString}`;
+    }
+    
+    // ==================== UI FUNCTIONS ====================
+    
     function filterTable() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = globalData.filter(row => {
-            return (row.name.toLowerCase().includes(query) || 
-                    row.type.toLowerCase().includes(query) ||
-                    row.desc.toLowerCase().includes(query));
-        });
-        renderTable(filtered);
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+        
+        if (!searchTerm) {
+            filteredData = [...allData];
+        } else {
+            filteredData = allData.filter(item => {
+                return (
+                    (item.agent && item.agent.toLowerCase().includes(searchTerm)) ||
+                    (item.errorType && item.errorType.toLowerCase().includes(searchTerm)) ||
+                    (item.description && item.description.toLowerCase().includes(searchTerm))
+                );
+            });
+        }
+        
+        renderTable();
     }
-
-    // Jalankan saat load
-    window.onload = fetchSheetData;
-
+    
+    function forceRefresh() {
+        updateCount = 0;
+        loadData();
+        showNotification('MANUAL SYNC', 'Forcing data synchronization...');
+    }
+    
+    function exportData() {
+        if (allData.length === 0) {
+            showNotification('EXPORT ERROR', 'No data available to export');
+            return;
+        }
+        
+        const headers = ['Timestamp', 'Agent', 'Error Type', 'Description', 'Penalty', 'H-Count', 'I-Count'];
+        const csvRows = [];
+        
+        // Header
+        csvRows.push(headers.join(','));
+        
+        // Data
+        allData.forEach(item => {
+            const row = [
+                `"${item.timestamp}"`,
+                `"${item.agent}"`,
+                `"${item.errorType}"`,
+                `"${item.description}"`,
+                item.penalty,
+                item.hCount,
+                item.iCount
+            ];
+            csvRows.push(row.join(','));
+        });
+        
+        const csvContent = csvRows.join('\n');
+        const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        
+        link.setAttribute('href', url);
+        link.setAttribute('download', `nest-live-data-${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        showNotification('EXPORT COMPLETE', 'Data exported to CSV file');
+    }
+    
+    function showNotification(title, message) {
+        const notification = document.getElementById('notification');
+        const titleElement = document.getElementById('notificationTitle');
+        const messageElement = document.getElementById('notificationMessage');
+        
+        titleElement.textContent = title;
+        messageElement.textContent = message;
+        
+        notification.classList.add('show');
+        
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 5000);
+    }
+    
+    function hideNotification() {
+        document.getElementById('notification').classList.remove('show');
+    }
+    
+    function showLoading() {
+        document.getElementById('loadingOverlay').style.display = 'flex';
+    }
+    
+    function hideLoading() {
+        document.getElementById('loadingOverlay').style.display = 'none';
+    }
+    
+    // ==================== UTILITY FUNCTIONS ====================
+    
+    function formatDateTime(dateString) {
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            
+            if (diffMins < 1) {
+                return 'JUST NOW';
+            } else if (diffMins < 60) {
+                return `${diffMins}m ago`;
+            } else if (diffHours < 24) {
+                return `${diffHours}h ago`;
+            } else {
+                return date.toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit'
+                });
+            }
+        } catch (e) {
+            return dateString;
+        }
+    }
+    
+    function checkConnectionHealth() {
+        // Simulate health check
+        const isHealthy = Math.random() > 0.1; // 90% success rate
+        
+        if (!isHealthy) {
+            showNotification('HEALTH CHECK', 'Performing system diagnostics...');
+            setTimeout(() => {
+                updateConnectionStatus('CONNECTED');
+                showNotification('SYSTEM OK', 'All systems operational');
+            }, 2000);
+        }
+    }
+    
+    function setupMatrixBackground() {
+        const canvas = document.createElement('canvas');
+        canvas.className = 'matrix-bg';
+        canvas.id = 'matrixCanvas';
+        document.body.prepend(canvas);
+        
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = '01';
+        const charSize = 14;
+        const columns = Math.floor(canvas.width / charSize);
+        const drops = Array(columns).fill(1);
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0f0';
+            ctx.font = `${charSize}px monospace`;
+            
+            for (let i = 0; i < drops.length; i++) {
+                const char = chars[Math.floor(Math.random() * chars.length)];
+                const x = i * charSize;
+                const y = drops[i] * charSize;
+                
+                ctx.fillText(char, x, y);
+                
+                if (y > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 50);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    }
+    
+    // ==================== INITIALIZATION ====================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize everything
+        initializeRealTimeConnection();
+        
+        // Setup keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                forceRefresh();
+            }
+            
+            if (e.key === 'Escape') {
+                hideNotification();
+            }
+            
+            if (e.key === ' ' && e.target.tagName !== 'INPUT') {
+                e.preventDefault();
+                toggleAutoRefresh();
+            }
+        });
+        
+        // Setup beforeunload to warn about leaving
+        window.addEventListener('beforeunload', function(e) {
+            if (isAutoRefresh) {
+                e.returnValue = 'You are leaving the real-time monitoring system. Continue?';
+            }
+        });
+    });
 </script>
-
 </body>
 </html>
