@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINETOGEL Staff Tracker</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    /* --- CSS STYLES --- */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+      overflow-x: hidden;
+      transition: background-image 0.5s ease-in-out;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Loading Spinner */
+    .loading-spinner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      backdrop-filter: blur(5px);
+    }
+
+    .spinner {
+      border: 6px solid rgba(255, 255, 255, 0.3);
+      border-top: 6px solid #00e5ff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-spinner p { margin-top: 15px; font-weight: bold; color: #00e5ff; letter-spacing: 1px; }
+
+    /* Main Container */
+    .container {
+      width: 90%;
+      max-width: 480px;
+      padding: 40px 30px;
+      background: rgba(18, 18, 18, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+      border: 2px solid #333;
+      position: relative;
+      animation: slideUp 0.5s ease-out;
+      backdrop-filter: blur(10px);
+    }
+
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* Logo & Title */
+    .logo-area { text-align: center; margin-bottom: 20px; }
+    .logo-area img { width: 120px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+    h2 { text-align: center; margin: 10px 0; font-size: 24px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+    
+    /* Inputs */
+    .input-group { position: relative; margin-bottom: 20px; }
+    .input-group i {
+      position: absolute; top: 50%; left: 15px; transform: translateY(-50%);
+      color: #888; font-size: 16px; transition: color 0.3s;
+    }
+    .input-group input, .input-group select {
+      width: 100%; padding: 12px 15px 12px 45px;
+      border: 1px solid #444; border-radius: 8px;
+      background: #222; color: #fff; font-size: 16px; outline: none; box-sizing: border-box; transition: all 0.3s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      border-color: #00e5ff; box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); background: #1a1a1a;
+    }
+    .input-group input:focus + i { color: #00e5ff; }
+
+    /* Buttons */
+    .btn {
+      width: 100%; padding: 14px; border: none; border-radius: 8px;
+      font-size: 16px; font-weight: bold; cursor: pointer;
+      color: white; transition: all 0.3s; margin-top: 10px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .btn-primary { background: linear-gradient(90deg, #0072ff, #00c6ff); box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 114, 255, 0.6); }
+    
+    .btn-start { background: linear-gradient(90deg, #11998e, #38ef7d); box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4); }
+    .btn-end { background: linear-gradient(90deg, #cb2d3e, #ef473a); box-shadow: 0 4px 15px rgba(239, 71, 58, 0.4); }
+    .btn-logout { background: #444; border: 1px solid #666; }
+    .btn-logout:hover { background: #555; }
+    
+    .btn-change { background: #e67e22; }
+    .btn-change:hover { background: #d35400; }
+
+    .action-row { display: flex; gap: 10px; }
+    .action-row .btn { margin-top: 0; }
+
+    /* Utility */
+    .hidden { display: none !important; }
+    .error-msg { color: #ff4d4d; font-size: 14px; text-align: center; margin-top: 5px; min-height: 20px; }
+    .user-info { text-align: center; margin-bottom: 20px; color: #ccc; }
+    .user-role { color: #00e5ff; font-weight: bold; font-size: 1.1em; }
+    
+    /* Clock */
+    .clock-display {
+      font-size: 2.5rem; font-weight: bold; text-align: center;
+      font-family: 'Courier New', monospace; color: #fff;
+      text-shadow: 0 0 10px #00e5ff; margin: 10px 0 20px 0;
+    }
+
+    /* Toast Notification */
+    #toast {
+      visibility: hidden; min-width: 250px; background-color: #333; color: #fff;
+      text-align: center; border-radius: 8px; padding: 16px; position: fixed;
+      z-index: 10001; left: 50%; bottom: 30px; transform: translateX(-50%);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5); border-left: 5px solid #00e5ff;
+    }
+    #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 4.5s; }
+    #toast.success { border-left-color: #38ef7d; }
+    #toast.error { border-left-color: #ef473a; }
+    
+    @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+    @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+    /* HR */
+    .fancy-hr { border: 0; height: 1px; background: linear-gradient(to right, transparent, #00e5ff, transparent); margin: 20px 0; }
+  </style>
+</head>
+
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loadingSpinner" class="loading-spinner">
+    <div class="spinner"></div>
+    <p id="loadingText">Loading...</p>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast">Notifikasi</div>
+
+  <!-- LOGIN FORM -->
+  <div id="loginForm" class="container">
+    <div class="logo-area">
+      <img src="https://cdn.areabermain.club/assets/cdn/az4/2025/04/22/20250422/4a6f0daed9e848ec4e9c8fe031412552/14678257-removebg-preview.png" alt="Logo">
+      <h2>LINETOGEL STAFF</h2>
+    </div>
+    <form onsubmit="event.preventDefault(); login();">
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="username" placeholder="Username" required autocomplete="off">
+      </div>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" required>
+      </div>
+      <div id="error-message" class="error-msg"></div>
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-sign-in-alt"></i> LOGIN
+      </button>
+    </form>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="container hidden">
+    <div class="logo-area">
+      <img src="https://cdn.areabermain.club/assets/cdn/az4/2025/04/23/20250423/a82bdc6fb564d0dff3671aeb9a4d1da5/logo.png" alt="Logo" style="width: 100px;">
+    </div>
+    <h2><i class="fas fa-clock"></i> IZIN STAFF 2026</h2>
+    
+    <div id="MyClockDisplay" class="clock-display">00:00:00</div>
+    <hr class="fancy-hr">
+
+    <div class="user-info">
+      <p>Welcome, <span id="userNameDisplay" style="color: white; font-weight: bold;"></span></p>
+      <p>Role : <span id="userRoleDisplay" class="user-role"></span></p>
+    </div>
+
+    <!-- Jobdesk Selection -->
+    <div id="jobdeskSection" class="input-group hidden">
+      <i class="fas fa-tasks"></i>
+      <select id="jobdesk">
+        <option value="">-- Pilih Jobdesk --</option>
+      </select>
+      <div id="jobdeskError" class="error-msg">Wajib pilih jobdesk!</div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-row">
+      <button onclick="startTime()" class="btn btn-start"><i class="fas fa-play"></i> Mulai</button>
+      <button onclick="endTime()" class="btn btn-end"><i class="fas fa-stop"></i> Selesai</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 15px;">
+       <a href="https://script.google.com/macros/s/AKfycbxN69GvDnTzzazZMzxOhKWLCsC2gu0prFWV3TljgI9YIBZbefqqP6HqxdbyC8F9CCP1/exec" target="_blank" style="text-decoration: none;">
+         <button type="button" class="btn" style="background: linear-gradient(90deg, #8e2de2, #4a00e0);">
+           <i class="fas fa-tachometer-alt"></i> Lihat Database
+         </button>
+       </a>
+    </div>
+    <hr class="fancy-hr">
+
+    <!-- Change Password Section (Hidden by default) -->
+    <div id="passwordChangeForm" class="hidden">
+      <div class="input-group">
+        <i class="fas fa-key"></i>
+        <input type="password" id="oldPassword" placeholder="Password Lama">
+      </div>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="newPassword" placeholder="Password Baru">
+      </div>
+      <button onclick="changePassword()" class="btn btn-change">
+        <i class="fas fa-sync-alt"></i> Update Password
+      </button>
+      <div style="text-align: center; margin-top: 10px;">
+        <button onclick="togglePasswordForm()" class="btn btn-logout" style="width: auto; padding: 8px 20px; font-size: 12px; margin: 0 auto;">Batal</button>
+      </div>
+    </div>
+
+    <!-- Account Actions -->
+    <div id="accountActions">
+      <div class="action-row">
+        <button onclick="togglePasswordForm()" class="btn btn-change" style="flex: 1;"><i class="fas fa-key"></i> Ganti Pass</button>
+        <button onclick="logout()" class="btn btn-logout" style="flex: 1;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* --- JAVASCRIPT CLIENT SIDE --- */
+    
+    // Global Variables
+    let currentUser = '';
+    let accessStatus = ''; // 'ON' or 'OFF' for Jobdesk requirement
+    let bgInterval;
+    const SPREADSHEET_ID = '1JcZW0LC1-4l0GlFS_UQEZwrCC2OrXfQKh-Kr5opOdZs';
+
+    // Show/Hide Loading
+    function showLoading(msg = "Loading...") {
+      document.getElementById("loadingText").innerText = msg;
+      document.getElementById("loadingSpinner").style.display = "flex";
+    }
+    function hideLoading() {
+      document.getElementById("loadingSpinner").style.display = "none";
+    }
+
+    // Show Toast Notification
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById("toast");
+      toast.innerText = message;
+      toast.className = "show " + type;
+      setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 5000);
+    }
+
+    // Check Login Status on Load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Disable Right Click & F12 (Security)
+      document.addEventListener('contextmenu', event => event.preventDefault());
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) || (e.ctrlKey && e.key === 'U')) {
+          e.preventDefault();
+        }
+      });
+
+      // Check LocalStorage
+      const savedUser = localStorage.getItem('loggedInUser');
+      if (savedUser) {
+        currentUser = savedUser;
+        initializeDashboard();
+      } else {
+        document.getElementById('loginForm').classList.remove('hidden');
+      }
+
+      // Start Clock
+      setInterval(updateClock, 1000);
+      updateClock();
+    });
+
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('id-ID', { hour12: false });
+      document.getElementById('MyClockDisplay').innerText = timeString;
+    }
+
+    // --- LOGIN FUNCTION ---
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorDiv = document.getElementById('error-message');
+
+      if (!username || !password) {
+        errorDiv.innerText = "Username dan Password wajib diisi!";
+        return;
+      }
+
+      showLoading("Mengecek IP & Login...");
+      errorDiv.innerText = "";
+
+      // 1. Get User IP
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          const userIP = data.ip;
+          // 2. Call Server Login Function
+          google.script.run
+            .withSuccessHandler(function(res) {
+              hideLoading();
+              if (res.status === 'success') {
+                currentUser = username;
+                localStorage.setItem('loggedInUser', username);
+                document.getElementById('loginForm').classList.add('hidden');
+                initializeDashboard();
+                showToast("Login Berhasil!", "success");
+              } else {
+                errorDiv.innerText = res.message;
+              }
+            })
+            .withFailureHandler(function(err) {
+              hideLoading();
+              errorDiv.innerText = "Error: " + err.message;
+            })
+            .handleLogin(username, password, userIP);
+        })
+        .catch(err => {
+          hideLoading();
+          errorDiv.innerText = "Gagal mendapatkan IP Address.";
+        });
+    }
+
+    // --- DASHBOARD INITIALIZATION ---
+    function initializeDashboard() {
+      document.getElementById('dashboard').classList.remove('hidden');
+      document.getElementById('passwordChangeForm').classList.add('hidden');
+      document.getElementById('accountActions').classList.remove('hidden');
+
+      showLoading("Memuat Data...");
+      
+      // Fetch user info and settings concurrently
+      google.script.run.withSuccessHandler(function(data) {
+        hideLoading();
+        // Display Info
+        document.getElementById('userNameDisplay').innerText = data.userInfo.name;
+        document.getElementById('userRoleDisplay').innerText = data.userInfo.role;
+        
+        // Handle Jobdesk Setting
+        accessStatus = data.accessStatus;
+        if (accessStatus === 'ON') {
+          const jobSelect = document.getElementById('jobdesk');
+          jobSelect.innerHTML = '<option value="">-- Pilih Jobdesk --</option>';
+          data.jobdesks.forEach(job => {
+            const opt = document.createElement('option');
+            opt.value = job;
+            opt.innerText = job;
+            jobSelect.appendChild(opt);
+          });
+          document.getElementById('jobdeskSection').classList.remove('hidden');
+        } else {
+          document.getElementById('jobdeskSection').classList.add('hidden');
+        }
+
+        // Handle Backgrounds
+        startBackgroundSlideshow(data.backgrounds);
+
+      }).getDashboardData(currentUser);
+    }
+
+    // --- BACKGROUND SLIDESHOW ---
+    function startBackgroundSlideshow(links) {
+      if (!links || links.length === 0) return;
+      
+      let index = 0;
+      const body = document.body;
+      
+      // Set initial background
+      body.style.backgroundImage = `url('${links[0]}')`;
+
+      // Clear previous interval if any
+      if (bgInterval) clearInterval(bgInterval);
+
+      bgInterval = setInterval(() => {
+        index = (index + 1) % links.length;
+        body.style.backgroundImage = `url('${links[index]}')`;
+      }, 5000); // Change every 5 seconds
+    }
+
+    // --- START TIME ---
+    function startTime() {
+      // Validation if Jobdesk is required
+      if (accessStatus === 'ON') {
+        const job = document.getElementById('jobdesk').value;
+        if (!job) {
+          document.getElementById('jobdeskError').style.display = 'block';
+          showToast("Harap pilih Jobdesk!", "error");
+          return;
+        }
+        document.getElementById('jobdeskError').style.display = 'none';
+      }
+
+      showLoading("Mencatat Jam Masuk...");
+      const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
+      const jobdeskVal = document.getElementById('jobdesk').value;
+
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        if (res.status === 'success') {
+          showToast("Berhasil Masuk! Jam: " + time, "success");
+        } else {
+          showToast(res.message, "error");
+        }
+      }).handleStart(currentUser, time, jobdeskVal);
+    }
+
+    // --- END TIME ---
+    function endTime() {
+      if (accessStatus === 'ON') {
+        const job = document.getElementById('jobdesk').value;
+        if (!job) {
+          showToast("Harap pilih Jobdesk!", "error");
+          return;
+        }
+      }
+
+      if (!confirm("Apakah Anda yakin ingin mengakhiri shift/izin?")) return;
+
+      showLoading("Mencatat Jam Keluar...");
+      const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
+
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        if (res.status === 'success') {
+          showToast("Berhasil Keluar! Jam: " + time, "success");
+        } else {
+          showToast(res.message, "error");
+        }
+      }).handleEnd(currentUser, time);
+    }
+
+    // --- CHANGE PASSWORD ---
+    function togglePasswordForm() {
+      const form = document.getElementById('passwordChangeForm');
+      const actions = document.getElementById('accountActions');
+      if (form.classList.contains('hidden')) {
+        form.classList.remove('hidden');
+        actions.classList.add('hidden');
+      } else {
+        form.classList.add('hidden');
+        actions.classList.remove('hidden');
+      }
+    }
+
+    function changePassword() {
+      const oldPass = document.getElementById('oldPassword').value;
+      const newPass = document.getElementById('newPassword').value;
+
+      if (!oldPass || !newPass) {
+        showToast("Isi password lama dan baru!", "error");
+        return;
+      }
+
+      showLoading("Mengubah Password...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        if (res.status === 'success') {
+          showToast("Password Berhasil Diubah!", "success");
+          document.getElementById('oldPassword').value = "";
+          document.getElementById('newPassword').value = "";
+          togglePasswordForm();
+        } else {
+          showToast(res.message, "error");
+        }
+      }).handleChangePassword(currentUser, oldPass, newPass);
+    }
+
+    // --- LOGOUT ---
+    function logout() {
+      if(confirm("Yakin ingin keluar?")) {
+        localStorage.removeItem('loggedInUser');
+        currentUser = '';
+        location.reload(); // Refresh page to reset states
+      }
+    }
+
+  </script>
+
+  <!-- 
+    ================================================================
+    GOOGLE APPS SCRIPT (SERVER SIDE)
+    Copy everything inside this <script> tag into the Code.gs file
+    ================================================================
+  -->
+  <script>
+    function doGet() {
+      return HtmlService.createHtmlOutputFromFile('index')
+          .setTitle('LINETOGEL Staff Tracker')
+          .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    }
+
+    // --- 1. CONFIGURATION ---
+    const SHEET_ID = '1JcZW0LC1-4l0GlFS_UQEZwrCC2OrXfQKh-Kr5opOdZs';
+    const SS = SpreadsheetApp.openById(SHEET_ID);
+    
+    // Get Sheets
+    const SHEET_REGISTER = SS.getSheetByName('Register');
+    const SHEET_WHITELIST = SS.getSheetByName('Whitelist IP');
+    const SHEET_ACCESS = SS.getSheetByName('Access');
+    const SHEET_BG = SS.getSheetByName('Background');
+    const SHEET_DB = SS.getSheetByName('DATABASE LINETOGEL');
+
+    // --- 2. LOGIN & SECURITY ---
+    function handleLogin(username, password, userIP) {
+      // 1. Check Whitelist IP
+      const ipData = SHEET_WHITELIST.getDataRange().getValues();
+      const ipList = ipData.map(r => String(r[0]).trim()); // Assuming IPs are in column A
+      
+      // Cek apakah userIP ada di list (Jika list kosong, mungkin izinkan semua, tapi kita anggap strict)
+      // Jika kolom A header "IP Address", mulai loop dari index 1
+      let isAllowed = false;
+      for (let i = 1; i < ipList.length; i++) {
+        if (ipList[i] === userIP) {
+          isAllowed = true;
+          break;
+        }
+      }
+
+      if (!isAllowed) {
+        return { status: 'error', message: 'Akses Ditolak: IP Anda tidak terdaftar di Whitelist.' };
+      }
+
+      // 2. Check User Credentials
+      const userData = SHEET_REGISTER.getDataRange().getValues();
+      // Asumsi: Kolom A=Username, B=Password, C=Nama Lengkap, D=Role
+      for (let i = 1; i < userData.length; i++) {
+        if (String(userData[i][0]).trim() === username && String(userData[i][1]).trim() === password) {
+          return { status: 'success', user: userData[i] };
+        }
+      }
+
+      return { status: 'error', message: 'Username atau Password salah!' };
+    }
+
+    // --- 3. DASHBOARD DATA ---
+    function getDashboardData(username) {
+      // Get User Info
+      const userData = SHEET_REGISTER.getDataRange().getValues();
+      let userInfo = { name: 'Unknown', role: 'Staff' };
+      for (let i = 1; i < userData.length; i++) {
+        if (String(userData[i][0]).trim() === username) {
+          userInfo = { name: userData[i][2], role: userData[i][3] };
+          break;
+        }
+      }
+
+      // Get Access Status (Jobdesk Requirement)
+      const accessVal = SHEET_ACCESS.getRange("B2").getValue(); // Asumsi Status di B2 (A=Label, B=Value)
+      
+      // Get Jobdesks
+      let jobdesks = [];
+      if (accessVal === 'ON') {
+        const jobData = SHEET_ACCESS.getRange("A2").getDataRegion().getValues();
+        // Asumsi daftar jobdesk ada di sheet Access, misal kolom berikutnya atau range spesifik
+        // Di sini saya ambil dari kolom C ke bawah di sheet Access sebagai contoh daftar jobdesk
+        // Jika struktur beda, sesuaikan logika di sini.
+        // Kita anggap list jobdesk ada di kolom A sheet 'Access' mulai baris 3 (setelah status)
+        // Mari buat dinamis: Ambil semua nilai di kolom A, skip header dan status
+        for(let j=2; j<jobData.length; j++){
+           if(jobData[j][0]){ jobdesks.push(jobData[j][0]); }
+        }
+      }
+
+      // Get Backgrounds
+      const bgData = SHEET_BG.getDataRange().getValues();
+      let backgrounds = [];
+      for (let k = 1; k < bgData.length; k++) {
+        if (bgData[k][0]) backgrounds.push(bgData[k][0]);
+      }
+
+      return {
+        userInfo: userInfo,
+        accessStatus: accessVal,
+        jobdesks: jobdesks,
+        backgrounds: backgrounds
+      };
+    }
+
+    // --- 4. TIME LOGGING ---
+    function handleStart(username, time, jobdesk) {
+      const timestamp = new Date();
+      const dateStr = Utilities.formatDate(timestamp, Session.getScriptTimeZone(), "yyyy-MM-dd");
+      
+      // Simpan: Date | Name | Jobdesk | Start Time | End Time | Duration/Status
+      // Asumsi Urutan Kolom DB: Date, Name, Jobdesk, Start, End, Status
+      SHEET_DB.appendRow([dateStr, username, jobdesk, time, "", "SEDANG IZIN/KERJA"]);
+      
+      return { status: 'success' };
+    }
+
+    function handleEnd(username, time) {
+      const timestamp = new Date();
+      const dateStr = Utilities.formatDate(timestamp, Session.getScriptTimeZone(), "yyyy-MM-dd");
+      
+      // Cari baris terakhir user tersebut yang belum selesai (Status masih SEDANG...)
+      const data = SHEET_DB.getDataRange().getValues();
+      let lastRowIndex = -1;
+      
+      // Loop backward untuk mencari entry terakhir user hari ini yang aktif
+      for (let i = data.length - 1; i >= 0; i--) {
+        // Kolom A=Date(0), B=Name(1), E=End(4), F=Status(5)
+        if (String(data[i][0]) === dateStr && String(data[i][1]) === username && (data[i][4] === "" || data[i][4] === "Selesai")) {
+          // Jika End time kosong (artinya masih jalan)
+          if (data[i][4] === "") {
+            lastRowIndex = i + 1; // 1-based index for setValues
+            break;
+          }
+        }
+      }
+
+      if (lastRowIndex !== -1) {
+        // Update End Time dan Status
+        SHEET_DB.getRange(lastRowIndex, 5).setValue(time);
+        SHEET_DB.getRange(lastRowIndex, 6).setValue("SELESAI");
+        return { status: 'success' };
+      } else {
+        return { status: 'error', message: 'Tidak ditemukan sesi aktif untuk hari ini.' };
+      }
+    }
+
+    // --- 5. CHANGE PASSWORD ---
+    function handleChangePassword(username, oldPass, newPass) {
+      const data = SHEET_REGISTER.getDataRange().getValues();
+      for (let i = 1; i < data.length; i++) {
+        if (String(data[i][0]).trim() === username && String(data[i][1]).trim() === oldPass) {
+          // Update password di kolom B (index 1)
+          SHEET_REGISTER.getRange(i + 1, 2).setValue(newPass);
+          return { status: 'success' };
+        }
+      }
+      return { status: 'error', message: 'Password lama salah.' };
+    }
+  </script>
+</body>
+</html>
