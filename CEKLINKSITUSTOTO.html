@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -4694,6 +4693,58 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentY = 0;
             });
         }
+
+        // =======================================================
+        // SCRIPT PENGAMANAN: ANTI VIEW SOURCE & INSPECT ELEMENT
+        // =======================================================
+        
+        // Mencegah klik kanan
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Mencegah kombinasi tombol (Ctrl+U, Ctrl+Shift+I, Ctrl+Shift+J, F12)
+        document.addEventListener('keydown', function(e) {
+            // Cek Ctrl+U
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Cek Ctrl+Shift+I (Inspect Element)
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Cek Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Cek Ctrl+Shift+C (Inspect Element via DOM)
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                return false;
+            }
+
+            // Cek F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Mencegah drag image (opsional, untuk keamanan tambahan)
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
     </script>
 </body>
 </html>
