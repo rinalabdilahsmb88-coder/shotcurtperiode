@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRANSFORMERS 3D - Parser Data Mutasi Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff5500;
+            --primary-dark: #cc4400;
+            --secondary: #0088ff;
+            --secondary-dark: #0066cc;
+            --dark-bg: #0a0a16;
+            --panel-bg: rgba(20, 20, 40, 0.9);
+            --text: #e0e0ff;
+            --text-muted: #aaaacc;
+            --accent: #00ffaa;
+            --danger: #ff3366;
+            --success: #00cc88;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            font-family: 'Exo 2', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 85, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 136, 255, 0.05) 0%, transparent 20%),
+                linear-gradient(to bottom, rgba(10, 10, 22, 0.95), rgba(15, 15, 35, 0.95));
+            position: relative;
+        }
+        
+        /* Background 3D Elements */
+        .transformers-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .transformer-part {
+            position: absolute;
+            opacity: 0.03;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            transform-style: preserve-3d;
+        }
+        
+        .part-1 {
+            width: 120px;
+            height: 30px;
+            top: 10%;
+            left: 5%;
+            transform: rotateZ(45deg) rotateX(60deg);
+            animation: float 25s infinite linear;
+        }
+        
+        .part-2 {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            right: 10%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation: float 30s infinite linear reverse;
+        }
+        
+        .part-3 {
+            width: 100px;
+            height: 20px;
+            bottom: 20%;
+            left: 15%;
+            transform: rotateZ(-30deg) rotateY(60deg);
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: rotateZ(0deg) translateY(0px) rotateX(60deg); }
+            100% { transform: rotateZ(360deg) translateY(-50px) rotateX(60deg); }
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            perspective: 1000px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            transform-style: preserve-3d;
+            animation: headerFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes headerFloat {
+            0%, 100% { transform: translateY(0px) rotateX(5deg); }
+            50% { transform: translateY(-10px) rotateX(5deg); }
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(255, 85, 0, 0.3);
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, transparent, var(--primary), var(--secondary), transparent);
+            bottom: -10px;
+            left: 0;
+            border-radius: 5px;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+        
+        .panels-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .panel {
+            background-color: var(--panel-bg);
+            border-radius: 15px;
+            padding: 30px;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 85, 0, 0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .panel:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(255, 85, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .panel:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            box-shadow: 0 0 15px var(--primary);
+        }
+        
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .panel-title:before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary);
+            margin-right: 15px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(10, 10, 25, 0.7);
+            border: 1px solid rgba(255, 85, 0, 0.3);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            line-height: 1.5;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 85, 0, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .btn:hover:before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 85, 0, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right, var(--primary), #ff7733);
+            box-shadow: 0 8px 25px rgba(255, 85, 0, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, #333355, #444477);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #444477, #555599);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(-3px);
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, var(--success), #00ee99);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 204, 136, 0.4);
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(to right, #00ee99, #22ffaa);
+            box-shadow: 0 8px 25px rgba(0, 204, 136, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .filter-container {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: rgba(15, 15, 35, 0.7);
+            border-radius: 10px;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .filter-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--text);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+        }
+        
+        .filter-select {
+            padding: 12px 20px;
+            background-color: rgba(10, 10, 25, 0.9);
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230088ff'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            cursor: pointer;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 85, 0, 0.3);
+        }
+        
+        .stats {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(15, 15, 35, 0.7);
+            border-radius: 10px;
+            border-left: 5px solid var(--accent);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 20px 30px;
+            border-radius: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            max-width: 350px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-success {
+            background: linear-gradient(to right, var(--success), #00ee99);
+            color: white;
+            border-left: 5px solid #00ffaa;
+        }
+        
+        .notification-error {
+            background: linear-gradient(to right, var(--danger), #ff5588);
+            color: white;
+            border-left: 5px solid #ff3366;
+        }
+        
+        .transformer-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            z-index: 10;
+        }
+        
+        .logo-inner {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            animation: rotateLogo 20s infinite linear;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        @keyframes rotateLogo {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, #0a0a16, #222244);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        @media (max-width: 768px) {
+            .panels-container {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .btn {
+                min-width: 100%;
+            }
+            
+            .transformer-logo {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin: 0 auto 20px;
+            }
+        }
+        
+        /* Loading animation for processing */
+        .processing {
+            position: relative;
+        }
+        
+        .processing:after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border: 3px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            right: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Scan line effect */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+            box-shadow: 0 0 10px var(--accent);
+            z-index: 1;
+            opacity: 0;
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        
+        /* Transformer sound effect on button click */
+        @keyframes transformSound {
+            0% { transform: scale(1); }
+            25% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            75% { transform: scale(0.98); }
+            100% { transform: scale(1); }
+        }
+        
+        .transform-click {
+            animation: transformSound 0.3s ease;
+        }
+        
+        .debug-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid #ff3366;
+            font-size: 12px;
+            color: #ff9999;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background 3D elements -->
+    <div class="transformers-bg">
+        <div class="transformer-part part-1"></div>
+        <div class="transformer-part part-2"></div>
+        <div class="transformer-part part-3"></div>
+        <div class="scan-line"></div>
+    </div>
+    
+    <!-- Transformer logo -->
+    <div class="transformer-logo">
+        <div class="logo-inner">
+            <div class="logo-text">T3D</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>TRANSFORMERS 3D</h1>
+            <h2>PARSER DATA MUTASI BANK</h2>
+            <p class="subtitle">Tool canggih dengan teknologi transform untuk mengekstrak nama dan nominal dari data mutasi bank. Hasil dapat langsung disalin untuk analisis lebih lanjut.</p>
+        </div>
+        
+        <div class="panels-container">
+            <div class="panel">
+                <div class="panel-title">
+                    <span>📥 INPUT DATA MUTASI</span>
+                </div>
+                <textarea id="inputData" placeholder="Tempel data mutasi bank di sini... (Format: END, TRSF, nominal, nama, dll)">PEND
+TRSF E-BANKING DB
+2201/FTSCY/WS95271
+20000000.00
+ACHMAD FAUZAN ARIF
+0000
+20,000,000.00
+DB
+2,521,382.00
+PEND
+TRSF E-BANKING CR
+2201/FTSCY/WS95031
+100000.00
+AGUS MULIAWAN, A.M
+0000
+100,000.00
+CR
+2,621,382.00
+PEND
+BI-FAST CR
+TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO
+0000
+40,000,212.00
+CR
+42,621,594.00
+PEND
+TRSF E-BANKING CR
+2201/FTSCY/WS95031
+300000.00
+MARHASURUNGAN SIHO
+0000
+300,000.00
+CR
+42,921,594.00
+PEND
+SETORAN VIA CDM
+TANGGAL :22/01 22/01 WSID:Z9PP1 YUDI PURNO NUGROHO
+0998
+100,000.00
+CR
+43,021,594.00
+PEND
+TRSF E-BANKING CR
+2201/FTSCY/WS95271
+250701.00
+HASRUN
+0000
+250,701.00
+CR
+43,272,295.00
+PEND</textarea>
+                
+                <div class="filter-container">
+                    <label class="filter-label">FILTER JENIS TRANSAKSI:</label>
+                    <select id="filterType" class="filter-select">
+                        <option value="all">SEMUA TRANSAKSI</option>
+                        <option value="CR">KREDIT (CR) SAJA</option>
+                        <option value="DB">DEBIT (DB) SAJA</option>
+                    </select>
+                </div>
+                
+                <div class="controls">
+                    <button id="parseBtn" class="btn btn-primary">
+                        <span>🔧 PARSE DATA</span>
+                    </button>
+                    <button id="clearBtn" class="btn btn-secondary">
+                        <span>🗑️ BERSIHKAN</span>
+                    </button>
+                    <button id="loadSampleBtn" class="btn btn-secondary">
+                        <span>📊 DATA CONTOH</span>
+                    </button>
+                </div>
+                
+                <div class="debug-info" id="debugInfo"></div>
+            </div>
+            
+            <div class="panel">
+                <div class="panel-title">
+                    <span>📤 HASIL EKSTRAKSI</span>
+                </div>
+                
+                <div class="controls">
+                    <button id="copyBtn" class="btn btn-success">
+                        <span>📋 SALIN HASIL</span>
+                    </button>
+                    <button id="testBtn" class="btn btn-secondary">
+                        <span>🧪 TEST BI-FAST</span>
+                    </button>
+                </div>
+                
+                <textarea id="outputText" readonly placeholder="Hasil ekstraksi akan muncul di sini..."></textarea>
+                
+                <div class="stats" id="statsInfo">
+                    STATUS: MENUNGGU INPUT DATA...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span id="notificationText">Berhasil disalin ke clipboard!</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const inputData = document.getElementById('inputData');
+            const outputText = document.getElementById('outputText');
+            const parseBtn = document.getElementById('parseBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const loadSampleBtn = document.getElementById('loadSampleBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const testBtn = document.getElementById('testBtn');
+            const filterType = document.getElementById('filterType');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const statsInfo = document.getElementById('statsInfo');
+            const debugInfo = document.getElementById('debugInfo');
+            
+            // OPTIMIZED PARSING FUNCTION - FIXED FOR BI-FAST
+            function parseData() {
+                const data = inputData.value;
+                const lines = data.split('\n');
+                const results = [];
+                
+                // Transform button effect
+                parseBtn.classList.add('transform-click');
+                setTimeout(() => parseBtn.classList.remove('transform-click'), 300);
+                
+                // Clear debug info
+                debugInfo.innerHTML = '';
+                debugInfo.style.display = 'none';
+                
+                // Log untuk debugging
+                const debugLog = [];
+                
+                // State variables
+                let currentName = '';
+                let currentNominal = '';
+                let transactionType = '';
+                let transactionContext = ''; // Untuk menyimpan konteks (BI-FAST, SETORAN, dll)
+                
+                // Main parsing loop
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    const prevLine = i > 0 ? lines[i-1].trim() : '';
+                    const nextLine = i + 1 < lines.length ? lines[i+1].trim() : '';
+                    
+                    // Debug logging
+                    debugLog.push(`${i}: "${line}"`);
+                    
+                    // 1. Deteksi Jenis Transaksi
+                    if (line.includes('BI-FAST')) {
+                        transactionContext = 'BI-FAST';
+                        debugLog.push(`  → Konteks: ${transactionContext}`);
+                        
+                        // Untuk BI-FAST, nama ada di baris yang sama setelah "DR"
+                        // Contoh: "TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO"
+                        const nameMatch = extractNameFromLine(line);
+                        if (nameMatch) {
+                            currentName = nameMatch;
+                            debugLog.push(`  → Nama dari BI-FAST: ${currentName}`);
+                        }
+                    } 
+                    else if (line.includes('SETORAN')) {
+                        transactionContext = 'SETORAN';
+                        debugLog.push(`  → Konteks: ${transactionContext}`);
+                    }
+                    else if (line.includes('TRSF E-BANKING')) {
+                        transactionContext = 'TRSF';
+                        debugLog.push(`  → Konteks: ${transactionContext}`);
+                        
+                        // Tentukan CR atau DB dari line
+                        if (line.includes(' CR')) transactionType = 'CR';
+                        if (line.includes(' DB')) transactionType = 'DB';
+                    }
+                    
+                    // 2. Deteksi Nominal Tanpa Koma (format: 20000000.00)
+                    if (line.match(/^\d+\.\d{2}$/) && !line.includes(',')) {
+                        const numValue = parseFloat(line);
+                        // Pastikan ini nominal transaksi (bukan saldo)
+                        if (numValue >= 100 && numValue <= 10000000000) {
+                            currentNominal = cleanNominal(line);
+                            debugLog.push(`  → Nominal tanpa koma: ${currentNominal}`);
+                            
+                            // Untuk TRSF, nama biasanya di baris berikutnya
+                            if (transactionContext === 'TRSF' && nextLine && isValidName(nextLine)) {
+                                currentName = nextLine;
+                                debugLog.push(`  → Nama setelah nominal TRSF: ${currentName}`);
+                                i++; // Skip nama line
+                            }
+                        }
+                    }
+                    
+                    // 3. Deteksi Nominal dengan Koma (format: 20,000,000.00)
+                    // Biasanya muncul setelah "0000" atau "0998"
+                    if ((prevLine === '0000' || prevLine === '0998') && 
+                        line.match(/^\d+,\d{3}(,\d{3})*\.\d{2}$/)) {
+                        
+                        currentNominal = cleanNominal(line);
+                        debugLog.push(`  → Nominal dengan koma: ${currentNominal}`);
+                        
+                        // Untuk kasus khusus, cari nama sebelum "0000"
+                        if (!currentName && i >= 2) {
+                            const possibleName = lines[i-2].trim();
+                            if (isValidName(possibleName)) {
+                                currentName = possibleName;
+                                debugLog.push(`  → Nama sebelum 0000: ${currentName}`);
+                            }
+                        }
+                    }
+                    
+                    // 4. Deteksi Kode 0000/0998 - penting untuk pola standar
+                    if (line === '0000' || line === '0998') {
+                        // Cari nama di baris sebelum kode
+                        if (i >= 1) {
+                            const possibleName = lines[i-1].trim();
+                            if (isValidName(possibleName) && !currentName) {
+                                currentName = possibleName;
+                                debugLog.push(`  → Nama sebelum ${line}: ${currentName}`);
+                            }
+                        }
+                    }
+                    
+                    // 5. Deteksi CR/DB untuk menentukan jenis transaksi
+                    if (line === 'CR' || line === 'DB') {
+                        transactionType = line;
+                        debugLog.push(`  → Jenis transaksi: ${transactionType}`);
+                        
+                        // Simpan jika sudah punya nama dan nominal
+                        saveTransaction();
+                    }
+                    
+                    // 6. Deteksi Akhir Transaksi
+                    if (line === 'PEND' || line === 'END' || i === lines.length - 1) {
+                        // Simpan transaksi yang belum disimpan
+                        if (currentName && currentNominal && transactionType) {
+                            saveTransaction();
+                        }
+                    }
+                    
+                    // 7. Deteksi Nama dari Teks Panjang (khusus untuk BI-FAST/SETORAN)
+                    if (!currentName && line.length > 10 && line.includes(' ')) {
+                        // Coba ekstrak nama dari teks panjang
+                        const extractedName = extractNameFromLine(line);
+                        if (extractedName && !currentName) {
+                            currentName = extractedName;
+                            debugLog.push(`  → Nama diekstrak: ${currentName}`);
+                        }
+                    }
+                }
+                
+                // Helper function to save transaction
+                function saveTransaction() {
+                    if (!currentName || !currentNominal) {
+                        debugLog.push(`  → GAGAL SIMPAN: Nama=${currentName}, Nominal=${currentNominal}`);
+                        return;
+                    }
+                    
+                    const filter = filterType.value;
+                    if (filter === 'all' || filter === transactionType) {
+                        results.push({
+                            name: currentName,
+                            nominal: currentNominal,
+                            type: transactionType || 'UNKNOWN',
+                            context: transactionContext
+                        });
+                        
+                        debugLog.push(`  → DISIMPAN: ${currentName} - ${currentNominal} - ${transactionType} (${transactionContext})`);
+                    }
+                    
+                    // Reset untuk transaksi berikutnya
+                    currentName = '';
+                    currentNominal = '';
+                    transactionType = '';
+                    transactionContext = '';
+                }
+                
+                // Format output
+                let output = '';
+                results.forEach(item => {
+                    output += `${item.name}\t${item.nominal}\n`;
+                });
+                
+                outputText.value = output;
+                
+                // Update stats
+                updateStats(results);
+                
+                // Show debug info if enabled
+                if (results.length === 0 || debugInfo.style.display === 'block') {
+                    debugInfo.innerHTML = '<strong>DEBUG INFO:</strong><br>' + debugLog.join('<br>');
+                    debugInfo.style.display = 'block';
+                }
+                
+                showNotification(`Data berhasil diparsing! Ditemukan ${results.length} transaksi.`, 'success');
+            }
+            
+            // Function to extract name from text line (special for BI-FAST)
+            function extractNameFromLine(line) {
+                // Pattern 1: BI-FAST dengan format "TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO"
+                if (line.includes('DR ')) {
+                    const parts = line.split('DR ');
+                    if (parts.length > 1) {
+                        const afterDR = parts[1];
+                        // Hapus kode angka di awal (008)
+                        const nameParts = afterDR.split(' ');
+                        if (nameParts.length > 1) {
+                            // Gabungkan semua bagian kecuali yang pertama (kode)
+                            return nameParts.slice(1).join(' ').trim();
+                        }
+                    }
+                }
+                
+                // Pattern 2: SETORAN dengan format "TANGGAL :22/01 22/01 WSID:Z9PP1 YUDI PURNO NUGROHO"
+                if (line.includes('WSID:')) {
+                    const wsidIndex = line.indexOf('WSID:');
+                    if (wsidIndex !== -1) {
+                        const afterWSID = line.substring(wsidIndex);
+                        const parts = afterWSID.split(' ');
+                        if (parts.length > 1) {
+                            // Ambil bagian setelah WSID:xxxxx
+                            return parts.slice(1).join(' ').trim();
+                        }
+                    }
+                }
+                
+                // Pattern 3: Cek apakah ini adalah nama valid
+                if (isValidName(line)) {
+                    return line;
+                }
+                
+                // Pattern 4: Coba ekstrak kata-kata yang mirip nama
+                const words = line.split(' ');
+                const possibleNameWords = [];
+                
+                for (const word of words) {
+                    // Kata harus mengandung huruf, minimal 3 karakter
+                    if (word.length >= 3 && /[A-Za-z]/.test(word)) {
+                        // Tidak boleh tanggal, kode, dll
+                        if (!word.match(/^\d/) && !word.includes(':') && !word.includes('/')) {
+                            possibleNameWords.push(word);
+                        }
+                    }
+                }
+                
+                if (possibleNameWords.length >= 2) {
+                    return possibleNameWords.join(' ');
+                }
+                
+                return null;
+            }
+            
+            // Clean nominal - remove .00 and format properly
+            function cleanNominal(nominalStr) {
+                // Remove .00 at the end
+                let cleaned = nominalStr.replace(/\.00$/, '');
+                
+                // Remove commas if present
+                cleaned = cleaned.replace(/,/g, '');
+                
+                // Format back with commas for thousands separator
+                return formatNumberWithCommas(cleaned);
+            }
+            
+            // Format number with commas
+            function formatNumberWithCommas(numStr) {
+                const num = parseInt(numStr);
+                if (isNaN(num)) return numStr;
+                
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // Improved name validation - lebih longgar untuk menangkap berbagai format nama
+            function isValidName(str) {
+                if (!str || str.length < 2) return false;
+                
+                // Tidak boleh hanya angka
+                if (/^\d+$/.test(str)) return false;
+                
+                // Tidak boleh pola yang jelas bukan nama
+                const invalidPatterns = [
+                    /^\d{4}\/\w+\/\w+$/,        // Kode seperti 2201/FTSCY/WS95271
+                    /^TANGGAL/,                 // Tanggal
+                    /^TRSF/,                    // Transaksi
+                    /^BI-FAST/,                 // BI-FAST
+                    /^SWITCHING/,               // SWITCHING
+                    /^SETORAN/,                 // SETORAN
+                    /^PEND$/,                   // PEND
+                    /^END$/,                    // END
+                    /^DB$/,                     // DB
+                    /^CR$/,                     // CR
+                    /^\d+\.\d{2}$/,            // Nominal
+                    /^\d+,\d{3}/,              // Nominal dengan koma
+                    /^[A-Z]{2,3}\s+\d/,        // Kode seperti WSID:Z9PP1
+                    /^WSID:/,                   // WSID
+                    /^\d{2}\/\d{2}/,           // Tanggal 22/01
+                    /^TRANSFER/,                // TRANSFER
+                    /^\d{4}$/,                  // 4 digit seperti 0000
+                    /^\d{3,4}\s*$/,            // 3-4 digit saja
+                    /^[A-Z]{1,2}\d{5,}$/,      // Kode seperti WS95271
+                    /^\d+\/\d+\/\d+/,          // Tanggal dengan format berbeda
+                ];
+                
+                for (const pattern of invalidPatterns) {
+                    if (pattern.test(str)) {
+                        return false;
+                    }
+                }
+                
+                // Harus mengandung huruf
+                if (!/[A-Za-z]/.test(str)) return false;
+                
+                // Minimal 2 karakter alfabet (untuk singkatan seperti A.M)
+                const letterCount = (str.match(/[A-Za-z]/g) || []).length;
+                if (letterCount < 2) return false;
+                
+                // Periksa karakter yang diperbolehkan
+                // Nama bisa mengandung: huruf, angka, spasi, koma, titik, garis miring, tanda hubung
+                const allowedPattern = /^[A-Za-z0-9\s\.,\/\-]+$/;
+                if (!allowedPattern.test(str)) return false;
+                
+                return true;
+            }
+            
+            // Update statistics
+            function updateStats(results) {
+                if (results.length > 0) {
+                    const filterText = filterType.value === 'all' ? '' : ` (${filterType.value})`;
+                    const totalAmount = results.reduce((sum, item) => {
+                        const num = parseFloat(item.nominal.replace(/,/g, ''));
+                        return sum + (isNaN(num) ? 0 : num);
+                    }, 0);
+                    
+                    // Hitung per jenis transaksi
+                    const crCount = results.filter(r => r.type === 'CR').length;
+                    const dbCount = results.filter(r => r.type === 'DB').length;
+                    
+                    statsInfo.innerHTML = `
+                        STATUS: <span style="color:#00ffaa">SUKSES</span><br>
+                        TOTAL: <span style="color:#ff5500">${results.length} TRANSAKSI${filterText}</span><br>
+                        CR: <span style="color:#00ffaa">${crCount}</span> | 
+                        DB: <span style="color:#ff5500">${dbCount}</span><br>
+                        TOTAL NOMINAL: <span style="color:#0088ff">${formatCurrency(totalAmount)}</span>
+                    `;
+                } else {
+                    outputText.value = '';
+                    statsInfo.innerHTML = 'STATUS: <span style="color:#ff3366">TIDAK DITEMUKAN TRANSAKSI</span>';
+                }
+            }
+            
+            // Format currency
+            function formatCurrency(amount) {
+                return 'Rp ' + amount.toLocaleString('id-ID');
+            }
+            
+            // Copy to clipboard
+            async function copyToClipboard() {
+                if (!outputText.value.trim()) {
+                    showNotification('Tidak ada data untuk disalin!', 'error');
+                    return;
+                }
+                
+                copyBtn.classList.add('transform-click');
+                setTimeout(() => copyBtn.classList.remove('transform-click'), 300);
+                
+                try {
+                    await navigator.clipboard.writeText(outputText.value);
+                    showNotification('Berhasil disalin ke clipboard!', 'success');
+                } catch (err) {
+                    outputText.select();
+                    outputText.setSelectionRange(0, 99999);
+                    
+                    try {
+                        document.execCommand('copy');
+                        showNotification('Berhasil disalin ke clipboard!', 'success');
+                    } catch (e) {
+                        showNotification('Gagal menyalin ke clipboard!', 'error');
+                    }
+                }
+            }
+            
+            // Show notification
+            function showNotification(message, type = 'success') {
+                notificationText.textContent = message;
+                notification.className = 'notification';
+                notification.classList.add('show');
+                notification.classList.add(`notification-${type}`);
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Clear input
+            function clearInput() {
+                inputData.value = '';
+                outputText.value = '';
+                debugInfo.innerHTML = '';
+                debugInfo.style.display = 'none';
+                statsInfo.innerHTML = 'STATUS: MENUNGGU INPUT DATA...';
+                showNotification('Input telah dibersihkan!', 'success');
+                
+                clearBtn.classList.add('transform-click');
+                setTimeout(() => clearBtn.classList.remove('transform-click'), 300);
+            }
+            
+            // Load sample
+            function loadSample() {
+                inputData.value = `PEND
+TRSF E-BANKING DB
+2201/FTSCY/WS95271
+20000000.00
+ACHMAD FAUZAN ARIF
+0000
+20,000,000.00
+DB
+2,521,382.00
+PEND
+TRSF E-BANKING CR
+2201/FTSCY/WS95031
+100000.00
+AGUS MULIAWAN, A.M
+0000
+100,000.00
+CR
+2,621,382.00
+PEND
+BI-FAST CR
+TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO
+0000
+40,000,212.00
+CR
+42,621,594.00
+PEND
+TRSF E-BANKING CR
+2201/FTSCY/WS95031
+300000.00
+MARHASURUNGAN SIHO
+0000
+300,000.00
+CR
+42,921,594.00
+PEND
+SETORAN VIA CDM
+TANGGAL :22/01 22/01 WSID:Z9PP1 YUDI PURNO NUGROHO
+0998
+100,000.00
+CR
+43,021,594.00
+PEND
+TRSF E-BANKING CR
+2201/FTSCY/WS95271
+250701.00
+HASRUN
+0000
+250,701.00
+CR
+43,272,295.00
+PEND`;
+                
+                parseData();
+                showNotification('Data contoh telah dimuat!', 'success');
+                
+                loadSampleBtn.classList.add('transform-click');
+                setTimeout(() => loadSampleBtn.classList.remove('transform-click'), 300);
+            }
+            
+            // Test BI-FAST function
+            function testBIFast() {
+                const testData = `BI-FAST CR
+TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO
+0000
+40,000,212.00
+CR
+42,621,594.00
+PEND`;
+                
+                inputData.value = testData;
+                parseData();
+                showNotification('Test BI-FAST dijalankan!', 'success');
+                
+                // Tampilkan debug info
+                debugInfo.style.display = 'block';
+                
+                testBtn.classList.add('transform-click');
+                setTimeout(() => testBtn.classList.remove('transform-click'), 300);
+            }
+            
+            // Event listeners
+            parseBtn.addEventListener('click', parseData);
+            clearBtn.addEventListener('click', clearInput);
+            loadSampleBtn.addEventListener('click', loadSample);
+            copyBtn.addEventListener('click', copyToClipboard);
+            testBtn.addEventListener('click', testBIFast);
+            filterType.addEventListener('change', parseData);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    parseData();
+                }
+                
+                if (e.ctrlKey && e.key === 'c' && document.activeElement !== inputData) {
+                    copyToClipboard();
+                }
+                
+                if (e.ctrlKey && e.key === 'l') {
+                    clearInput();
+                }
+                
+                if (e.ctrlKey && e.key === 'd') {
+                    debugInfo.style.display = debugInfo.style.display === 'none' ? 'block' : 'none';
+                    if (debugInfo.style.display === 'block') {
+                        parseData();
+                    }
+                }
+            });
+            
+            // Parse on load
+            parseData();
+        });
+    </script>
+</body>
+</html>
