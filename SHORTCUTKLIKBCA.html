@@ -543,57 +543,7 @@
                 <div class="panel-title">
                     <span>📥 INPUT DATA MUTASI</span>
                 </div>
-                <textarea id="inputData" placeholder="Tempel data mutasi bank di sini... (Format: END, TRSF, nominal, nama, dll)">PEND
-TRSF E-BANKING DB
-2201/FTSCY/WS95271
-20000000.00
-ACHMAD FAUZAN ARIF
-0000
-20,000,000.00
-DB
-2,521,382.00
-PEND
-TRSF E-BANKING CR
-2201/FTSCY/WS95031
-100000.00
-AGUS MULIAWAN, A.M
-0000
-100,000.00
-CR
-2,621,382.00
-PEND
-BI-FAST CR
-TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO
-0000
-40,000,212.00
-CR
-42,621,594.00
-PEND
-TRSF E-BANKING CR
-2201/FTSCY/WS95031
-300000.00
-MARHASURUNGAN SIHO
-0000
-300,000.00
-CR
-42,921,594.00
-PEND
-SETORAN VIA CDM
-TANGGAL :22/01 22/01 WSID:Z9PP1 YUDI PURNO NUGROHO
-0998
-100,000.00
-CR
-43,021,594.00
-PEND
-TRSF E-BANKING CR
-2201/FTSCY/WS95271
-250701.00
-HASRUN
-0000
-250,701.00
-CR
-43,272,295.00
-PEND</textarea>
+                <textarea id="inputData" placeholder="Tempel data mutasi bank di sini... (Format: END, TRSF, nominal, nama, dll)"></textarea>
                 
                 <div class="filter-container">
                     <label class="filter-label">FILTER JENIS TRANSAKSI:</label>
@@ -628,9 +578,6 @@ PEND</textarea>
                     <button id="copyBtn" class="btn btn-success">
                         <span>📋 SALIN HASIL</span>
                     </button>
-                    <button id="testBtn" class="btn btn-secondary">
-                        <span>🧪 TEST BI-FAST</span>
-                    </button>
                 </div>
                 
                 <textarea id="outputText" readonly placeholder="Hasil ekstraksi akan muncul di sini..."></textarea>
@@ -655,14 +602,16 @@ PEND</textarea>
             const clearBtn = document.getElementById('clearBtn');
             const loadSampleBtn = document.getElementById('loadSampleBtn');
             const copyBtn = document.getElementById('copyBtn');
-            const testBtn = document.getElementById('testBtn');
             const filterType = document.getElementById('filterType');
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
             const statsInfo = document.getElementById('statsInfo');
             const debugInfo = document.getElementById('debugInfo');
             
-            // PARSING FUNCTION - SIMPLE AND WORKING
+            // Set default filter to CR
+            filterType.value = 'CR';
+            
+            // PARSING FUNCTION - MODIFIED TO EXCLUDE DB BY DEFAULT
             function parseData() {
                 const data = inputData.value;
                 const lines = data.split('\n');
@@ -690,9 +639,17 @@ PEND</textarea>
                     if (line.includes('TRSF E-BANKING') || line.includes('BI-FAST') || line.includes('SETORAN')) {
                         const transaction = processTransaction(lines, i);
                         if (transaction && transaction.name && transaction.nominal) {
-                            // Apply filter
+                            // Apply filter - MODIFIED: Default exclude DB
                             const filter = filterType.value;
-                            if (filter === 'all' || filter === transaction.type) {
+                            
+                            // Jika filter "all", kita tetap exclude transaksi DB
+                            // Kecuali jika user secara eksplisit memilih filter DB
+                            if (filter === 'all') {
+                                // Hanya tampilkan transaksi CR untuk filter "all"
+                                if (transaction.type === 'CR') {
+                                    results.push(transaction);
+                                }
+                            } else if (filter === transaction.type) {
                                 results.push(transaction);
                             }
                         }
@@ -956,7 +913,7 @@ PEND</textarea>
             
             function updateStats(results) {
                 if (results.length > 0) {
-                    const filterText = filterType.value === 'all' ? '' : ` (${filterType.value})`;
+                    const filterText = filterType.value === 'all' ? ' (HANYA CR)' : ` (${filterType.value})`;
                     const totalAmount = results.reduce((sum, item) => {
                         const num = parseFloat(item.nominal.replace(/,/g, ''));
                         return sum + (isNaN(num) ? 0 : num);
@@ -1031,57 +988,33 @@ PEND</textarea>
             }
             
             function loadSample() {
-                inputData.value = `PEND
+                inputData.value = `21/01/2026
 TRSF E-BANKING DB
-2201/FTSCY/WS95271
-20000000.00
-ACHMAD FAUZAN ARIF
+2101/FTSCY/WS95271
+50000.00
+WIWIN SAPTORINI
 0000
-20,000,000.00
+50,000.00
 DB
-2,521,382.00
-PEND
+114,538.21
+21/01/2026
 TRSF E-BANKING CR
-2201/FTSCY/WS95031
+2101/FTSCY/WS95271
+50000.00
+WIWIN SAPTORINI
+0000
+50,000.00
+CR
+164,538.21
+21/01/2026
+TRSF E-BANKING CR
+2101/FTSCY/WS95271
 100000.00
-AGUS MULIAWAN, A.M
+ROMI PURWANA
 0000
 100,000.00
 CR
-2,621,382.00
-PEND
-BI-FAST CR
-TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO
-0000
-40,000,212.00
-CR
-42,621,594.00
-PEND
-TRSF E-BANKING CR
-2201/FTSCY/WS95031
-300000.00
-MARHASURUNGAN SIHO
-0000
-300,000.00
-CR
-42,921,594.00
-PEND
-SETORAN VIA CDM
-TANGGAL :22/01 22/01 WSID:Z9PP1 YUDI PURNO NUGROHO
-0998
-100,000.00
-CR
-43,021,594.00
-PEND
-TRSF E-BANKING CR
-2201/FTSCY/WS95271
-250701.00
-HASRUN
-0000
-250,701.00
-CR
-43,272,295.00
-PEND`;
+264,538.21`;
                 
                 parseData();
                 showNotification('Data contoh telah dimuat!', 'success');
@@ -1090,34 +1023,14 @@ PEND`;
                 setTimeout(() => loadSampleBtn.classList.remove('transform-click'), 300);
             }
             
-            function testBIFast() {
-                const testData = `BI-FAST CR
-TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO
-0000
-40,000,212.00
-CR
-42,621,594.00
-PEND`;
-                
-                inputData.value = testData;
-                parseData();
-                showNotification('Test BI-FAST dijalankan!', 'success');
-                
-                debugInfo.style.display = 'block';
-                
-                testBtn.classList.add('transform-click');
-                setTimeout(() => testBtn.classList.remove('transform-click'), 300);
-            }
-            
             // Event listeners
             parseBtn.addEventListener('click', parseData);
             clearBtn.addEventListener('click', clearInput);
             loadSampleBtn.addEventListener('click', loadSample);
             copyBtn.addEventListener('click', copyToClipboard);
-            testBtn.addEventListener('click', testBIFast);
             filterType.addEventListener('change', parseData);
             
-            // Parse on load
+            // Set default filter and parse on load
             parseData();
         });
     </script>
