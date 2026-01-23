@@ -18,9 +18,6 @@
             --accent: #00ffaa;
             --danger: #ff3366;
             --success: #00cc88;
-            --bca-blue: #0066b3;
-            --bca-green: #00a859;
-            --dana-red: #ff2d55;
         }
         
         * {
@@ -43,7 +40,6 @@
             position: relative;
         }
         
-        /* Background 3D Elements */
         .transformers-bg {
             position: fixed;
             top: 0;
@@ -151,80 +147,6 @@
             line-height: 1.8;
         }
         
-        .bank-selector {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-        
-        .bank-tab {
-            padding: 15px 30px;
-            background: rgba(30, 30, 60, 0.7);
-            border-radius: 10px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            min-width: 180px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .bank-tab:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.7s ease;
-        }
-        
-        .bank-tab:hover:before {
-            left: 100%;
-        }
-        
-        .bank-tab.active {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-        }
-        
-        .bank-tab.bca {
-            background: linear-gradient(to right, rgba(0, 102, 179, 0.3), rgba(0, 102, 179, 0.5));
-            border-color: var(--bca-blue);
-        }
-        
-        .bank-tab.bca.active {
-            background: linear-gradient(to right, var(--bca-blue), #0077cc);
-            box-shadow: 0 10px 25px rgba(0, 102, 179, 0.5);
-        }
-        
-        .bank-tab.mybca {
-            background: linear-gradient(to right, rgba(0, 168, 89, 0.3), rgba(0, 168, 89, 0.5));
-            border-color: var(--bca-green);
-        }
-        
-        .bank-tab.mybca.active {
-            background: linear-gradient(to right, var(--bca-green), #00c267);
-            box-shadow: 0 10px 25px rgba(0, 168, 89, 0.5);
-        }
-        
-        .bank-tab.dana {
-            background: linear-gradient(to right, rgba(255, 45, 85, 0.3), rgba(255, 45, 85, 0.5));
-            border-color: var(--dana-red);
-        }
-        
-        .bank-tab.dana.active {
-            background: linear-gradient(to right, var(--dana-red), #ff5a7f);
-            box-shadow: 0 10px 25px rgba(255, 45, 85, 0.5);
-        }
-        
         .panels-container {
             display: flex;
             flex-wrap: wrap;
@@ -290,6 +212,7 @@
         
         textarea {
             width: 100%;
+            height: 200px;
             padding: 20px;
             background-color: rgba(10, 10, 25, 0.7);
             border: 1px solid rgba(255, 85, 0, 0.3);
@@ -505,41 +428,6 @@
             color: transparent;
         }
         
-        .bank-info {
-            background: rgba(20, 20, 40, 0.7);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--bca-blue);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .bank-info.mybca {
-            border-left-color: var(--bca-green);
-        }
-        
-        .bank-info.dana {
-            border-left-color: var(--dana-red);
-        }
-        
-        .bank-icon {
-            font-size: 2rem;
-        }
-        
-        .bank-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-        
-        .bank-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 5px;
-        }
-        
         @media (max-width: 768px) {
             .panels-container {
                 flex-direction: column;
@@ -559,19 +447,8 @@
                 right: 0;
                 margin: 0 auto 20px;
             }
-            
-            .bank-selector {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .bank-tab {
-                width: 100%;
-                max-width: 300px;
-            }
         }
         
-        /* Loading animation for processing */
         .processing {
             position: relative;
         }
@@ -593,7 +470,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Scan line effect */
         .scan-line {
             position: absolute;
             top: 0;
@@ -614,7 +490,6 @@
             100% { top: 100%; opacity: 0; }
         }
         
-        /* Transformer sound effect on button click */
         @keyframes transformSound {
             0% { transform: scale(1); }
             25% { transform: scale(0.95); }
@@ -643,7 +518,6 @@
     </style>
 </head>
 <body>
-    <!-- Background 3D elements -->
     <div class="transformers-bg">
         <div class="transformer-part part-1"></div>
         <div class="transformer-part part-2"></div>
@@ -651,7 +525,6 @@
         <div class="scan-line"></div>
     </div>
     
-    <!-- Transformer logo -->
     <div class="transformer-logo">
         <div class="logo-inner">
             <div class="logo-text">T3D</div>
@@ -665,36 +538,12 @@
             <p class="subtitle">Tool canggih dengan teknologi transform untuk mengekstrak nama dan nominal dari data mutasi bank. Hasil dapat langsung disalin untuk analisis lebih lanjut.</p>
         </div>
         
-        <!-- Bank Selection Menu -->
-        <div class="bank-selector">
-            <div class="bank-tab bca active" data-bank="klikbca">
-                <span>🏦 KLIKBCA</span>
-            </div>
-            <div class="bank-tab mybca" data-bank="mybca">
-                <span>📱 MYBCA</span>
-            </div>
-            <div class="bank-tab dana" data-bank="danabybk">
-                <span>💳 DANABYBK</span>
-            </div>
-        </div>
-        
         <div class="panels-container">
             <div class="panel">
-                <!-- Bank Info -->
-                <div class="bank-info bca" id="bankInfo">
-                    <div class="bank-icon">🏦</div>
-                    <div>
-                        <div class="bank-name">KLIKBCA</div>
-                        <div class="bank-desc">Paste data mutasi dari KlikBCA di sini. Format: PEND, TRSF, nominal, nama, dll</div>
-                    </div>
-                </div>
-                
                 <div class="panel-title">
                     <span>📥 INPUT DATA MUTASI</span>
                 </div>
-                
-                <textarea id="inputData" placeholder="Tempel data mutasi bank di sini...">
-PEND
+                <textarea id="inputData" placeholder="Tempel data mutasi bank di sini... (Format: END, TRSF, nominal, nama, dll)">PEND
 TRSF E-BANKING DB
 2201/FTSCY/WS95271
 20000000.00
@@ -793,7 +642,6 @@ PEND</textarea>
         </div>
     </div>
     
-    <!-- Notification -->
     <div class="notification" id="notification">
         <span id="notificationText">Berhasil disalin ke clipboard!</span>
     </div>
@@ -813,16 +661,377 @@ PEND</textarea>
             const notificationText = document.getElementById('notificationText');
             const statsInfo = document.getElementById('statsInfo');
             const debugInfo = document.getElementById('debugInfo');
-            const bankInfo = document.getElementById('bankInfo');
-            const bankTabs = document.querySelectorAll('.bank-tab');
             
-            // Bank selection data
-            const bankData = {
-                klikbca: {
-                    name: "KLIKBCA",
-                    icon: "🏦",
-                    desc: "Paste data mutasi dari KlikBCA di sini. Format: PEND, TRSF, nominal, nama, dll",
-                    sampleData: `PEND
+            // PARSING FUNCTION - SIMPLE AND WORKING
+            function parseData() {
+                const data = inputData.value;
+                const lines = data.split('\n');
+                const results = [];
+                
+                // Clear debug info
+                debugInfo.innerHTML = '';
+                debugInfo.style.display = 'none';
+                
+                // Button effect
+                parseBtn.classList.add('transform-click');
+                setTimeout(() => parseBtn.classList.remove('transform-click'), 300);
+                
+                let i = 0;
+                while (i < lines.length) {
+                    const line = lines[i].trim();
+                    
+                    // Skip empty lines
+                    if (!line) {
+                        i++;
+                        continue;
+                    }
+                    
+                    // Check for transaction start
+                    if (line.includes('TRSF E-BANKING') || line.includes('BI-FAST') || line.includes('SETORAN')) {
+                        const transaction = processTransaction(lines, i);
+                        if (transaction && transaction.name && transaction.nominal) {
+                            // Apply filter
+                            const filter = filterType.value;
+                            if (filter === 'all' || filter === transaction.type) {
+                                results.push(transaction);
+                            }
+                        }
+                        // Skip ahead
+                        i = Math.max(i + 1, transaction?.skipTo || i + 1);
+                    } else {
+                        i++;
+                    }
+                }
+                
+                // Format output
+                let output = '';
+                results.forEach(item => {
+                    output += `${item.name}\t${item.nominal}\n`;
+                });
+                
+                outputText.value = output;
+                
+                // Update stats
+                updateStats(results);
+                
+                showNotification(`Data berhasil diparsing! Ditemukan ${results.length} transaksi.`, 'success');
+            }
+            
+            // Process a transaction block
+            function processTransaction(lines, startIndex) {
+                const result = {
+                    name: '',
+                    nominal: '',
+                    type: '',
+                    skipTo: startIndex + 1
+                };
+                
+                const line = lines[startIndex].trim();
+                
+                // Determine transaction type
+                if (line.includes(' CR')) result.type = 'CR';
+                else if (line.includes(' DB')) result.type = 'DB';
+                else result.type = line.includes('BI-FAST') ? 'CR' : 'UNKNOWN';
+                
+                // Process based on transaction type
+                if (line.includes('TRSF E-BANKING')) {
+                    return processTRSF(lines, startIndex, result);
+                } else if (line.includes('BI-FAST')) {
+                    return processBIFast(lines, startIndex, result);
+                } else if (line.includes('SETORAN')) {
+                    return processSetoran(lines, startIndex, result);
+                }
+                
+                return result;
+            }
+            
+            // Process TRSF E-BANKING transaction
+            function processTRSF(lines, startIndex, result) {
+                // Pattern for TRSF:
+                // TRSF E-BANKING CR/DB
+                // [code/ref - skip]
+                // [nominal without comma]
+                // [name]
+                // 0000/0998
+                // [nominal with comma]
+                // CR/DB
+                
+                for (let i = startIndex + 1; i < Math.min(startIndex + 10, lines.length); i++) {
+                    const line = lines[i].trim();
+                    
+                    // Find nominal without comma (like 20000000.00)
+                    if (line.match(/^\d+\.\d{2}$/)) {
+                        const numValue = parseFloat(line);
+                        if (numValue >= 100) {
+                            // Next line should be name
+                            if (i + 1 < lines.length) {
+                                const nameLine = lines[i + 1].trim();
+                                if (isValidName(nameLine)) {
+                                    result.name = nameLine;
+                                    result.nominal = formatNominal(line);
+                                    result.skipTo = i + 2;
+                                    return result;
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Alternative: find name then 0000 then nominal
+                    if (line === '0000' || line === '0998') {
+                        // Look back for name
+                        if (i - 1 >= startIndex) {
+                            const nameLine = lines[i - 1].trim();
+                            if (isValidName(nameLine)) {
+                                result.name = nameLine;
+                                // Look forward for nominal
+                                if (i + 1 < lines.length) {
+                                    const nominalLine = lines[i + 1].trim();
+                                    if (nominalLine.match(/^\d+,\d{3}(,\d{3})*\.\d{2}$/)) {
+                                        result.nominal = formatNominal(nominalLine);
+                                        result.skipTo = i + 2;
+                                        return result;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return result;
+            }
+            
+            // Process BI-FAST transaction
+            function processBIFast(lines, startIndex, result) {
+                // Pattern for BI-FAST:
+                // BI-FAST CR
+                // [date and name line]
+                // 0000
+                // [nominal with comma]
+                // CR
+                
+                // Extract name from the date line (next line)
+                if (startIndex + 1 < lines.length) {
+                    const dateLine = lines[startIndex + 1].trim();
+                    const name = extractNameFromLine(dateLine);
+                    if (name) {
+                        result.name = name;
+                    }
+                }
+                
+                // Find 0000 and nominal
+                for (let i = startIndex; i < Math.min(startIndex + 10, lines.length); i++) {
+                    const line = lines[i].trim();
+                    
+                    if (line === '0000' || line === '0998') {
+                        if (i + 1 < lines.length) {
+                            const nominalLine = lines[i + 1].trim();
+                            if (nominalLine.match(/^\d+,\d{3}(,\d{3})*\.\d{2}$/)) {
+                                result.nominal = formatNominal(nominalLine);
+                                result.skipTo = i + 2;
+                                return result;
+                            }
+                        }
+                    }
+                }
+                
+                return result;
+            }
+            
+            // Process SETORAN transaction
+            function processSetoran(lines, startIndex, result) {
+                // Pattern for SETORAN:
+                // SETORAN VIA ...
+                // [date and name line]
+                // 0998
+                // [nominal with comma]
+                // CR
+                
+                // Extract name from the date line (next line)
+                if (startIndex + 1 < lines.length) {
+                    const dateLine = lines[startIndex + 1].trim();
+                    const name = extractNameFromLine(dateLine);
+                    if (name) {
+                        result.name = name;
+                    }
+                }
+                
+                // Find 0998/0000 and nominal
+                for (let i = startIndex; i < Math.min(startIndex + 10, lines.length); i++) {
+                    const line = lines[i].trim();
+                    
+                    if (line === '0998' || line === '0000') {
+                        if (i + 1 < lines.length) {
+                            const nominalLine = lines[i + 1].trim();
+                            if (nominalLine.match(/^\d+,\d{3}(,\d{3})*\.\d{2}$/)) {
+                                result.nominal = formatNominal(nominalLine);
+                                result.skipTo = i + 2;
+                                return result;
+                            }
+                        }
+                    }
+                }
+                
+                return result;
+            }
+            
+            // Helper functions
+            function extractNameFromLine(line) {
+                // For BI-FAST: "TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO"
+                if (line.includes('DR ')) {
+                    const parts = line.split('DR ');
+                    if (parts.length > 1) {
+                        const afterDR = parts[1];
+                        const nameParts = afterDR.split(' ');
+                        if (nameParts.length > 1) {
+                            // Remove first part (008) and join the rest
+                            return nameParts.slice(1).join(' ').trim();
+                        }
+                    }
+                }
+                
+                // For SETORAN: "TANGGAL :22/01 22/01 WSID:Z9PP1 YUDI PURNO NUGROHO"
+                if (line.includes('WSID:')) {
+                    const wsidIndex = line.indexOf('WSID:');
+                    if (wsidIndex !== -1) {
+                        const afterWSID = line.substring(wsidIndex);
+                        const parts = afterWSID.split(' ');
+                        if (parts.length > 1) {
+                            // Get parts after WSID:XXXXX
+                            return parts.slice(1).join(' ').trim();
+                        }
+                    }
+                }
+                
+                // If line looks like a name, return it
+                if (isValidName(line)) {
+                    return line;
+                }
+                
+                return '';
+            }
+            
+            function formatNominal(nominal) {
+                // Remove .00 and commas
+                return nominal.replace(/\.00$/, '').replace(/,/g, '');
+            }
+            
+            function isValidName(str) {
+                if (!str || str.length < 2) return false;
+                
+                // Not just numbers
+                if (/^\d+$/.test(str)) return false;
+                
+                // Invalid patterns
+                const invalidPatterns = [
+                    /^\d{4}\/\w+\/\w+$/,  // codes like 2201/FTSCY/WS95271
+                    /^TANGGAL/,           // date
+                    /^TRSF/,              // transaction type
+                    /^BI-FAST/,           // BI-FAST
+                    /^SETORAN/,           // SETORAN
+                    /^PEND$/,             // PEND
+                    /^END$/,              // END
+                    /^\d+\.\d{2}$/,       // nominal without comma
+                    /^\d+,\d{3}/,         // nominal with comma
+                    /^\d{4}$/,            // 4 digits like 0000
+                    /^[A-Z]{1,2}\d{5,}$/, // codes like WS95271
+                ];
+                
+                for (const pattern of invalidPatterns) {
+                    if (pattern.test(str)) {
+                        return false;
+                    }
+                }
+                
+                // Must contain letters
+                if (!/[A-Za-z]/.test(str)) return false;
+                
+                // Minimum 2 letters
+                const letterCount = (str.match(/[A-Za-z]/g) || []).length;
+                if (letterCount < 2) return false;
+                
+                // Allowed characters
+                const allowedPattern = /^[A-Za-z0-9\s\.,]+$/;
+                return allowedPattern.test(str);
+            }
+            
+            function updateStats(results) {
+                if (results.length > 0) {
+                    const filterText = filterType.value === 'all' ? '' : ` (${filterType.value})`;
+                    const totalAmount = results.reduce((sum, item) => {
+                        const num = parseFloat(item.nominal.replace(/,/g, ''));
+                        return sum + (isNaN(num) ? 0 : num);
+                    }, 0);
+                    
+                    const crCount = results.filter(r => r.type === 'CR').length;
+                    const dbCount = results.filter(r => r.type === 'DB').length;
+                    
+                    statsInfo.innerHTML = `
+                        STATUS: <span style="color:#00ffaa">SUKSES</span><br>
+                        TOTAL: <span style="color:#ff5500">${results.length} TRANSAKSI${filterText}</span><br>
+                        CR: <span style="color:#00ffaa">${crCount}</span> | 
+                        DB: <span style="color:#ff5500">${dbCount}</span><br>
+                        TOTAL NOMINAL: <span style="color:#0088ff">${formatCurrency(totalAmount)}</span>
+                    `;
+                } else {
+                    outputText.value = '';
+                    statsInfo.innerHTML = 'STATUS: <span style="color:#ff3366">TIDAK DITEMUKAN TRANSAKSI</span>';
+                }
+            }
+            
+            function formatCurrency(amount) {
+                return 'Rp ' + amount.toLocaleString('id-ID');
+            }
+            
+            async function copyToClipboard() {
+                if (!outputText.value.trim()) {
+                    showNotification('Tidak ada data untuk disalin!', 'error');
+                    return;
+                }
+                
+                copyBtn.classList.add('transform-click');
+                setTimeout(() => copyBtn.classList.remove('transform-click'), 300);
+                
+                try {
+                    await navigator.clipboard.writeText(outputText.value);
+                    showNotification('Berhasil disalin ke clipboard!', 'success');
+                } catch (err) {
+                    outputText.select();
+                    outputText.setSelectionRange(0, 99999);
+                    
+                    try {
+                        document.execCommand('copy');
+                        showNotification('Berhasil disalin ke clipboard!', 'success');
+                    } catch (e) {
+                        showNotification('Gagal menyalin ke clipboard!', 'error');
+                    }
+                }
+            }
+            
+            function showNotification(message, type = 'success') {
+                notificationText.textContent = message;
+                notification.className = 'notification';
+                notification.classList.add('show');
+                notification.classList.add(`notification-${type}`);
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            function clearInput() {
+                inputData.value = '';
+                outputText.value = '';
+                debugInfo.innerHTML = '';
+                debugInfo.style.display = 'none';
+                statsInfo.innerHTML = 'STATUS: MENUNGGU INPUT DATA...';
+                showNotification('Input telah dibersihkan!', 'success');
+                
+                clearBtn.classList.add('transform-click');
+                setTimeout(() => clearBtn.classList.remove('transform-click'), 300);
+            }
+            
+            function loadSample() {
+                inputData.value = `PEND
 TRSF E-BANKING DB
 2201/FTSCY/WS95271
 20000000.00
@@ -872,640 +1081,15 @@ HASRUN
 250,701.00
 CR
 43,272,295.00
-PEND`
-                },
-                mybca: {
-                    name: "MYBCA",
-                    icon: "📱",
-                    desc: "Paste data mutasi dari aplikasi MyBCA di sini. Format yang didukung dari mobile banking.",
-                    sampleData: `MYBCA MUTATION EXAMPLE
-22/01/2024 10:30
-TRANSFER KE
-BENEFICIARY: ACHMAD FAUZAN ARIF
-ACCOUNT: 1234567890
-AMOUNT: 20,000,000.00
-STATUS: SUCCESS
-
-22/01/2024 11:15
-TRANSFER FROM
-FROM: AGUS MULIAWAN, A.M
-ACCOUNT: 0987654321
-AMOUNT: 100,000.00
-STATUS: SUCCESS
-
-22/01/2024 12:00
-BI-FAST IN
-FROM: SIBENG SISWANTO
-ACCOUNT: 008-XXXXXX
-AMOUNT: 40,000,212.00
-STATUS: SUCCESS
-
-22/01/2024 13:45
-TRANSFER FROM
-FROM: MARHASURUNGAN SIHO
-ACCOUNT: 1122334455
-AMOUNT: 300,000.00
-STATUS: SUCCESS
-
-22/01/2024 14:30
-CDM DEPOSIT
-FROM: YUDI PURNO NUGROHO
-AMOUNT: 100,000.00
-STATUS: SUCCESS
-
-22/01/2024 15:20
-TRANSFER FROM
-FROM: HASRUN
-ACCOUNT: 5566778899
-AMOUNT: 250,701.00
-STATUS: SUCCESS`
-                },
-                danabybk: {
-                    name: "DANABYBK",
-                    icon: "💳",
-                    desc: "Paste data mutasi dari DANA by BCA di sini. Format khusus aplikasi DANA.",
-                    sampleData: `DANA TRANSACTION HISTORY
-Date: 22/01/2024
-Time: 10:30:15
-Type: Transfer Keluar
-To: ACHMAD FAUZAN ARIF
-Amount: Rp20,000,000
-Status: Berhasil
-Transaction ID: DANA240122103015
-
-Date: 22/01/2024
-Time: 11:15:22
-Type: Transfer Masuk
-From: AGUS MULIAWAN, A.M
-Amount: Rp100,000
-Status: Berhasil
-Transaction ID: DANA240122111522
-
-Date: 22/01/2024
-Time: 12:00:45
-Type: BI-FAST Masuk
-From: SIBENG SISWANTO
-Amount: Rp40,000,212
-Status: Berhasil
-Transaction ID: DANA240122120045
-
-Date: 22/01/2024
-Time: 13:45:18
-Type: Transfer Masuk
-From: MARHASURUNGAN SIHO
-Amount: Rp300,000
-Status: Berhasil
-Transaction ID: DANA240122134518
-
-Date: 22/01/2024
-Time: 14:30:33
-Type: Setoran Tunai
-From: YUDI PURNO NUGROHO
-Amount: Rp100,000
-Status: Berhasil
-Transaction ID: DANA240122143033
-
-Date: 22/01/2024
-Time: 15:20:57
-Type: Transfer Masuk
-From: HASRUN
-Amount: Rp250,701
-Status: Berhasil
-Transaction ID: DANA240122152057`
-                }
-            };
-            
-            let currentBank = 'klikbca';
-            
-            // Function to switch bank
-            function switchBank(bankType) {
-                currentBank = bankType;
+PEND`;
                 
-                // Update bank tabs
-                bankTabs.forEach(tab => {
-                    tab.classList.remove('active');
-                    if (tab.dataset.bank === bankType) {
-                        tab.classList.add('active');
-                    }
-                });
-                
-                // Update bank info
-                const bank = bankData[bankType];
-                bankInfo.className = 'bank-info ' + bankType;
-                bankInfo.innerHTML = `
-                    <div class="bank-icon">${bank.icon}</div>
-                    <div>
-                        <div class="bank-name">${bank.name}</div>
-                        <div class="bank-desc">${bank.desc}</div>
-                    </div>
-                `;
-                
-                // Update placeholder
-                inputData.placeholder = `Tempel data mutasi ${bank.name} di sini...`;
-                
-                // Parse current data
                 parseData();
-                
-                // Show notification
-                showNotification(`Berhasil beralih ke ${bank.name}`, 'success');
-            }
-            
-            // OPTIMIZED PARSING FUNCTION - ADJUSTED FOR DIFFERENT BANKS
-            function parseData() {
-                const data = inputData.value;
-                const lines = data.split('\n');
-                const results = [];
-                
-                // Transform button effect
-                parseBtn.classList.add('transform-click');
-                setTimeout(() => parseBtn.classList.remove('transform-click'), 300);
-                
-                // Clear debug info
-                debugInfo.innerHTML = '';
-                debugInfo.style.display = 'none';
-                
-                // Log untuk debugging
-                const debugLog = [];
-                debugLog.push(`Parsing data untuk bank: ${currentBank.toUpperCase()}`);
-                
-                // State variables
-                let currentName = '';
-                let currentNominal = '';
-                let transactionType = '';
-                let transactionContext = '';
-                
-                // Main parsing logic based on bank type
-                if (currentBank === 'klikbca') {
-                    parseKlikBCAData(lines, debugLog, results);
-                } else if (currentBank === 'mybca') {
-                    parseMyBCAData(lines, debugLog, results);
-                } else if (currentBank === 'danabybk') {
-                    parseDanaData(lines, debugLog, results);
-                }
-                
-                // Format output
-                let output = '';
-                results.forEach(item => {
-                    output += `${item.name}\t${item.nominal}\n`;
-                });
-                
-                outputText.value = output;
-                
-                // Update stats
-                updateStats(results);
-                
-                // Show debug info if enabled
-                if (results.length === 0 || debugInfo.style.display === 'block') {
-                    debugInfo.innerHTML = `<strong>DEBUG INFO - ${currentBank.toUpperCase()}:</strong><br>` + debugLog.join('<br>');
-                    debugInfo.style.display = 'block';
-                }
-                
-                showNotification(`Data berhasil diparsing! Ditemukan ${results.length} transaksi.`, 'success');
-            }
-            
-            // KlikBCA Parser (original parser)
-            function parseKlikBCAData(lines, debugLog, results) {
-                for (let i = 0; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    const prevLine = i > 0 ? lines[i-1].trim() : '';
-                    const nextLine = i + 1 < lines.length ? lines[i+1].trim() : '';
-                    
-                    debugLog.push(`${i}: "${line}"`);
-                    
-                    // 1. Deteksi Jenis Transaksi
-                    if (line.includes('BI-FAST')) {
-                        transactionContext = 'BI-FAST';
-                        debugLog.push(`  → Konteks: ${transactionContext}`);
-                        
-                        const nameMatch = extractNameFromLine(line);
-                        if (nameMatch) {
-                            currentName = nameMatch;
-                            debugLog.push(`  → Nama dari BI-FAST: ${currentName}`);
-                        }
-                    } 
-                    else if (line.includes('SETORAN')) {
-                        transactionContext = 'SETORAN';
-                        debugLog.push(`  → Konteks: ${transactionContext}`);
-                    }
-                    else if (line.includes('TRSF E-BANKING')) {
-                        transactionContext = 'TRSF';
-                        debugLog.push(`  → Konteks: ${transactionContext}`);
-                        
-                        if (line.includes(' CR')) transactionType = 'CR';
-                        if (line.includes(' DB')) transactionType = 'DB';
-                    }
-                    
-                    // 2. Deteksi Nominal Tanpa Koma
-                    if (line.match(/^\d+\.\d{2}$/) && !line.includes(',')) {
-                        const numValue = parseFloat(line);
-                        if (numValue >= 100 && numValue <= 10000000000) {
-                            currentNominal = cleanNominal(line);
-                            debugLog.push(`  → Nominal tanpa koma: ${currentNominal}`);
-                            
-                            if (transactionContext === 'TRSF' && nextLine && isValidName(nextLine)) {
-                                currentName = nextLine;
-                                debugLog.push(`  → Nama setelah nominal TRSF: ${currentName}`);
-                                i++;
-                            }
-                        }
-                    }
-                    
-                    // 3. Deteksi Nominal dengan Koma
-                    if ((prevLine === '0000' || prevLine === '0998') && 
-                        line.match(/^\d+,\d{3}(,\d{3})*\.\d{2}$/)) {
-                        
-                        currentNominal = cleanNominal(line);
-                        debugLog.push(`  → Nominal dengan koma: ${currentNominal}`);
-                        
-                        if (!currentName && i >= 2) {
-                            const possibleName = lines[i-2].trim();
-                            if (isValidName(possibleName)) {
-                                currentName = possibleName;
-                                debugLog.push(`  → Nama sebelum 0000: ${currentName}`);
-                            }
-                        }
-                    }
-                    
-                    // 4. Deteksi Kode 0000/0998
-                    if (line === '0000' || line === '0998') {
-                        if (i >= 1) {
-                            const possibleName = lines[i-1].trim();
-                            if (isValidName(possibleName) && !currentName) {
-                                currentName = possibleName;
-                                debugLog.push(`  → Nama sebelum ${line}: ${currentName}`);
-                            }
-                        }
-                    }
-                    
-                    // 5. Deteksi CR/DB
-                    if (line === 'CR' || line === 'DB') {
-                        transactionType = line;
-                        debugLog.push(`  → Jenis transaksi: ${transactionType}`);
-                        
-                        saveTransaction(results, debugLog);
-                    }
-                    
-                    // 6. Deteksi Akhir Transaksi
-                    if (line === 'PEND' || line === 'END' || i === lines.length - 1) {
-                        if (currentName && currentNominal && transactionType) {
-                            saveTransaction(results, debugLog);
-                        }
-                    }
-                    
-                    // 7. Deteksi Nama dari Teks Panjang
-                    if (!currentName && line.length > 10 && line.includes(' ')) {
-                        const extractedName = extractNameFromLine(line);
-                        if (extractedName && !currentName) {
-                            currentName = extractedName;
-                            debugLog.push(`  → Nama diekstrak: ${currentName}`);
-                        }
-                    }
-                }
-            }
-            
-            // MyBCA Parser
-            function parseMyBCAData(lines, debugLog, results) {
-                for (let i = 0; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    debugLog.push(`${i}: "${line}"`);
-                    
-                    // Deteksi tanggal
-                    if (line.match(/\d{2}\/\d{2}\/\d{4}/)) {
-                        continue;
-                    }
-                    
-                    // Deteksi transfer
-                    if (line.includes('TRANSFER') || line.includes('BI-FAST') || line.includes('CDM')) {
-                        if (line.includes('KE') || line.includes('OUT')) {
-                            transactionType = 'DB';
-                        } else if (line.includes('FROM') || line.includes('IN')) {
-                            transactionType = 'CR';
-                        }
-                        transactionContext = 'TRANSFER';
-                        debugLog.push(`  → Konteks: ${transactionContext}, Tipe: ${transactionType}`);
-                    }
-                    
-                    // Deteksi nama dari BENEFICIARY atau FROM
-                    if (line.includes('BENEFICIARY:') || line.includes('FROM:')) {
-                        const parts = line.split(':');
-                        if (parts.length > 1) {
-                            currentName = parts[1].trim();
-                            debugLog.push(`  → Nama ditemukan: ${currentName}`);
-                        }
-                    }
-                    
-                    // Deteksi nama dari "To:" atau "From:"
-                    if (line.startsWith('To:') || line.startsWith('From:')) {
-                        currentName = line.substring(line.indexOf(':') + 1).trim();
-                        debugLog.push(`  → Nama ditemukan: ${currentName}`);
-                    }
-                    
-                    // Deteksi nominal
-                    if (line.includes('AMOUNT:') || line.includes('Amount:')) {
-                        const amountMatch = line.match(/[\d,\.]+/);
-                        if (amountMatch) {
-                            currentNominal = cleanNominal(amountMatch[0]);
-                            debugLog.push(`  → Nominal ditemukan: ${currentNominal}`);
-                        }
-                    }
-                    
-                    // Deteksi nominal dari "Amount:" standalone
-                    if (line.startsWith('Amount:')) {
-                        const amountMatch = line.match(/[\d,\.]+/);
-                        if (amountMatch) {
-                            currentNominal = cleanNominal(amountMatch[0]);
-                            debugLog.push(`  → Nominal ditemukan: ${currentNominal}`);
-                        }
-                    }
-                    
-                    // Simpan transaksi ketika status ditemukan
-                    if (line.includes('STATUS:') || line.includes('Status:')) {
-                        if (currentName && currentNominal) {
-                            saveTransaction(results, debugLog);
-                        }
-                    }
-                }
-            }
-            
-            // DANA Parser
-            function parseDanaData(lines, debugLog, results) {
-                let dateLine = '';
-                
-                for (let i = 0; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    debugLog.push(`${i}: "${line}"`);
-                    
-                    // Simpan baris tanggal
-                    if (line.startsWith('Date:')) {
-                        dateLine = line;
-                    }
-                    
-                    // Lewati baris kosong dan header
-                    if (!line || line.includes('DANA TRANSACTION') || line.includes('Transaction ID')) {
-                        continue;
-                    }
-                    
-                    // Deteksi tipe transaksi
-                    if (line.includes('Type:')) {
-                        const type = line.substring(line.indexOf(':') + 1).trim();
-                        if (type.includes('Keluar') || type.includes('OUT')) {
-                            transactionType = 'DB';
-                        } else if (type.includes('Masuk') || type.includes('IN') || type.includes('Setoran')) {
-                            transactionType = 'CR';
-                        }
-                        transactionContext = type;
-                        debugLog.push(`  → Tipe transaksi: ${transactionContext}`);
-                    }
-                    
-                    // Deteksi nama
-                    if (line.startsWith('To:') || line.startsWith('From:')) {
-                        currentName = line.substring(line.indexOf(':') + 1).trim();
-                        debugLog.push(`  → Nama ditemukan: ${currentName}`);
-                    }
-                    
-                    // Deteksi nominal
-                    if (line.includes('Amount:') || line.includes('Rp')) {
-                        const amountMatch = line.match(/Rp?\s*[\d,\.]+/);
-                        if (amountMatch) {
-                            const amount = amountMatch[0].replace(/Rp?\s*/g, '');
-                            currentNominal = cleanNominal(amount);
-                            debugLog.push(`  → Nominal ditemukan: ${currentNominal}`);
-                        }
-                    }
-                    
-                    // Simpan transaksi ketika semua data lengkap
-                    if (currentName && currentNominal && transactionType) {
-                        saveTransaction(results, debugLog);
-                    }
-                }
-            }
-            
-            // Helper function to save transaction
-            function saveTransaction(results, debugLog) {
-                if (!currentName || !currentNominal) {
-                    debugLog.push(`  → GAGAL SIMPAN: Nama=${currentName}, Nominal=${currentNominal}`);
-                    return;
-                }
-                
-                const filter = filterType.value;
-                if (filter === 'all' || filter === transactionType) {
-                    results.push({
-                        name: currentName,
-                        nominal: currentNominal,
-                        type: transactionType || 'UNKNOWN',
-                        context: transactionContext
-                    });
-                    
-                    debugLog.push(`  → DISIMPAN: ${currentName} - ${currentNominal} - ${transactionType}`);
-                }
-                
-                // Reset untuk transaksi berikutnya
-                currentName = '';
-                currentNominal = '';
-                transactionType = '';
-                transactionContext = '';
-            }
-            
-            // Extract name from line
-            function extractNameFromLine(line) {
-                // Pattern 1: BI-FAST dengan format "TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO"
-                if (line.includes('DR ')) {
-                    const parts = line.split('DR ');
-                    if (parts.length > 1) {
-                        const afterDR = parts[1];
-                        const nameParts = afterDR.split(' ');
-                        if (nameParts.length > 1) {
-                            return nameParts.slice(1).join(' ').trim();
-                        }
-                    }
-                }
-                
-                // Pattern 2: SETORAN dengan format "TANGGAL :22/01 22/01 WSID:Z9PP1 YUDI PURNO NUGROHO"
-                if (line.includes('WSID:')) {
-                    const wsidIndex = line.indexOf('WSID:');
-                    if (wsidIndex !== -1) {
-                        const afterWSID = line.substring(wsidIndex);
-                        const parts = afterWSID.split(' ');
-                        if (parts.length > 1) {
-                            return parts.slice(1).join(' ').trim();
-                        }
-                    }
-                }
-                
-                if (isValidName(line)) {
-                    return line;
-                }
-                
-                const words = line.split(' ');
-                const possibleNameWords = [];
-                
-                for (const word of words) {
-                    if (word.length >= 3 && /[A-Za-z]/.test(word)) {
-                        if (!word.match(/^\d/) && !word.includes(':') && !word.includes('/')) {
-                            possibleNameWords.push(word);
-                        }
-                    }
-                }
-                
-                if (possibleNameWords.length >= 2) {
-                    return possibleNameWords.join(' ');
-                }
-                
-                return null;
-            }
-            
-            // Clean nominal
-            function cleanNominal(nominalStr) {
-                let cleaned = nominalStr.replace(/\.00$/, '');
-                cleaned = cleaned.replace(/,/g, '');
-                return formatNumberWithCommas(cleaned);
-            }
-            
-            // Format number with commas
-            function formatNumberWithCommas(numStr) {
-                const num = parseInt(numStr);
-                if (isNaN(num)) return numStr;
-                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
-            
-            // Name validation
-            function isValidName(str) {
-                if (!str || str.length < 2) return false;
-                if (/^\d+$/.test(str)) return false;
-                
-                const invalidPatterns = [
-                    /^\d{4}\/\w+\/\w+$/,
-                    /^TANGGAL/,
-                    /^TRSF/,
-                    /^BI-FAST/,
-                    /^SWITCHING/,
-                    /^SETORAN/,
-                    /^PEND$/,
-                    /^END$/,
-                    /^DB$/,
-                    /^CR$/,
-                    /^\d+\.\d{2}$/,
-                    /^\d+,\d{3}/,
-                    /^[A-Z]{2,3}\s+\d/,
-                    /^WSID:/,
-                    /^\d{2}\/\d{2}/,
-                    /^TRANSFER/,
-                    /^\d{4}$/,
-                    /^\d{3,4}\s*$/,
-                    /^[A-Z]{1,2}\d{5,}$/,
-                    /^\d+\/\d+\/\d+/,
-                ];
-                
-                for (const pattern of invalidPatterns) {
-                    if (pattern.test(str)) return false;
-                }
-                
-                if (!/[A-Za-z]/.test(str)) return false;
-                const letterCount = (str.match(/[A-Za-z]/g) || []).length;
-                if (letterCount < 2) return false;
-                
-                const allowedPattern = /^[A-Za-z0-9\s\.,\/\-]+$/;
-                if (!allowedPattern.test(str)) return false;
-                
-                return true;
-            }
-            
-            // Update statistics
-            function updateStats(results) {
-                if (results.length > 0) {
-                    const filterText = filterType.value === 'all' ? '' : ` (${filterType.value})`;
-                    const totalAmount = results.reduce((sum, item) => {
-                        const num = parseFloat(item.nominal.replace(/,/g, ''));
-                        return sum + (isNaN(num) ? 0 : num);
-                    }, 0);
-                    
-                    const crCount = results.filter(r => r.type === 'CR').length;
-                    const dbCount = results.filter(r => r.type === 'DB').length;
-                    
-                    statsInfo.innerHTML = `
-                        STATUS: <span style="color:#00ffaa">SUKSES</span><br>
-                        BANK: <span style="color:#ff5500">${currentBank.toUpperCase()}</span><br>
-                        TOTAL: <span style="color:#ff5500">${results.length} TRANSAKSI${filterText}</span><br>
-                        CR: <span style="color:#00ffaa">${crCount}</span> | 
-                        DB: <span style="color:#ff5500">${dbCount}</span><br>
-                        TOTAL NOMINAL: <span style="color:#0088ff">${formatCurrency(totalAmount)}</span>
-                    `;
-                } else {
-                    outputText.value = '';
-                    statsInfo.innerHTML = `
-                        STATUS: <span style="color:#ff3366">TIDAK DITEMUKAN TRANSAKSI</span><br>
-                        BANK: <span style="color:#ff5500">${currentBank.toUpperCase()}</span>
-                    `;
-                }
-            }
-            
-            // Format currency
-            function formatCurrency(amount) {
-                return 'Rp ' + amount.toLocaleString('id-ID');
-            }
-            
-            // Copy to clipboard
-            async function copyToClipboard() {
-                if (!outputText.value.trim()) {
-                    showNotification('Tidak ada data untuk disalin!', 'error');
-                    return;
-                }
-                
-                copyBtn.classList.add('transform-click');
-                setTimeout(() => copyBtn.classList.remove('transform-click'), 300);
-                
-                try {
-                    await navigator.clipboard.writeText(outputText.value);
-                    showNotification('Berhasil disalin ke clipboard!', 'success');
-                } catch (err) {
-                    outputText.select();
-                    outputText.setSelectionRange(0, 99999);
-                    
-                    try {
-                        document.execCommand('copy');
-                        showNotification('Berhasil disalin ke clipboard!', 'success');
-                    } catch (e) {
-                        showNotification('Gagal menyalin ke clipboard!', 'error');
-                    }
-                }
-            }
-            
-            // Show notification
-            function showNotification(message, type = 'success') {
-                notificationText.textContent = message;
-                notification.className = 'notification';
-                notification.classList.add('show');
-                notification.classList.add(`notification-${type}`);
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
-            }
-            
-            // Clear input
-            function clearInput() {
-                inputData.value = '';
-                outputText.value = '';
-                debugInfo.innerHTML = '';
-                debugInfo.style.display = 'none';
-                statsInfo.innerHTML = 'STATUS: MENUNGGU INPUT DATA...';
-                showNotification('Input telah dibersihkan!', 'success');
-                
-                clearBtn.classList.add('transform-click');
-                setTimeout(() => clearBtn.classList.remove('transform-click'), 300);
-            }
-            
-            // Load sample
-            function loadSample() {
-                inputData.value = bankData[currentBank].sampleData;
-                parseData();
-                showNotification(`Data contoh ${bankData[currentBank].name} telah dimuat!`, 'success');
+                showNotification('Data contoh telah dimuat!', 'success');
                 
                 loadSampleBtn.classList.add('transform-click');
                 setTimeout(() => loadSampleBtn.classList.remove('transform-click'), 300);
             }
             
-            // Test BI-FAST function
             function testBIFast() {
                 const testData = `BI-FAST CR
 TANGGAL :22/01 TRANSFER DR 008 SIBENG SISWANTO
@@ -1532,46 +1116,6 @@ PEND`;
             copyBtn.addEventListener('click', copyToClipboard);
             testBtn.addEventListener('click', testBIFast);
             filterType.addEventListener('change', parseData);
-            
-            // Bank tab event listeners
-            bankTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    switchBank(tab.dataset.bank);
-                });
-            });
-            
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                if (e.ctrlKey && e.key === 'Enter') {
-                    parseData();
-                }
-                
-                if (e.ctrlKey && e.key === 'c' && document.activeElement !== inputData) {
-                    copyToClipboard();
-                }
-                
-                if (e.ctrlKey && e.key === 'l') {
-                    clearInput();
-                }
-                
-                if (e.ctrlKey && e.key === 'd') {
-                    debugInfo.style.display = debugInfo.style.display === 'none' ? 'block' : 'none';
-                    if (debugInfo.style.display === 'block') {
-                        parseData();
-                    }
-                }
-                
-                // Bank switching shortcuts
-                if (e.ctrlKey && e.key === '1') {
-                    switchBank('klikbca');
-                }
-                if (e.ctrlKey && e.key === '2') {
-                    switchBank('mybca');
-                }
-                if (e.ctrlKey && e.key === '3') {
-                    switchBank('danabybk');
-                }
-            });
             
             // Parse on load
             parseData();
