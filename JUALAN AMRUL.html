@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚬 Barrai88 Price List - Premium Cigarette Gallery 🚬</title>
+
+<link href="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/BARRAI%20BG%20(1).png?raw=true" rel="stylesheet">
+
+<style>
+/* RESET & BASE STYLES */
+* {
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
+}
+
+body {
+margin: 0;
+padding: 0;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: flex-start;
+background-image: url('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/BARRAI%20BG.png?raw=true');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+padding: 20px 15px;
+color: white;
+}
+
+.container { width: 100%; max-width: 1100px; text-align: center; }
+
+h2 {
+color: rgb(4, 240, 248);
+text-shadow: 2px 4px 15px rgba(0,0,0,0.8);
+margin-bottom: 20px;
+text-transform: uppercase;
+letter-spacing: 2px;
+font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+/* SEARCH BAR */
+#searchInput {
+width: 100%;
+max-width: 600px;
+padding: 10px 20px;
+margin-bottom: 20px;
+border-radius: 25px;
+border: 2px solid rgb(2, 252, 239);
+background: rgba(255,255,255,0.2);
+backdrop-filter: blur(10px);
+color: white;
+outline: none;
+font-size: 1rem;
+transition: 0.3s;
+font-weight: bold;
+box-shadow: 0 4px 15px rgba(34, 158, 217, 0.3);
+}
+#searchInput:focus { border-color: rgb(4, 240, 248); background: rgba(255,255,255,0.3); }
+
+/* MARQUEE */
+.marquee-container {
+width: 100%;
+overflow: hidden;
+background: rgba(0, 0, 0, 0.6);
+backdrop-filter: blur(8px);
+border-radius: 50px;
+margin-bottom: 15px;
+padding: 10px 0;
+border: 2px solid rgb(2, 252, 239);
+}
+.marquee-text {
+display: inline-block; white-space: nowrap;
+animation: geser 30s linear infinite;
+color: rgb(4, 240, 248); font-weight: bold;
+}
+@keyframes geser { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+/* TOMBOL ORDER UTAMA */
+.btn-telegram-single {
+background: rgba(101, 121, 131, 0.2);
+color: white;
+width: 100%;
+max-width: 300px;
+text-decoration: none;
+padding: 10px 20px;
+border-radius: 50px;
+font-weight: 700;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+margin-bottom: 30px;
+transition: 0.3s;
+box-shadow: 0 4px 15px rgba(34, 158, 217, 0.3);
+border: 2px solid rgb(2, 252, 239);
+}
+.btn-telegram-single:hover { transform: translateY(-3px); background: rgba(2, 252, 239, 0.3); box-shadow: 0 6px 20px rgba(31, 100, 250, 0.3); }
+
+/* GRID PRODUK */
+.menu-container {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+gap: 15px; width: 100%;
+}
+
+.card {
+background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
+border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
+overflow: hidden; cursor: pointer; transition: 0.3s;
+}
+.card:hover { transform: translateY(-10px); border-color: rgb(2, 252, 239); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+.card img {
+width: 100%; height: 160px; object-fit: cover;
+background: rgba(0,0,0,0.2); transition: 0.5s;
+}
+
+.card-content { padding: 15px; text-align: center; }
+.product-name { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
+.price-tag { color: rgb(2, 252, 239); font-weight: 700; font-size: 1.1rem; display: block; }
+
+/* POP-UP MODAL */
+.modal {
+display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+width: 100%; height: 100%; background-color: rgba(0,0,0,0.9);
+backdrop-filter: blur(10px); align-items: center; justify-content: center;
+}
+.modal-content {
+background: #1a1a1a; border: 2px solid rgb(2, 252, 239); width: 90%; max-width: 380px;
+padding: 25px; border-radius: 25px; text-align: center; color: white;
+position: relative; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.close-modal { position: absolute; top: 10px; right: 20px; font-size: 30px; color: white; cursor: pointer; }
+.modal-img { width: 100%; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+
+.btn-modal-order {
+background: #229ED9; color: white; text-decoration: none; padding: 12px;
+border-radius: 12px; font-weight: bold; display: block; margin-top: 20px; transition: 0.3s;
+}
+.btn-modal-order:hover { background: #1c82b3; }
+
+#backToTop {
+position: fixed; bottom: 25px; right: 25px; z-index: 99;
+background: rgb(2, 252, 239); color: #000; width: 50px; height: 50px;
+border-radius: 50%; border: none; cursor: pointer;
+display: none; align-items: center; justify-content: center;
+font-size: 24px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+transition: 0.3s;
+}
+
+@media screen and (max-width: 600px) {
+.menu-container { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.card img { height: 130px; }
+.product-name { font-size: 0.8rem; }
+.price-tag { font-size: 1rem; }
+h2 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>🚬 AMRUL RUKOK 🚬</h2>
+
+<input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Cari produk favoritmu...">
+
+<div class="marquee-container">
+<div class="marquee-text">⚠️✈️ MENERIMA SEMUA BARANG JASTIP TERKECUALI BARANG TERLARANG ✈️⚠️ &nbsp;&nbsp;&nbsp; ⚠️ HARGA DAPAT BERUBAH SEWAKTU WAKTU - PRICES MAY CHANGE AT ANY TIME ⚠️ &nbsp;&nbsp;&nbsp; ⚠️ 🚬JIKA ROKOK ANDA TIDAK ADA LIST KAMI SILAKAN REQUEST YA BOSKU 🚬⚠️ &nbsp;&nbsp;&nbsp; ⚠️ 🚬ANDA INGIN ROKOK MURAH DAN BERKUALITAS SEGERA HUBUNGI BARRAI88, INGAT KAMI PENJUAL ROKOK BUKAN RENTENIR 🚬⚠️</div>
+</div>
+
+<a href="#" class="btn-telegram-single" onclick="orderTelegramUmum()">
+✈️ CONTACT US 🚬
+</a>
+
+<div class="menu-container" id="productGrid">
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mkp.png?raw=true', 'MKP CAP AYAM 150 ML', '3.500')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mkp.png?raw=true" loading="lazy" alt="MKP CAP AYAM 150 ML">
+<div class="card-content">
+<div class="product-name">MKP CAP AYAM 150 ML </div>
+<span class="price-tag">฿ 3.500 min 1 lusin</span>
+<span class="price-tag">฿ 3.350 min 5 lusin</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mkp.png?raw=true', 'MKP CAP AYAM 40 ML', '1.300')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mkp.png?raw=true" loading="lazy" alt="MKP CAP AYAM 40 ML">
+<div class="card-content">
+<div class="product-name">MKP CAP AYAM 40 ML </div>
+<span class="price-tag">฿ 1.300 min 1 lusin</span>
+<span class="price-tag">฿ 1.150 min 5 lusin</span>>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mkp.png?raw=true', 'MKP CAP AYAM 25 ML', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mkp.png?raw=true" loading="lazy" alt="MKP CAP AYAM 25 ML">
+<div class="card-content">
+<div class="product-name">MKP CAP AYAM 25 ML </div>
+<span class="price-tag">฿ 1.100 min 1 lusin</span>
+<span class="price-tag">฿ 950 min 5 lusin</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mkp.png?raw=true', 'MKP CAP AYAM 12 ML', '800')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mkp.png?raw=true" loading="lazy" alt="MKP CAP AYAM 12 ML">
+<div class="card-content">
+<div class="product-name">MKP CAP AYAM 12 ML </div>
+<span class="price-tag">฿ 800 min 1 lusin </span>
+<span class="price-tag">฿ 700 min 5 lusin</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/54.png?raw=true', 'kanzler crispy chicken nugget stick 450gr', '400')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/54.png?raw=true" loading="lazy" alt="kanzler crispy chicken nugget stick 450gr">
+<div class="card-content">
+<div class="product-name">kanzler crispy chicken nugget stick 450gr</div>
+<span class="price-tag">฿ 400 </span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/55.png?raw=true', 'kanzler crispy chicken nugget spicy 450gr', '400')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/55.png?raw=true" loading="lazy" alt="kanzler crispy chicken nugget spicy 450gr">
+<div class="card-content">
+<div class="product-name">kanzler crispy chicken nugget spicy 450gr</div>
+<span class="price-tag">฿ 400 </span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/sempurna%2012.png?raw=true', 'SAMPOERNA MILD 12', '1.050')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/sempurna%2012.png?raw=true" loading="lazy" alt="Sampoerna 12">
+<div class="card-content">
+<div class="product-name">SAMPOERNA MILD 12 </div>
+<span class="price-tag">฿ 1.050 min 1 slop</span>
+<span class="price-tag">฿ 1.000 min 5 slop</span>
+<span class="price-tag">฿ 950 min 10 slop</span>
+<span class="price-tag">฿ 900 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/SEMPURNA%20MILD.png?raw=true', 'SAMPOERNA MILD 16', '1.200')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/SEMPURNA%20MILD.png?raw=true" loading="lazy" alt="SAMPOERNA MILD 16">
+<div class="card-content">
+<div class="product-name">SAMPOERNA MILD 16</div>
+<span class="price-tag">฿ 1.200 min 1 slop</span>
+<span class="price-tag">฿ 1.150 min 5 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/sempurna%20mild%2050.png?raw=true', 'SAMPOERNA MILD 50', '1.300')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/sempurna%20mild%2050.png?raw=true" loading="lazy" alt="SAMPOERNA MILD 50">
+<div class="card-content">
+<div class="product-name">SAMPOERNA MILD 50</div>
+<span class="price-tag">฿ 1.300 min 1 slop</span>
+<span class="price-tag">฿ 1.250 min 5 slop</span>
+<span class="price-tag">฿ 1.200 min 10 slop</span>
+<span class="price-tag">฿ 1.150 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/SEMPURNA%20MENTHOL.png?raw=true', 'SAMPOERNA MENTHOL 16', '1.200')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/SEMPURNA%20MENTHOL.png?raw=true" loading="lazy" alt="SAMPOERNA MENTHOL 16">
+<div class="card-content">
+<div class="product-name">SAMPOERNA MENTHOL 16</div>
+<span class="price-tag">฿ 1.200 min 1 slop</span>
+<span class="price-tag">฿ 1.150 min 5 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/sempurna%20splash%20royal.png?raw=true', 'SAMPOERNA SPLASH ROYAL 16','1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/sempurna%20splash%20royal.png?raw=true" loading="lazy" alt="Sampoerna 16">
+<div class="card-content">
+<div class="product-name">SAMPOERNA SPLASH ROYAL 16</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/sempurna%20splash%20tropical.png?raw=true', 'SAMPOERNA SPLASH TROPICAL 16', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/sempurna%20splash%20tropical.png?raw=true" loading="lazy" alt="Sampoerna 16">
+<div class="card-content">
+<div class="product-name">SAMPOERNA SPLASH TROPICAL 16</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/avolution%20menthol.png?raw=true', 'AVOLUTION MENTHOL', '1.350')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/avolution%20menthol.png?raw=true" loading="lazy" alt="Sampoerna 12">
+<div class="card-content">
+<div class="product-name">AVOLUTION MENTHOL</div>
+<span class="price-tag">฿ 1.350 min 1 slop</span>
+<span class="price-tag">฿ 1.300 min 5 slop</span>
+<span class="price-tag">฿ 1.250 min 10 slop</span>
+<span class="price-tag">฿ 1.200 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/avolution%20red.png?raw=true', 'AVOLUTION RED', '1.350')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/avolution%20red.png?raw=true" loading="lazy" alt="Sampoerna 16">
+<div class="card-content">
+<div class="product-name">AVOLUTION RED</div>
+<span class="price-tag">฿ 1.350 min 1 slop</span>
+<span class="price-tag">฿ 1.300 min 5 slop</span>
+<span class="price-tag">฿ 1.250 min 10 slop</span>
+<span class="price-tag">฿ 1.200 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20PURPLE.png?raw=true', 'CAMEL PURPLE 100S', '1.050')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20PURPLE.png?raw=true" loading="lazy" alt="Sampoerna 12">
+<div class="card-content">
+<div class="product-name">CAMEL PURPLE 100S</div>
+<span class="price-tag">฿ 1.050 min 1 slop</span>
+<span class="price-tag">฿ 1.000 min 5 slop</span>
+<span class="price-tag">฿ 950 min 10 slop</span>
+<span class="price-tag">฿ 900 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20PURPLE%20CONNECT.png?raw=true', 'CAMEL PURPLE CONNECT', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20PURPLE%20CONNECT.png?raw=true" loading="lazy" alt="CAMEL PURPLE CONNECT">
+<div class="card-content">
+<div class="product-name">CAMEL PURPLE CONNECT</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20PURPLE%2012.png?raw=true', 'CAMEL PURPLE REGULER 12', '950')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20PURPLE%2012.png?raw=true" loading="lazy" alt="CAMEL PURPLE REGULER 12">
+<div class="card-content">
+<div class="product-name">CAMEL PURPLE REGULER 12</div>
+<span class="price-tag">฿ 950 min 1 slop</span>
+<span class="price-tag">฿ 900 min 5 slop</span>
+<span class="price-tag">฿ 850 min 10 slop</span>
+<span class="price-tag">฿ 800 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20WHITE%20100S.png?raw=true', 'CAMEL WHITE 100S', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20WHITE%20100S.png?raw=true" loading="lazy" alt="CAMEL WHITE 100S">
+<div class="card-content">
+<div class="product-name">CAMEL WHITE 100S</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20WHITE.png?raw=true', 'CAMEL WHITE REGULER', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20WHITE.png?raw=true" loading="lazy" alt="CAMEL WHITE REGULER">
+<div class="card-content">
+<div class="product-name">CAMEL WHITE REGULER</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 5 slop</span>
+<span class="price-tag">฿ 1.000 min 10 slop</span>
+<span class="price-tag">฿ 950 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20YELLOW%20100S.png?raw=true', 'CAMEL YELLOW 100S', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20YELLOW%20100S.png?raw=true" loading="lazy" alt="CAMEL YELLOW 100S">
+<div class="card-content">
+<div class="product-name">CAMEL YELLOW 100S</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20YELLOW.png?raw=true', 'CAMEL YELLOW REGULER', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/CAMEL%20YELLOW.png?raw=true" loading="lazy" alt="CAMEL YELLOW REGULER">
+<div class="card-content">
+<div class="product-name">CAMEL YELLOW REGULER</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 5 slop</span>
+<span class="price-tag">฿ 1.000 min 10 slop</span>
+<span class="price-tag">฿ 950 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/234%20DJI%20SAM%20SOE%20BLACK.png?raw=true', 'DJI SAM SOE 234 BLACK', '950')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/234%20DJI%20SAM%20SOE%20BLACK.png?raw=true" loading="lazy" alt="DJI SAM SOE 234 BLACK">
+<div class="card-content">
+<div class="product-name">DJI SAM SOE 234 BLACK</div>
+<span class="price-tag">฿ 950 min 1 slop</span>
+<span class="price-tag">฿ 900 min 10 slop</span>
+<span class="price-tag">฿ 850 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/234%20DJI%20SAMSOE%20YELLOW.png?raw=true', 'DJIE SAM SOE 234 HIJAU', '900')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/234%20DJI%20SAMSOE%20YELLOW.png?raw=true" loading="lazy" alt="DJIE SAM SOE 234 HIJAU">
+<div class="card-content">
+<div class="product-name">DJIE SAM SOE 234 HIJAU</div>
+<span class="price-tag">฿ 900 min 1 slop</span>
+<span class="price-tag">฿ 850 min 10 slop</span>
+<span class="price-tag">฿ 800 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/DUNHILL%20BLACK%2016.png?raw=true', 'DUNHILL BLACK 16', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/DUNHILL%20BLACK%2016.png?raw=true" loading="lazy" alt="DUNHILL BLACK 16">
+<div class="card-content">
+<div class="product-name">DUNHILL BLACK 16</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/DUNHILL%20WHITE%2016.png?raw=true', 'DUNHILL WHITE 16', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/DUNHILL%20WHITE%2016.png?raw=true" loading="lazy" alt="DUNHILL WHITE 16">
+<div class="card-content">
+<div class="product-name">DUNHILL WHITE 16</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/DUNHILL%20WHITE%2020.png?raw=true', 'DUNHILL WHITE 20', '1.300')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/DUNHILL%20WHITE%2020.png?raw=true" loading="lazy" alt="DUNHILL WHITE 20">
+<div class="card-content">
+<div class="product-name">DUNHILL WHITE 20</div>
+<span class="price-tag">฿ 1.300 min 1 slop</span>
+<span class="price-tag">฿ 1.250 min 5 slop</span>
+<span class="price-tag">฿ 1.200 min 10 slop</span>
+<span class="price-tag">฿ 1.150 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/JUARA%20JAMBU.png?raw=true', 'JUARA JAMBU', '850')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/JUARA%20JAMBU.png?raw=true" loading="lazy" alt="JUARA JAMBU">
+<div class="card-content">
+<div class="product-name">JUARA JAMBU</div>
+<span class="price-tag">฿ 850 min 1 slop</span>
+<span class="price-tag">฿ 800 min 5 slop</span>
+<span class="price-tag">฿ 750 min 10 slop</span>
+<span class="price-tag">฿ 700 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/JUARA%20MANGGA.png?raw=true', 'JUARA MANGO', '850')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/JUARA%20MANGGA.png?raw=true" loading="lazy" alt="JUARA MANGO">
+<div class="card-content">
+<div class="product-name">JUARA MANGO</div>
+<span class="price-tag">฿ 850 min 1 slop</span>
+<span class="price-tag">฿ 800 min 5 slop</span>
+<span class="price-tag">฿ 750 min 10 slop</span>
+<span class="price-tag">฿ 700 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/juara%20teh%20manis%20kretek.png?raw=true', 'JUARA TEH MANIS KRETEK', '850')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/juara%20teh%20manis%20kretek.png?raw=true" loading="lazy" alt="JUARA TEH MANIS KRETEK">
+<div class="card-content">
+<div class="product-name">JUARA TEH MANIS KRETEK</div>
+<span class="price-tag">฿ 850 min 1 slop</span>
+<span class="price-tag">฿ 800 min 10 slop</span>
+<span class="price-tag">฿ 750 min 10 slop</span>
+<span class="price-tag">฿ 700 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/JUARA%20TEH%20MANIS.png?raw=true', 'JUARA TEH MANIS FILTER', '950')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/JUARA%20TEH%20MANIS.png?raw=true" loading="lazy" alt="JUARA TEH MANIS FILTER">
+<div class="card-content">
+<div class="product-name">JUARA TEH MANIS FILTER</div>
+<span class="price-tag">฿ 950 min 1 slop</span>
+<span class="price-tag">฿ 900 min 10 slop</span>
+<span class="price-tag">฿ 850 UP 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/LA%20BOLD%2016.png?raw=true', 'L.A BOLD 16', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/LA%20BOLD%2016.png?raw=true" loading="lazy" alt="L.A BOLD 16">
+<div class="card-content">
+<div class="product-name">L.A BOLD 16</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 5 slop</span>
+<span class="price-tag">฿ 1.000 min 10 slop</span>
+<span class="price-tag">฿ 950 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/LA%20BOLD%2020.png?raw=true', 'L.A BOLD 20', '1.200')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/LA%20BOLD%2020.png?raw=true" loading="lazy" alt="L.A BOLD 20">
+<div class="card-content">
+<div class="product-name">L.A BOLD 20</div>
+<span class="price-tag">฿ 1.200 min 1 slop</span>
+<span class="price-tag">฿ 1.150 min 5 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/LA%20MANGGO%20BOSST.png?raw=true', 'L.A MANGO BOOST', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/LA%20MANGGO%20BOSST.png?raw=true" loading="lazy" alt="L.A MANGO BOOST">
+<div class="card-content">
+<div class="product-name">L.A MANGO BOOST</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/L.A%20LIGHTS.png?raw=true', 'L.A LIGHTS', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/L.A%20LIGHTS.png?raw=true" loading="lazy" alt="L.A LIGHTS">
+<div class="card-content">
+<div class="product-name">L.A LIGHTS</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/L.A%20ICE.png?raw=true', 'L.A ICE', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/L.A%20ICE.png?raw=true" loading="lazy" alt="L.A ICE">
+<div class="card-content">
+<div class="product-name">L.A ICE</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/DJARUM%20CIGARILLOS.png?raw=true', 'DJARUM CIGARILLOS', '900')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/DJARUM%20CIGARILLOS.png?raw=true" loading="lazy" alt="DJARUM CIGARILLOS">
+<div class="card-content">
+<div class="product-name">DJARUM CIGARILLOS</div>
+<span class="price-tag">฿ 900 min 1 slop</span>
+<span class="price-tag">฿ 850 min 5 slop</span>
+<span class="price-tag">฿ 800 min 10 slop</span>
+<span class="price-tag">฿ 750 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/BLACK%20MILD%20CAPPUCCINO.png?raw=true', 'DJARUM BLACK MILD CAPPUCCINO', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/BLACK%20MILD%20CAPPUCCINO.png?raw=true" loading="lazy" alt="DJARUM BLACK MILD CAPPUCCINO">
+<div class="card-content">
+<div class="product-name">DJARUM BLACK MILD CAPPUCCINO</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 5 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mustang.png?raw=true', 'MUSTANG', '850')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/mustang.png?raw=true" loading="lazy" alt="MUSTANG">
+<div class="card-content">
+<div class="product-name">MUSTANG</div>
+<span class="price-tag">฿ 850 min 1 slop</span>
+<span class="price-tag">฿ 800 min 5 slop</span>
+<span class="price-tag">฿ 750 min 10 slop</span>
+<span class="price-tag">฿ 700 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/LUCKY%20STRIKE%20RED.png?raw=true', 'LUCKY STRIKE RED', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/LUCKY%20STRIKE%20RED.png?raw=true" loading="lazy" alt="LUCKY STRIKE RED">
+<div class="card-content">
+<div class="product-name">LUCKY STRIKE RED</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 5 slop</span>
+<span class="price-tag">฿ 1.000 min 10 slop</span>
+<span class="price-tag">฿ 950 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MAGNUM%20FILTER%20BLACK.png?raw=true', 'MAGNUM BLACK FILTER', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MAGNUM%20FILTER%20BLACK.png?raw=true" loading="lazy" alt="MAGNUM BLACK FILTER">
+<div class="card-content">
+<div class="product-name">MAGNUM BLACK FILTER</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 5 slop</span>
+<span class="price-tag">฿ 1.000 min 10 slop</span>
+<span class="price-tag">฿ 950 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MAGNUM%20FILTER%20EDISI%20BINTANG.png?raw=true', 'MAGNUM BLACK FILTER EDISI BINTANG', '1.000')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MAGNUM%20FILTER%20EDISI%20BINTANG.png?raw=true" loading="lazy" alt="MAGNUM BLACK FILTER EDISI BINTANG">
+<div class="card-content">
+<div class="product-name">MAGNUM BLACK FILTER EDISI BINTANG2</div>
+<span class="price-tag">฿ 1.000 min 1 slop</span>
+<span class="price-tag">฿ 950 min 5 slop</span>
+<span class="price-tag">฿ 900 min 10 slop</span>
+<span class="price-tag">฿ 850 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20BLACK%2012.png?raw=true', 'MARLBORO BLACK 12', '1.000')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20BLACK%2012.png?raw=true" loading="lazy" alt="MARLBORO BLACK 12">
+<div class="card-content">
+<div class="product-name">MARLBORO BLACK 12</div>
+<span class="price-tag">฿ 1.000 min 1 slop</span>
+<span class="price-tag">฿ 950 min 5 slop</span>
+<span class="price-tag">฿ 900 min 10 slop</span>
+<span class="price-tag">฿ 850 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20ICE%20BURST.png?raw=true', 'MARLBORO ICE BURST', '1.400')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20ICE%20BURST.png?raw=true" loading="lazy" alt="MARLBORO ICE BURST">
+<div class="card-content">
+<div class="product-name">MARLBORO ICE BURST</div>
+<span class="price-tag">฿ 1.400 min 1 slop</span>
+<span class="price-tag">฿ 1.350 min 5 slop</span>
+<span class="price-tag">฿ 1.300 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20BLACK%2016.png?raw=true', 'MARLBORO BLACK 16', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20BLACK%2016.png?raw=true" loading="lazy" alt="MARLBORO BLACK 16">
+<div class="card-content">
+<div class="product-name">MARLBORO BLACK 16</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 5 slop</span>
+<span class="price-tag">฿ 1.000 min 10 slop</span>
+<span class="price-tag">฿ 950 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20BLACK%2020.png?raw=true', 'MARLBORO BLACK 20', '1.250')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20BLACK%2020.png?raw=true" loading="lazy" alt="MARLBORO BLACK 20">
+<div class="card-content">
+<div class="product-name">MARLBORO BLACK 20</div>
+<span class="price-tag">฿ 1.250 min 1 slop</span>
+<span class="price-tag">฿ 1.200 min 5 slop</span>
+<span class="price-tag">฿ 1.150 min 10 slop</span>
+<span class="price-tag">฿ 1.100 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20RED.png?raw=true', 'MARLBORO RED', '1.400')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20RED.png?raw=true" loading="lazy" alt="MARLBORO RED">
+<div class="card-content">
+<div class="product-name">MARLBORO RED</div>
+<span class="price-tag">฿ 1.400 min 1 slop</span>
+<span class="price-tag">฿ 1.350 min 5 slop</span>
+<span class="price-tag">฿ 1.300 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20GOLD.png?raw=true', 'MARLBORO WHITE', '1.400')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/MARLBORO%20GOLD.png?raw=true" loading="lazy" alt="MARLBORO WHITE">
+<div class="card-content">
+<div class="product-name">MARLBORO WHITE</div>
+<span class="price-tag">฿ 1.400 min 1 slop</span>
+<span class="price-tag">฿ 1.350 min 5 slop</span>
+<span class="price-tag">฿ 1.300 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/SURYA%2012.png?raw=true', 'SURYA 12', '1.050')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/SURYA%2012.png?raw=true" loading="lazy" alt="SURYA 12">
+<div class="card-content">
+<div class="product-name">SURYA 12</div>
+<span class="price-tag">฿ 1.050 min 1 slop</span>
+<span class="price-tag">฿ 1.000 min 5 slop</span>
+<span class="price-tag">฿ 950 min 10 slop </span>
+<span class="price-tag">฿ 900 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/SURYA%2016.png?raw=true', 'SURYA 16', '1.200')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/SURYA%2016.png?raw=true" loading="lazy" alt="SURYA 16">
+<div class="card-content">
+<div class="product-name">SURYA 16</div>
+<span class="price-tag">฿ 1.200 min 1 slop</span>
+<span class="price-tag">฿ 1.150 min 5 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/ESSE%20BERRY%20POP.png?raw=true', 'ESSE BERRY POP', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/ESSE%20BERRY%20POP.png?raw=true" loading="lazy" alt="ESSE BERRY POP">
+<div class="card-content">
+<div class="product-name">ESSE BERRY POP</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/ESSE%20DOUBLE%20POP.png?raw=true', 'ESSE DOUBLE POP', '1.200')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/ESSE%20DOUBLE%20POP.png?raw=true" loading="lazy" alt="ESSE DOUBLE POP">
+<div class="card-content">
+<div class="product-name">ESSE DOUBLE POP</div>
+<span class="price-tag">฿ 1.200 min 1 slop</span>
+<span class="price-tag">฿ 1.150 min 5 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/ESSE%20PUNCH%20POP.png?raw=true', 'ESSE PUNCH POP', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/ESSE%20PUNCH%20POP.png?raw=true" loading="lazy" alt="ESSE PUNCH POP">
+<div class="card-content">
+<div class="product-name">ESSE PUNCH POP</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/esse%20change%20Double.png?raw=true', 'ESSE CHANGE DOUBLE', '1.300')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/esse%20change%20Double.png?raw=true" loading="lazy" alt="ESSE CHANGE DOUBLE">
+<div class="card-content">
+<div class="product-name">ESSE CHANGE DOUBLE</div>
+<span class="price-tag">฿ 1.300 min 1 slop</span>
+<span class="price-tag">฿ 1.250 min 5 slop</span>
+<span class="price-tag">฿ 1.200 min 10 slop</span>
+<span class="price-tag">฿ 1.150 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/esse%20change%20Juicy.png?raw=true', 'ESSE CHANGE JUICY', '1.300')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/esse%20change%20Juicy.png?raw=true" loading="lazy" alt="ESSE CHANGE JUICY">
+<div class="card-content">
+<div class="product-name">ESSE CHANGE JUICY</div>
+<span class="price-tag">฿ 1.300 min 1 slop</span>
+<span class="price-tag">฿ 1.250 min 5 slop</span>
+<span class="price-tag">฿ 1.200 min 10 slop</span>
+<span class="price-tag">฿ 1.150 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/esse%20change%20Grape.png?raw=true', 'ESSE CHANGE GRAPE', '1.300')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/esse%20change%20Grape.png?raw=true" loading="lazy" alt="ESSE CHANGE GRAPE">
+<div class="card-content">
+<div class="product-name">ESSE CHANGE GRAPE</div>
+<span class="price-tag">฿ 1.300 min 1 slop</span>
+<span class="price-tag">฿ 1.250 min 5 slop</span>
+<span class="price-tag">฿ 1.200 min 10 slop</span>
+<span class="price-tag">฿ 1.150 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/esse%20change%20Applemint.png?raw=true', 'ESSE CHANGE APPLEMINT', '1.300')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/esse%20change%20Applemint.png?raw=true" loading="lazy" alt="ESSE CHANGE APPLEMINT">
+<div class="card-content">
+<div class="product-name">ESSE CHANGE APPLEMINT</div>
+<span class="price-tag">฿ 1.300 min 1 slop</span>
+<span class="price-tag">฿ 1.250 min 5 slop</span>
+<span class="price-tag">฿ 1.200 min 10 slop</span>
+<span class="price-tag">฿ 1.150 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20AUBURN.png?raw=true', 'TEREA AUBURN', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20AUBURN.png?raw=true" loading="lazy" alt="TEREA AUBURN">
+<div class="card-content">
+<div class="product-name">TEREA AUBURN</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BERRINE.png?raw=true', 'TEREA BERRINE', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BERRINE.png?raw=true" loading="lazy" alt="TEREA BERRINE">
+<div class="card-content">
+<div class="product-name">TEREA BERRINE</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20GOLDEN.png?raw=true', 'TEREA GOLDEN', '1.000')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20GOLDEN.png?raw=true" loading="lazy" alt="TEREA GOLDEN">
+<div class="card-content">
+<div class="product-name">TEREA GOLDEN</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20MINAGO.png?raw=true', 'TEREA MINAGO', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20MINAGO.png?raw=true" loading="lazy" alt="TEREA MINAGO">
+<div class="card-content">
+<div class="product-name">TEREA MINAGO</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20MULINT.png?raw=true', 'TEREA MULINT', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20MULINT.png?raw=true" loading="lazy" alt="TEREA MULINT">
+<div class="card-content">
+<div class="product-name">TEREA MULINT</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20SCARLET.png?raw=true', 'TEREA SCARLET', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20SCARLET.png?raw=true" loading="lazy" alt="TEREA SCARLET">
+<div class="card-content">
+<div class="product-name">TEREA SCARLET</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20APRICITY.png?raw=true', 'TEREA APRICITY', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20APRICITY.png?raw=true" loading="lazy" alt="TEREA APRICITY">
+<div class="card-content">
+<div class="product-name">TEREA APRICITY</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BLACK%20GREEN.png?raw=true', 'TEREA BLACK GREEN', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BLACK%20GREEN.png?raw=true" loading="lazy" alt="TEREA BLACK GREEN">
+<div class="card-content">
+<div class="product-name">TEREA BLACK GREEN</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BLACK%20PURPLE.png?raw=true', 'TEREA BLACK PURPLE', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BLACK%20PURPLE.png?raw=true" loading="lazy" alt="TEREA BLACK PURPLE">
+<div class="card-content">
+<div class="product-name">TEREA BLACK PURPLE</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BLACK%20RUBY.png?raw=true', 'TEREA BLACK RUBY', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BLACK%20RUBY.png?raw=true" loading="lazy" alt="TEREA BLACK RUBY">
+<div class="card-content">
+<div class="product-name">TEREA BLACK RUBY</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BLUE.png?raw=true', 'TEREA BLUE ', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BLUE.png?raw=true" loading="lazy" alt="TEREA BLUE ">
+<div class="card-content">
+<div class="product-name">TEREA BLUE </div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BRIGHT%20WAVE.png?raw=true', 'TEREA BRIGHT WAVE', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BRIGHT%20WAVE.png?raw=true" loading="lazy" alt="TEREA BRIGHT WAVE">
+<div class="card-content">
+<div class="product-name">TEREA BRIGHT WAVE</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BRONZE.png?raw=true', 'TEREA BRONZE', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BRONZE.png?raw=true" loading="lazy" alt="TEREA BRONZE">
+<div class="card-content">
+<div class="product-name">TEREA BRONZE</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20GREEN.png?raw=true', 'TEREA GREEN ', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20GREEN.png?raw=true" loading="lazy" alt="TEREA GREEN ">
+<div class="card-content">
+<div class="product-name">TEREA GREEN </div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20PURPLE%20WAVE.png?raw=true', 'TEREA PURPLE WAVE', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20PURPLE%20WAVE.png?raw=true" loading="lazy" alt="TEREA PURPLE WAVE">
+<div class="card-content">
+<div class="product-name">TEREA PURPLE WAVE</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20SIENNA.png?raw=true', 'TEREA SIENNA', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20SIENNA.png?raw=true" loading="lazy" alt="TEREA SIENNA">
+<div class="card-content">
+<div class="product-name">TEREA SIENNA</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20YUGEN.png?raw=true', 'TEREA YUGEN', '1.100')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20YUGEN.png?raw=true" loading="lazy" alt="TEREA YUGEN">
+<div class="card-content">
+<div class="product-name">TEREA YUGEN</div>
+<span class="price-tag">฿ 1.100 min 1 slop</span>
+<span class="price-tag">฿ 1.050 min 10 slop</span>
+<span class="price-tag">฿ 1.000 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BERMIN%20PEARL.png?raw=true', 'TEREA BERMIN PEARL', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20BERMIN%20PEARL.png?raw=true" loading="lazy" alt="TEREA BERMIN PEARL">
+<div class="card-content">
+<div class="product-name">TEREA BERMIN PEARL</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20OASIS%20PEARL.png?raw=true', 'TEREA OASIS PEARL', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20OASIS%20PEARL.png?raw=true" loading="lazy" alt="TEREA OASIS PEARL">
+<div class="card-content">
+<div class="product-name">TEREA OASIS PEARL</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20PERINT%20PEARL.png?raw=true', 'TEREA PERINT PEARL', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20PERINT%20PEARL.png?raw=true" loading="lazy" alt="TEREA PERINT PEARL">
+<div class="card-content">
+<div class="product-name">TEREA PERINT PEARL</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20SUN%20PEARL.png?raw=true', 'TEREA SUN PEARL', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20SUN%20PEARL.png?raw=true" loading="lazy" alt="TEREA SUN PEARL">
+<div class="card-content">
+<div class="product-name">TEREA SUN PEARL</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20RIVIERA%20PEARL.png?raw=true', 'TEREA RIVIERA PEARL', '1.150')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/TEREA%20RIVIERA%20PEARL.png?raw=true" loading="lazy" alt="TEREA RIVIERA PEARL">
+<div class="card-content">
+<div class="product-name">TEREA RIVIERA PEARL</div>
+<span class="price-tag">฿ 1.150 min 1 slop</span>
+<span class="price-tag">฿ 1.100 min 10 slop</span>
+<span class="price-tag">฿ 1.050 up 20 slop</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/Coming%20son.png?raw=true', 'coming son', 'x.xxx')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/Coming%20son.png?raw=true" loading="lazy" alt="coming son">
+<div class="card-content">
+<div class="product-name">coming son</div>
+<span class="price-tag">฿ x.xxx</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/Coming%20son.png?raw=true', 'coming son', 'x.xxx')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/Coming%20son.png?raw=true" loading="lazy" alt="coming son">
+<div class="card-content">
+<div class="product-name">coming son</div>
+<span class="price-tag">฿ x.xxx</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/Coming%20son.png?raw=true', 'coming son', 'x.xxx')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/Coming%20son.png?raw=true" loading="lazy" alt="coming son">
+<div class="card-content">
+<div class="product-name">coming son</div>
+<span class="price-tag">฿ x.xxx</span>
+</div>
+</div>
+<div class="card product-item" onclick="showPopup('https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/Coming%20son.png?raw=true', 'coming son', 'x.xxx')">
+<img src="https://github.com/88xiaowu-dev/-xiaowurokok-/blob/main/Coming%20son.png?raw=true" loading="lazy" alt="coming son">
+<div class="card-content">
+<div class="product-name">coming son</div>
+<span class="price-tag">฿ x.xxx</span>
+</div>
+</div>
+</div>
+</div>
+
+<div id="productModal" class="modal">
+<div class="modal-content">
+<span class="close-modal" onclick="closePopup()">&times;</span>
+<img id="modalImg" class="modal-img" src="">
+<div id="modalName" style="font-size: 1.3rem; font-weight: 700; margin-bottom: 5px; color: #ffd700;"></div>
+<div id="modalPrice" style="font-size: 1.1rem; margin-bottom: 15px;"></div>
+<a id="modalOrderBtn" href="#" target="_blank" class="btn-modal-order">ORDER VIA TELEGRAM</a>
+</div>
+</div>
+
+<button id="backToTop" onclick="scrollToTop()" title="Kembali ke atas">↑</button>
+
+<script>
+// CONFIG: Ganti dengan username Telegram Anda (Tanpa @)
+const telegramUsername = "e_wu88";
+
+// 1. Fungsi Pop-up
+function showPopup(img, name, price) {
+document.getElementById('modalImg').src = img;
+document.getElementById('modalName').innerText = name;
+document.getElementById('modalPrice').innerText = "Harga: ฿ " + price;
+
+const pesan = `Halo Admin, saya ingin order:\n\nProduk: ${name}\nHarga: ฿ ${price}`;
+document.getElementById('modalOrderBtn').href = `https://t.me/${telegramUsername}?text=${encodeURIComponent(pesan)}`;
+
+document.getElementById('productModal').style.display = "flex";
+document.body.style.overflow = "hidden"; // Disable scroll saat modal buka
+}
+
+function closePopup() {
+document.getElementById('productModal').style.display = "none";
+document.body.style.overflow = "auto"; // Enable scroll kembali
+}
+
+// 2. Fungsi Search
+function searchFunction() {
+let input = document.getElementById("searchInput").value.toUpperCase();
+let items = document.getElementsByClassName("product-item");
+
+for (let i = 0; i < items.length; i++) {
+let name = items[i].querySelector(".product-name").innerText;
+if (name.toUpperCase().indexOf(input) > -1) {
+items[i].style.display = "";
+} else {
+items[i].style.display = "none";
+}
+}
+}
+
+// 3. Fungsi Back to Top
+const bttButton = document.getElementById("backToTop");
+window.onscroll = function() {
+if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+bttButton.style.display = "flex";
+} else {
+bttButton.style.display = "none";
+}
+};
+
+function scrollToTop() {
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 4. Order Umum
+function orderTelegramUmum() {
+window.open(`https://t.me/${telegramUsername}?text=/hallo`, '_blank');
+}
+
+// 5. Tutup Modal jika klik di luar box
+window.onclick = function(e) {
+if (e.target == document.getElementById('productModal')) closePopup();
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
