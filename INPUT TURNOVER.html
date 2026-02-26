@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INPUT TO</title>
+    
+    <!-- NEW QUANTUM FAVICON (Hexagonal Reactor Design) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22%23050505%22/><path d=%22M32 8 L54 21 V43 L32 56 L10 43 V21 Z%22 fill=%22none%22 stroke=%22%2300f3ff%22 stroke-width=%223%22/><circle cx=%2232%22 cy=%2232%22 r=%2210%22 fill=%22%23bc13fe%22/><circle cx=%2232%22 cy=%2232%22 r=%224%22 fill=%22%23fff%22/><path d=%22M32 16 L32 18 M32 46 L32 48 M16 32 L18 32 M46 32 L48 32%22 stroke=%22%2300f3ff%22 stroke-width=%222%22/></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --holo-blue: #00f3ff;
+            --holo-purple: #bc13fe;
+            --holo-green: #0aff60;
+            --holo-white: #ffffff;
+            --void-black: #050505;
+            --grid-color: rgba(0, 243, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            cursor: default;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            background-color: var(--void-black);
+            color: var(--holo-white);
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* BACKGROUND: RETRO GRID */
+        .space-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -3;
+            opacity: 0.5;
+        }
+        
+        /* VIGNETTE */
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 40%, #000 100%);
+            z-index: -1;
+        }
+
+        /* SCANLINES OVERLAY */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.4;
+        }
+
+        /* MAIN INTERFACE */
+        .holo-interface {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            padding: 40px;
+            background: rgba(10, 15, 25, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 4px;
+            box-shadow: 
+                0 0 40px rgba(0, 243, 255, 0.1),
+                inset 0 0 20px rgba(0, 243, 255, 0.05);
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        /* DECORATIVE CORNERS */
+        .corner-bracket {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--holo-blue);
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+        .tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        .bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+        /* PULSING BORDER */
+        .holo-interface::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 4px;
+            box-shadow: 0 0 20px var(--holo-blue);
+            opacity: 0;
+            z-index: -1;
+            animation: borderPulse 4s infinite;
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--holo-blue);
+            position: relative;
+        }
+
+        .glitch-active {
+            position: relative;
+            animation: glitch 3s infinite;
+        }
+
+        .subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--holo-blue);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* INPUT AREA */
+        .input-panel {
+            position: relative;
+            margin-bottom: 30px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 5px;
+        }
+
+        .panel-header {
+            background: linear-gradient(90deg, var(--holo-blue), transparent);
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 10px;
+            display: inline-block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            padding: 15px;
+            resize: none;
+            outline: none;
+            text-shadow: 0 0 2px rgba(255,255,255,0.3);
+        }
+        textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+        .btn-reset {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: 1px solid var(--holo-purple);
+            color: var(--holo-purple);
+            font-family: 'Share Tech Mono', monospace;
+            padding: 2px 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            transition: all 0.3s;
+        }
+        .btn-reset:hover {
+            background: var(--holo-purple);
+            color: #fff;
+            box-shadow: 0 0 15px var(--holo-purple);
+        }
+
+        /* OUTPUT AREA */
+        .output-panel {
+            position: relative;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            padding: 20px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FILTER SECTION */
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(0, 243, 255, 0.2);
+        }
+
+        .cyber-select {
+            background: #000;
+            color: var(--holo-blue);
+            border: 1px solid var(--holo-blue);
+            padding: 5px 10px;
+            font-family: 'Share Tech Mono', monospace;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            outline: none;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+            min-width: 200px;
+        }
+        
+        .cyber-select:focus {
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+
+        .cyber-select option {
+            background: #000;
+            color: #fff;
+        }
+
+        /* DATA STREAM */
+        .data-stream {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .data-stream::-webkit-scrollbar { width: 4px; }
+        .data-stream::-webkit-scrollbar-thumb { background: var(--holo-blue); border-radius: 2px; }
+
+        /* QUANTUM CHIP */
+        .q-chip {
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            padding: 6px 12px;
+            font-family: 'Share Tech Mono', monospace;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            transition: all 0.3s;
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.1);
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .q-chip:hover {
+            background: rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .q-name { color: rgba(255,255,255,0.5); font-size: 0.7rem; text-transform: uppercase; }
+        .q-val { color: var(--holo-white); font-weight: bold; font-size: 0.9rem; text-shadow: 0 0 5px var(--holo-blue); }
+        
+        .q-chip.zero {
+            border-color: rgba(255,255,255,0.1);
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+
+        /* TERMINAL VIEW */
+        .term-view {
+            background: #000;
+            border: 1px solid #222;
+            padding: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--holo-blue);
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .term-view::before {
+            content: 'SYSTEM_LOG_V.2100';
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: var(--holo-purple);
+            color: #fff;
+            font-size: 0.5rem;
+            padding: 0 5px;
+            border-radius: 2px;
+        }
+
+        /* ULTRA FUTURE BUTTON */
+        .btn-exec {
+            width: 100%;
+            background: transparent;
+            color: var(--holo-blue);
+            border: 2px solid var(--holo-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 900;
+            padding: 15px;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+        }
+
+        .btn-exec::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--holo-blue);
+            transition: left 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: -1;
+        }
+
+        .btn-exec:hover {
+            color: #000;
+            box-shadow: 0 0 30px var(--holo-blue);
+            text-shadow: none;
+        }
+        .btn-exec:hover::before { left: 0; }
+        
+        .btn-exec:active { transform: scale(0.98); }
+        .btn-exec:disabled {
+            border-color: #333;
+            color: #333;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .btn-exec:disabled::before { display: none; }
+
+        /* ANIMATIONS */
+        @keyframes borderPulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.6; } }
+        @keyframes cardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes glitch {
+            0% { transform: translate(0); text-shadow: 0 0 10px var(--holo-blue); }
+            20% { transform: translate(-2px, 2px); text-shadow: -2px 0 red, 2px 0 blue; }
+            40% { transform: translate(-2px, -2px); text-shadow: -2px 0 blue, 2px 0 red; }
+            60% { transform: translate(2px, 2px); text-shadow: 2px 0 red, -2px 0 blue; }
+            80% { transform: translate(2px, -2px); text-shadow: 2px 0 blue, -2px 0 red; }
+            100% { transform: translate(0); text-shadow: 0 0 10px var(--holo-blue); }
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--holo-green);
+            color: var(--holo-green);
+            padding: 15px 30px;
+            font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 20px rgba(10, 255, 96, 0.3);
+            transition: all 0.4s;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="space-bg"></div>
+
+    <!-- MAIN INTERFACE -->
+    <div class="holo-interface" id="holoCard">
+        <!-- Decorative Brackets -->
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+
+        <!-- HEADER -->
+        <header style="margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">
+            <h1 data-text="QUANTUM // LINK" class="glitch-active">INPUT TO</h1>
+            <div class="subtitle">
+                <i class="fa-solid fa-microchip"></i> 
+                <span style="margin-left:auto; color:rgba(255,255,255,0.4); font-size:0.8rem;">STATUS: ONLINE</span>
+            </div>
+        </header>
+
+        <!-- INPUT -->
+        <div class="input-panel">
+            <div class="panel-header">> INPUT_DATA_STREAM</div>
+            <textarea id="rawInput" placeholder="INITIATE PASTE SEQUENCE..."></textarea>
+            <button class="btn-reset" onclick="resetAll()"><i class="fa-solid fa-trash"></i> PURGE</button>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="output-panel">
+            <div class="panel-header" style="margin-bottom: 15px;">> EXTRACTED_VALUES</div>
+
+            <!-- FITUR: FILTER / EXCLUDE -->
+            <div class="filter-container">
+                <i class="fa-solid fa-filter" style="color:var(--holo-purple)"></i>
+                <span style="font-family:'Share Tech Mono'; font-size:0.8rem; color:rgba(255,255,255,0.7);">EXCLUDE PROTOCOL:</span>
+                <select id="excludeFilter" class="cyber-select" onchange="applyFilter()">
+                    <option value="ALL">-- SHOW ALL TARGETS --</option>
+                    <!-- Opsi akan di-generate otomatis oleh JS -->
+                </select>
+            </div>
+
+            <div id="chipsArea" class="data-stream">
+                <span style="color:rgba(255,255,255,0.2); font-family:'Share Tech Mono';">[ WAITING FOR DATA ]</span>
+            </div>
+
+            <div class="term-view" id="rawOutput">
+                > SYSTEM IDLE...
+            </div>
+
+            <button id="btnCopy" class="btn-exec" onclick="copyToClipboard()" disabled>
+                <i class="fa-solid fa-biohazard"></i> INITIATE TRANSFER
+            </button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-check-double"></i> TRANSFER COMPLETE
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const targetGames = [
+            "POIPET12", "POIPET15", "POIPET19", "POIPET22",
+            "NEVADA", "BRUNEI 02", "BRUNEI 14", "BRUNEI 21",
+            "BANGKOK 0130", "BANGKOK 0930",
+            "HUAHIN 0100", "HUAHIN 1630", "HUAHIN 2100",
+            "CHELSEA 11", "CHELSEA 15", "CHELSEA 19", "CHELSEA 21",
+            "TOTOCAMBODIA", "TOTOMALI1530", "TOTOMALI2030", "TOTOMALI2330",
+            "HOKIDRAW"
+        ];
+
+        // --- STATE VARIABLES ---
+        let globalParsedData = {}; 
+
+        // --- DOM ELEMENTS ---
+        const rawInput = document.getElementById('rawInput');
+        const excludeFilter = document.getElementById('excludeFilter');
+        const chipsArea = document.getElementById('chipsArea');
+        const rawOutput = document.getElementById('rawOutput');
+        const btnCopy = document.getElementById('btnCopy');
+        const holoCard = document.getElementById('holoCard');
+
+        // --- INITIALIZATION ---
+        // Populate Dropdown Options saat load
+        window.addEventListener('DOMContentLoaded', () => {
+            targetGames.forEach(game => {
+                let option = document.createElement('option');
+                option.value = game;
+                option.innerText = "HIDE: " + game;
+                excludeFilter.appendChild(option);
+            });
+        });
+
+        // Event Listener Input
+        rawInput.addEventListener('input', () => {
+            parseData();
+            applyFilter(); 
+        });
+
+        // --- CORE LOGIC: PARSING ---
+        function parseData() {
+            const input = rawInput.value;
+            const lines = input.split('\n');
+            const foundData = {};
+
+            if (!input.trim()) {
+                globalParsedData = {};
+                return;
+            }
+
+            lines.forEach(line => {
+                const match = line.trim().match(/^(\d+)\.\s+(.+?)\s+([\d,]+\.?\d*)\s+([\d,.-]+)$/);
+                if (match) {
+                    const gameName = match[2].trim();
+                    const turnover = match[3].trim();
+                    foundData[gameName] = turnover;
+                }
+            });
+
+            globalParsedData = foundData;
+        }
+
+        // --- CORE LOGIC: RENDERING ---
+        function applyFilter() {
+            if (Object.keys(globalParsedData).length === 0 && rawInput.value.trim() === "") {
+                resetUI();
+                return;
+            }
+
+            const excludeKey = excludeFilter.value;
+            let copyValues = [];
+            let visualHTML = '';
+            let visibleCount = 0;
+
+            targetGames.forEach(game => {
+                // SKIP jika game ada di filter
+                if (game === excludeKey) return;
+
+                let rawVal = globalParsedData[game] || "0";
+
+                if(rawVal === "0") {
+                    copyValues.push(""); 
+                } else {
+                    copyValues.push(rawVal);
+                    visibleCount++; 
+                }
+
+                const zeroClass = rawVal === "0" ? "zero" : "";
+                visualHTML += `
+                    <div class="q-chip ${zeroClass}">
+                        <span class="q-name">${game}</span>
+                        <span class="q-val">${rawVal}</span>
+                    </div>
+                `;
+            });
+
+            chipsArea.innerHTML = visualHTML;
+            rawOutput.innerText = `> DATA PARSED // ${visibleCount} ACTIVE PACKETS READY (FILTER: ${excludeKey === 'ALL' ? 'NONE' : excludeKey})`;
+            rawOutput.dataset.clipboard = copyValues.join('\t');
+            btnCopy.disabled = false;
+        }
+
+        function resetUI() {
+            chipsArea.innerHTML = '<span style="color:rgba(255,255,255,0.2); font-family:\'Share Tech Mono\';">[ WAITING FOR DATA ]</span>';
+            rawOutput.innerText = '> SYSTEM IDLE...';
+            rawOutput.dataset.clipboard = '';
+            btnCopy.disabled = true;
+        }
+
+        function resetAll() {
+            rawInput.value = '';
+            globalParsedData = {};
+            excludeFilter.value = "ALL";
+            resetUI();
+            rawInput.focus();
+        }
+
+        function copyToClipboard() {
+            const textToCopy = rawOutput.dataset.clipboard;
+
+            if (!textToCopy) return;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                const btn = document.getElementById('btnCopy');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> UPLOADED`;
+                btn.style.borderColor = "var(--holo-green)";
+                btn.style.color = "var(--holo-green)";
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    btn.innerHTML = originalHTML;
+                    btn.style.borderColor = "";
+                    btn.style.color = "";
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+
