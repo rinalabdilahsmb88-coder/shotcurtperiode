@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highlighter Pro - Internal Suite</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <main class="glass-container">
+        <header>
+            <div class="update-status-pill">
+                <div class="update-status-dot"></div>
+                <div class="update-status-text">System Updated: Jan 31, 2026</div>
+            </div>
+            <div class="badge neon-blue">Internal Team Only</div>
+            <h1>Highlighter <span>Pro</span> Suite</h1>
+            <p class="subtitle">Kumpulan tools premium untuk optimasi kerja LiveChat.</p>
+        </header>
+
+        <!-- Script Grid -->
+        <section class="script-grid">
+            <div class="script-card">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="script-icon">🎨</div>
+                    <h3>Highlighter Pro</h3>
+                    <p>Dashboard melayang, mewarnai keyword penting (Depo/WD), dan Auto-Response template.</p>
+                    <a href="LATOTO1.user.js" class="btn btn-installed">Pasang Sekarang</a>
+                </div>
+            </div>
+
+            <div class="script-card">
+                <div class="card-glow" style="background: var(--neon-purple);"></div>
+                <div class="card-content">
+                    <div class="script-icon">📑</div>
+                    <h3>Duplicate Checker</h3>
+                    <p>Mendeteksi pesan spam atau duplikat dari agent secara otomatis dengan warna merah.</p>
+                    <a href="LATOTO2.user.js" class="btn btn-installed"
+                        style="background: linear-gradient(135deg, var(--neon-purple), #6a11cb);">Pasang Sekarang</a>
+                </div>
+            </div>
+
+            <div class="script-card">
+                <div class="card-glow" style="background: var(--neon-green);"></div>
+                <div class="card-content">
+                    <div class="script-icon">⏱️</div>
+                    <h3>UI & SLA Tracker</h3>
+                    <p>Indikator SLA sidebar, notifikasi toast, dan <b>Tracker Pengecekan (2/4 menit)</b> otomatis.</p>
+                    <a href="LATOTO3.user.js" class="btn btn-installed"
+                        style="background: linear-gradient(135deg, var(--neon-green), #11998e);">Pasang Sekarang</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configuration Section -->
+        <section class="config-warning">
+            <div class="config-header">
+                <span class="pulse-icon">⚠️</span>
+                <h2>PENTING: Konfigurasi Kelola Ekstensi</h2>
+            </div>
+            <p>Agar script berjalan 100% lancar, Anda <b>WAJIB</b> mengaktifkan ijin berikut di pengaturan Tampermonkey
+                Anda:</p>
+
+            <div class="config-steps">
+                <div class="config-item">
+                    <div class="config-img-box">
+                        <div class="ui-toggle active"></div>
+                    </div>
+                    <div class="config-text">
+                        <h4>1. Izinkan Skrip Pengguna</h4>
+                        <p>Wajib ON agar script bisa membaca perubahan di halaman LiveChat.</p>
+                    </div>
+                </div>
+
+                <div class="config-item">
+                    <div class="config-img-box">
+                        <div class="ui-toggle active"></div>
+                    </div>
+                    <div class="config-text">
+                        <h4>2. Izinkan dalam Mode Samaran</h4>
+                        <p>Wajib ON jika Anda sering bekerja menggunakan tab Incognito.</p>
+                    </div>
+                </div>
+
+                <div class="config-item">
+                    <div class="config-img-box">
+                        <div class="ui-toggle active"></div>
+                    </div>
+                    <div class="config-text">
+                        <h4>3. Ijin Akses ke URL File</h4>
+                        <p>Memungkinkan script melakukan update otomatis secara instan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-box">
+                <p><strong>Cara ke Pengaturan:</strong> Klik kanan icon Tampermonkey > Pilih <strong>Kelola
+                        Ekstensi</strong> (Manage Extension) > Scroll ke bawah dan <strong>Centang Semua Biru</strong>
+                    seperti gambar di bawah.</p>
+            </div>
+        </section>
+
+        <section class="tutorial">
+            <h2>Langkah Penting Update Otomatis</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">!</div>
+                    <p>Setelah klik pasang, pastikan Anda <strong>me-refresh</strong> halaman LiveChat agar fitur
+                        berjalan.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">↻</div>
+                    <p>Fitur <strong>Update Otomatis</strong> aktif. Jika ada perbaikan, script Anda akan terupdate
+                        sendiri.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Highlighter Pro Internal Team. Semua script sudah dioptimasi.</p>
+        </footer>
+    </main>
+
+    <!-- Floating Update Button -->
+    <div class="floating-update-btn" id="openChangelog">
+        <div class="update-status-dot"></div>
+        <span>System Updates</span>
+    </div>
+
+    <!-- Changelog Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="close-modal" id="closeModal">&times;</div>
+            <h2 class="changelog-title">System Update Hub</h2>
+
+            <!-- Latest Update -->
+            <div class="log-entry latest">
+                <div class="log-date">JANUARI 31, 2026</div>
+                <div class="log-header">V2.2 - The Security & Utility Update <span class="log-tag">Latest</span></div>
+                <ul class="log-list">
+                    <li><b>Smart Auto-Scroll ✨:</b> Tambahan tombol roket mini 🚀 (warna pink-glow) untuk kembali ke
+                        atas dashboard secara instan tanpa perlu scroll manual.</li>
+                    <li><b>Data Vault (Export/Import):</b> Fitur pencadangan data kini tersedia. Simpan semua kata kunci
+                        & template Anda ke dalam file `.json` sebagai backup permanen.</li>
+                    <li><b>Anti-Reset Storage:</b> Sistem penyimpanan diperkuat menggunakan GM_Storage. Restart PC,
+                        shutdown, atau "Clear Cache" browser <b>TIDAK</b> akan menghapus settingan Anda.</li>
+                    <li><b>Disaster Recovery:</b> Jika Anda mengganti PC atau terjadi error fatal, cukup gunakan fitur
+                        <b>Import</b> menggunakan file backup yang sudah di-export sebelumnya.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Previous Update -->
+            <div class="log-entry">
+                <div class="log-date">JANUARI 22, 2026</div>
+                <div class="log-header">V2.1 - The Control Update</div>
+                <ul class="log-list">
+                    <li><b>SLA Notification Toggles:</b> Ditambahkan kontrol ON/OFF untuk notifikasi 2 & 3 menit
+                        langsung dari dashboard.</li>
+                    <li><b>UI Optimization:</b> Panel SLA dipindahkan ke posisi teratas dashboard untuk akses lebih
+                        cepat.</li>
+                    <li><b>Instant Sync:</b> Notifikasi kini langsung hilang saat dimatikan via toggle tanpa perlu
+                        refresh.</li>
+                </ul>
+            </div>
+
+            <!-- Legend Info -->
+            <div class="tutorial-box" style="margin-top:20px; text-align: left; opacity: 0.9;">
+                <p style="font-size: 11px; margin-bottom: 8px;">💡 <b>Cara Pakai Backup:</b> Menuju <b>Settings (icon
+                        ⚙️)</b> di Dashboard > Klik <b>EXPORT</b> untuk simpan data ke PC. Klik <b>IMPORT</b> untuk
+                    mengembalikan data.</p>
+                <p style="font-size: 11px;">🛡️ <b>Aman:</b> Sekalipun Anda restart PC atau hapus history, data tetap
+                    ada! Selalu lakukan Export setelah menambah banyak kata kunci baru sebagai tindakan jaga-jaga.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Logic
+        const openBtn = document.getElementById('openChangelog');
+        const closeBtn = document.getElementById('closeModal');
+        const modal = document.getElementById('modalOverlay');
+
+        openBtn.onclick = () => modal.classList.add('active');
+        closeBtn.onclick = () => modal.classList.remove('active');
+
+        // Close on outside click
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Mousemove effect for orbs
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.orb');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            orbs.forEach((orb, idx) => {
+                const speed = (idx + 1) * 20;
+                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
+</body>
+
+</html>
