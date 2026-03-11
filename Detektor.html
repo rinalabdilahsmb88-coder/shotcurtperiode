@@ -1,220 +1,609 @@
-
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Highlighter Pro - Internal Suite</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Highlighter Pro · TRANSFORMERS MODE</title>
+    <!-- Sci‑fi fonts & modern reset -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* RESET & GLOBAL — CYBERTRONIAN DARKSPACE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cyber-black: #0a0c0f;
+            --transformer-orange: #ff6a1e;
+            --energon-purple: #bc2cff;
+            --autobot-blue: #0a8cff;
+            --decepticon-red: #d22b2b;
+            --metallic-1: #2e3b4e;
+            --metallic-2: #1b232f;
+            --glow-aura: rgba(255, 106, 30, 0.5);
+            --grid-color: rgba(255, 106, 30, 0.1);
+            --font-primary: 'Rajdhani', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background-color: var(--cyber-black);
+            font-family: var(--font-primary);
+            color: #e0e6f0;
+            line-height: 1.5;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* HEXAGON GRID BACKGROUND — TRANSFORMERS STYLE */
+        #cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
+            z-index: 0;
+            pointer-events: none;
+            animation: gridPulse 8s infinite alternate;
+        }
+
+        @keyframes gridPulse {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.7; transform: scale(1.02); }
+        }
+
+        /* floating energon orbs — evolved */
+        .energon-orb {
+            position: fixed;
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 106, 30, 0.25), rgba(188, 44, 255, 0) 70%);
+            filter: blur(80px);
+            z-index: 0;
+            animation: orbDrift 20s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        .orb-1 { top: -10vh; left: -10vw; background: radial-gradient(circle, var(--transformer-orange) 0%, transparent 80%); }
+        .orb-2 { bottom: -10vh; right: -5vw; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--energon-purple) 0%, transparent 80%); animation-delay: -5s; }
+        .orb-3 { top: 40vh; left: 40vw; width: 30vw; height: 30vw; background: radial-gradient(circle, var(--autobot-blue) 0%, transparent 80%); animation-delay: -10s; }
+
+        @keyframes orbDrift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(8%, 8%) scale(1.2); }
+        }
+
+        /* MAIN GLASS CONTAINER — ARMORED GLASS */
+        .armor-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 2.5rem 2rem;
+            background: rgba(10, 15, 25, 0.65);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border: 1px solid rgba(255, 106, 30, 0.25);
+            border-radius: 48px 48px 48px 48px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 106, 30, 0.2) inset, 0 0 30px rgba(255, 106, 30, 0.3);
+            transition: border 0.3s;
+        }
+
+        .armor-container:hover {
+            border-color: rgba(255, 106, 30, 0.6);
+            box-shadow: 0 30px 60px rgba(255, 106, 30, 0.3), 0 0 0 2px rgba(255, 106, 30, 0.4) inset;
+        }
+
+        /* HEADER - DECEPTICON / AUTOBADGE */
+        .update-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--transformer-orange);
+            border-radius: 60px;
+            padding: 6px 18px 6px 12px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 15px var(--transformer-orange);
+        }
+
+        .update-status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--transformer-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 12px #ffa500;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(145deg, #1e2a3a, #0f1620);
+            border-left: 4px solid var(--transformer-orange);
+            padding: 0.4rem 1.2rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            box-shadow: 0 0 15px rgba(255, 106, 30, 0.6);
+            border-radius: 0 20px 20px 0;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            text-transform: uppercase;
+            margin: 0.5rem 0 0.2rem;
+            line-height: 1;
+            background: linear-gradient(135deg, #f5b991, #ff9f4b, #ff6a1e, #bc2cff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 20px #ff6a1e);
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            background: none;
+            color: #fff;
+            text-shadow: 0 0 10px var(--autobot-blue), 0 0 20px var(--autobot-blue);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: #b0c4de;
+            border-left: 3px solid var(--transformer-orange);
+            padding-left: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* SCRIPT GRID — HEXAGON INSPIRED CARDS */
+        .script-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .script-card {
+            position: relative;
+            border-radius: 30px;
+            background: rgba(20, 30, 45, 0.6);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 106, 30, 0.3);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1), border 0.3s;
+            clip-path: polygon(92% 0, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0 92%, 0 8%, 8% 0);
+            overflow: hidden;
+        }
+
+        .script-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: var(--transformer-orange);
+            box-shadow: 0 0 40px rgba(255, 106, 30, 0.5), 0 20px 30px -10px black;
+        }
+
+        .card-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, var(--transformer-orange), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .script-card:hover .card-glow {
+            opacity: 0.3;
+        }
+
+        .card-content {
+            padding: 2rem 1.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .script-icon {
+            font-size: 3.5rem;
+            filter: drop-shadow(0 0 10px currentColor);
+            margin-bottom: 0.8rem;
+            transform: rotate(0deg);
+            transition: transform 0.5s;
+        }
+
+        .script-card:hover .script-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .script-card h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #fff, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            background: linear-gradient(145deg, #1e2c3a, #0f1a22);
+            color: #ffdab9;
+            border: 1px solid var(--transformer-orange);
+            box-shadow: 0 0 15px rgba(255, 106, 30, 0.3);
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '⚡';
+            position: absolute;
+            left: -20px;
+            top: 0;
+            height: 100%;
+            width: 20px;
+            background: var(--transformer-orange);
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: left 0.3s;
+        }
+
+        .btn:hover::before {
+            left: 0;
+        }
+
+        .btn:hover {
+            background: linear-gradient(145deg, #2a3c50, #1a2938);
+            box-shadow: 0 0 30px var(--transformer-orange);
+            color: white;
+            border-color: white;
+            padding-left: 2.8rem;
+        }
+
+        /* config section with mecha styling */
+        .config-warning {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--energon-purple);
+            border-radius: 40px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 0 40px rgba(188, 44, 255, 0.3), inset 0 0 20px rgba(188, 44, 255, 0.2);
+        }
+
+        .config-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pulse-icon {
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .config-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .config-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 106, 30, 0.05);
+            border: 1px solid #3e4f62;
+            border-radius: 30px;
+            padding: 1rem 1.5rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .ui-toggle {
+            width: 48px;
+            height: 24px;
+            background: #1f3a4c;
+            border-radius: 30px;
+            border: 2px solid #708090;
+            position: relative;
+        }
+
+        .ui-toggle.active::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #0aff6a;
+            border-radius: 50%;
+            top: 0;
+            left: 24px;
+            box-shadow: 0 0 15px #0aff6a;
+        }
+
+        .ui-toggle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff4444;
+            border-radius: 50%;
+            top: 0;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        .tutorial-box {
+            margin-top: 2rem;
+            padding: 1.2rem;
+            background: #0e1a24;
+            border-left: 8px solid var(--transformer-orange);
+            border-radius: 20px;
+            font-family: monospace;
+            box-shadow: 0 0 25px #ff6a1e66;
+        }
+
+        /* TUTORIAL STEPS */
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .step {
+            flex: 1 1 200px;
+            background: #111c28;
+            border-radius: 30px;
+            padding: 1.5rem;
+            border: 1px dashed #ff6a1e;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: 0.3s;
+        }
+
+        .step:hover {
+            border-style: solid;
+            background: #1c2b3c;
+        }
+
+        .step-num {
+            background: var(--transformer-orange);
+            color: black;
+            font-weight: 900;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 25px #ff6a1e;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            opacity: 0.6;
+            font-size: 0.9rem;
+            border-top: 1px solid #ff6a1e33;
+            padding-top: 2rem;
+        }
+
+        /* FLOATING CYBERBUTTON */
+        .floating-update-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10, 20, 30, 0.7);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--transformer-orange);
+            border-radius: 60px;
+            padding: 12px 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: white;
+            box-shadow: 0 0 30px var(--transformer-orange);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.2s;
+            border: 1px solid #ff9f4b;
+        }
+
+        .floating-update-btn:hover {
+            transform: scale(1.1);
+            background: black;
+            border-color: white;
+        }
+
+        /* MODAL — HOLOGRAM STYLE */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #0c121c;
+            border: 2px solid var(--energon-purple);
+            border-radius: 60px;
+            max-width: 700px;
+            width: 90%;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 0 100px #bc2cff, 0 0 30px #0a8cff inset;
+            transform: scale(0.9);
+            transition: 0.3s;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2.8rem;
+            cursor: pointer;
+            color: #ff6a1e;
+            transition: 0.2s;
+        }
+
+        .close-modal:hover { color: white; text-shadow: 0 0 25px red; transform: rotate(90deg); }
+
+        .changelog-title {
+            font-family: var(--font-display);
+            background: linear-gradient(90deg, #ff6a1e, #bc2cff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 2rem;
+        }
+
+        .log-entry {
+            border-left: 4px solid #ff6a1e;
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .log-date { color: #aaa; letter-spacing: 2px; font-size: 0.8rem; }
+        .log-header { font-size: 1.5rem; font-weight: 700; color: #ffc107; }
+        .log-tag { background: #ff6a1e; color: black; border-radius: 20px; padding: 0 12px; margin-left: 1rem; font-size: 0.8rem; }
+
+        .log-list { list-style: none; margin-top: 1rem; }
+        .log-list li { margin-bottom: 0.5rem; padding-left: 1.5rem; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="%23ff6a1e"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>') left center no-repeat; background-size: 16px; }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .armor-container { padding: 1.5rem; border-radius: 30px; }
+            .config-item { flex-direction: column; text-align: center; }
+        }
+    </style>
 </head>
-
 <body>
-    <div class="background-animation">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- CYBER GRID & ENERGY ORBS -->
+    <div id="cyber-grid"></div>
+    <div class="energon-orb orb-1"></div>
+    <div class="energon-orb orb-2"></div>
+    <div class="energon-orb orb-3"></div>
 
-    <main class="glass-container">
+    <main class="armor-container">
         <header>
             <div class="update-status-pill">
                 <div class="update-status-dot"></div>
-                <div class="update-status-text">System Updated: Jan 31, 2026</div>
+                <div class="update-status-text">⚡ CYBERTRON CORE · 01312026</div>
             </div>
-            <div class="badge neon-blue">Internal Team Only</div>
-            <h1>Highlighter <span>Pro</span> Suite</h1>
-            <p class="subtitle">Kumpulan tools premium untuk optimasi kerja LiveChat.</p>
+            <div class="badge">🔧 INTERNAL DECEPTICON TEAM</div>
+            <h1>HIGHLIGHTER <span>PRO</span></h1>
+            <p class="subtitle">Transformer‑grade tools for LiveChat domination.</p>
         </header>
 
-        <!-- Script Grid -->
+        <!-- SCRIPT GRID — UPGRADED -->
         <section class="script-grid">
             <div class="script-card">
-                <div class="card-glow"></div>
+                <div class="card-glow" style="background: radial-gradient(circle at 30% 30%, #ff6a1e, transparent);"></div>
                 <div class="card-content">
-                    <div class="script-icon">🎨</div>
+                    <div class="script-icon">⚡🤖</div>
                     <h3>Highlighter Pro</h3>
-                    <p>Dashboard melayang, mewarnai keyword penting (Depo/WD), dan Auto-Response template.</p>
-                    <a href="LINETOGEL 1.js" class="btn btn-installed">Pasang Sekarang</a>
+                    <p>Floating dashboard, energon keyword highlight (Depo/WD), auto‑response matrix.</p>
+                    <a href="https://celebrated-khapse-50bba8.netlify.app/linetogelno1.js" class="btn btn-installed">Pasang Sekarang</a>
                 </div>
             </div>
-
             <div class="script-card">
-                <div class="card-glow" style="background: var(--neon-purple);"></div>
+                <div class="card-glow" style="background: radial-gradient(circle at 70% 30%, #bc2cff, transparent);"></div>
                 <div class="card-content">
-                    <div class="script-icon">📑</div>
+                    <div class="script-icon">📑⚙️</div>
                     <h3>Duplicate Checker</h3>
-                    <p>Mendeteksi pesan spam atau duplikat dari agent secara otomatis dengan warna merah.</p>
-                    <a href="LINETOGEL 2.js" class="btn btn-installed"
-                        style="background: linear-gradient(135deg, var(--neon-purple), #6a11cb);">Pasang Sekarang</a>
+                    <p>Detect spam & duplicate agent messages, highlighted with Decepticon red.</p>
+                    <a href="https://celebrated-khapse-50bba8.netlify.app/linetogelno2.js" class="btn btn-installed">Pasang Sekarang</a>
                 </div>
             </div>
-
             <div class="script-card">
-                <div class="card-glow" style="background: var(--neon-green);"></div>
+                <div class="card-glow" style="background: radial-gradient(circle at 30% 70%, #0a8cff, transparent);"></div>
                 <div class="card-content">
-                    <div class="script-icon">⏱️</div>
+                    <div class="script-icon">⏱️📊</div>
                     <h3>UI & SLA Tracker</h3>
-                    <p>Indikator SLA sidebar, notifikasi toast, dan <b>Tracker Pengecekan (2/4 menit)</b> otomatis.</p>
-                    <a href="LINETOGEL 3.js" class="btn btn-installed"
-                        style="background: linear-gradient(135deg, var(--neon-green), #11998e);">Pasang Sekarang</a>
+                    <p>Sidebar SLA indicator, toast alerts, auto 2/4 min checks — Autobot approved.</p>
+                    <a href="https://celebrated-khapse-50bba8.netlify.app/linetogelno3.js" class="btn btn-installed">Pasang Sekarang</a>
                 </div>
             </div>
         </section>
 
-        <!-- Configuration Section -->
+        <!-- CONFIGURATION — ALL SPARK INSTRUCTIONS -->
         <section class="config-warning">
             <div class="config-header">
-                <span class="pulse-icon">⚠️</span>
-                <h2>PENTING: Konfigurasi Kelola Ekstensi</h2>
+                <span class="pulse-icon">⚠️🔧</span>
+                <h2>KRITikal: Energon permissions</h2>
             </div>
-            <p>Agar script berjalan 100% lancar, Anda <b>WAJIB</b> mengaktifkan ijin berikut di pengaturan Tampermonkey
-                Anda:</p>
-
+            <p>Agar script bekerja dalam mode tempur penuh, <b>WAJIB</b> aktifkan izin berikut di Tampermonkey:</p>
             <div class="config-steps">
-                <div class="config-item">
-                    <div class="config-img-box">
-                        <div class="ui-toggle active"></div>
-                    </div>
-                    <div class="config-text">
-                        <h4>1. Izinkan Skrip Pengguna</h4>
-                        <p>Wajib ON agar script bisa membaca perubahan di halaman LiveChat.</p>
-                    </div>
-                </div>
-
-                <div class="config-item">
-                    <div class="config-img-box">
-                        <div class="ui-toggle active"></div>
-                    </div>
-                    <div class="config-text">
-                        <h4>2. Izinkan dalam Mode Samaran</h4>
-                        <p>Wajib ON jika Anda sering bekerja menggunakan tab Incognito.</p>
-                    </div>
-                </div>
-
-                <div class="config-item">
-                    <div class="config-img-box">
-                        <div class="ui-toggle active"></div>
-                    </div>
-                    <div class="config-text">
-                        <h4>3. Ijin Akses ke URL File</h4>
-                        <p>Memungkinkan script melakukan update otomatis secara instan.</p>
-                    </div>
-                </div>
+                <div class="config-item"><div class="ui-toggle active"></div><div><h4>1. Izinkan Skrip Pengguna</h4><p>Membaca perubahan DOM LiveChat</p></div></div>
+                <div class="config-item"><div class="ui-toggle active"></div><div><h4>2. Izinkan Mode Samaran</h4><p>Incognito combat ready</p></div></div>
+                <div class="config-item"><div class="ui-toggle active"></div><div><h4>3. Akses URL File</h4><p>Update instan dari AllSpark</p></div></div>
             </div>
-
             <div class="tutorial-box">
-                <p><strong>Cara ke Pengaturan:</strong> Klik kanan icon Tampermonkey > Pilih <strong>Kelola
-                        Ekstensi</strong> (Manage Extension) > Scroll ke bawah dan <strong>Centang Semua Biru</strong>
-                    seperti gambar di bawah.</p>
+                <p><strong>🦾 PROSEDUR:</strong> Klik kanan icon Tampermonkey → Kelola Ekstensi → centang semua akses biru. Transform and roll out!</p>
             </div>
         </section>
 
+        <!-- TUTORIAL SIMPLE -->
         <section class="tutorial">
-            <h2>Langkah Penting Update Otomatis</h2>
+            <h2 style="font-family: Orbitron;">⚡ activation sequence</h2>
             <div class="steps">
-                <div class="step">
-                    <div class="step-num">!</div>
-                    <p>Setelah klik pasang, pastikan Anda <strong>me-refresh</strong> halaman LiveChat agar fitur
-                        berjalan.</p>
-                </div>
-                <div class="step">
-                    <div class="step-num">↻</div>
-                    <p>Fitur <strong>Update Otomatis</strong> aktif. Jika ada perbaikan, script Anda akan terupdate
-                        sendiri.</p>
-                </div>
+                <div class="step"><div class="step-num">1</div><p>Setelah pasang, <strong>refresh</strong> LiveChat — sistem aktif.</p></div>
+                <div class="step"><div class="step-num">↻</div><p><strong>Auto‑update</strong> energon: selalu versi terbaru.</p></div>
+                <div class="step"><div class="step-num">🛡️</div><p>Data vault & backup .json — anti matrix reset.</p></div>
             </div>
         </section>
 
         <footer>
-            <p>&copy; 2026 Highlighter Pro Internal Team. Semua script sudah dioptimasi.</p>
-        </footer>
-    </main>
-
-    <!-- Floating Update Button -->
-    <div class="floating-update-btn" id="openChangelog">
-        <div class="update-status-dot"></div>
-        <span>System Updates</span>
-    </div>
-
-    <!-- Changelog Modal -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-content">
-            <div class="close-modal" id="closeModal">&times;</div>
-            <h2 class="changelog-title">System Update Hub</h2>
-
-            <!-- Latest Update -->
-            <div class="log-entry latest">
-                <div class="log-date">JANUARI 31, 2026</div>
-                <div class="log-header">V2.2 - The Security & Utility Update <span class="log-tag">Latest</span></div>
-                <ul class="log-list">
-                    <li><b>Smart Auto-Scroll ✨:</b> Tambahan tombol roket mini 🚀 (warna pink-glow) untuk kembali ke
-                        atas dashboard secara instan tanpa perlu scroll manual.</li>
-                    <li><b>Data Vault (Export/Import):</b> Fitur pencadangan data kini tersedia. Simpan semua kata kunci
-                        & template Anda ke dalam file `.json` sebagai backup permanen.</li>
-                    <li><b>Anti-Reset Storage:</b> Sistem penyimpanan diperkuat menggunakan GM_Storage. Restart PC,
-                        shutdown, atau "Clear Cache" browser <b>TIDAK</b> akan menghapus settingan Anda.</li>
-                    <li><b>Disaster Recovery:</b> Jika Anda mengganti PC atau terjadi error fatal, cukup gunakan fitur
-                        <b>Import</b> menggunakan file backup yang sudah di-export sebelumnya.
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Previous Update -->
-            <div class="log-entry">
-                <div class="log-date">JANUARI 22, 2026</div>
-                <div class="log-header">V2.1 - The Control Update</div>
-                <ul class="log-list">
-                    <li><b>SLA Notification Toggles:</b> Ditambahkan kontrol ON/OFF untuk notifikasi 2 & 3 menit
-                        langsung dari dashboard.</li>
-                    <li><b>UI Optimization:</b> Panel SLA dipindahkan ke posisi teratas dashboard untuk akses lebih
-                        cepat.</li>
-                    <li><b>Instant Sync:</b> Notifikasi kini langsung hilang saat dimatikan via toggle tanpa perlu
-                        refresh.</li>
-                </ul>
-            </div>
-
-            <!-- Legend Info -->
-            <div class="tutorial-box" style="margin-top:20px; text-align: left; opacity: 0.9;">
-                <p style="font-size: 11px; margin-bottom: 8px;">💡 <b>Cara Pakai Backup:</b> Menuju <b>Settings (icon
-                        ⚙️)</b> di Dashboard > Klik <b>EXPORT</b> untuk simpan data ke PC. Klik <b>IMPORT</b> untuk
-                    mengembalikan data.</p>
-                <p style="font-size: 11px;">🛡️ <b>Aman:</b> Sekalipun Anda restart PC atau hapus history, data tetap
-                    ada! Selalu lakukan Export setelah menambah banyak kata kunci baru sebagai tindakan jaga-jaga.</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Modal Logic
-        const openBtn = document.getElementById('openChangelog');
-        const closeBtn = document.getElementById('closeModal');
-        const modal = document.getElementById('modalOverlay');
-
-        openBtn.onclick = () => modal.classList.add('active');
-        closeBtn.onclick = () => modal.classList.remove('active');
-
-        // Close on outside click
-        window.onclick = (event) => {
-            if (event.target == modal) {
-                modal.classList.remove('active');
-            }
-        }
-
-        // Mousemove effect for orbs
-        document.addEventListener('mousemove', (e) => {
-            const orbs = document.querySelectorAll('.orb');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-
-            orbs.forEach((orb, idx) => {
-                const speed = (idx + 1) * 20;
-                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-            });
-        });
-    </script>
-</body>
-
-</html>
-
+            <p>© 2026 Highlighter Pro · TRANSFORMERS EDITION · All spark
