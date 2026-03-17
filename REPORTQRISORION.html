@@ -14,16 +14,15 @@
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
-            background-color: #1e3c2c; /* fallback jika gambar gagal */
+            background-color: #1e3c2c;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* WRAPPER KONTEN DENGAN LATAR TRANSPARAN */
         .main-wrapper {
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
             background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(8px);
@@ -33,7 +32,6 @@
             margin: 20px 0;
         }
 
-        /* SISANYA STYLE SEPERTI SEBELUMNYA (DENGAN PENYESUAIAN) */
         h1 {
             display: flex;
             align-items: center;
@@ -179,20 +177,21 @@
         </h1>
 
         <div class="info-card">
-            <strong>🔍 Cara pakai</strong>
+            <strong>🔍 Cara pakai (format fleksibel)</strong>
             <ul>
-                <li>Tempel semua transaksi mentah — <b>otomatis terdeteksi</b> tanpa perlu baris kosong.</li>
-                <li>Klik tombol <b>📋 Salin Semua</b> untuk menyalin hasil ke clipboard.</li>
-                <li>Notifikasi "Tersalin!" akan muncul jika berhasil.</li>
+                <li>Tempel semua transaksi mentah (bisa dari Excel/teks dengan tab atau spasi).</li>
+                <li>Setiap baris harus memiliki kolom: <b>UserID, Lampiran, (opsional TransaksiID), RRN, Nominal, Status</b>.</li>
+                <li>Jika TransaksiID tidak ada, otomatis diisi tanda <b>-</b>.</li>
+                <li>Lampiran bisa berupa satu URL atau beberapa URL yang diapit kutip <b>"</b> dan dipisah baris baru.</li>
+                <li>Hasil akan diformat dengan header tetap dan pemisah <b>====</b> antar transaksi.</li>
             </ul>
-            <div style="background: #b7d9cc; padding: 8px 12px; border-radius: 12px; margin-top: 8px;">
-                <strong>✏️ Contoh format input:</strong><br>
-                <code style="font-size: 12px;">user1 https://gambar.jpg 123456 10,000<br>user2 "url1.jpg\nurl2.jpg" 789012 20,000</code>
+            <div style="background: #b7d9cc; padding: 12px; border-radius: 12px; margin-top: 8px;">
+                <strong>✏️ Contoh input (dari data Anda):</strong><br>
+                <code style="font-size: 12px;">Samsir1   https://gambar.jpg   018401765162 500,500 PENDING<br>holigan16 https://gambar.jpg   f3ea8858-1beb-411f-ad48-4836067d5dea 018517386355 150,000 PENDING</code>
             </div>
         </div>
 
-        <!-- Textarea kosong -->
-        <textarea id="inputText" placeholder="Tempel semua transaksi di sini... (contoh: user1 https://gambar.jpg 123456 10,000)"></textarea>
+        <textarea id="inputText" placeholder="Tempel semua transaksi di sini..."></textarea>
 
         <div class="output-container">
             <div class="output-header">
@@ -222,9 +221,87 @@
             const copyBtn = document.getElementById('copyButton');
             const toastEl = document.getElementById('toast');
 
-            // ========== FORMATTER ==========
-            function formatTransaction(userId, lampiranField, rrn, nominal) {
+            // ========== FORMATTER UTAMA ==========
+            // Deteksi UUID
+            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+            // Parse setiap baris menjadi objek transaksi
+            function parseLine(line) {
+                const cols = line.split(/\s+/); // pisah berdasarkan spasi/tab berurutan
+                if (cols.length < 5) return null; // minimal: user, lampiran, rrn, nominal, status
+
+                const userId = cols[0];
+                const lampiran = cols[1];
+                const remaining = cols.slice(2);
+
+                let transaksiId, rrn, nominal, status;
+
+                // Jika sisa kolom = 3 => tidak ada TransaksiID
+                if (remaining.length === 3) {
+                    transaksiId = '-';
+                    rrn = remaining[0];
+                    nominal = remaining[1];
+                    status = remaining[2];
+                }
+                // Jika sisa kolom = 4 => kemungkinan ada TransaksiID
+                else if (remaining.length === 4) {
+                    // Cek apakah kolom pertama adalah UUID
+                    if (uuidRegex.test(remaining[0])) {
+                        transaksiId = remaining[0];
+                        rrn = remaining[1];
+                        nominal = remaining[2];
+                        status = remaining[3];
+                    } else {
+                        // Jika bukan UUID, asumsikan tetap sebagai TransaksiID (misal format lain) atau tidak ada?
+                        // Demi keamanan, kita tetap anggap itu TransaksiID (user mungkin salah format)
+                        transaksiId = remaining[0];
+                        rrn = remaining[1];
+                        nominal = remaining[2];
+                        status = remaining[3];
+                    }
+                }
+                // Jika lebih dari 4, kita perlu deteksi lebih lanjut
+                else {
+                    // Cari UUID di awal
+                    let idx = 0;
+                    if (uuidRegex.test(remaining[0])) {
+                        transaksiId = remaining[0];
+                        idx = 1;
+                    } else {
+                        transaksiId = '-';
+                        idx = 0;
+                    }
+                    // Harus ada minimal 3 kolom sisa: rrn, nominal, status
+                    if (remaining.length - idx >= 3) {
+                        rrn = remaining[idx];
+                        nominal = remaining[idx + 1];
+                        status = remaining[idx + 2];
+                    } else {
+                        return null; // tidak cukup kolom
+                    }
+                }
+
+                return { userId, lampiran, transaksiId, rrn, nominal, status };
+            }
+
+            function parseAllTransactions(raw) {
+                const lines = raw.split('\n');
+                const transactions = [];
+                for (let line of lines) {
+                    line = line.trim();
+                    if (line === '') continue;
+                    const parsed = parseLine(line);
+                    if (parsed) transactions.push(parsed);
+                }
+                return transactions;
+            }
+
+            // Format satu transaksi (dengan dukungan multi‑lampiran dalam kutip)
+            function formatTransaction(trans) {
+                let lampiranField = trans.lampiran;
                 let lampiranUrls = [];
+
+                // Jika lampiran diapit kutip, pecah berdasarkan newline
                 if (lampiranField.startsWith('"') && lampiranField.endsWith('"')) {
                     const inner = lampiranField.slice(1, -1);
                     lampiranUrls = inner.split(/\r?\n/).filter(u => u.trim() !== '');
@@ -232,53 +309,45 @@
                     lampiranUrls = [lampiranField];
                 }
 
-                let result = `User ID : ${userId}\nOrder Id : \nRRN : ${rrn}\nNominal : Rp. ${nominal}\nLampiran :`;
-                lampiranUrls.forEach(url => {
-                    result += '\n' + url;
-                });
+                // Bangun output
+                let result = `User ID : ${trans.userId}\nTransaksi ID : ${trans.transaksiId}\nRRN : ${trans.rrn}\nNominal : Rp. ${trans.nominal}\n`;
+
+                if (lampiranUrls.length === 1) {
+                    result += `Lampiran : ${lampiranUrls[0]}`;
+                } else {
+                    result += 'Lampiran :\n' + lampiranUrls.join('\n');
+                }
+
                 return result;
             }
 
-            function parseAllTransactions(raw) {
-                if (!raw.trim()) return [];
-                const transactions = [];
-                const regex = /(?:^|\n)(\S+)\s+("[^"]*"|\S+)\s+(\S+)\s+(\S+)/gs;
-                let match;
-                while ((match = regex.exec(raw)) !== null) {
-                    const userId = match[1];
-                    const lampiran = match[2];
-                    const rrn = match[3];
-                    const nominal = match[4];
-                    if (userId && rrn && nominal) {
-                        transactions.push({ userId, lampiran, rrn, nominal });
-                    }
-                }
-                return transactions;
-            }
-
             function buildFullOutput() {
-                const raw = inputEl.value;
-                const transactions = parseAllTransactions(raw);
+                const transactions = parseAllTransactions(inputEl.value);
                 if (transactions.length === 0) return null;
+
                 const header = 'Info : Linetogel\nPerihal : Cek Bukti QRIS Minera ORION\n';
-                const formattedList = transactions.map(t => formatTransaction(t.userId, t.lampiran, t.rrn, t.nominal));
-                const combined = formattedList.length === 1 ? formattedList[0] : formattedList.join('\n\n---\n\n');
+                const formattedList = transactions.map(t => formatTransaction(t));
+                // Gabungkan dengan pemisah "====" (sesuai contoh)
+                const combined = formattedList.join('\n====\n');
+
                 return header + '\n' + combined;
             }
 
             function updateOutput() {
                 const fullOutput = buildFullOutput();
                 const transactions = parseAllTransactions(inputEl.value);
+
                 if (!fullOutput || transactions.length === 0) {
-                    outputEl.innerText = '✅ Tidak ada transaksi terdeteksi. Tempel data dengan format yang benar.';
+                    outputEl.innerText = '✅ Tidak ada transaksi terdeteksi. Pastikan format baris benar.';
                     counterEl.innerText = '📭 0 transaksi';
                     return;
                 }
+
                 outputEl.innerText = fullOutput;
                 counterEl.innerHTML = `🔢 ${transactions.length} transaksi terdeteksi`;
             }
 
-            // ========== FUNGSI COPY YANG ROBUST ==========
+            // ========== FUNGSI COPY ==========
             function showToast(message = 'Tersalin!') {
                 toastEl.innerText = message;
                 toastEl.classList.add('show');
@@ -293,7 +362,7 @@
                         await navigator.clipboard.writeText(text);
                         return true;
                     } catch (err) {
-                        console.warn('Clipboard API gagal, beralih ke fallback', err);
+                        console.warn('Clipboard API gagal', err);
                         return false;
                     }
                 }
@@ -327,7 +396,6 @@
                     return;
                 }
 
-                // Animasi tombol
                 copyBtn.style.transform = 'scale(0.96)';
                 setTimeout(() => copyBtn.style.transform = '', 150);
 
@@ -342,15 +410,15 @@
                 if (copied) {
                     showToast('Tersalin!');
                 } else {
-                    alert('Gagal menyalin teks. Silakan coba lagi atau salin manual.');
+                    alert('Gagal menyalin teks. Silakan coba lagi.');
                 }
             }
 
-            // Event listener
+            // Event listeners
             inputEl.addEventListener('input', updateOutput);
             copyBtn.addEventListener('click', handleCopy);
 
-            // Jalankan pertama kali
+            // Inisialisasi
             updateOutput();
 
             // Auto-resize textarea
