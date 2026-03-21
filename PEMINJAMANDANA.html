@@ -4,920 +4,1113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parser Data Pengembalian Dana - Christmas Dark Edition</title>
+    <title>Parser Data </title>
+    <!-- FAVICON KOMBINASI (Bulan & Pura) -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAgMTBBNDAgNDAgMCAxIDAgNTAgOTBBMzAgMzAgMCAxIDEgNTAgMTBaIiBmaWxsPSIjMzRkMzk5Ii8+PHBhdGggZD0iTTgwIDMwIEwgOTAgNTAgTCA3MCA1MCBaIiBmaWxsPSIjZmNkMzRkIi8+PC9zdmc+">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎄</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Monoton&family=Courier+Prime&display=swap');
+        :root {
+            --bg-dark: #0b1120;
+            --bg-panel: rgba(15, 30, 40, 0.7);
+            --primary: #2dd4bf;
+            --primary-hover: #14b8a6;
+            --accent-gold: #fbbf24;
+            --accent-stone: #d6d3d1;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: rgba(251, 191, 36, 0.2);
+            --glass-blur: blur(10px);
+            --glow-shadow: 0 0 20px rgba(45, 212, 191, 0.1);
+        }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--bg-dark);
         }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
         body {
-            background: #0a0e1a; /* Dark blue background */
-            color: #e0e0e0;
-            line-height: 1.6;
-            padding: 20px;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
             overflow-x: hidden;
-            font-family: 'Courier Prime', monospace;
-            background-image: 
-                radial-gradient(circle at 80% 10%, rgba(255, 0, 80, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 120, 0.1) 0%, transparent 50%);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(10, 15, 30, 0.85);
-            border-radius: 20px;
-            box-shadow: 
-                0 0 20px rgba(255, 0, 80, 0.2),
-                0 0 40px rgba(0, 255, 120, 0.1),
-                inset 0 0 30px rgba(255, 215, 0, 0.05);
-            overflow: hidden;
-            flex: 1;
-            border: 1px solid rgba(255, 0, 80, 0.3);
             position: relative;
-            animation: containerGlow 5s infinite alternate;
         }
 
-        @keyframes containerGlow {
-            0% { box-shadow: 0 0 20px rgba(255, 0, 80, 0.2), 0 0 40px rgba(0, 255, 120, 0.1), inset 0 0 30px rgba(255, 215, 0, 0.05); }
-            100% { box-shadow: 0 0 25px rgba(255, 0, 80, 0.3), 0 0 50px rgba(0, 255, 120, 0.2), inset 0 0 35px rgba(255, 215, 0, 0.1); }
+        /* Background gradien halus (tanpa animasi) */
+        .bg-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.08) 0%, transparent 60%),
+                        linear-gradient(135deg, #0b1120 0%, #1a2635 100%);
+            z-index: -2;
         }
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
+        /* Overlay Pura statis (tetap ada) */
+        .bg-pura-overlay {
+            position: fixed;
+            bottom: 0;
             left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ff0050, #00ff78, #ffd700, #ff0050);
-            box-shadow: 0 0 15px #ff0050;
-            z-index: 10;
-            animation: scanline 4s linear infinite;
+            width: 100%;
+            height: 40%;
+            background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+            mask-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            z-index: -1;
+            pointer-events: none;
+            filter: sepia(30%) hue-rotate(150deg) contrast(1.1);
         }
 
-        @keyframes scanline {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
         }
 
         header {
-            background: linear-gradient(135deg, rgba(15, 20, 40, 0.9) 0%, rgba(40, 10, 30, 0.9) 100%);
-            color: #fff;
-            padding: 30px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 0, 80, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--bg-panel);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: var(--glow-shadow);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        .brand-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+
+        .brand h1 {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .brand span {
+            font-size: 11px;
+            background: rgba(45, 212, 191, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 3px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex: 1;
+        }
+
+        @media (max-width: 992px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--bg-panel);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: box-shadow 0.3s ease, border-color 0.3s;
             position: relative;
             overflow: hidden;
         }
 
-        h1 {
-            font-family: 'Monoton', cursive;
-            font-size: 42px;
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .panel:focus-within::before { opacity: 1; }
+        .panel:focus-within {
+            box-shadow: 0 0 30px rgba(45, 212, 191, 0.15);
+            border-color: var(--accent-gold);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-            position: relative;
-            z-index: 2;
-            letter-spacing: 3px;
-            animation: textShimmer 4s infinite;
         }
 
-        @keyframes textShimmer {
-            0%, 100% { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
-            25% { color: #ff0050; text-shadow: 0 0 10px #ff0050; }
-            50% { color: #00ff78; text-shadow: 0 0 10px #00ff78; }
-            75% { color: #ff0050; text-shadow: 0 0 10px #ff0050; }
-        }
-
-        header p {
+        .panel-title {
             font-size: 18px;
-            color: #00ff78;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 0 5px rgba(0, 255, 120, 0.7);
-        }
-
-        .content {
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .input-section, .output-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        label {
             font-weight: 600;
-            color: #00ff78;
-            font-size: 18px;
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 10px;
-            text-shadow: 0 0 5px rgba(0, 255, 120, 0.5);
+        }
+
+        .panel-title i { color: var(--accent-gold); }
+
+        .format-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .format-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .format-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #0b1120;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        .format-btn i {
+            margin-right: 4px;
+            font-size: 12px;
         }
 
         textarea {
             width: 100%;
+            height: 100%;
+            min-height: 400px;
+            background: rgba(2, 6, 23, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 20px;
-            background: rgba(5, 10, 20, 0.8);
-            color: #e0e0e0;
-            border: 1px solid rgba(255, 0, 80, 0.3);
-            border-radius: 10px;
-            font-size: 16px;
-            min-height: 220px;
-            resize: vertical;
-            font-family: 'Courier Prime', monospace;
-            line-height: 1.5;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
             transition: all 0.3s;
-            box-shadow: 
-                inset 0 0 10px rgba(255, 0, 80, 0.1), 
-                0 0 5px rgba(255, 0, 80, 0.2);
         }
 
         textarea:focus {
             outline: none;
-            border-color: #ffd700;
-            box-shadow: 
-                0 0 15px rgba(255, 215, 0, 0.4), 
-                inset 0 0 10px rgba(255, 215, 0, 0.2);
+            color: var(--text-main);
+            background: rgba(2, 6, 23, 0.9);
+            border-color: var(--accent-gold);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
 
-        .button-group {
-            display: flex;
+        /* Efek blur minimal saat data terproses */
+        .input-section.blurred textarea {
+            filter: blur(1px);
+            opacity: 0.9;
+            transition: filter 0.3s, opacity 0.3s;
+        }
+
+        .input-section.blurred::after {
+            content: "✓ Data Terproses";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent-gold);
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border: 1px solid var(--accent-gold);
+            pointer-events: none;
+            z-index: 20;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+            white-space: nowrap;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
             gap: 15px;
-            margin-top: 15px;
-            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .stat-card {
+            background: rgba(251, 191, 36, 0.03);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .stat-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: rgba(45, 212, 191, 0.15); 
+            color: var(--accent-gold);
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-info h4 {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .stat-info p {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .copy-total-btn {
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+            margin-left: auto;
+        }
+
+        .copy-total-btn:hover {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--accent-gold);
+        }
+
+        .copy-total-btn i {
+            font-size: 14px;
         }
 
         button {
-            background: linear-gradient(to right, rgba(20, 10, 30, 0.8), rgba(40, 10, 30, 0.8));
-            color: #00ff78;
-            border: 1px solid rgba(0, 255, 120, 0.3);
-            padding: 15px 25px;
+            border: none;
+            padding: 12px 20px;
             border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
             font-weight: 600;
-            transition: all 0.3s;
+            font-size: 14px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 
-                0 0 10px rgba(0, 255, 120, 0.2), 
-                inset 0 0 5px rgba(0, 255, 120, 0.1);
-            position: relative;
-            overflow: hidden;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
         }
 
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-            transition: 0.5s;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #0f766e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(45, 212, 191, 0.2);
+            flex: 2;
         }
 
-        button:hover::before {
-            left: 100%;
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            flex: 1;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 
-                0 0 15px rgba(0, 255, 120, 0.4), 
-                0 5px 15px rgba(0, 0, 0, 0.4);
-            color: #ffd700;
+            filter: brightness(1.1);
         }
 
         button:active {
             transform: translateY(0);
         }
 
-        button.reset {
-            background: linear-gradient(to right, rgba(50, 10, 30, 0.8), rgba(30, 5, 40, 0.8));
-        }
-        button.reset:hover {
-            background: linear-gradient(to right, rgba(60, 15, 40, 0.8), rgba(40, 10, 50, 0.8));
-            box-shadow: 0 0 15px rgba(255, 0, 80, 0.4);
-        }
-        button.copy {
-            background: linear-gradient(to right, rgba(10, 30, 50, 0.8), rgba(5, 40, 20, 0.8));
-        }
-        button.copy:hover {
-            background: linear-gradient(to right, rgba(15, 40, 60, 0.8), rgba(10, 50, 25, 0.8));
-            box-shadow: 0 0 15px rgba(0, 255, 120, 0.4);
-        }
-
-        .output-text {
-            font-family: 'Courier Prime', monospace;
-            font-size: 16px;
-            padding: 20px;
-            background: rgba(5, 10, 20, 0.8);
-            color: #e0e0e0;
-            border-radius: 10px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            min-height: 80px;
-            border: 1px solid rgba(255, 0, 80, 0.2);
-            box-shadow: inset 0 0 10px rgba(255, 0, 80, 0.1);
-        }
-
-        .output-container {
-            position: relative;
-        }
-
-        .footer {
+        footer {
             text-align: center;
-            margin-top: 30px;
-            padding: 25px;
-            background: rgba(5, 10, 20, 0.8);
-            border-radius: 10px;
-            font-size: 14px;
-            color: #b0b0b0;
-            border-top: 1px solid rgba(255, 0, 80, 0.2);
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 10;
         }
 
-        .copied-notification {
+        .toast-container {
             position: fixed;
-            top: 30px;
-            right: 30px;
-            background: rgba(10, 40, 30, 0.9);
-            color: #00ff78;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
             padding: 15px 20px;
             border-radius: 10px;
-            box-shadow: 
-                0 5px 15px rgba(0, 0, 0, 0.3), 
-                0 0 10px rgba(0, 255, 120, 0.5);
-            display: none;
-            z-index: 1000;
-            animation: fadeIn 0.3s, fadeOut 0.3s 2.7s forwards;
-            font-weight: 600;
-            border: 1px solid rgba(0, 255, 120, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-main);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 350px;
+            border-left: 4px solid var(--accent-gold);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .toast i { font-size: 18px; color: var(--accent-gold); }
+
+        .toast.copy-toast {
+            border-left-color: var(--accent-gold);
+            background: linear-gradient(145deg, #0b2e26, #0b1120);
+        }
+        .toast.copy-toast i {
+            color: var(--accent-gold);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 0; transform: translateX(20px); }
         }
 
-        .error-message {
-            color: #ff4136;
-            font-weight: 600;
-            margin-top: 10px;
-            display: none;
-            padding: 10px;
-            background: rgba(255, 65, 54, 0.1);
-            border-radius: 5px;
-            border-left: 4px solid #ff0050;
-            box-shadow: 0 0 5px rgba(255, 65, 54, 0.2);
-        }
-
-        .success-message {
-            color: #00ff78;
-            font-weight: 600;
-            margin-top: 10px;
-            display: none;
-            padding: 10px;
-            background: rgba(0, 255, 120, 0.1);
-            border-radius: 5px;
-            border-left: 4px solid #00ff78;
-            box-shadow: 0 0 5px rgba(0, 255, 120, 0.2);
-        }
-
-        .results-count {
-            margin-top: 15px;
-            font-weight: 600;
-            color: #00ff78;
-            font-size: 16px;
-            padding: 10px;
-            background: rgba(0, 255, 120, 0.1);
-            border-radius: 5px;
-            display: inline-block;
-            box-shadow: 0 0 5px rgba(0, 255, 120, 0.2);
-        }
-
-        .total-nominal {
-            margin-top: 15px;
-            font-weight: 700;
-            color: #ffd700;
-            font-size: 18px;
-            padding: 12px 15px;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 8px;
-            display: block;
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-            50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
-            100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-        }
-
-        .decorative-element {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255,0,80,0.1) 0%, rgba(255,0,80,0) 70%);
-            border-radius: 50%;
-            z-index: 0;
-        }
-        .decoration-1 {
-            top: -75px;
-            right: -75px;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0) 70%);
-        }
-        .decoration-2 {
-            bottom: -75px;
-            left: -75px;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(0,255,120,0.1) 0%, rgba(0,255,120,0) 70%);
-        }
-
-        .snowfall {
+        /* Dekorasi Pura statis di pojok kanan bawah */
+        .decoration-pura-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            bottom: -5px;
+            right: 20px;
+            width: 200px;
+            height: 150px;
+            z-index: 5;
             pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0.5;
+            filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.2));
         }
 
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: rgba(255, 255, 255, 0.8);
-            user-select: none;
-            cursor: default;
-            animation: snowfall linear infinite;
-            text-shadow: 0 0 5px #fff;
+        .pura-svg {
+            width: 100%;
+            height: auto;
+            fill: var(--accent-gold);
         }
 
-        @keyframes snowfall {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
+        @media (max-width: 768px) {
+            .decoration-pura-container {
+                width: 120px;
                 opacity: 0.3;
             }
-        }
-
-        .auto-process-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #ffd700;
-            font-size: 14px;
-            margin-left: 10px;
-            animation: blink 1.5s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .stats-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .stats-container > div {
-            flex: 1;
-            min-width: 200px;
+            .brand-icon {
+                width: 35px;
+                height: 35px;
+            }
+            .brand h1 { font-size: 18px; }
         }
     </style>
 </head>
 <body>
-    <div class="snowfall" id="snowfall"></div>
 
-    <div class="container">
-        <div class="decorative-element decoration-1"></div>
-        <div class="decorative-element decoration-2"></div>
+    <div class="bg-gradient"></div>
+    <div class="bg-pura-overlay"></div>
 
+    <!-- Dekorasi Pura SVG statis -->
+    <div class="decoration-pura-container">
+        <svg class="pura-svg" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,60 L90,60 L85,40 L15,40 Z" fill="rgba(251, 191, 36, 0.7)" />
+            <path d="M20,40 L80,40 L75,25 L25,25 Z" fill="rgba(251, 191, 36, 0.8)" />
+            <path d="M35,25 L65,25 L60,15 L55,15 L50,5 L45,15 L40,15 Z" fill="rgba(255, 255, 255, 0.8)" />
+        </svg>
+    </div>
+
+    <div class="app-container">
         <header>
-            <h1>Parser Data Natal</h1>
-            <p>Christmas Dark Edition <span class="auto-process-indicator"><i class="fas fa-snowflake"></i> Auto-Processing</span></p>
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M105.3 160.4l-52.8-72.3C47.6 79.2 53.2 64.2 64.6 57c11.5-7.2 26.4-3.6 34 7.8l52.8 72.3c13.2 18.1 34.3 28.8 56.6 28.8h95.9c22.3 0 43.4-10.7 56.6-28.8l52.8-72.3c7.6-11.4 22.5-15 34-7.8 11.5 7.2 17 22.2 12.1 31.1l-52.8 72.3C354.9 193 317.6 214.4 277.4 214.4h-42.7c-40.2 0-77.5-21.4-98.5-54.1zM128 256h256c17.7 0 32 14.3 32 32v160c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32V288c0-17.7 14.3-32 32-32z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>Parser Data <span style="color: var(--primary)">Pro</span></h1>
+                    <span>v2.0 • Multi Format</span>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-mosque" style="color: var(--accent-gold); font-size: 20px;"></i>
+                <i class="fas fa-gopuram" style="color: var(--accent-gold); font-size: 20px;"></i>
+            </div>
         </header>
 
-        <div class="content">
-            <div class="input-section">
-                <label for="rawData">
-                    <i class="fas fa-gifts"></i> Masukkan Data Mentah (Banyak Format):
-                </label>
-                <textarea id="rawData" placeholder="Contoh:
-Info : Goltogel
-Perihal : Pengembalian Dana
-Dari Situs : Linetogel
-
-KAS BESAR BNI (BANK BERSIH)
-ZINTIYA AMELYA MBATU
-Nomor Rekening : 3692383056
-Nominal : Rp. 50,000,000,-
-
-Atau format lainnya...
-
-KAS KECIL BCA(BANK BERSIH)
-JOHN DOE
-No. Rek: 1234567890
-Jumlah: Rp 1.500.000"></textarea>
-                <div class="error-message" id="errorMessage"></div>
-                <div class="success-message" id="successMessage"></div>
-            </div>
-
-            <div class="button-group">
-                <button class="reset" onclick="resetData()">
-                    <i class="fas fa-trash-alt"></i> Hapus/Reset
-                </button>
-            </div>
-
-            <div class="output-section">
-                <label><i class="fas fa-candy-cane"></i> Hasil Output:</label>
-                <div class="output-container">
-                    <div class="output-text" id="outputResult">
-                        Hasil akan ditampilkan di sini...
+        <div class="workspace">
+            <!-- Left: Input Section -->
+            <div class="panel input-section" id="inputPanel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fas fa-file-import"></i> Input Data Mentah
                     </div>
-                    <div class="button-group">
-                        <button class="copy" onclick="copyOutput()">
-                            <i class="fas fa-copy"></i> Salin Hasil
+                    <button class="btn-secondary" onclick="resetData()" style="padding: 8px 12px; font-size: 12px;">
+                        <i class="fas fa-trash-alt"></i> Reset
+                    </button>
+                </div>
+                
+                <textarea id="rawData" placeholder="Tempel data mentah di sini..."></textarea>
+                
+                <div style="font-size: 12px; color: var(--text-muted);">
+                    <i class="fas fa-info-circle"></i> Sistem otomatis mendeteksi pola Bank, No Rek, Nama, dan Nominal.
+                </div>
+            </div>
+
+            <!-- Right: Output Section -->
+            <div class="panel output-section">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fas fa-file-export"></i> Hasil Output
+                    </div>
+                    <button class="btn-primary" onclick="copyOutput()" style="padding: 8px 16px; font-size: 12px; width: auto; flex: initial;">
+                        <i class="fas fa-copy"></i> Salin Hasil
+                    </button>
+                </div>
+
+                <div class="format-selector">
+                    <button class="format-btn active" id="formatVip" onclick="setFormat('vip')"><i class="fas fa-crown"></i> VIP</button>
+                    <button class="format-btn" id="formatOrion" onclick="setFormat('orion')"><i class="fas fa-meteor"></i> MINERA/ORION</button>
+                    <button class="format-btn" id="formatP2mih" onclick="setFormat('p2mih')"><i class="fas fa-hand-holding-heart"></i> P2MIH</button>
+                </div>
+
+                <textarea id="outputResult" readonly placeholder="Hasil parsing akan muncul di sini..."></textarea>
+
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-list-ol"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>Total Data</h4>
+                            <p id="resultsCount">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>Total Nominal</h4>
+                            <p id="totalNominal">Rp 0</p>
+                        </div>
+                        <button class="copy-total-btn" onclick="copyTotalNominal()" title="Salin nominal (angka saja)">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                 </div>
-                
-                <div class="stats-container">
-                    <div class="results-count" id="resultsCount"></div>
-                    <div class="total-nominal" id="totalNominal"></div>
-                </div>
             </div>
         </div>
 
-        <div class="footer">
-            <p>© 2023 Data Parser • Christmas Dark Edition • Format Output: Bank [TAB] No.Rekening [TAB] Nama [TAB] [TAB] Nominal</p>
-        </div>
+        <footer>
+            <p>© 2026 Parser Data Pro • Format: VIP (utuh) / MINERA·ORION (max 39jt) / P2MIH (max 49.999.999) • Data diproses lokal</p>
+        </footer>
     </div>
 
-    <div class="copied-notification" id="copiedNotification">
-        <i class="fas fa-check-circle"></i> Teks disalin! Data siap ditempel.
-    </div>
+    <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // Membuat efek salju yang jatuh
-        function createSnowfall() {
-            const snowfallContainer = document.getElementById('snowfall');
-            const snowflakeSymbols = ['❄', '❅', '❆'];
-            const numberOfSnowflakes = 50;
+        // --- CORE LOGIC with three formats ---
+        let currentTotalNominal = 0;
+        let currentFormat = 'vip'; // 'vip', 'orion', 'p2mih'
 
-            for (let i = 0; i < numberOfSnowflakes; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
-                snowflake.style.left = `${Math.random() * 100}%`;
-                snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                snowflake.style.opacity = Math.random();
-                snowflake.style.fontSize = `${Math.random() * 10 + 10}px`;
-                snowflake.style.animationDelay = `${Math.random() * 2}s`;
-
-                snowfallContainer.appendChild(snowflake);
-            }
+        function setFormat(format) {
+            currentFormat = format;
+            document.getElementById('formatVip').classList.toggle('active', format === 'vip');
+            document.getElementById('formatOrion').classList.toggle('active', format === 'orion');
+            document.getElementById('formatP2mih').classList.toggle('active', format === 'p2mih');
+            processData();
         }
 
-        // Fungsi untuk membersihkan nama bank dari kata "Kas", "(Bersih)", "(Kotor)", "BERSIH", "KOTOR", "KAS BESAR", "KAS KECIL"
         function cleanBankName(bankName) {
             if (!bankName) return '';
-            
             let potentialBankName = bankName.trim();
             
-            // LOGIKA BARU: Tangani kasus "KAS BESAR" dan "KAS KECIL"
+            const kasParenPattern = potentialBankName.match(/^KAS\s+([A-Za-z0-9]+)\s*\(/i);
+            if (kasParenPattern && kasParenPattern[1]) {
+                potentialBankName = kasParenPattern[1];
+            }
+            
             const kasPattern = potentialBankName.match(/^KAS (BESAR|KECIL)\s*(.+)/i);
             if (kasPattern && kasPattern[2]) {
-                // Jika pola ditemukan, gunakan hanya bagian setelah "KAS BESAR/KECIL"
                 potentialBankName = kasPattern[2];
             }
-
-            // Lanjutkan dengan pembersihan standar
-            // Hapus kata "Bank" di awal (jika ada)
+            
+            const kasBersihPattern = potentialBankName.match(/^KAS\s*BERSIH\s*(.+)/i);
+            if (kasBersihPattern && kasBersihPattern[1]) {
+                potentialBankName = kasBersihPattern[1];
+            }
+            
             let cleaned = potentialBankName.replace(/^Bank\s*/i, '');
-            
-            // Hapus kata "Kas" (case insensitive) di mana saja
             cleaned = cleaned.replace(/\bKas\b\s*/gi, '');
-            
-            // Hapus kata dalam tanda kurung seperti (Bersih), (Kotor), (BERSIH), (KOTOR)
             cleaned = cleaned.replace(/\s*\([^)]*\)\s*/g, '');
-
-            // Hapus kata "BERSIH" atau "KOTOR" tanpa tanda kurung
-            cleaned = cleaned.replace(/\b(BERSIH|KOTOR)\b/gi, '');
-            
-            // Hapus karakter khusus yang tidak perlu
+            cleaned = cleaned.replace(/\b(BERSIH|KOTOR|BANK)\b/gi, '');
             cleaned = cleaned.replace(/[^\w\s]/gi, '');
-            
-            // Trim spasi ekstra
             cleaned = cleaned.trim();
-            
             return cleaned;
         }
 
-        // Fungsi untuk memproses data
+        function extractValue(line, pattern) {
+            try {
+                const match = line.match(pattern);
+                return (match && match[1]) ? match[1].trim() : '';
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function formatNumberWithCommas(number) {
+            const numStr = number.toString().replace(/\D/g, '');
+            if (!numStr) return '0';
+            return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function splitNominal(amount, threshold) {
+            let parts = [];
+            let remaining = amount;
+            while (remaining > threshold) {
+                parts.push(threshold);
+                remaining -= threshold;
+            }
+            if (remaining > 0) {
+                parts.push(remaining);
+            }
+            return parts;
+        }
+
         function processData() {
             const rawData = document.getElementById('rawData').value;
-            const errorElement = document.getElementById('errorMessage');
-            const successElement = document.getElementById('successMessage');
-            const resultsCountElement = document.getElementById('resultsCount');
-            const totalNominalElement = document.getElementById('totalNominal');
-
-            // Sembunyikan pesan error dan sukses
-            errorElement.style.display = 'none';
-            successElement.style.display = 'none';
-            resultsCountElement.textContent = '';
-            totalNominalElement.textContent = '';
+            const outputElement = document.getElementById('outputResult');
+            const countElement = document.getElementById('resultsCount');
+            const totalElement = document.getElementById('totalNominal');
+            const inputPanel = document.getElementById('inputPanel');
 
             if (!rawData.trim()) {
-                // Jika tidak ada data, kosongkan output
-                document.getElementById('outputResult').textContent = 'Hasil akan ditampilkan di sini...';
-                document.getElementById('outputResult').removeAttribute('data-output');
+                outputElement.value = '';
+                countElement.textContent = '0';
+                totalElement.textContent = 'Rp 0';
+                currentTotalNominal = 0;
+                inputPanel.classList.remove('blurred');
                 return;
             }
 
-            // Pisahkan data berdasarkan baris kosong ganda (double newline)
+            let threshold = null;
+            if (currentFormat === 'orion') {
+                threshold = 39000000;
+            } else if (currentFormat === 'p2mih') {
+                threshold = 49999999;
+            }
+
             const dataBlocks = rawData.split(/\n\s*\n/);
-            let results = [];
-            let displayResults = [];
+            
+            let parsedItems = []; 
             let totalAmount = 0;
 
             for (let i = 0; i < dataBlocks.length; i++) {
                 const block = dataBlocks[i].trim();
                 if (!block) continue;
 
-                // Parsing data dari setiap blok
                 const lines = block.split('\n');
-                let bank = '';
-                let accountName = '';
-                let accountNumber = '';
-                let amount = '';
-                let displayAmount = '';
+                let bank = '', accountName = '', accountNumber = '', amount = '';
                 let accountNumberLineIndex = -1;
 
-                // Pattern matching untuk berbagai format
+                // Deteksi format KAS
+                let isKasFormat = false;
+                let kasFormatBankLine = -1;
+
                 for (let j = 0; j < lines.length; j++) {
                     const trimmedLine = lines[j].trim();
-
-                    // Cari informasi bank
-                    if (!bank && /bank/i.test(trimmedLine)) {
-                        bank = extractValue(trimmedLine, /bank[\s:]*([^(\(|\))]+)/i);
-                        if (!bank) {
-                            bank = trimmedLine.replace(/^bank[\s:]*/i, '').replace(/\(.*\)/, '').trim();
-                        }
-                        
-                        // Bersihkan nama bank
-                        if (bank) {
-                            bank = cleanBankName(bank);
-                        }
-                    }
-
-                    // Cari nomor rekening
-                    if (accountNumberLineIndex === -1 && /nomor|no\.?/i.test(trimmedLine) && /rekening/i.test(trimmedLine)) {
-                        const tempAccNum = extractValue(trimmedLine, /nomor[\s\w]*:?\s*([\d\s\-\.]+)/i);
-                        if (!tempAccNum) {
-                            accountNumber = extractValue(trimmedLine, /no\.?[\s\w]*:?\s*([\d\s\-\.]+)/i);
-                        } else {
-                            accountNumber = tempAccNum;
-                        }
-
-                        if (accountNumber) { // Hanya set indeks jika nomor rekening ditemukan
-                            accountNumberLineIndex = j;
-                        }
-                    }
-
-                    // Cari nominal
-                    if (!amount && /nominal|jumlah|rp|rupiah/i.test(trimmedLine)) {
-                        amount = extractValue(trimmedLine, /nominal[\s\w]*:?\s*([\d\.,]+)/i);
-                        if (!amount) {
-                            amount = extractValue(trimmedLine, /rp\.?[\s]*([\d\.,]+)/i);
-                        }
-
-                        // Bersihkan nominal dari karakter non-digit
-                        if (amount) {
-                            // Simpan nilai tanpa koma untuk disalin
-                            const amountNumber = amount.replace(/[^\d,]/g, '').replace(/,/g, '');
-                            
-                            // Tambahkan ke total nominal
-                            totalAmount += parseInt(amountNumber) || 0;
-                            
-                            // Simpan untuk output
-                            amount = amountNumber;
-                            
-                            // Format tampilan dengan koma
-                            displayAmount = formatNumberWithCommas(amount);
-                        }
+                    if (/^KAS/i.test(trimmedLine)) {
+                        isKasFormat = true;
+                        kasFormatBankLine = j;
+                        break;
                     }
                 }
 
-                // LOGIKA BARU: Ambil nama rekening dari baris di atas nomor rekening
-                if (accountNumberLineIndex > 0) {
-                    const nameLine = lines[accountNumberLineIndex - 1].trim();
-                    // Jika baris tersebut mengandung kata "Nama", ekstrak nilai setelahnya
-                    if (/nama/i.test(nameLine)) {
-                        accountName = extractValue(nameLine, /nama[\s\w]*:?\s*(.+)/i);
-                    } else {
-                        // Jika tidak, asumsikan seluruh baris adalah nama
-                        accountName = nameLine;
+                if (isKasFormat) {
+                    for (let j = 0; j < lines.length; j++) {
+                        const trimmedLine = lines[j].trim();
+
+                        if (j === kasFormatBankLine) {
+                            bank = cleanBankName(trimmedLine);
+                        }
+
+                        if (!accountName) {
+                            if (/^NAMA\s*REKENING\s*:/i.test(trimmedLine)) {
+                                accountName = extractValue(trimmedLine, /^NAMA\s*REKENING\s*:\s*(.+)/i);
+                            }
+                            else if (/^Nama\s*Rekening\s*:/i.test(trimmedLine)) {
+                                accountName = extractValue(trimmedLine, /^Nama\s*Rekening\s*:\s*(.+)/i);
+                            }
+                            else if (/^NAMA\s*REK\s*:/i.test(trimmedLine)) {
+                                accountName = extractValue(trimmedLine, /^NAMA\s*REK\s*:\s*(.+)/i);
+                            }
+                        }
+
+                        if (!accountNumber) {
+                            if (/^NOMOR\s*REKENING\s*:/i.test(trimmedLine)) {
+                                accountNumber = extractValue(trimmedLine, /^NOMOR\s*REKENING\s*:\s*(.+)/i);
+                                if (accountNumber) accountNumberLineIndex = j;
+                            }
+                            else if (/^Nomor\s*Rekening\s*:/i.test(trimmedLine)) {
+                                accountNumber = extractValue(trimmedLine, /^Nomor\s*Rekening\s*:\s*(.+)/i);
+                                if (accountNumber) accountNumberLineIndex = j;
+                            }
+                            else if (/^NO\s*REK\s*:/i.test(trimmedLine)) {
+                                accountNumber = extractValue(trimmedLine, /^NO\s*REK\s*:\s*(.+)/i);
+                                if (accountNumber) accountNumberLineIndex = j;
+                            }
+                        }
+
+                        if (!amount) {
+                            if (/\bnominal\b/i.test(trimmedLine)) {
+                                if (/^NOMINAL\s*:/i.test(trimmedLine)) {
+                                    amount = extractValue(trimmedLine, /^NOMINAL\s*:\s*(?:Rp\.?\s*)?([\d\.,]+)/i);
+                                }
+                                else if (/^Nominal\s*:/i.test(trimmedLine)) {
+                                    amount = extractValue(trimmedLine, /^Nominal\s*:\s*(?:Rp\.?\s*)?([\d\.,]+)/i);
+                                }
+                                else if (/NOMINAL\s*:/i.test(trimmedLine)) {
+                                    amount = extractValue(trimmedLine, /NOMINAL[\s\w]*:?\s*([\d\.,]+)/i);
+                                }
+                                if (!amount) {
+                                    amount = extractValue(trimmedLine, /nominal\s*:?\s*(?:Rp\.?\s*)?([\d\.,]+)/i);
+                                }
+                            }
+                            else if (/(?:rp|rupiah)/i.test(trimmedLine) && !/\btotal\b/i.test(trimmedLine)) {
+                                amount = extractValue(trimmedLine, /rp\.?\s*([\d\.,]+)/i);
+                                if (!amount) amount = extractValue(trimmedLine, /rupiah\s*([\d\.,]+)/i);
+                            }
+
+                            if (amount) {
+                                const amountNumber = amount.replace(/[^\d,]/g, '').replace(/,/g, '');
+                                amount = amountNumber; 
+                            }
+                        }
                     }
 
-                    // Jika bank masih belum ditemukan, coba ambil dari dua baris di atas nomor rekening
-                    if (!bank && accountNumberLineIndex > 1) {
-                        let potentialBankLine = lines[accountNumberLineIndex - 2].trim();
-                        bank = cleanBankName(potentialBankLine);
+                    if (!accountName && accountNumberLineIndex > 0) {
+                        const nameLine = lines[accountNumberLineIndex - 1].trim();
+                        if (nameLine && 
+                            !/^(NOMOR|Nomor)\s*REKENING\s*:/i.test(nameLine) && 
+                            !/^KAS/i.test(nameLine) &&
+                            !/^Info|Perihal|Dari situs/i.test(nameLine)) {
+                            accountName = nameLine.replace(/^[^:]*:\s*/, '');
+                        }
+                    }
+
+                } else {
+                    // Format non-KAS
+                    for (let j = 0; j < lines.length; j++) {
+                        const trimmedLine = lines[j].trim();
+
+                        if (!bank && /bank/i.test(trimmedLine)) {
+                            bank = extractValue(trimmedLine, /bank[\s:]*([^(\(|\)|$]+)/i);
+                            if (!bank) {
+                                const colonSplit = trimmedLine.split(':');
+                                if(colonSplit.length > 1) bank = colonSplit[1];
+                                else bank = trimmedLine.replace(/^bank[\s:]*/i, '');
+                            }
+                            if (bank) bank = cleanBankName(bank);
+                        }
+
+                        if (accountNumberLineIndex === -1 && (
+                             ( ( /nomor|no\.?/i.test(trimmedLine) ) && ( /rek(ening)?\.?/i.test(trimmedLine) ) )
+                             || /^rek(ening)?\s*[:\.]/i.test(trimmedLine)
+                            )) {
+                            const tempAccNum = extractValue(trimmedLine, /(?:no|nomor|rek)\s*(?:rek|rekening)?[\s\w]*:?\s*([\d\s\-\.]+)/i);
+                            accountNumber = tempAccNum || extractValue(trimmedLine, /[:\s]+([\d\s\-\.]{5,})/);
+                            
+                            if (accountNumber) accountNumberLineIndex = j;
+                        }
+
+                        if (!amount) {
+                            if (/\bnominal\b/i.test(trimmedLine)) {
+                                amount = extractValue(trimmedLine, /nominal[\s\w]*:?\s*([\d\.,]+)/i);
+                                if (!amount) amount = extractValue(trimmedLine, /(?:^|\s)nominal\s*:?\s*(?:rp\.?\s*)?([\d\.,]+)/i);
+                            }
+                            else if (/(?:rp|rupiah)/i.test(trimmedLine) && !/\btotal\b/i.test(trimmedLine)) {
+                                amount = extractValue(trimmedLine, /rp\.?\s*([\d\.,]+)/i);
+                                if (!amount) amount = extractValue(trimmedLine, /rupiah\s*([\d\.,]+)/i);
+                            }
+
+                            if (amount) {
+                                const amountNumber = amount.replace(/[^\d,]/g, '').replace(/,/g, '');
+                                amount = amountNumber;
+                            }
+                        }
+                    }
+
+                    if (accountNumberLineIndex > 0) {
+                        const nameLine = lines[accountNumberLineIndex - 1].trim();
+                        
+                        if (/nama|pemilik|atas/i.test(nameLine)) {
+                            accountName = extractValue(nameLine, /(?:nama|pemilik|atas)[\s\w]*:?\s*(.+)/i);
+                        } else {
+                            accountName = nameLine;
+                        }
+
+                        if (!bank && accountNumberLineIndex > 1) {
+                            let potentialBankLine = lines[accountNumberLineIndex - 2].trim();
+                            if (/bank/i.test(potentialBankLine)) {
+                                 bank = extractValue(potentialBankLine, /bank[\s:]*([^(\(|\)|$]+)/i);
+                                 if(!bank) bank = cleanBankName(potentialBankLine.split(':')[1] || potentialBankLine);
+                            }
+                        }
                     }
                 }
                 
-                // Jika semua data ditemukan, tambahkan ke hasil
+                // Validasi & Push ke Array
                 if (bank && accountName && accountNumber && amount) {
-                    // PERUBAHAN: Konversi semua teks ke huruf besar sebelum diformat
                     const upperBank = bank.toUpperCase();
-                    const upperAccountName = accountName.toUpperCase();
+                    const upperAccountName = accountName.toUpperCase().replace(/\s+/g, ' ').trim();
                     const upperAccountNumber = accountNumber.toUpperCase();
+                    const amountNumber = parseInt(amount) || 0;
 
-                    // Format output dengan karakter tab untuk pemisah kolom
-                    const output = `${upperBank}\t${upperAccountNumber}\t${upperAccountName}\t\t${amount}`;
-                    results.push(output);
-
-                    // Format untuk tampilan dengan koma pada nominal
-                    const displayOutput = `${upperBank}\t${upperAccountNumber}\t${upperAccountName}\t\t${displayAmount}`;
-                    displayResults.push(displayOutput);
+                    if (threshold !== null && amountNumber > threshold) {
+                        const parts = splitNominal(amountNumber, threshold);
+                        parts.forEach(part => {
+                            parsedItems.push({
+                                bank: upperBank,
+                                num: upperAccountNumber,
+                                name: upperAccountName,
+                                rawAmount: part.toString(),
+                                displayAmount: formatNumberWithCommas(part)
+                            });
+                            totalAmount += part;
+                        });
+                    } else {
+                        parsedItems.push({
+                            bank: upperBank,
+                            num: upperAccountNumber,
+                            name: upperAccountName,
+                            rawAmount: amountNumber.toString(),
+                            displayAmount: formatNumberWithCommas(amountNumber)
+                        });
+                        totalAmount += amountNumber;
+                    }
                 }
             }
 
-            // Validasi hasil
-            if (results.length === 0) {
-                showError('Tidak ada data yang berhasil diproses! Pastikan data mengandung informasi Bank, Nama Rekening, Nomor Rekening, dan Nominal.');
+            if (parsedItems.length > 0) {
+                const maxBank = parsedItems.reduce((max, p) => Math.max(max, p.bank.length), "BANK".length);
+                const maxNum = parsedItems.reduce((max, p) => Math.max(max, p.num.length), "NO REKENING".length);
+                const maxName = parsedItems.reduce((max, p) => Math.max(max, p.name.length), "NAMA".length);
+                const maxAmt = parsedItems.reduce((max, p) => Math.max(max, p.displayAmount.length), "NOMINAL".length);
+
+                const spacer = '   ';
+
+                const header = "BANK".padEnd(maxBank) + spacer + 
+                               "NO REKENING".padEnd(maxNum) + spacer + 
+                               "NAMA".padEnd(maxName) + spacer + 
+                               "NOMINAL".padStart(maxAmt);
+                               
+                const separator = "─".repeat(header.length);
+
+                const visualRows = parsedItems.map(p => 
+                    p.bank.padEnd(maxBank) + spacer + 
+                    p.num.padEnd(maxNum) + spacer + 
+                    p.name.padEnd(maxName) + spacer + 
+                    p.displayAmount.padStart(maxAmt)
+                );
+
+                const displayText = header + '\n' + separator + '\n' + visualRows.join('\n');
+                
+                const rawText = parsedItems.map(p => 
+                    `${p.bank}\t${p.num}\t${p.name}\t\t${p.rawAmount}`
+                ).join('\n');
+
+                outputElement.value = displayText;
+                outputElement.setAttribute('data-raw', rawText);
+                
+                currentTotalNominal = totalAmount;
+
+                countElement.textContent = parsedItems.length;
+                totalElement.textContent = 'Rp ' + formatNumberWithCommas(totalAmount);
+
+                inputPanel.classList.add('blurred');
+            } else {
+                outputElement.value = '';
+                countElement.textContent = '0';
+                totalElement.textContent = 'Rp 0';
+                currentTotalNominal = 0;
+                inputPanel.classList.remove('blurred');
+            }
+        }
+
+        // --- INTERACTION & UI ---
+        function fallbackCopyAction(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.width = "2em";
+            textArea.style.height = "2em";
+            textArea.style.padding = "0";
+            textArea.style.border = "none";
+            textArea.style.outline = "none";
+            textArea.style.boxShadow = "none";
+            textArea.style.background = "transparent";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            var successful = false;
+            try {
+                successful = document.execCommand('copy');
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+            }
+            document.body.removeChild(textArea);
+            return successful;
+        }
+
+        function resetData() {
+            document.getElementById('rawData').value = '';
+            document.getElementById('outputResult').value = '';
+            document.getElementById('rawData').focus();
+            document.getElementById('inputPanel').classList.remove('blurred');
+            processData(); 
+            showToast('Data berhasil direset', 'info');
+        }
+
+        function copyOutput() {
+            const outputElement = document.getElementById('outputResult');
+            const rawText = outputElement.getAttribute('data-raw') || outputElement.value;
+            
+            if (!rawText || rawText === '') {
+                showToast('Tidak ada data untuk disalin!', 'error');
                 return;
             }
 
-            // Gabungkan semua hasil dengan newline
-            const outputText = results.join('\n');
-            const displayText = displayResults.join('\n');
-
-            document.getElementById('outputResult').textContent = displayText;
-            document.getElementById('outputResult').setAttribute('data-output', outputText);
-
-            // Tampilkan jumlah hasil yang berhasil diproses
-            resultsCountElement.textContent = `Berhasil memproses ${results.length} data.`;
-            
-            // Tampilkan total nominal
-            const formattedTotal = formatNumberWithCommas(totalAmount.toString());
-            totalNominalElement.innerHTML = `<i class="fas fa-coins"></i> Total nominal: Rp ${formattedTotal}`;
-
-            showSuccess('Data berhasil diproses! Klik tombol "Salin Hasil" untuk menyalin.');
-        }
-
-        // Fungsi untuk memformat angka dengan koma
-        function formatNumberWithCommas(number) {
-            // Pastikan number adalah string dan hanya mengandung digit
-            const numStr = number.toString().replace(/\D/g, '');
-            if (!numStr) return '0';
-            
-            // Format dengan koma setiap 3 digit dari belakang
-            return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        // Fungsi untuk mengekstrak nilai berdasarkan pola
-        function extractValue(line, pattern) {
-            try {
-                const match = line.match(pattern);
-                if (match && match[1]) {
-                    return match[1].trim();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(rawText).then(() => {
+                    showToast('Data berhasil disalin ke clipboard!', 'success');
+                }).catch(err => {
+                    console.log('Clipboard API failed, trying fallback.', err);
+                    if (fallbackCopyAction(rawText)) {
+                        showToast('Data berhasil disalin ke clipboard!', 'success');
+                    } else {
+                        showToast('Gagal menyalin otomatis. Silakan blok manual.', 'error');
+                    }
+                });
+            } else {
+                if (fallbackCopyAction(rawText)) {
+                    showToast('Data berhasil disalin ke clipboard!', 'success');
+                } else {
+                    showToast('Gagal menyalin otomatis. Silakan blok manual.', 'error');
                 }
-                return '';
-            } catch (e) {
-                console.error('Error in extractValue:', e);
-                return '';
             }
         }
 
-        // Fungsi untuk menampilkan error
-        function showError(message) {
-            const errorElement = document.getElementById('errorMessage');
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-            
-            // Auto hide setelah 5 detik
-            setTimeout(() => {
-                errorElement.style.display = 'none';
-            }, 5000);
+        function copyTotalNominal() {
+            if (currentTotalNominal === 0) {
+                showToast('Tidak ada nominal untuk disalin!', 'error');
+                return;
+            }
+
+            const rawNumber = currentTotalNominal.toString();
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(rawNumber).then(() => {
+                    showToast('💰 Total nominal disalin! (' + rawNumber + ')', 'copy-success');
+                }).catch(err => {
+                    console.log('Clipboard API failed, trying fallback.', err);
+                    if (fallbackCopyAction(rawNumber)) {
+                        showToast('💰 Total nominal disalin! (' + rawNumber + ')', 'copy-success');
+                    } else {
+                        showToast('Gagal menyalin nominal.', 'error');
+                    }
+                });
+            } else {
+                if (fallbackCopyAction(rawNumber)) {
+                    showToast('💰 Total nominal disalin! (' + rawNumber + ')', 'copy-success');
+                } else {
+                    showToast('Gagal menyalin nominal.', 'error');
+                }
+            }
         }
 
-        // Fungsi untuk menampilkan sukses
-        function showSuccess(message) {
-            const successElement = document.getElementById('successMessage');
-            successElement.textContent = message;
-            successElement.style.display = 'block';
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast`;
             
-            // Auto hide setelah 3 detik
+            let icon = 'fa-coins';
+            if (type === 'success') icon = 'fa-check-circle';
+            if (type === 'error') icon = 'fa-exclamation-circle';
+            if (type === 'copy-success') {
+                icon = 'fa-copy';
+                toast.classList.add('copy-toast');
+            }
+
+            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+
             setTimeout(() => {
-                successElement.style.display = 'none';
+                toast.style.animation = 'fadeOut 0.3s forwards';
+                toast.addEventListener('animationend', () => {
+                    toast.remove();
+                });
             }, 3000);
         }
 
-        // Fungsi untuk reset data
-        function resetData() {
-            document.getElementById('rawData').value = '';
-            document.getElementById('outputResult').textContent = 'Hasil akan ditampilkan di sini...';
-            document.getElementById('outputResult').removeAttribute('data-output');
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-            document.getElementById('resultsCount').textContent = '';
-            document.getElementById('totalNominal').textContent = '';
-            document.getElementById('rawData').focus();
-        }
+        let debounceTimer;
+        document.getElementById('rawData').addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(processData, 500);
+        });
 
-        // Fungsi untuk menyalin output
-        function copyOutput() {
-            const text = document.getElementById('outputResult').getAttribute('data-output');
-            if (text && text !== 'Hasil akan ditampilkan di sini...') {
-                // Menggunakan Clipboard API untuk menyalin teks dengan karakter tab
-                navigator.clipboard.writeText(text).then(function() {
-                    // Tampilkan notifikasi
-                    const notification = document.getElementById('copiedNotification');
-                    notification.style.display = 'block';
-                    setTimeout(function() {
-                        notification.style.display = 'none';
-                    }, 3000);
-                }).catch(function(err) {
-                    console.error('Gagal menyalin teks: ', err);
-                    // Fallback untuk browser lama
-                    const textArea = document.createElement('textarea');
-                    textArea.value = text;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    try {
-                        document.execCommand('copy');
-                        const notification = document.getElementById('copiedNotification');
-                        notification.style.display = 'block';
-                        setTimeout(function() {
-                            notification.style.display = 'none';
-                        }, 3000);
-                    } catch (e) {
-                        showError('Gagal menyalin teks. Silakan coba lagi.');
+        // --- SECURITY SHORTCUTS ---
+        const shortcut = {
+            all_shortcuts: {},
+            add: function(combo, callback, options) {
+                const defaultOpts = { type: "keydown", propagate: false, disable_in_input: false, target: document, keycode: false };
+                const settings = Object.assign({}, defaultOpts, options || {});
+                const target = typeof settings.target === "string" ? document.getElementById(settings.target) : settings.target;
+                combo = combo.toLowerCase();
+                const handler = function(e) {
+                    e = e || window.event;
+                    if (settings.disable_in_input) {
+                        let element = e.target || e.srcElement;
+                        if (element.nodeType === 3) element = element.parentNode;
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") return;
                     }
-                    document.body.removeChild(textArea);
-                });
-            } else {
-                showError('Tidak ada data untuk disalin. Silakan masukkan data terlebih dahulu.');
+                    const code = e.keyCode || e.which;
+                    let key = String.fromCharCode(code).toLowerCase();
+                    if (code === 188) key = ",";
+                    if (code === 190) key = ".";
+                    const keys = combo.split("+");
+                    let matchCount = 0;
+                    const specialKeys = { esc:27, escape:27, tab:9, space:32, return:13, enter:13, backspace:8, left:37, up:38, right:39, down:40, f1:112,f2:113,f3:114,f4:115,f5:116,f6:117,f7:118,f8:119,f9:120,f10:121,f11:122,f12:123 };
+                    let ctrlReq=false, shiftReq=false, altReq=false, metaReq=false;
+                    let ctrl=e.ctrlKey, shift=e.shiftKey, alt=e.altKey, meta=e.metaKey;
+                    for (let i=0; i<keys.length; i++) {
+                        const k = keys[i];
+                        if (k === "ctrl" || k === "control") { ctrlReq = true; matchCount++; }
+                        else if (k === "shift") { shiftReq = true; matchCount++; }
+                        else if (k === "alt") { altReq = true; matchCount++; }
+                        else if (k === "meta") { metaReq = true; matchCount++; }
+                        else if (k.length > 1) { if (specialKeys[k] === code) matchCount++; }
+                        else if (settings.keycode ? settings.keycode === code : key === k) { matchCount++; }
+                    }
+                    if (matchCount === keys.length && ctrl === ctrlReq && shift === shiftReq && alt === altReq && meta === metaReq) {
+                        callback(e);
+                        if (!settings.propagate) { e.cancelBubble = true; e.returnValue = false; if (e.stopPropagation) e.stopPropagation(); if (e.preventDefault) e.preventDefault(); return false; }
+                    }
+                };
+                this.all_shortcuts[combo] = { callback: handler, target, event: settings.type };
+                target.addEventListener(settings.type, handler, false);
             }
-        }
+        };
 
-        // Auto-focus pada textarea saat halaman dimuat
-        window.onload = function() {
-            document.getElementById('rawData').focus();
-            createSnowfall();
-            
-            // Tambahkan event listener untuk otomatis memproses data saat ada perubahan
-            const rawDataElement = document.getElementById('rawData');
-            
-            // Menggunakan event 'input' untuk deteksi perubahan real-time
-            rawDataElement.addEventListener('input', function() {
-                // Gunakan setTimeout untuk memastikan semua perubahan telah terjadi
-                // sebelum memproses data
-                clearTimeout(this.processingTimeout);
-                this.processingTimeout = setTimeout(function() {
-                    processData();
-                }, 500); // Tunggu 500ms setelah pengguna berhenti mengetik
-            });
-            
-            // Juga proses data saat paste event terjadi
-            rawDataElement.addEventListener('paste', function() {
-                // Gunakan setTimeout untuk memastikan data telah ditempelkan
-                // sebelum memproses
-                clearTimeout(this.processingTimeout);
-                this.processingTimeout = setTimeout(function() {
-                    processData();
-                }, 300); // Tunggu 300ms setelah paste
-            });
-        }
+        function doNothing(e) { console.log("Shortcut blocked"); }
+        shortcut.add("Ctrl+U", doNothing);
+        shortcut.add("f12", doNothing);
+        shortcut.add("Ctrl+Shift+I", doNothing);
+        shortcut.add("Ctrl+Shift+J", doNothing);
+        shortcut.add("Ctrl+Shift+C", doNothing);
+        shortcut.add("Ctrl+S", doNothing);
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) { e.preventDefault(); return false; }
+            if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83)) { e.preventDefault(); return false; }
+        });
+        document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
     </script>
-    <script>
-/**
-* Simple keyboard shortcut handler
-*/
-const shortcut = {
-all_shortcuts: {},
-add: function(combo, callback, options) {
-const defaultOpts = {
-type: "keydown",
-propagate: false,
-disable_in_input: false,
-target: document,
-keycode: false
-};
-const settings = Object.assign({}, defaultOpts, options || {});
-const target = typeof settings.target === "string"
-? document.getElementById(settings.target)
-: settings.target;
-
-combo = combo.toLowerCase();
-
-const handler = function(e) {
-e = e || window.event;
-
-// Skip if inside input/textarea and disable_in_input = true
-if (settings.disable_in_input) {
-let element = e.target || e.srcElement;
-if (element.nodeType === 3) element = element.parentNode;
-if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") return;
-}
-
-const code = e.keyCode || e.which;
-let key = String.fromCharCode(code).toLowerCase();
-if (code === 188) key = ",";
-if (code === 190) key = ".";
-
-const keys = combo.split("+");
-let matchCount = 0;
-
-const specialKeys = {
-esc:27, escape:27, tab:9, space:32, return:13, enter:13,
-backspace:8, left:37, up:38, right:39, down:40,
-f1:112,f2:113,f3:114,f4:115,f5:116,f6:117,
-f7:118,f8:119,f9:120,f10:121,f11:122,f12:123
-};
-
-let ctrlReq=false, shiftReq=false, altReq=false, metaReq=false;
-let ctrl=e.ctrlKey, shift=e.shiftKey, alt=e.altKey, meta=e.metaKey;
-
-for (let i=0; i<keys.length; i++) {
-const k = keys[i];
-if (k === "ctrl" || k === "control") { ctrlReq = true; matchCount++; }
-else if (k === "shift") { shiftReq = true; matchCount++; }
-else if (k === "alt") { altReq = true; matchCount++; }
-else if (k === "meta") { metaReq = true; matchCount++; }
-else if (k.length > 1) { if (specialKeys[k] === code) matchCount++; }
-else if (settings.keycode ? settings.keycode === code : key === k) { matchCount++; }
-}
-
-if (
-matchCount === keys.length &&
-ctrl === ctrlReq && shift === shiftReq &&
-alt === altReq && meta === metaReq
-) {
-callback(e);
-if (!settings.propagate) {
-e.cancelBubble = true;
-e.returnValue = false;
-if (e.stopPropagation) e.stopPropagation();
-if (e.preventDefault) e.preventDefault();
-return false;
-}
-}
-};
-
-this.all_shortcuts[combo] = { callback: handler, target, event: settings.type };
-target.addEventListener(settings.type, handler, false);
-}
-};
-
-// === Ganti isi halaman dengan gambar ketika Ctrl+U ditekan ===
-shortcut.add("Ctrl+U", function() {
-document.body.innerHTML = ""; // hapus semua isi halaman
-const img = document.createElement("img");
-img.src = "https://img.pikbest.com/photo/20241226/affectionate-piglets-nuzzle-in-farm-setting_11301988.jpg!w700wp";
-img.style.width = "100%";
-img.style.height = "100vh";
-img.style.objectFit = "cover";
-img.alt = "Background Image";
-document.body.appendChild(img);
-});
-</script>
 </body>
 </html>
-
