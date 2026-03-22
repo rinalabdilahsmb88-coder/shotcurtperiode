@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>TRANSFORMER · VALIDASI CORE</title>
+    
+    <!-- Favicon: robotic gear -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========== ROBOTIC / TRANSFORMERS CORE ========== */
+        :root {
+            --bg-deep: #03050b;
+            --bg-panel: #0b0f1a;
+            --metal-primary: #1a1f2c;
+            --metal-secondary: #2a2f3e;
+            --accent-energon: #ff5500;
+            --accent-glint: #ffaa33;
+            --cyber-teal: #0ff;
+            --glow-red: #ff3366;
+            --circuit: rgba(255, 85, 0, 0.2);
+            --border-robot: #ff6600;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg-deep);
+            color: #eef5ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== MECHANICAL BACKGROUND ===== */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(255, 85, 0, 0.08) 0px, rgba(255, 85, 0, 0.08) 1px, transparent 1px, transparent 3px),
+                repeating-linear-gradient(90deg, rgba(0, 255, 255, 0.05) 0px, rgba(0, 255, 255, 0.05) 1px, transparent 1px, transparent 8px);
+            z-index: -2;
+        }
+
+        .bg-radar {
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(255,85,0,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: pulseRadar 8s infinite;
+        }
+
+        @keyframes pulseRadar {
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+            100% { opacity: 0.3; transform: scale(1); }
+        }
+
+        /* robotic panel overlay */
+        .circuit-lines {
+            position: fixed;
+            inset: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200" opacity="0.08"><path stroke="%23ff6600" fill="none" stroke-width="0.8" d="M200 100 L300 50 L400 100 L500 50 M150 300 L250 250 L350 300 M450 500 L550 450 L650 500 M300 800 L400 750 L500 800 M600 1000 L700 950 L750 1000"/><circle cx="300" cy="100" r="3" fill="%23ff6600"/><circle cx="500" cy="50" r="3" fill="%230ff"/><circle cx="650" cy="500" r="3" fill="%23ff6600"/><circle cx="400" cy="750" r="3" fill="%230ff"/></svg>');
+            background-repeat: repeat;
+            background-size: 200px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ===== CARDS ===== */
+        .mecha-card {
+            position: relative;
+            background: rgba(8, 12, 22, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 85, 0, 0.4);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+
+        .mecha-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, rgba(255,85,0,0.2), transparent 70%);
+            border-radius: 24px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Input field */
+        .input-cyber {
+            background: #0a0f1a;
+            border: 1px solid #ff6600;
+            border-radius: 16px;
+            color: #ffccaa;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            transition: all 0.2s;
+            resize: vertical;
+        }
+        .input-cyber:focus {
+            outline: none;
+            border-color: #ffaa33;
+            box-shadow: 0 0 18px rgba(255,102,0,0.3);
+            background: #03060e;
+        }
+
+        /* Buttons */
+        .btn-prime {
+            background: linear-gradient(135deg, #ff5500, #ff3300);
+            border: none;
+            color: #000;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            padding: 14px 28px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 12px rgba(255,85,0,0.5);
+        }
+        .btn-prime:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px #ff5500;
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 1.5px solid #ff6600;
+            color: #ffaa77;
+            padding: 12px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,102,0,0.2);
+            border-color: #ffaa33;
+            color: #fff;
+        }
+
+        /* total display - reactor core */
+        .reactor-core {
+            background: linear-gradient(145deg, #0a0e1a, #03050c);
+            border-radius: 28px;
+            border: 1px solid #ff5500;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 32px 20px;
+            margin-bottom: 32px;
+        }
+        .reactor-core::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ffaa33, #ff5500, #ffaa33, transparent);
+            animation: scanline 3s infinite;
+        }
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .total-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 80px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffaa66, #ff5500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(255,85,0,0.5);
+            line-height: 1;
+        }
+
+        /* expand toggle */
+        .toggle-mecha {
+            background: rgba(255,85,0,0.08);
+            border: 1px solid rgba(255,85,0,0.3);
+            border-radius: 60px;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .toggle-mecha:hover {
+            background: rgba(255,85,0,0.2);
+        }
+
+        /* Bank item card */
+        .bank-module {
+            background: rgba(15, 20, 32, 0.7);
+            border-left: 3px solid #ff6600;
+            border-radius: 14px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+        .bank-module.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .bank-module.zero {
+            opacity: 0.4;
+            border-left-color: #3a4455;
+        }
+        .bank-icon {
+            width: 42px;
+            height: 42px;
+            background: #1f2a3a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+        }
+        .bank-count {
+            background: rgba(255,85,0,0.15);
+            border: 1px solid rgba(255,85,0,0.5);
+            border-radius: 30px;
+            padding: 4px 16px;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .bank-count.empty {
+            background: rgba(100,100,120,0.2);
+            border-color: transparent;
+            color: #6b7280;
+        }
+
+        /* toast */
+        .toast-robot {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #ff5500;
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 0 25px #ff5500;
+        }
+        .toast-robot.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast-robot.error { background: #ff2244; box-shadow: 0 0 25px #ff2244; }
+
+        /* blur effect on input after processing */
+        .processed .input-body {
+            filter: blur(3px);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* copy button success */
+        .copy-success {
+            background: #00cc88 !important;
+            box-shadow: 0 0 20px #00cc88 !important;
+        }
+
+        /* utility */
+        .font-mono-tech { font-family: 'Share Tech Mono', monospace; }
+        .font-orbit { font-family: 'Orbitron', monospace; }
+
+        @media (max-width: 640px) {
+            .total-number { font-size: 48px; }
+            .btn-prime, .btn-secondary { padding: 10px 18px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="bg-radar"></div>
+    <div class="circuit-lines"></div>
+
+    <div id="toast" class="toast-robot">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="toastMsg">Operasi sukses</span>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 bg-black/40 border border-orange-500/30 rounded-full px-4 py-1.5 mb-4">
+                <span class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
+                <span class="font-orbit text-[11px] tracking-[3px] text-orange-300">OPTIMUS · VALIDATOR</span>
+            </div>
+            <h1 class="font-orbit text-4xl md:text-6xl font-black tracking-tighter bg-gradient-to-r from-orange-400 via-orange-500 to-amber-400 inline-block text-transparent bg-clip-text">
+                TRANSFORMER CORE
+            </h1>
+            <p class="font-mono-tech text-sm text-orange-200/60 mt-2">autonomous counting system</p>
+        </div>
+
+        <!-- Input Panel -->
+        <section id="inputSection" class="mecha-card p-5 md:p-7 mb-8">
+            <div class="input-body">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500 flex items-center justify-center">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-orange-400"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="font-orbit font-bold text-white text-xl">DATA INJECTOR</h2>
+                        <p class="text-xs text-orange-200/50">paste raw data — system will scan banks</p>
+                    </div>
+                </div>
+                <textarea 
+                    id="inputData" 
+                    class="input-cyber w-full h-52 md:h-60 p-4 mb-6"
+                    placeholder="⛭ Paste data di sini...
+Contoh:
+BCA,Andi,1234567890
+DANA,Budi,08123456789
+OVO,Citra,08987654321
+BCA,Dewi,9876543210"
+                ></textarea>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="processBtn" class="btn-prime flex-1 justify-center">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    EXECUTE SCAN
+                </button>
+                <button id="clearBtn" class="btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    RESET
+                </button>
+            </div>
+        </section>
+
+        <!-- Results Area -->
+        <section id="resultSection" class="hidden">
+            <div class="mecha-card p-5 md:p-7">
+                <!-- Reactor total -->
+                <div class="reactor-core">
+                    <div class="font-orbit text-xs tracking-widest text-orange-400 mb-2">TOTAL VALIDATED</div>
+                    <div id="grandTotal" class="total-number">0</div>
+                </div>
+
+                <!-- Action group -->
+                <div class="flex flex-col items-center gap-4 mb-6">
+                    <button id="copyBtn" class="btn-prime" style="background: linear-gradient(135deg, #0b6e8f, #0099cc); box-shadow:0 0 12px #0ff;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        COPY MATRIX
+                    </button>
+
+                    <button id="toggleDetails" class="toggle-mecha">
+                        <span class="flex items-center gap-2">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                            ANALYZE BANKS
+                        </span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                </div>
+
+                <!-- Bank list container (collapsible) -->
+                <div id="detailsWrapper" style="max-height:0; overflow:hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="border-t border-orange-500/20 my-3"></div>
+                    <div id="bankList" class="grid grid-cols-1 md:grid-cols-2 gap-2"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-10 text-xs text-white/40 font-mono-tech">
+            <span>⚙️ SHORTCUT: CTRL + ENTER ⚙️</span>
+        </footer>
+    </main>
+
+    <script>
+        // ========== ORIGINAL LOGIC (100% PRESERVED) ==========
+        const targetBanks = ['BCA', 'MANDIRI', 'BNI', 'BRI', 'Danamon', 'CIMB', 'BSI', 'Maybank', 'DANA', 'OVO', 'GOPAY', 'LINKAJA', 'JAGO', 'SeaBank'];
+        
+        const bankConfig = {
+            'BCA': { cls: 'bg-bca', initial: 'BCA' },
+            'MANDIRI': { cls: 'bg-mandiri', initial: 'MDR' },
+            'BNI': { cls: 'bg-bni', initial: 'BNI' },
+            'BRI': { cls: 'bg-bri', initial: 'BRI' },
+            'Danamon': { cls: 'bg-danamon', initial: 'DMM' },
+            'CIMB': { cls: 'bg-cimb', initial: 'CMB' },
+            'BSI': { cls: 'bg-bsi', initial: 'BSI' },
+            'Maybank': { cls: 'bg-maybank', initial: 'MBK' },
+            'DANA': { cls: 'bg-dana', initial: 'DNA' },
+            'OVO': { cls: 'bg-ovo', initial: 'OVO' },
+            'GOPAY': { cls: 'bg-gopay', initial: 'GPY' },
+            'LINKAJA': { cls: 'bg-linkaja', initial: 'LKA' },
+            'JAGO': { cls: 'bg-jago', initial: 'JGO' },
+            'SeaBank': { cls: 'bg-seabank', initial: 'SBK' }
+        };
+
+        let currentResults = null;
+
+        function processData(text) {
+            const counts = {};
+            let total = 0;
+            targetBanks.forEach(bank => {
+                const regex = new RegExp(`\\b${bank}\\b,`, 'gi');
+                const matches = text.match(regex);
+                counts[bank] = matches ? matches.length : 0;
+                total += counts[bank];
+            });
+            return { counts, total };
+        }
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString();
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        function showToast(msg, isError = false) {
+            const t = document.getElementById('toast');
+            const m = document.getElementById('toastMsg');
+            t.innerHTML = isError 
+                ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span id="toastMsg">${msg}</span>`
+                : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg><span id="toastMsg">${msg}</span>`;
+            t.classList.toggle('error', isError);
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function renderResults(data) {
+            currentResults = data;
+            const section = document.getElementById('resultSection');
+            const totalEl = document.getElementById('grandTotal');
+            const listEl = document.getElementById('bankList');
+            const toggleBtn = document.getElementById('toggleDetails');
+            const wrapper = document.getElementById('detailsWrapper');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            section.classList.remove('hidden');
+            listEl.innerHTML = '';
+            copyBtn.classList.remove('copy-success');
+            copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> COPY MATRIX`;
+
+            animateValue(totalEl, 0, data.total, 800);
+            toggleBtn.classList.remove('active');
+            wrapper.style.maxHeight = '0px';
+
+            targetBanks.forEach((bank, index) => {
+                const count = data.counts[bank];
+                const cfg = bankConfig[bank];
+                const card = document.createElement('div');
+                card.className = `bank-module ${count === 0 ? 'zero' : ''}`;
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="bank-icon text-orange-300" style="background:#1a2538;">${cfg.initial}</div>
+                        <span class="font-mono-tech text-sm font-medium">${bank}</span>
+                    </div>
+                    <div class="bank-count ${count === 0 ? 'empty' : ''}">${count}</div>
+                `;
+                listEl.appendChild(card);
+                setTimeout(() => card.classList.add('visible'), 100 + index * 50);
+            });
+        }
+
+        function copyToClipboard() {
+            if (!currentResults) { showToast('Tidak ada data untuk disalin', true); return; }
+            const nums = targetBanks.map(bank => currentResults.counts[bank]);
+            const text = nums.join('\t');
+            if (!text.trim()) { showToast('Tidak ada data', true); return; }
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => onCopySuccess()).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            textarea.style.top = '0';
+            textarea.setAttribute('readonly', '');
+            document.body.appendChild(textarea);
+            try {
+                textarea.select();
+                textarea.setSelectionRange(0, 99999);
+                const successful = document.execCommand('copy');
+                if (successful) onCopySuccess();
+                else showToast('Gagal menyalin', true);
+            } catch (err) { showToast('Browser tidak mendukung copy', true); }
+            finally { document.body.removeChild(textarea); }
+        }
+
+        function onCopySuccess() {
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.classList.add('copy-success');
+            copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> TERSALIN!`;
+            showToast('Angka berhasil disalin!');
+            setTimeout(() => {
+                copyBtn.classList.remove('copy-success');
+                copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> COPY MATRIX`;
+            }, 2000);
+        }
+
+        // Event listeners (preserve all)
+        const input = document.getElementById('inputData');
+        const inputSection = document.getElementById('inputSection');
+        const processBtn = document.getElementById('processBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const toggleBtn = document.getElementById('toggleDetails');
+        const detailsWrapper = document.getElementById('detailsWrapper');
+
+        processBtn.addEventListener('click', () => {
+            if (!input.value.trim()) { showToast('Input tidak boleh kosong', true); return; }
+            const res = processData(input.value);
+            renderResults(res);
+            inputSection.classList.add('processed');
+            setTimeout(() => copyBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            currentResults = null;
+            document.getElementById('resultSection').classList.add('hidden');
+            inputSection.classList.remove('processed');
+            showToast('Data direset');
+        });
+
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        toggleBtn.addEventListener('click', () => {
+            const isOpen = detailsWrapper.style.maxHeight !== '0px';
+            detailsWrapper.style.maxHeight = isOpen ? '0px' : '800px';
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') processBtn.click();
+        });
+    </script>
+</body>
+</html>
