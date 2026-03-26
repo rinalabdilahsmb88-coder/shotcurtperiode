@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>TRANSFORMER v.1 | Perbandingan Selisih Order ID</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0a0f1a, #03060c);
+            font-family: 'Share Tech Mono', 'Orbitron', 'Segoe UI', 'Courier New', monospace;
+            padding: 24px 20px;
+            color: #e0f2fe;
+        }
+
+        /* efek grid futuristik */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* header cyber */
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #0ff, #2dd4bf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(0,255,255,0.4);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            border-left: 4px solid #0ff;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+        h1 small {
+            font-size: 0.75rem;
+            background: #0f172a80;
+            backdrop-filter: blur(4px);
+            padding: 4px 12px;
+            border-radius: 40px;
+            color: #7dd3fc;
+            letter-spacing: 1px;
+            border: 1px solid #0ff44f;
+        }
+        .sub {
+            color: #9ca3af;
+            margin-bottom: 28px;
+            border-left: 3px solid #0ff;
+            padding-left: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* dua kolom sci-fi */
+        .two-col {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,255,255,0.1);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .card-header {
+            background: rgba(0, 20, 40, 0.7);
+            padding: 16px 20px;
+            border-bottom: 2px solid #0ff;
+        }
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+        }
+        .badge {
+            background: #0ff22a20;
+            border: 1px solid #0ff;
+            color: #0ff;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 30px;
+            text-transform: uppercase;
+        }
+        .card-body {
+            padding: 18px 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 280px;
+            font-family: 'Share Tech Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            padding: 16px;
+            background: #010a14;
+            border: 1px solid #2dd4bf;
+            border-radius: 20px;
+            color: #ccf4ff;
+            resize: vertical;
+            transition: 0.2s;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #0ff;
+            box-shadow: 0 0 12px rgba(0,255,255,0.4);
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            background: rgba(0, 20, 40, 0.9);
+            border: 1px solid #0ff;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            font-family: 'Orbitron', monospace;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #0ff;
+            backdrop-filter: blur(4px);
+        }
+        button.primary {
+            background: #0ff20a;
+            border-color: #0ff;
+            color: #010a14;
+            box-shadow: 0 0 10px rgba(0,255,255,0.5);
+        }
+        button.primary:hover {
+            background: #0ff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 18px cyan;
+        }
+        button:hover {
+            background: #0ff22a30;
+            border-color: #2dd4bf;
+            color: white;
+            transform: translateY(-1px);
+        }
+        .compare-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 28px;
+        }
+        .compare-btn {
+            background: linear-gradient(95deg, #0ff, #2dd4bf);
+            border: none;
+            padding: 14px 42px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 60px;
+            color: #03060c;
+            box-shadow: 0 0 15px cyan;
+            letter-spacing: 2px;
+        }
+        .result-section {
+            background: rgba(5, 15, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            padding: 6px 0 20px 0;
+            overflow-x: auto;
+            transition: all 0.2s;
+        }
+        .result-header {
+            padding: 16px 24px 8px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 1px dashed #0ff44f;
+        }
+        .result-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+            background: linear-gradient(120deg, #0ff, #5eead4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .filter-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #0f172a80;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid #0ff;
+        }
+        .filter-control input {
+            width: 18px;
+            height: 18px;
+            accent-color: #0ff;
+            cursor: pointer;
+        }
+        .filter-control label {
+            cursor: pointer;
+            user-select: none;
+            font-weight: 600;
+        }
+        .stats {
+            font-size: 0.8rem;
+            background: #0b1120;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-family: monospace;
+            border: 1px solid #2dd4bf;
+            color: #a5f3fc;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 680px;
+        }
+        th {
+            text-align: left;
+            padding: 14px 16px;
+            background-color: #0b1222aa;
+            border-bottom: 2px solid #0ff;
+            font-weight: 700;
+            color: #0ff;
+            font-family: 'Orbitron', monospace;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #1e2a4a;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        tr:hover td {
+            background-color: #0ff11a10;
+            text-shadow: 0 0 2px cyan;
+        }
+        .order-id {
+            font-family: monospace;
+            font-weight: 500;
+            letter-spacing: -0.2px;
+        }
+        .amount, .diff {
+            text-align: right;
+            font-weight: 500;
+        }
+        .positive {
+            color: #2dd4bf;
+            text-shadow: 0 0 2px #0ff;
+        }
+        .negative {
+            color: #f472b6;
+            text-shadow: 0 0 2px #f0f;
+        }
+        .zero {
+            color: #6b7280;
+        }
+        .missing {
+            background-color: #ffcc0040;
+            font-style: italic;
+            color: #fbbf24;
+        }
+        .footer-note {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #0f172a80;
+            border-radius: 24px;
+            font-size: 0.75rem;
+            color: #7dd3fc;
+            border-left: 4px solid #0ff;
+            font-family: monospace;
+        }
+        @media (max-width: 780px) {
+            body {
+                padding: 16px;
+            }
+            .card-header h2 {
+                font-size: 1.1rem;
+            }
+            th, td {
+                padding: 8px 12px;
+            }
+        }
+        /* animasi kecil */
+        @keyframes pulse {
+            0% { border-color: #0ff33f; box-shadow: 0 0 2px cyan; }
+            100% { border-color: #2dd4bf; box-shadow: 0 0 12px cyan; }
+        }
+        .compare-btn:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>
+        🤖 TRANSFORMER :: ORDER COMPARATOR
+        <small>v.01 | SELISIH ENGINE</small>
+    </h1>
+    <div class="sub">⚡ REALTIME NEURAL LINK • MINERPAY ⟷ ZONAMAIN (QRIS)</div>
+
+    <div class="two-col">
+        <!-- KOLOM MINERPAY -->
+        <div class="card">
+            <div class="card-header">
+                <h2>📡 1. ZONAMAIN <span class="badge">CORE DATA</span></h2>
+                <div style="font-size: 0.7rem; color: #7dd3fc;">Format: UUID [tab] ... [tab] Amount</div>
+            </div>
+            <div class="card-body">
+                <textarea id="minerpayData" placeholder="[PASTE MINERPAY DATA]&#10;UUID    ID    MINERAPAY   user   ref   amount"></textarea>
+                <div class="btn-group">
+                    <button id="resetMinerpayBtn" type="button">⟳ RESET EXAMPLE</button>
+                    <span style="font-size:11px; color:#5eead4;">⚙️ orderID = kolom pertama</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- KOLOM ZONAMAIN / QRIS -->
+        <div class="card">
+            <div class="card-header">
+                <h2>🔌 2. MINERPAY <span class="badge">QRIS FEED</span></h2>
+                <div style="font-size: 0.7rem; color: #7dd3fc;">Format: QRIS Succes OrderID Ref Amount</div>
+            </div>
+            <div class="card-body">
+                <textarea id="zonamainData" placeholder="[PASTE QRIS SUCCESS]&#10;QRIS	Succes	order-uuid	ref	amount"></textarea>
+                <div class="btn-group">
+                    <button id="resetZonamainBtn" type="button">⟳ RESET EXAMPLE</button>
+                    <span style="font-size:11px; color:#5eead4;">⚙️ orderID = kolom ketiga</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="compare-bar">
+        <button id="compareBtn" class="primary compare-btn">⚡ HITUNG SELISIH & BANDINGKAN ⚡</button>
+    </div>
+
+    <div class="result-section">
+        <div class="result-header">
+            <h3>📟 DIAGNOSTIC MATRIX [SELISIH]</h3>
+            <div class="filter-control">
+                <input type="checkbox" id="filterNonZeroCheckbox">
+                <label for="filterNonZeroCheckbox">🔍 FILTER : SELISIH ≠ 0</label>
+            </div>
+            <div class="stats" id="statsSummary">MENUNGGU DATA LINK</div>
+        </div>
+        <div style="overflow-x: auto; padding: 0 6px;">
+            <table id="resultTable">
+                <thead>
+                    <tr><th>ORDER ID (UUID)</th><th>MINERPAY (Rp)</th><th>ZONAMAIN (Rp)</th><th>SELISIH (Δ)</th><th>STATUS</th></tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr><td colspan="5" style="text-align:center;">🌀 INITIALIZING ... tekan HITUNG atau mulai input data</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="footer-note" id="infoNote">
+            💠 REAL-TIME ACTIVE │ setiap perubahan pada textarea akan memicu perbandingan otomatis │ filter selisih dinamis
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- DEFAULT DATA (CONTOH SOAL) ----------
+    const DEFAULT_MINERPAY = `1fdcf78e-7d1e-437f-a549-561152b57b06	'608455998369	MINERAPAY	tungbuntung	wecaaqrisminera	40,000
+fc880fd8-5fe0-41d0-a113-dbc917e017ff	'000457952084	MINERAPAY	manman	wecaaqrisminera	100,000
+d45060d9-2c0b-4d83-984f-fdde19380b32	'603659745979	MINERAPAY	thelove123	wecaaqrisminera	99,000
+a453f046-f324-4b9e-9614-442e627c416d	'1mwsbp518834	MINERAPAY	jamalon77	wecaaqrisminera	50,000
+1272db30-aa66-4ee5-9f6b-41af424d0301	'603259746934	MINERAPAY	evan155	wecaaqrisminera	100,000
+335f63a3-5f9a-47aa-b376-9c3abae29ad0	'603250993400	MINERAPAY	dancowmandri	wecaaqrisminera	100,000
+5c8aa73f-5f55-478e-9ed7-1e464b07dbd9	'000000RPRQNV	MINERAPAY	zaxxx	wecaaqrisminera	100,000
+a82af428-dbc5-4d6d-8fee-e653156714ad	'000457949962	MINERAPAY	agus507	wecaaqrisminera	50,111
+ade47698-ffb5-4a0a-a57e-75394ea8c73d	'000457937983	MINERAPAY	junior27	wecaaqrisminera	1,000,000
+3a32bde0-afa7-4b7b-a89b-bed8b97b49d4	'603259746082	MINERAPAY	paktono	wecaaqrisminera	14,000
+faeb9b91-bba8-4b3c-819e-fa1940031d63	'1mwscp143577	MINERAPAY	arsyila25	wecaaqrisminera	30,000
+4edfeb66-dcc8-4329-bb9a-063f5dc8f3fc	'1mwscp620362	MINERAPAY	imam321	wecaaqrisminera	50,000
+3e56f938-7917-4209-b67f-a7646add5c5a	'000000RPR8M5	MINERAPAY	sukandi77	wecaaqrisminera	100,000`;
+
+    const DEFAULT_ZONAMAIN = `QRIS	Succes	a453f046-f324-4b9e-9614-442e627c416d	1mwsbp518834	50,000
+QRIS	Succes	1fdcf78e-7d1e-437f-a549-561152b57b06	608455998369	40,000
+QRIS	Succes	ade47698-ffb5-4a0a-a57e-75394ea8c73d	000457937983	1,000,000
+QRIS	Succes	2acfe762-553c-4914-97af-2b89b59bf69d	608475020448	20,000
+QRIS	Succes	eadf3c69-a521-4960-a1b9-edc2e5f2f0e8	1mwscp813476	200,000
+QRIS	Succes	2f8d07ff-a618-4a20-b3a8-ea7b78374d27	608474068137	50,000
+QRIS	Succes	4edfeb66-dcc8-4329-bb9a-063f5dc8f3fc	1mwscp620362	50,000
+QRIS	Succes	22b8e068-4e3c-443e-9ebb-3b1a791ca852	000000RPR8M8	50,000
+QRIS	Succes	3e56f938-7917-4209-b67f-a7646add5c5a	000000RPR8M5	100,000
+QRIS	Succes	eb9fc521-dbbd-43ce-ae04-386366014d31	1mwscp236432	100,000
+QRIS	Succes	faeb9b91-bba8-4b3c-819e-fa1940031d63	1mwscp143577	30,000
+QRIS	succes	c8d9b8af-ba32-42f8-a225-6323aab9a233	1mwscoq91110	24,000
+QRIS	succes	5c8aa73f-5f55-478e-9ed7-1e464b07dbd9	000000RPRQNV	100,000`;
+
+    // helper parsing angka
+    function parseAmount(amountStr) {
+        if (!amountStr || amountStr.trim() === "") return 0;
+        let cleaned = amountStr.toString().replace(/,/g, '').replace(/\s/g, '');
+        let num = parseFloat(cleaned);
+        return isNaN(num) ? 0 : num;
+    }
+
+    // Parser MINERPAY
+    function parseMinerpayData(rawText) {
+        const lines = rawText.split(/\r?\n/);
+        const amountMap = new Map();
+        for (let line of lines) {
+            line = line.trim();
+            if (line === "") continue;
+            const parts = line.split(/\s+/);
+            if (parts.length < 6) continue;
+            const orderId = parts[0].trim();
+            const amountRaw = parts[parts.length - 1];
+            const amount = parseAmount(amountRaw);
+            if (orderId && orderId.length > 5) {
+                const prev = amountMap.get(orderId) || 0;
+                amountMap.set(orderId, prev + amount);
+            }
+        }
+        return amountMap;
+    }
+
+    // Parser ZONAMAIN (QRIS)
+    function parseZonamainData(rawText) {
+        const lines = rawText.split(/\r?\n/);
+        const amountMap = new Map();
+        for (let line of lines) {
+            line = line.trim();
+            if (line === "") continue;
+            const parts = line.split(/\s+/);
+            if (parts.length < 5) continue;
+            const orderId = parts[2].trim();
+            const amountRaw = parts[4].trim();
+            const amount = parseAmount(amountRaw);
+            if (orderId && orderId.length > 5) {
+                const prev = amountMap.get(orderId) || 0;
+                amountMap.set(orderId, prev + amount);
+            }
+        }
+        return amountMap;
+    }
+
+    function formatRupiah(amount) {
+        if (amount === 0) return "0";
+        return amount.toLocaleString('id-ID');
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    let lastComparisonData = null; // { rows, totalMinerpay, totalZonamain, totalSelisih, matchedCount, onlyMinerCount, onlyZonaCount, allOrderIdsSize }
+
+    function buildComparisonRows(minerMap, zonaMap) {
+        const allOrderIds = new Set([...minerMap.keys(), ...zonaMap.keys()]);
+        if (allOrderIds.size === 0) return null;
+        const sortedIds = Array.from(allOrderIds).sort();
+        const rows = [];
+        let totalMinerpay = 0, totalZonamain = 0, totalSelisih = 0;
+        let matchedCount = 0, onlyMinerCount = 0, onlyZonaCount = 0;
+        for (const orderId of sortedIds) {
+            const minerAmount = minerMap.get(orderId) || 0;
+            const zonaAmount = zonaMap.get(orderId) || 0;
+            const selisih = minerAmount - zonaAmount;
+            totalMinerpay += minerAmount;
+            totalZonamain += zonaAmount;
+            totalSelisih += selisih;
+            let status = "", statusClass = "";
+            if (minerAmount > 0 && zonaAmount > 0) {
+                status = "✅ LINKED";
+                matchedCount++;
+            } else if (minerAmount > 0 && zonaAmount === 0) {
+                status = "⚠️ MINERPAY ONLY";
+                onlyMinerCount++;
+                statusClass = "missing";
+            } else if (minerAmount === 0 && zonaAmount > 0) {
+                status = "⚠️ ZONAMAIN ONLY";
+                onlyZonaCount++;
+                statusClass = "missing";
+            } else {
+                status = "NULL";
+            }
+            let diffClass = "";
+            if (selisih > 0) diffClass = "positive";
+            else if (selisih < 0) diffClass = "negative";
+            else diffClass = "zero";
+            rows.push({
+                orderId, minerAmount, zonaAmount, selisih, status, statusClass, diffClass
+            });
+        }
+        return {
+            rows, totalMinerpay, totalZonamain, totalSelisih,
+            matchedCount, onlyMinerCount, onlyZonaCount, allOrderIdsSize: allOrderIds.size
+        };
+    }
+
+    function renderWithFilter() {
+        if (!lastComparisonData) {
+            document.getElementById('tableBody').innerHTML = `<tr><td colspan="5" style="text-align:center;">⚠️ TIDAK ADA DATA VALID / SILAHKAN INPUT</td></tr>`;
+            document.getElementById('statsSummary').innerText = "DATA ERROR";
+            return;
+        }
+        const { rows, totalMinerpay, totalZonamain, totalSelisih, matchedCount, onlyMinerCount, onlyZonaCount, allOrderIdsSize } = lastComparisonData;
+        const filterActive = document.getElementById('filterNonZeroCheckbox').checked;
+        let filteredRows = rows;
+        if (filterActive) {
+            filteredRows = rows.filter(row => row.selisih !== 0);
+        }
+        const tbody = document.getElementById('tableBody');
+        if (filteredRows.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">🔍 FILTER AKTIF : TIDAK ADA SELISIH ≠ 0</td></tr>`;
+        } else {
+            tbody.innerHTML = filteredRows.map(row => `
+                <tr>
+                    <td class="order-id">${escapeHtml(row.orderId)}</td>
+                    <td class="amount">Rp ${formatRupiah(row.minerAmount)}</td>
+                    <td class="amount">Rp ${formatRupiah(row.zonaAmount)}</td>
+                    <td class="diff ${row.diffClass}">${row.selisih > 0 ? '+' : ''}Rp ${formatRupiah(row.selisih)}</td>
+                    <td class="${row.statusClass}">${row.status}</td>
+                </tr>
+            `).join('');
+        }
+        const statsText = `🔢 TOTAL UNIK: ${allOrderIdsSize} | ✅ LINKED: ${matchedCount} | 🔹 MINER ONLY: ${onlyMinerCount} | 🔸 ZONA ONLY: ${onlyZonaCount} | 💰 TOTAL Δ: ${totalSelisih >= 0 ? '+' : ''}Rp ${formatRupiah(totalSelisih)}`;
+        document.getElementById('statsSummary').innerHTML = statsText;
+        const noteDiv = document.getElementById('infoNote');
+        noteDiv.innerHTML = `📊 TOTAL MINERPAY = Rp ${formatRupiah(totalMinerpay)} &nbsp;|&nbsp; TOTAL ZONAMAIN = Rp ${formatRupiah(totalZonamain)} &nbsp;|&nbsp; Δ agregat = ${totalSelisih >= 0 ? '+' : ''}Rp ${formatRupiah(totalSelisih)}<br>⚡ REALTIME ACTIVE │ filter selisih: ${filterActive ? 'ON' : 'OFF'}`;
+    }
+
+    // Fungsi utama hitung & simpan data
+    function performComparison() {
+        const minerRaw = document.getElementById('minerpayData').value;
+        const zonaRaw = document.getElementById('zonamainData').value;
+        const minerMap = parseMinerpayData(minerRaw);
+        const zonaMap = parseZonamainData(zonaRaw);
+        if (minerMap.size === 0 && zonaMap.size === 0) {
+            document.getElementById('tableBody').innerHTML = `<tr><td colspan="5" style="text-align:center;">🚫 FORMAT TIDAK VALID / TIDAK ADA ORDER ID</td></tr>`;
+            document.getElementById('statsSummary').innerText = "PARSE ERROR";
+            lastComparisonData = null;
+            return;
+        }
+        const comparison = buildComparisonRows(minerMap, zonaMap);
+        if (!comparison) {
+            document.getElementById('tableBody').innerHTML = `<tr><td colspan="5" style="text-align:center;">⚠️ GAGAL MEMBANGUN DATA</td></tr>`;
+            lastComparisonData = null;
+            return;
+        }
+        lastComparisonData = comparison;
+        renderWithFilter();
+    }
+
+    // reset ke contoh
+    function resetToExample() {
+        document.getElementById('minerpayData').value = DEFAULT_MINERPAY;
+        document.getElementById('zonamainData').value = DEFAULT_ZONAMAIN;
+        performComparison();
+    }
+
+    // DEBOUNCE untuk realtime (performansi)
+    let debounceTimer;
+    function realtimeUpdate() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            performComparison();
+        }, 200);
+    }
+
+    // EVENT LISTENER & INIT
+    document.addEventListener('DOMContentLoaded', () => {
+        const minerTa = document.getElementById('minerpayData');
+        const zonaTa = document.getElementById('zonamainData');
+        const compareBtn = document.getElementById('compareBtn');
+        const resetMinerBtn = document.getElementById('resetMinerpayBtn');
+        const resetZonamainBtn = document.getElementById('resetZonamainBtn');
+        const filterCheckbox = document.getElementById('filterNonZeroCheckbox');
+
+        // KOSONGKAN DATA AWAL, tanpa mengubah fungsi lainnya
+        minerTa.value = '';
+        zonaTa.value = '';
+        performComparison(); // menampilkan state kosong
+
+        // REALTIME: input event dengan debounce
+        minerTa.addEventListener('input', realtimeUpdate);
+        zonaTa.addEventListener('input', realtimeUpdate);
+
+        // tombol manual hitung
+        compareBtn.addEventListener('click', () => {
+            performComparison();
+        });
+        resetMinerBtn.addEventListener('click', () => {
+            minerTa.value = DEFAULT_MINERPAY;
+            performComparison();
+        });
+        resetZonamainBtn.addEventListener('click', () => {
+            zonaTa.value = DEFAULT_ZONAMAIN;
+            performComparison();
+        });
+        filterCheckbox.addEventListener('change', () => {
+            if (lastComparisonData) renderWithFilter();
+        });
+        // shortcut Ctrl+Enter
+        const handleKeyCompare = (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                performComparison();
+            }
+        };
+        minerTa.addEventListener('keydown', handleKeyCompare);
+        zonaTa.addEventListener('keydown', handleKeyCompare);
+    });
+</script>
+</body>
+</html>
