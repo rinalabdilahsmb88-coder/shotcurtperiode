@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Sistem Penjualan SIM Card | Penyimpanan Permanen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Inter', 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9f0fc 0%, #d9e4f5 100%);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            background: linear-gradient(135deg, #1A2A4F, #0F2B3D);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #2c3e66;
+            margin-top: 8px;
+            font-weight: 500;
+            background: rgba(255,255,255,0.6);
+            display: inline-block;
+            padding: 4px 18px;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+        }
+
+        .dashboard-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+        }
+
+        .form-panel {
+            flex: 1.2;
+            min-width: 300px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 1.6rem 1.8rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .summary-panel {
+            flex: 0.9;
+            min-width: 280px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .history-section {
+            margin-top: 2rem;
+            background: rgba(255,255,255,0.96);
+            border-radius: 1.8rem;
+            padding: 1.2rem 0 0.2rem 0;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1e2a47;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input, select {
+            padding: 12px 14px;
+            border-radius: 20px;
+            border: 1.5px solid #cfdfed;
+            background: white;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #2c6e9e;
+            box-shadow: 0 0 0 3px rgba(44,110,158,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(100deg, #1f6392, #123e60);
+            border: none;
+            padding: 12px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(100deg, #0f4b72, #0a2e48);
+            transform: scale(0.98);
+        }
+
+        .btn-reset {
+            background: #eef2f7;
+            color: #2c4e6e;
+            margin-top: 8px;
+            border: 1px solid #cbdde9;
+        }
+
+        .btn-reset:hover {
+            background: #e2e8f0;
+            transform: scale(0.98);
+        }
+
+        .stat-card {
+            background: #f0f6fe;
+            border-radius: 1.5rem;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.2rem;
+            border-left: 6px solid;
+        }
+
+        .stat-card.modal {
+            border-left-color: #f4b942;
+            background: #fff6e8;
+        }
+        .stat-card.penjualan {
+            border-left-color: #2c9e6e;
+            background: #e9f9f0;
+        }
+        .stat-card.pendapatan {
+            border-left-color: #2c6e9e;
+            background: #e8f0fe;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #2c3e66;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a2c3e;
+            word-break: break-word;
+        }
+
+        .sub-info {
+            font-size: 0.7rem;
+            color: #5f6c86;
+            margin-top: 4px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .data-table th {
+            background: #eef3fc;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 700;
+            color: #1f4569;
+            border-bottom: 2px solid #cbdbe2;
+        }
+
+        .data-table td {
+            padding: 12px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover {
+            background: #f8fafd;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #b91c1c;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 30px;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .delete-btn:hover {
+            background: #ffe5e5;
+            transform: scale(1.05);
+        }
+
+        .empty-row td {
+            text-align: center;
+            padding: 2rem;
+            color: #6c7a8e;
+            font-style: italic;
+        }
+
+        .badge-quantity {
+            background: #e0ebf5;
+            padding: 4px 8px;
+            border-radius: 30px;
+            font-weight: 600;
+            display: inline-block;
+            min-width: 45px;
+            text-align: center;
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2c6e9e;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #345;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 1rem;
+            }
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            .data-table th, .data-table td {
+                padding: 8px 6px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <h1>📱 SIM Card Sales Tracker</h1>
+        <p>✅ Data tersimpan otomatis di browser | Tetap ada meskipun halaman ditutup</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="form-panel">
+            <h3 style="margin-bottom: 1rem;">✍️ Tambah Transaksi</h3>
+            <form id="salesForm">
+                <div class="form-group">
+                    <label>🏷️ Nama / Jenis SIM Card</label>
+                    <input type="text" id="simName" placeholder="Contoh: Telkomsel 5GB / XL Axiata" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>📦 Quantity (Jumlah)</label>
+                    <input type="number" id="quantity" placeholder="Jumlah kartu" min="1" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label>💰 Modal per Unit (Rp)</label>
+                    <input type="number" id="modalUnit" placeholder="Harga beli per sim" min="0" step="100" required>
+                </div>
+                <div class="form-group">
+                    <label>💵 Harga Jual per Unit (Rp)</label>
+                    <input type="number" id="priceUnit" placeholder="Harga jual per sim" min="0" step="100" required>
+                </div>
+                <div class="form-group">
+                    <label>📅 Tanggal Penjualan</label>
+                    <input type="date" id="transactionDate" required>
+                </div>
+                <button type="submit" class="btn-primary">➕ Simpan Data Penjualan</button>
+                <button type="button" id="resetFormBtn" class="btn-primary btn-reset">⟳ Reset Form</button>
+            </form>
+            <div style="margin-top: 15px; font-size: 0.7rem; background:#f2f6fb; padding:8px 12px; border-radius: 28px;">
+                💡 Pendapatan per transaksi = (Harga Jual × Quantity) - (Modal × Quantity)<br>
+                Total pendapatan keseluruhan = Total Penjualan - Total Modal<br>
+                🔒 Data otomatis tersimpan di penyimpanan lokal browser
+            </div>
+        </div>
+
+        <div class="summary-panel">
+            <h3 style="margin-bottom: 1rem;">📊 Ringkasan</h3>
+            <div class="stat-card modal">
+                <div class="stat-label">📥 TOTAL MODAL (Keseluruhan)</div>
+                <div class="stat-value" id="totalModalDisplay">Rp 0</div>
+                <div class="sub-info">Σ (Modal per unit × Quantity)
