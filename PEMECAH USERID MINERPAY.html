@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PEMECAH USERID MINERPAY • TRANSFORMERS EDITION</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Share Tech Mono', 'Orbitron', 'Segoe UI', monospace;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0a0f1a, #03060c);
+            min-height: 100vh;
+            padding: 1.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        /* efek grid futuristik */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* panel utama */
+        .transformer-panel {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(8, 14, 23, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            border: 1px solid rgba(0, 255, 255, 0.35);
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+            overflow: hidden;
+            transition: all 0.2s;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* header mekanik */
+        .mech-header {
+            background: linear-gradient(95deg, #0b121f 0%, #111a28 100%);
+            padding: 1.2rem 2rem;
+            border-bottom: 2px solid #00e0ff;
+            position: relative;
+            box-shadow: inset 0 -1px 0 rgba(0,255,255,0.2), 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .mech-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-weight: 800;
+            font-size: 1.9rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff, #00ffff, #ffaa33);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(0,255,255,0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .mech-header h1::before {
+            content: "⚙️🤖";
+            font-size: 2rem;
+            filter: drop-shadow(0 0 4px cyan);
+            background: none;
+            -webkit-background-clip: unset;
+            color: #ffcc44;
+        }
+
+        .status-led {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.7rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .led {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-family: 'Share Tech Mono', monospace;
+            background: #00000066;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            backdrop-filter: blur(2px);
+            border-left: 2px solid cyan;
+        }
+
+        .led-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #0f0;
+            box-shadow: 0 0 6px #0f0;
+            animation: pulse 1.2s infinite;
+        }
+
+        .led-dot.orange {
+            background: #ffaa33;
+            box-shadow: 0 0 6px #ffaa33;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(0.9);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        /* konten utama */
+        .cyber-content {
+            padding: 2rem 2rem 1.8rem;
+        }
+
+        /* label robot */
+        .cyber-label {
+            font-family: 'Orbitron', monospace;
+            font-weight: 500;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+            color: #7df9ff;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border-left: 4px solid #ffaa33;
+            padding-left: 12px;
+        }
+
+        .input-zone textarea {
+            width: 100%;
+            background: #01040e;
+            border: 1px solid #2a4c6e;
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: #ccf4ff;
+            resize: vertical;
+            outline: none;
+            transition: 0.2s;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+        }
+
+        .input-zone textarea:focus {
+            border-color: #0ff;
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.4), inset 0 0 4px #0ff;
+        }
+
+        /* tombol bergaya transformer */
+        .button-fleet {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .mech-btn {
+            background: linear-gradient(to bottom, #141e2c, #0a101c);
+            border: 1px solid #2f6080;
+            padding: 0.6rem 1.6rem;
+            border-radius: 2rem;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: #b0e0ff;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 3px black;
+        }
+
+        .mech-btn.primary {
+            background: linear-gradient(135deg, #0f2a3b, #07121f);
+            border-color: #0ff;
+            color: #0ff;
+            text-shadow: 0 0 2px cyan;
+            box-shadow: 0 0 6px rgba(0,255,255,0.3);
+        }
+
+        .mech-btn.primary:hover {
+            background: #0a2e44;
+            border-color: #ffaa33;
+            color: #ffcc66;
+            box-shadow: 0 0 12px #ffaa33;
+            transform: translateY(-2px);
+        }
+
+        .mech-btn:hover {
+            background: #1a2c40;
+            border-color: #ffaa44;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* panel statistik futuristik */
+        .stats-console {
+            background: #03070fcc;
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border: 1px solid #2c5f7a;
+            backdrop-filter: blur(3px);
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+        }
+
+        .stat-item {
+            display: flex;
+            gap: 8px;
+            align-items: baseline;
+            background: #00000055;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+        }
+
+        .stat-label {
+            color: #88bbdd;
+        }
+
+        .stat-number {
+            color: #ffcc44;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 2px orange;
+        }
+
+        /* result area dengan efek scanner */
+        .result-panel {
+            border-radius: 1rem;
+            border: 1px solid #2a6b8a;
+            overflow: hidden;
+            background: #010409;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+        }
+
+        .result-header-cyber {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0b1422;
+            padding: 0.7rem 1.2rem;
+            border-bottom: 1px solid cyan;
+            flex-wrap: wrap;
+        }
+
+        .result-header-cyber span {
+            font-family: 'Orbitron', monospace;
+            font-weight: 500;
+            font-size: 0.8rem;
+            color: #0ff;
+            letter-spacing: 1px;
+        }
+
+        .copy-feedback {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: #0f0;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1.2rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: #010101cc;
+            color: #bbf0ff;
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 0 0 1rem 1rem;
+        }
+
+        /* custom scroll */
+        pre::-webkit-scrollbar {
+            width: 6px;
+            background: #111;
+        }
+        pre::-webkit-scrollbar-thumb {
+            background: #0ff;
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.65rem;
+            padding: 1rem 2rem;
+            color: #3f7b99;
+            border-top: 1px solid rgba(0,255,255,0.2);
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 1rem;
+            }
+            .cyber-content {
+                padding: 1.5rem;
+            }
+            .mech-header h1 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="transformer-panel">
+    <div class="mech-header">
+        <h1>⚡ P E M E C A H   U S E R I D   [ MINERPAY ] ⚡</h1>
+        <div class="status-led">
+            <div class="led"><span class="led-dot"></span> <span>SYSTEM ACTIVE</span></div>
+            <div class="led"><span class="led-dot orange"></span> <span>TRANSFORM MODE</span></div>
+            <div class="led"><span>🤖 EXTRACTOR v.2</span></div>
+        </div>
+    </div>
+    <div class="cyber-content">
+        <!-- Input area -->
+        <div class="input-zone">
+            <div class="cyber-label">
+                <span>🔧 [ INPUT DATA MATRIX ]</span>
+                <span style="font-size:0.7rem;">format: userID||token||angka</span>
+            </div>
+            <textarea id="rawInput" rows="7" placeholder="&gt; masukkan data mentah&#10;contoh:&#10;nurr1||IkHqVu1jLcOBiEm23BGe||234&#10;nikodemus84||IkHqVu1jLcOBiEm23BGe||234&#10;dhodhy88||IkHqVu1jLcOBiEm23BGe||234"></textarea>
+        </div>
+
+        <!-- Tombol-tombol aksi -->
+        <div class="button-fleet">
+            <button id="processBtn" class="mech-btn primary">🤖 PROSES & EKSTRAK</button>
+            <button id="copyResultBtn" class="mech-btn">📀 SALIN USERID</button>
+            <button id="exampleBtn" class="mech-btn">⚙️ CONTOH DATA</button>
+            <button id="clearBtn" class="mech-btn">🗑️ RESET PANEL</button>
+        </div>
+
+        <!-- Statistik gaya robot -->
+        <div class="stats-console">
+            <div class="stat-item"><span class="stat-label">🔍 STATUS SCAN :</span> <span id="statusMsg">SIAP</span></div>
+            <div class="stat-item"><span class="stat-label">✅ USERID VALID :</span> <span class="stat-number" id="validCount">0</span></div>
+            <div class="stat-item"><span class="stat-label">⚠️ LINE ERROR :</span> <span class="stat-number" id="invalidCount">0</span></div>
+        </div>
+
+        <!-- Hasil ekstraksi dengan efek terminal -->
+        <div class="result-panel">
+            <div class="result-header-cyber">
+                <span>📡 [ OUTPUT STREAM : USERID EXTRACTED ]</span>
+                <span id="copyFeedback" class="copy-feedback"></span>
+            </div>
+            <pre id="resultArea">— Menunggu perintah ekstraksi —</pre>
+        </div>
+    </div>
+    <footer>
+        <span>🔄 TRANSFORMERS CORE • PARSE FORMAT "||" • UNLIMITED LINES</span>
+    </footer>
+</div>
+
+<script>
+    (function() {
+        // DOM references
+        const rawInput = document.getElementById('rawInput');
+        const processBtn = document.getElementById('processBtn');
+        const copyResultBtn = document.getElementById('copyResultBtn');
+        const exampleBtn = document.getElementById('exampleBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const resultArea = document.getElementById('resultArea');
+        const validCountSpan = document.getElementById('validCount');
+        const invalidCountSpan = document.getElementById('invalidCount');
+        const statusMsgSpan = document.getElementById('statusMsg');
+
+        let lastExtractedUsers = [];   // array of userID strings
+
+        // Fungsi ekstraktor utama (userID dari baris yang mengandung "||")
+        function extractUserIds(inputText) {
+            const lines = inputText.split(/\r?\n/);
+            let validUsers = [];
+            let invalidCount = 0;
+
+            for (let line of lines) {
+                let trimmed = line.trim();
+                if (trimmed === "") continue;
+
+                if (trimmed.includes("||")) {
+                    let parts = trimmed.split("||");
+                    let possibleId = parts[0] ? parts[0].trim() : "";
+                    if (possibleId !== "") {
+                        validUsers.push(possibleId);
+                    } else {
+                        invalidCount++;
+                    }
+                } else {
+                    invalidCount++;
+                }
+            }
+            return { validUsers, invalidCount };
+        }
+
+        // update tampilan dan state
+        function updateUI(validUsersArray, invalidCount) {
+            lastExtractedUsers = [...validUsersArray];
+            if (validUsersArray.length === 0) {
+                resultArea.textContent = "⚠️ TIDAK ADA USERID VALID DITEMUKAN ⚠️\nPastikan format baris: userID||kode||angka";
+                statusMsgSpan.textContent = "NO DATA";
+                statusMsgSpan.style.color = "#ff8866";
+            } else {
+                resultArea.textContent = validUsersArray.join('\n');
+                statusMsgSpan.textContent = `OK (${validUsersArray.length} user)`;
+                statusMsgSpan.style.color = "#0ff";
+            }
+            validCountSpan.textContent = validUsersArray.length;
+            invalidCountSpan.textContent = invalidCount;
+        }
+
+        // proses utama
+        function processExtraction() {
+            const inputValue = rawInput.value;
+            const { validUsers, invalidCount } = extractUserIds(inputValue);
+            updateUI(validUsers, invalidCount);
+            // animasi kecil
+            statusMsgSpan.style.transform = "scale(1.02)";
+            setTimeout(() => { if(statusMsgSpan) statusMsgSpan.style.transform = ""; }, 200);
+        }
+
+        // copy hasil userID
+        async function copyUserIds() {
+            let usersToCopy = lastExtractedUsers;
+            if (!usersToCopy.length) {
+                // coba ekstrak ulang dari input saat ini
+                const { validUsers } = extractUserIds(rawInput.value);
+                if (validUsers.length === 0) {
+                    const feedback = document.getElementById('copyFeedback');
+                    feedback.textContent = "❌ TIDAK ADA USERID";
+                    feedback.style.color = "#ff6644";
+                    setTimeout(() => { feedback.textContent = ""; }, 1800);
+                    return;
+                } else {
+                    // langsung update UI agar konsisten
+                    const { validUsers: freshUsers, invalidCount } = extractUserIds(rawInput.value);
+                    updateUI(freshUsers, invalidCount);
+                    usersToCopy = freshUsers;
+                    if (usersToCopy.length === 0) return;
+                }
+            }
+            const textToCopy = usersToCopy.join('\n');
+            try {
+                await navigator.clipboard.writeText(textToCopy);
+                const feedback = document.getElementById('copyFeedback');
+                feedback.textContent = `✅ ${usersToCopy.length} USERID DISALIN KE BUFFER`;
+                feedback.style.color = "#88ff88";
+                setTimeout(() => { feedback.textContent = ""; }, 2200);
+            } catch (err) {
+                const feedback = document.getElementById('copyFeedback');
+                feedback.textContent = "⚠️ GAGAL COPY, GUNAKAN MANUAL";
+                feedback.style.color = "#ffaa44";
+                setTimeout(() => { feedback.textContent = ""; }, 1800);
+            }
+        }
+
+        // contoh data sesuai permintaan asli
+        function loadExample() {
+            const exampleStr = `nurr1||IkHqVu1jLcOBiEm23BGe||234
+nikodemus84||IkHqVu1jLcOBiEm23BGe||234
+dhodhy88||IkHqVu1jLcOBiEm23BGe||234
+apec77||IkHqVu1jLcOBiEm23BGe||234
+jackpot333||IkHqVu1jLcOBiEm23BGe||234
+mawarberak||IkHqVu1jLcOBiEm23BGe||234`;
+            rawInput.value = exampleStr;
+            processExtraction();
+        }
+
+        // reset semua
+        function resetAll() {
+            rawInput.value = "";
+            lastExtractedUsers = [];
+            resultArea.textContent = "— Terminal siap. Masukkan data dan tekan PROSES —";
+            validCountSpan.textContent = "0";
+            invalidCountSpan.textContent = "0";
+            statusMsgSpan.textContent = "SIAP";
+            statusMsgSpan.style.color = "#7df9ff";
+            const feedback = document.getElementById('copyFeedback');
+            if (feedback) feedback.textContent = "";
+        }
+
+        // event binding
+        processBtn.addEventListener('click', processExtraction);
+        copyResultBtn.addEventListener('click', copyUserIds);
+        exampleBtn.addEventListener('click', loadExample);
+        clearBtn.addEventListener('click', resetAll);
+
+        // tambahan: shortcut Ctrl+Enter pada textarea
+        rawInput.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                processExtraction();
+            }
+        });
+
+        // inisialisasi default tidak perlu menjalankan proses, biarkan kosong
+        // tampilkan pesan default
+        resultArea.textContent = "🤖 [ TRANSFORMERS ONLINE ]\nMasukkan data dengan format:\nuserID||kode_rahasia||angka\n\nKlik 'PROSES & EKSTRAK' untuk memisahkan UserID";
+    })();
+</script>
+</body>
+</html>
