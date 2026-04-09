@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>MotoGear | Toko Aksesoris Motor Premium</title>
+<!-- Google Fonts & Font Awesome -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f7f9fc;
+color: #1e2a3e;
+line-height: 1.5;
+scroll-behavior: smooth;
+}
+
+/* Container & Utility */
+.container {
+max-width: 1280px;
+margin: 0 auto;
+padding: 0 24px;
+}
+
+/* Header & Navbar */
+header {
+background: linear-gradient(135deg, #0b2b26 0%, #0f3b34 100%);
+color: white;
+position: sticky;
+top: 0;
+z-index: 100;
+box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.navbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 16px 0;
+flex-wrap: wrap;
+gap: 16px;
+}
+.logo h2 {
+font-size: 1.8rem;
+font-weight: 700;
+letter-spacing: -0.5px;
+}
+.logo span {
+color: #f5b042;
+font-size: 0.9rem;
+font-weight: 500;
+display: block;
+letter-spacing: 1px;
+}
+.nav-links {
+display: flex;
+gap: 28px;
+list-style: none;
+}
+.nav-links a {
+color: #f0f0f0;
+text-decoration: none;
+font-weight: 500;
+transition: 0.2s;
+font-size: 1rem;
+}
+.nav-links a:hover {
+color: #f5b042;
+}
+.cart-icon {
+background: #1f554b;
+padding: 8px 18px;
+border-radius: 40px;
+display: flex;
+align-items: center;
+gap: 12px;
+cursor: pointer;
+transition: 0.2s;
+}
+.cart-icon i {
+font-size: 1.3rem;
+}
+.cart-icon:hover {
+background: #f5b042;
+color: #0b2b26;
+}
+
+/* Hero Section */
+.hero {
+background: linear-gradient(120deg, #eef2f5 0%, #e0e8ed 100%);
+padding: 48px 0 56px;
+text-align: center;
+}
+.hero h1 {
+font-size: 2.6rem;
+font-weight: 800;
+color: #0b2b26;
+margin-bottom: 12px;
+}
+.hero p {
+font-size: 1.2rem;
+max-width: 650px;
+margin: 0 auto;
+color: #2c4b42;
+}
+
+/* Produk Grid */
+.section-title {
+font-size: 2rem;
+font-weight: 700;
+margin: 48px 0 24px 0;
+border-left: 6px solid #f5b042;
+padding-left: 20px;
+}
+.products-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+gap: 32px;
+margin-bottom: 60px;
+}
+.product-card {
+background: white;
+border-radius: 28px;
+overflow: hidden;
+box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+transition: all 0.25s ease;
+cursor: pointer;
+}
+.product-card:hover {
+transform: translateY(-8px);
+box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+}
+.product-img {
+width: 100%;
+height: 240px;
+object-fit: cover;
+background: #f3f3f3;
+display: block;
+}
+.product-info {
+padding: 20px 20px 24px;
+}
+.product-title {
+font-size: 1.4rem;
+font-weight: 700;
+margin-bottom: 8px;
+}
+.product-price {
+font-size: 1.6rem;
+font-weight: 800;
+color: #0f3b34;
+margin: 10px 0;
+}
+.product-price small {
+font-size: 0.9rem;
+font-weight: 400;
+color: #6c7a89;
+}
+.product-desc {
+color: #4a5b6e;
+margin: 12px 0;
+line-height: 1.4;
+font-size: 0.9rem;
+}
+.btn-buy {
+background: #0f3b34;
+border: none;
+width: 100%;
+padding: 12px 0;
+border-radius: 40px;
+font-weight: 700;
+font-size: 1rem;
+color: white;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+cursor: pointer;
+transition: 0.2s;
+margin-top: 12px;
+}
+.btn-buy:hover {
+background: #f5b042;
+color: #0b2b26;
+}
+
+/* Modal Detail Produk */
+.modal {
+display: none;
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+background-color: rgba(0,0,0,0.75);
+z-index: 1000;
+justify-content: center;
+align-items: center;
+backdrop-filter: blur(4px);
+}
+.modal-content {
+background: white;
+max-width: 900px;
+width: 90%;
+border-radius: 32px;
+display: flex;
+flex-direction: column;
+overflow: hidden;
+animation: fadeInUp 0.3s ease;
+max-height: 90vh;
+overflow-y: auto;
+}
+@keyframes fadeInUp {
+from { opacity: 0; transform: translateY(40px);}
+to { opacity: 1; transform: translateY(0);}
+}
+.modal-grid {
+display: flex;
+flex-wrap: wrap;
+}
+.modal-img {
+flex: 1.2;
+background: #f1f3f5;
+}
+.modal-img img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+min-height: 280px;
+}
+.modal-details {
+flex: 1.5;
+padding: 28px 28px;
+}
+.modal-details h2 {
+font-size: 1.9rem;
+margin-bottom: 12px;
+}
+.modal-price {
+font-size: 1.8rem;
+font-weight: 800;
+color: #0f3b34;
+margin: 12px 0;
+}
+.modal-desc {
+color: #2c3e4e;
+margin: 16px 0;
+line-height: 1.6;
+}
+.payment-methods {
+background: #f8f9fc;
+padding: 16px;
+border-radius: 20px;
+margin: 20px 0;
+}
+.payment-methods h4 {
+margin-bottom: 12px;
+display: flex;
+gap: 8px;
+align-items: center;
+}
+.payment-icons {
+display: flex;
+flex-wrap: wrap;
+gap: 16px;
+font-size: 1.7rem;
+color: #2c3e4e;
+}
+.payment-icons i, .payment-icons span {
+font-size: 1.6rem;
+}
+.close-modal {
+background: #e9ecef;
+border: none;
+padding: 12px;
+border-radius: 50px;
+font-weight: 600;
+cursor: pointer;
+width: 100%;
+margin-top: 16px;
+transition: 0.2s;
+}
+.close-modal:hover {
+background: #ced4da;
+}
+.btn-order-now {
+background: #f5b042;
+border: none;
+padding: 14px;
+width: 100%;
+border-radius: 50px;
+font-weight: 800;
+font-size: 1rem;
+cursor: pointer;
+margin-top: 10px;
+transition: 0.2s;
+}
+.btn-order-now:hover {
+background: #e09d2c;
+}
+
+/* Payment Section khusus di footer */
+.payment-info-section {
+background: #eef2f5;
+border-radius: 40px;
+padding: 32px 28px;
+margin: 40px 0 60px;
+text-align: center;
+}
+.payment-info-section h3 {
+font-size: 1.7rem;
+margin-bottom: 20px;
+}
+.payment-method-list {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 28px;
+font-size: 1.2rem;
+font-weight: 500;
+}
+.payment-method-list div {
+background: white;
+padding: 10px 24px;
+border-radius: 60px;
+display: inline-flex;
+align-items: center;
+gap: 12px;
+box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+footer {
+background: #0b2b26;
+color: #cbd5e1;
+text-align: center;
+padding: 32px;
+font-size: 0.85rem;
+}
+
+/* responsive */
+@media (max-width: 700px) {
+.navbar {
+flex-direction: column;
+}
+.hero h1 {
+font-size: 2rem;
+}
+.section-title {
+font-size: 1.7rem;
+}
+.modal-grid {
+flex-direction: column;
+}
+}
+button {
+font-family: inherit;
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<div class="navbar">
+<div class="logo">
+<h2>⚡ MotoGear <span>Premium Aksesoris Motor</span></h2>
+</div>
+<ul class="nav-links">
+<li><a href="#">Beranda</a></li>
+<li><a href="#produk">Produk</a></li>
+<li><a href="#pembayaran">Metode Bayar</a></li>
+<li><a href="#">Kontak</a></li>
+</ul>
+<div class="cart-icon" id="cartDemoBtn">
+<i class="fas fa-shopping-cart"></i>
+<span>Pesan Sekarang</span>
+</div>
+</div>
+</div>
+</header>
+
+<section class="hero">
+<div class="container">
+<h1>Custom Motor, Performa Maksimal</h1>
+<p>Aksesoris motor original, bergaransi, dan desain kekinian. Tersedia berbagai pilihan untuk skutik & sport.</p>
+</div>
+</section>
+
+<div class="container" id="produk">
+<div class="section-title">
+<i class="fas fa-motorcycle" style="margin-right: 12px;"></i> Produk Unggulan
+</div>
+<div class="products-grid" id="productsGrid"></div>
+</div>
+
+<!-- Metode Pembayaran Info Lengkap -->
+<div class="container" id="pembayaran">
+<div class="payment-info-section">
+<h3><i class="fas fa-credit-card"></i> Metode Pembayaran Resmi</h3>
+<p style="margin-bottom: 20px;">Kami menyediakan berbagai pilihan pembayaran yang aman & nyaman.</p>
+<div class="payment-method-list">
+<div><i class="fab fa-bank"></i> Transfer Bank (BCA, Mandiri, BRI)</div>
+<div><i class="fab fa-digital-ocean"></i> QRIS / Scan</div>
+<div><i class="fas fa-mobile-alt"></i> E-Wallet (OVO, GoPay, Dana)</div>
+<div><i class="fas fa-credit-card"></i> Kartu Kredit / Debit</div>
+<div><i class="fas fa-store"></i> COD (Bayar di Tempat)</div>
+</div>
+<p style="margin-top: 18px; font-size: 0.9rem;">✔ Semua transaksi dilindungi enkripsi SSL & garansi 100%</p>
+</div>
+</div>
+
+<footer>
+<p>&copy; 2025 MotoGear Indonesia — Toko Aksesoris Motor Terpercaya</p>
+<p style="margin-top: 8px;">Hubungi: +62 812 3456 7890 | support@motogear.co.id</p>
+</footer>
+
+<!-- Modal Detail Produk -->
+<div id="productModal" class="modal">
+<div class="modal-content">
+<div class="modal-grid">
+<div class="modal-img">
+<img id="modalImg" src="" alt="gambar produk">
+</div>
+<div class="modal-details">
+<h2 id="modalTitle"></h2>
+<div class="modal-price" id="modalPrice"></div>
+<div class="modal-desc" id="modalDesc"></div>
+<div class="payment-methods">
+<h4><i class="fas fa-wallet"></i> Metode Pembayaran Tersedia:</h4>
+<div class="payment-icons">
+<i class="fab fa-bank" title="Transfer Bank"></i>
+<i class="fas fa-qrcode" title="QRIS"></i>
+<i class="fab fa-google-pay" title="Google Pay"></i>
+<i class="fab fa-apple-pay" title="Apple Pay"></i>
+<span><i class="fas fa-mobile-alt"></i> e-Wallet</span>
+<span><i class="fas fa-truck"></i> COD</span>
+</div>
+</div>
+<button class="btn-order-now" id="orderNowBtn"><i class="fab fa-whatsapp"></i> Beli via WhatsApp</button>
+<button class="close-modal" id="closeModalBtn">Tutup</button>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+// Data produk aksesoris motor dengan foto, detail lengkap
+const products = [
+{
+id: 1,
+name: "Helm MotoGear Carbon Kevlar",
+price: 1250000,
+priceFormatted: "Rp 1.250.000",
+description: "Helm full face dengan bahan carbon kevlar, dual visor, sertifikasi SNI & ECE. Bobot super ringan 1350gr, bantalan nyaman dan bisa dilepas. Tersedia ukuran M, L, XL.",
+image: "https://placehold.co/600x400/1f3b36/white?text=Helm+Carbon+Kevlar",
+category: "helm"
+},
+{
+id: 2,
+name: "Knalpot Racing Akrapovic Style",
+price: 2150000,
+priceFormatted: "Rp 2.150.000",
+description: "Knalpot full stainless steel, suara sporty tidak bising, meningkatkan performa dan akselerasi. Desain racing dengan ujung carbon look. Garansi 6 bulan.",
+image: "https://placehold.co/600x400/2c4b42/white?text=Knalpot+Racing",
+category: "exhaust"
+},
+{
+id: 3,
+name: "Lampu LED Projector Matic",
+price: 375000,
+priceFormatted: "Rp 375.000",
+description: "Lampu depan LED projector dengan cutoff rapi, daya 45W, cahaya putih 6000K. Pemasangan mudah untuk motor matic & bebek. Hemat daya & tahan air IP67.",
+image: "https://placehold.co/600x400/1f3b36/white?text=Lampu+LED+Projector",
+category: "lighting"
+},
+{
+id: 4,
+name: "Handle Grip Anti Slip Racing",
+price: 185000,
+priceFormatted: "Rp 185.000",
+description: "Grip handle motor premium bahan karet berkualitas, tekstur anti slip, desain ergonomis untuk touring dan daily ride. Tersedia 3 warna: Hitam, Merah, Abu.",
+image: "https://placehold.co/600x400/2c4b42/white?text=Handle+Grip+Racing",
+category: "handle"
+},
+{
+id: 5,
+name: "Saklar Magnetik + Alarm",
+price: 299000,
+priceFormatted: "Rp 299.000",
+description: "Sistem keamanan motor dengan saklar magnetik plus alarm sensitif getaran. Remote control jarak jauh, fitur silent armed, mudah dipasang di semua tipe motor.",
+image: "https://placehold.co/600x400/1f3b36/white?text=Alarm+Magnetics",
+category: "security"
+},
+{
+id: 6,
+name: "Bagasi Motor Hardcase 45L",
+price: 890000,
+priceFormatted: "Rp 890.000",
+description: "Box motor hardcase kapasitas 45 liter, material ABS anti pecah, dilengkapi kunci ganda dan seal anti air. Cocok untuk touring & daily use. + free bracket.",
+image: "https://placehold.co/600x400/2c4b42/white?text=Hardcase+45L",
+category: "bagasi"
+}
+];
+
+// Render produk ke grid
+const productsGrid = document.getElementById("productsGrid");
+
+function renderProducts() {
+productsGrid.innerHTML = "";
+products.forEach(prod => {
+const card = document.createElement("div");
+card.classList.add("product-card");
+card.setAttribute("data-id", prod.id);
+card.innerHTML = `
+<img class="product-img" src="${prod.image}" alt="${prod.name}" loading="lazy">
+<div class="product-info">
+<div class="product-title">${prod.name}</div>
+<div class="product-price">${prod.priceFormatted} <small></small></div>
+<div class="product-desc">${prod.description.substring(0, 85)}...</div>
+<button class="btn-buy" data-id="${prod.id}"><i class="fas fa-shopping-bag"></i> Lihat Detail</button>
+</div>
+`;
+productsGrid.appendChild(card);
+});
+
+// Tambahkan event listener untuk setiap tombol "Lihat Detail"
+document.querySelectorAll(".btn-buy").forEach(btn => {
+btn.addEventListener("click", (e) => {
+e.stopPropagation();
+const prodId = parseInt(btn.getAttribute("data-id"));
+const product = products.find(p => p.id === prodId);
+if (product) openModal(product);
+});
+});
+
+// Card juga bisa diklik (optional)
+document.querySelectorAll(".product-card").forEach(card => {
+card.addEventListener("click", (e) => {
+if(e.target.classList.contains("btn-buy")) return;
+const id = parseInt(card.getAttribute("data-id"));
+const product = products.find(p => p.id === id);
+if(product) openModal(product);
+});
+});
+}
+
+// Modal Handling
+const modal = document.getElementById("productModal");
+const modalImg = document.getElementById("modalImg");
+const modalTitle = document.getElementById("modalTitle");
+const modalPrice = document.getElementById("modalPrice");
+const modalDesc = document.getElementById("modalDesc");
+const closeModalBtn = document.getElementById("closeModalBtn");
+const orderNowBtn = document.getElementById("orderNowBtn");
+
+let currentProduct = null;
+
+function openModal(product) {
+currentProduct = product;
+modalImg.src = product.image;
+modalTitle.innerText = product.name;
+modalPrice.innerText = product.priceFormatted;
+modalDesc.innerText = product.description;
+modal.style.display = "flex";
+document.body.style.overflow = "hidden";
+}
+
+function closeModalFunc() {
+modal.style.display = "none";
+document.body.style.overflow = "auto";
+currentProduct = null;
+}
+
+closeModalBtn.addEventListener("click", closeModalFunc);
+window.addEventListener("click", (e) => {
+if (e.target === modal) closeModalFunc();
+});
+
+// Order via WhatsApp (simulasi chat ke nomor toko)
+orderNowBtn.addEventListener("click", () => {
+if (currentProduct) {
+const message = `Halo MotoGear, saya ingin membeli produk berikut:%0A%0A*${currentProduct.name}*%0AHarga: ${currentProduct.priceFormatted}%0ADeskripsi: ${currentProduct.description.substring(0, 100)}%0A%0ASaya setuju dengan metode pembayaran yang tersedia (Transfer Bank / E-Wallet / COD). Mohon info stok & cara order. Terima kasih.`;
+const phoneNumber = "6281234567890"; // ganti dengan nomor toko
+const url = `https://wa.me/${phoneNumber}?text=${message}`;
+window.open(url, "_blank");
+} else {
+alert("Pilih produk terlebih dahulu.");
+}
+});
+
+// Tombol Cart demo (navigasi ke produk atau bisa trigger order)
+const cartDemoBtn = document.getElementById("cartDemoBtn");
+cartDemoBtn.addEventListener("click", () => {
+// scroll ke produk pertama atau bisa tampilkan notifikasi
+const firstCard = document.querySelector(".product-card");
+if(firstCard) {
+firstCard.scrollIntoView({ behavior: "smooth", block: "center" });
+// sedikit efek
+firstCard.style.transition = "0.2s";
+firstCard.style.boxShadow = "0 0 0 3px #f5b042";
+setTimeout(() => {
+firstCard.style.boxShadow = "";
+}, 1000);
+} else {
+alert("Silakan lihat koleksi produk kami!");
+}
+});
+
+// navigasi smooth untuk metode pembayaran
+document.querySelectorAll('.nav-links a[href="#pembayaran"]').forEach(link => {
+link.addEventListener("click", (e) => {
+e.preventDefault();
+const section = document.getElementById("pembayaran");
+if(section) section.scrollIntoView({ behavior: "smooth" });
+});
+});
+document.querySelectorAll('.nav-links a[href="#produk"]').forEach(link => {
+link.addEventListener("click", (e) => {
+e.preventDefault();
+const section = document.getElementById("produk");
+if(section) section.scrollIntoView({ behavior: "smooth" });
+});
+});
+
+renderProducts();
+</script>
+
+<!-- tambahan sedikit style untuk mempercantik modal scroll -->
+<style>
+.modal-content::-webkit-scrollbar {
+width: 6px;
+}
+.modal-content::-webkit-scrollbar-track {
+background: #e2e8f0;
+border-radius: 10px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+background: #0f3b34;
+border-radius: 10px;
+}
+.product-img {
+transition: transform 0.3s ease;
+}
+.product-card:hover .product-img {
+transform: scale(1.02);
+}
+.btn-buy i, .cart-icon i, .btn-order-now i {
+pointer-events: none;
+}
+</style>
+
+</body>
+</html>
