@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Jadwal Bola Interaktif | Dua Tanggal + Copy Teks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #071a1a 0%, #0a2528 100%);
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFECB3, #A7FFE4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            color: #BCECE0;
+            margin-top: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            font-size: 0.85rem;
+        }
+
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .schedule-card {
+            flex: 1;
+            min-width: 340px;
+            background: rgba(15, 30, 33, 0.9);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .schedule-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: #0B1F22;
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid #2F9E91;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #FFE3AA;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .date-control {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #062226;
+            padding: 4px 12px;
+            border-radius: 60px;
+        }
+
+        .date-control label {
+            font-weight: 600;
+            color: #7FCEC0;
+            font-size: 0.75rem;
+        }
+
+        .date-input {
+            background: #1B3E43;
+            border: 1px solid #3FAA9A;
+            padding: 4px 8px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #FEF3D6;
+            font-size: 0.8rem;
+            width: 80px;
+            text-align: center;
+        }
+
+        .btn-action {
+            background: #2C6E62;
+            border: none;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .btn-action:hover {
+            background: #409f8d;
+            transform: scale(0.96);
+        }
+
+        .btn-reset {
+            background: #4f3b28;
+        }
+
+        .btn-reset:hover {
+            background: #795e42;
+        }
+
+        .btn-random-full {
+            background: #9B6A3C;
+        }
+
+        .btn-random-full:hover {
+            background: #C68444;
+        }
+
+        .btn-copy {
+            background: #2A5F6E;
+        }
+
+        .btn-copy:hover {
+            background: #3D8B9E;
+        }
+
+        .match-list {
+            padding: 1rem 1.2rem 1.8rem;
+        }
+
+        .league-block {
+            margin-bottom: 1.5rem;
+            border-left: 3px solid #47C2B0;
+            padding-left: 14px;
+            background: rgba(0, 20, 22, 0.4);
+            border-radius: 20px;
+        }
+
+        .league-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #FDDB6D;
+            margin-bottom: 12px;
+            letter-spacing: -0.2px;
+        }
+
+        .match-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0C262C;
+            margin-bottom: 10px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+            transition: 0.1s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .match-info {
+            flex: 3;
+            min-width: 180px;
+        }
+
+        .match-date-time {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #96D1C5;
+            background: #052025;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 30px;
+        }
+
+        .team-names {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-top: 5px;
+            color: #FAF0D7;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: baseline;
+        }
+
+        .vs {
+            margin: 0 4px;
+            color: #7CA99E;
+        }
+
+        .score {
+            background: #021114;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #F9D957;
+            font-family: monospace;
+            min-width: 80px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 780px) {
+            body { padding: 1rem; }
+            .match-item { flex-direction: column; align-items: flex-start; }
+            .score { align-self: flex-end; }
+            .card-header { flex-direction: column; align-items: stretch; }
+            .header-actions { justify-content: space-between; }
+        }
+
+        .global-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-global {
+            background: #1F4547;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            color: #FFF3DC;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 6px black;
+        }
+
+        .btn-global:hover {
+            background: #3C7B6E;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #578e83;
+            font-size: 0.7rem;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1E3A3F;
+            color: #E6F7F2;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 999;
+            box-shadow: 0 4px 12px black;
+            backdrop-filter: blur(8px);
+            pointer-events: none;
+            transition: opacity 0.2s;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="hero">
+        <h1>⚽ JADWAL & SKOR • 2 TANGGAL BEBAS</h1>
+        <p>📅 Ubah tanggal (DD/MM) | 🎲 Acak tim & skor | 📋 Copy teks jadwal seperti contoh</p>
+    </div>
+
+    <div class="two-columns" id="columnsContainer"></div>
+
+    <div class="global-actions">
+        <button class="btn-global" id="globalResetOriginal">🔄 Reset BOTH ke Jadwal & Skor ASLI</button>
+        <button class="btn-global" id="globalRandomBoth">🎲✨ Acak TIM + SKOR di DUA KOLOM</button>
+    </div>
+    <footer>💡 Klik tombol <strong>📋 Copy Jadwal</strong> pada setiap kolom untuk menyalin teks bersih (format: Liga, Tanggal Jam, Tim VS Tim Skor).<br>Tanggal bisa diatur berbeda antara kiri dan kanan.</footer>
+    <div id="toastMsg" class="toast-msg">📋 Teks jadwal disalin!</div>
+</div>
+
+<script>
+    // ---------- DATA MASTER (struktur awal, tim & skor asli) ----------
+    const MASTER_RAW = [
+        // ENGLISH PREMIER LEAGUE
+        { league: "ENGLISH PREMIER LEAGUE", home: "Chelsea", away: "Newcastle United", time: "21:00", homeScore: 2, awayScore: 1 },
+        { league: "ENGLISH PREMIER LEAGUE", home: "Manchester United", away: "Aston Villa", time: "23:30", homeScore: 1, awayScore: 2 },
+        { league: "ENGLISH PREMIER LEAGUE", home: "Tottenham Hotspur", away: "Everton", time: "02:00", homeScore: 3, awayScore: 1 },
+        // ITALY SERIE A
+        { league: "ITALY SERIE A", home: "Napoli", away: "Torino", time: "20:00", homeScore: 2, awayScore: 0 },
+        { league: "ITALY SERIE A", home: "Fiorentina", away: "Lazio", time: "22:30", homeScore: 1, awayScore: 1 },
+        { league: "ITALY SERIE A", home: "AC Milan", away: "Atalanta", time: "01:45", homeScore: 2, awayScore: 2 },
+        // SPANISH LA LIGA
+        { league: "SPANISH LA LIGA", home: "Sevilla", away: "Villarreal", time: "21:15", homeScore: 1, awayScore: 2 },
+        { league: "SPANISH LA LIGA", home: "Barcelona", away: "Real Sociedad", time: "00:00", homeScore: 3, awayScore: 0 },
+        { league: "SPANISH LA LIGA", home: "Atletico Madrid", away: "Valencia", time: "02:30", homeScore: 2, awayScore: 1 },
+        // GERMANY BUNDESLIGA
+        { league: "GERMANY BUNDESLIGA", home: "Bayern Munich", away: "Freiburg", time: "22:00", homeScore: 4, awayScore: 1 },
+        { league: "GERMANY BUNDESLIGA", home: "Borussia Dortmund", away: "Mainz", time: "01:30", homeScore: 3, awayScore: 2 },
+        // FRANCE LIGUE 1
+        { league: "FRANCE LIGUE 1", home: "PSG", away: "Rennes", time: "23:00", homeScore: 3, awayScore: 1 },
+        { league: "FRANCE LIGUE 1", home: "Marseille", away: "Nice", time: "02:00", homeScore: 1, awayScore: 1 }
+    ];
+
+    // Urutan liga (tanpa emoji agar copy teks bersih, tapi tampilan bisa pakai emoji optional)
+    const LEAGUE_ORDER = [
+        "ENGLISH PREMIER LEAGUE",
+        "ITALY SERIE A",
+        "SPANISH LA LIGA",
+        "GERMANY BUNDESLIGA",
+        "FRANCE LIGUE 1"
+    ];
+
+    // ----- Fungsi cloning data original secara deep (untuk reset total) -----
+    function getOriginalMatchesDeep() {
+        return MASTER_RAW.map(m => ({
+            league: m.league,
+            home: m.home,
+            away: m.away,
+            time: m.time,
+            homeScore: m.homeScore,
+            awayScore: m.awayScore
+        }));
+    }
+
+    // ----- Helper: Mengacak skor 0-5 untuk semua match dalam array -----
+    function randomizeScoresOnly(matchesArray) {
+        for (let m of matchesArray) {
+            m.homeScore = Math.floor(Math.random() * 6);
+            m.awayScore = Math.floor(Math.random() * 6);
+        }
+    }
+
+    // ----- Fungsi utama: acak TIM (matchup) dalam satu liga, plus skor random -----
+    function randomizeMatchupsInLeague(leagueMatches) {
+        if (!leagueMatches.length) return [];
+        const allTeams = [];
+        for (let m of leagueMatches) {
+            if (!allTeams.includes(m.home)) allTeams.push(m.home);
+            if (!allTeams.includes(m.away)) allTeams.push(m.away);
+        }
+        // Acak urutan tim
+        for (let i = allTeams.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allTeams[i], allTeams[j]] = [allTeams[j], allTeams[i]];
+        }
+        const newMatchups = [];
+        for (let i = 0; i < allTeams.length; i += 2) {
+            if (i + 1 >= allTeams.length) break;
+            const homeTeam = allTeams[i];
+            const awayTeam = allTeams[i+1];
+            const originalTime = leagueMatches[Math.floor(Math.random() * leagueMatches.length)].time;
+            const randHome = Math.floor(Math.random() * 6);
+            const randAway = Math.floor(Math.random() * 6);
+            newMatchups.push({
+                league: leagueMatches[0].league,
+                home: homeTeam,
+                away: awayTeam,
+                time: originalTime,
+                homeScore: randHome,
+                awayScore: randAway
+            });
+        }
+        return newMatchups;
+    }
+
+    // Acak seluruh kolom (semua liga): tim + skor
+    function randomizeFullColumn(columnMatches) {
+        const matchesByLeague = new Map();
+        for (let m of columnMatches) {
+            if (!matchesByLeague.has(m.league)) matchesByLeague.set(m.league, []);
+            matchesByLeague.get(m.league).push(m);
+        }
+        const newColumnMatches = [];
+        for (let league of LEAGUE_ORDER) {
+            const leagueMatchList = matchesByLeague.get(league);
+            if (leagueMatchList && leagueMatchList.length) {
+                const randomizedLeague = randomizeMatchupsInLeague(leagueMatchList);
+                newColumnMatches.push(...randomizedLeague);
+            }
+        }
+        columnMatches.length = 0;
+        columnMatches.push(...newColumnMatches);
+    }
+
+    // Reset kolom ke jadwal & skor asli
+    function resetColumnToOriginal(columnMatches) {
+        const original = getOriginalMatchesDeep();
+        columnMatches.length = 0;
+        columnMatches.push(...original);
+    }
+
+    // ----------------- RENDER HTML (tanpa badge jumlah laga) -----------------
+    function renderColumn(containerId, dateStr, matchesArray) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const groups = new Map();
+        LEAGUE_ORDER.forEach(league => groups.set(league, []));
+        matchesArray.forEach(match => {
+            if (groups.has(match.league)) groups.get(match.league).push(match);
+            else groups.set(match.league, [match]);
+        });
+
+        let html = `<div class="match-list">`;
+        for (let league of LEAGUE_ORDER) {
+            const matches = groups.get(league);
+            if (!matches || matches.length === 0) continue;
+            html += `<div class="league-block">
+                        <div class="league-title">${league}</div>`;
+            for (let m of matches) {
+                const fullDateTime = `${dateStr} ${m.time} WIB`;
+                html += `<div class="match-item">
+                            <div class="match-info">
+                                <div class="match-date-time">${fullDateTime}</div>
+                                <div class="team-names">
+                                    <strong>${m.home}</strong> <span class="vs">VS</span> <strong>${m.away}</strong>
+                                </div>
+                            </div>
+                            <div class="score">${m.homeScore} : ${m.awayScore}</div>
+                         </div>`;
+            }
+            html += `</div>`;
+        }
+        html += `</div>`;
+        container.innerHTML = html;
+    }
+
+    // ----- Fungsi untuk menghasilkan teks jadwal (format bersih seperti contoh) -----
+    function generatePlainTextSchedule(dateStr, matchesArray) {
+        // Kelompokkan berdasarkan league sesuai urutan
+        const groups = new Map();
+        LEAGUE_ORDER.forEach(league => groups.set(league, []));
+        matchesArray.forEach(match => {
+            if (groups.has(match.league)) groups.get(match.league).push(match);
+            else groups.set(match.league, [match]);
+        });
+
+        let lines = [];
+        for (let league of LEAGUE_ORDER) {
+            const matches = groups.get(league);
+            if (!matches || matches.length === 0) continue;
+            lines.push(league);
+            for (let m of matches) {
+                const dateTime = `${dateStr} ${m.time} WIB`;
+                const scoreText = `${m.homeScore} : ${m.awayScore}`;
+                lines.push(dateTime);
+                lines.push(`${m.home} VS ${m.away} ${scoreText}`);
+                // baris kosong antar pertandingan agar mirip contoh? contoh asli tidak ada baris kosong, tapi rapi
+                // kita beri newline saja sesuai contoh: setelah skor langsung baris baru untuk pertandingan berikutnya
+            }
+            // setelah satu league selesai, kasih baris kosong (opsional, agar rapi)
+            if (matches.length > 0) lines.push('');
+        }
+        // hapus baris kosong terakhir jika ada
+        while (lines.length && lines[lines.length-1] === '') lines.pop();
+        return lines.join('\n');
+    }
+
+    // Fungsi copy ke clipboard
+    async function copyScheduleToClipboard(dateStr, matchesArray, sideName = "Jadwal") {
+        const text = generatePlainTextSchedule(dateStr, matchesArray);
+        try {
+            await navigator.clipboard.writeText(text);
+            showToast(`✅ ${sideName} disalin! (${text.split('\n').length} baris)`);
+        } catch (err) {
+            // fallback
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast(`📋 ${sideName} disalin (fallback)`);
+        }
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toastMsg');
+        if (!toast) return;
+        toast.style.opacity = '1';
+        toast.textContent = msg;
+        setTimeout(() => {
+            toast.style.opacity = '0';
+        }, 2000);
+    }
+
+    // ----- STATE dua kolom -----
+    let leftState = {
+        date: "19/05",
+        matches: getOriginalMatchesDeep()
+    };
+    let rightState = {
+        date: "20/05",
+        matches: getOriginalMatchesDeep()
+    };
+
+    // Refresh kedua kolom (tampilan)
+    function refreshBoth() {
+        renderColumn("leftColumnContainer", leftState.date, leftState.matches);
+        renderColumn("rightColumnContainer", rightState.date, rightState.matches);
+        // sinkronkan nilai input tanggal
+        const leftInput = document.getElementById("leftDateInput");
+        const rightInput = document.getElementById("rightDateInput");
+        if (leftInput) leftInput.value = leftState.date;
+        if (rightInput) rightInput.value = rightState.date;
+    }
+
+    // ----- MEMBANGUN UI & EVENT -----
+    function buildUI() {
+        const wrapper = document.getElementById("columnsContainer");
+        wrapper.innerHTML = `
+            <div class="schedule-card">
+                <div class="card-header">
+                    <h2>📆 TANGGAL 1</h2>
+                    <div class="header-actions">
+                        <div class="date-control">
+                            <label>📅 TGL</label>
+                            <input type="text" class="date-input" id="leftDateInput" value="${leftState.date}" placeholder="DD/MM">
+                        </div>
+                        <button class="btn-action btn-copy" id="leftCopyBtn">📋 Copy Jadwal</button>
+                        <button class="btn-action btn-random-full" id="leftRandomFullBtn">🎲 Acak Tim+Skor</button>
+                        <button class="btn-action" id="leftRandomScoreBtn">🎯 Random Skor</button>
+                        <button class="btn-action btn-reset" id="leftResetOriginalBtn">↺ Reset</button>
+                    </div>
+                </div>
+                <div id="leftColumnContainer" class="match-list">Memuat...</div>
+            </div>
+            <div class="schedule-card">
+                <div class="card-header">
+                    <h2>📆 TANGGAL 2</h2>
+                    <div class="header-actions">
+                        <div class="date-control">
+                            <label>📅 TGL</label>
+                            <input type="text" class="date-input" id="rightDateInput" value="${rightState.date}" placeholder="DD/MM">
+                        </div>
+                        <button class="btn-action btn-copy" id="rightCopyBtn">📋 Copy Jadwal</button>
+                        <button class="btn-action btn-random-full" id="rightRandomFullBtn">🎲 Acak Tim+Skor</button>
+                        <button class="btn-action" id="rightRandomScoreBtn">🎯 Random Skor</button>
+                        <button class="btn-action btn-reset" id="rightResetOriginalBtn">↺ Reset</button>
+                    </div>
+                </div>
+                <div id="rightColumnContainer" class="match-list">Memuat...</div>
+            </div>
+        `;
+
+        refreshBoth();
+
+        // ----- KIRI event -----
+        const leftDate = document.getElementById("leftDateInput");
+        const leftCopy = document.getElementById("leftCopyBtn");
+        const leftFullRandom = document.getElementById("leftRandomFullBtn");
+        const leftScoreRandom = document.getElementById("leftRandomScoreBtn");
+        const leftResetAll = document.getElementById("leftResetOriginalBtn");
+
+        leftDate.addEventListener("change", (e) => {
+            let val = e.target.value.trim();
+            if (val === "") val = "19/05";
+            if (!/^\d{1,2}\/\d{1,2}$/.test(val)) {
+                alert("Format tanggal salah! contoh: 19/05 , 20/05");
+                leftDate.value = leftState.date;
+                return;
+            }
+            leftState.date = val;
+            refreshBoth();
+        });
+
+        leftCopy.addEventListener("click", () => {
+            copyScheduleToClipboard(leftState.date, leftState.matches, "Jadwal Kiri");
+        });
+
+        leftFullRandom.addEventListener("click", () => {
+            randomizeFullColumn(leftState.matches);
+            refreshBoth();
+        });
+
+        leftScoreRandom.addEventListener("click", () => {
+            randomizeScoresOnly(leftState.matches);
+            refreshBoth();
+        });
+
+        leftResetAll.addEventListener("click", () => {
+            resetColumnToOriginal(leftState.matches);
+            refreshBoth();
+        });
+
+        // ----- KANAN event -----
+        const rightDate = document.getElementById("rightDateInput");
+        const rightCopy = document.getElementById("rightCopyBtn");
+        const rightFullRandom = document.getElementById("rightRandomFullBtn");
+        const rightScoreRandom = document.getElementById("rightRandomScoreBtn");
+        const rightResetAll = document.getElementById("rightResetOriginalBtn");
+
+        rightDate.addEventListener("change", (e) => {
+            let val = e.target.value.trim();
+            if (val === "") val = "20/05";
+            if (!/^\d{1,2}\/\d{1,2}$/.test(val)) {
+                alert("Format tanggal salah! contoh: 19/05 , 20/05");
+                rightDate.value = rightState.date;
+                return;
+            }
+            rightState.date = val;
+            refreshBoth();
+        });
+
+        rightCopy.addEventListener("click", () => {
+            copyScheduleToClipboard(rightState.date, rightState.matches, "Jadwal Kanan");
+        });
+
+        rightFullRandom.addEventListener("click", () => {
+            randomizeFullColumn(rightState.matches);
+            refreshBoth();
+        });
+
+        rightScoreRandom.addEventListener("click", () => {
+            randomizeScoresOnly(rightState.matches);
+            refreshBoth();
+        });
+
+        rightResetAll.addEventListener("click", () => {
+            resetColumnToOriginal(rightState.matches);
+            refreshBoth();
+        });
+    }
+
+    // ----- GLOBAL ACTIONS -----
+    function globalResetBothToOriginal() {
+        resetColumnToOriginal(leftState.matches);
+        resetColumnToOriginal(rightState.matches);
+        refreshBoth();
+        showToast("🔄 Kedua kolom dikembalikan ke jadwal & skor asli");
+    }
+
+    function globalRandomBothFull() {
+        randomizeFullColumn(leftState.matches);
+        randomizeFullColumn(rightState.matches);
+        refreshBoth();
+        showToast("🎲 Tim & skor di kedua kolom diacak!");
+    }
+
+    // inisialisasi
+    document.addEventListener("DOMContentLoaded", () => {
+        buildUI();
+        const globalResetBtn = document.getElementById("globalResetOriginal");
+        const globalRandomBtn = document.getElementById("globalRandomBoth");
+        if (globalResetBtn) globalResetBtn.addEventListener("click", globalResetBothToOriginal);
+        if (globalRandomBtn) globalRandomBtn.addEventListener("click", globalRandomBothFull);
+    });
+</script>
+</body>
+</html>
