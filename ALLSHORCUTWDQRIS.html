@@ -1,0 +1,1092 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=ai-legible&utm_source=comment&utm_medium=referral&utm_id=8b516d9d-f6b5-4351-879a-012ac625da5f
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="hosting-provider" content="Netlify">
+<meta name="netlify-deploy" content="https://netlify.new/?utm_campaign=ai-legible&amp;utm_source=meta&amp;utm_medium=referral&amp;utm_id=8b516d9d-f6b5-4351-879a-012ac625da5f">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Toretto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background-image 0.3s ease;
+            background-repeat: repeat;
+            background-size: 300px;
+            background-position: top left;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tab-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 10px 22px;
+            border-radius: 40px;
+            border: none;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.25s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .tab-btn.active {
+            background: rgba(255,255,255,0.95);
+            color: #1a1a2e;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .tab-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .tab-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ffffff, #e2e2e2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .tab-header .subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .input-section, .output-section {
+            background: rgba(20, 20, 35, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .input-section:hover, .output-section:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .section-title {
+            font-weight: 500;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn {
+            padding: 7px 18px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 0.5px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: rgba(16, 185, 129, 0.7);
+        }
+
+        .btn-success:hover {
+            background: rgba(16, 185, 129, 0.9);
+        }
+
+        .btn-danger {
+            background: rgba(220, 38, 38, 0.6);
+        }
+
+        .btn-danger:hover {
+            background: rgba(220, 38, 38, 0.8);
+        }
+
+        .btn-primary {
+            background: rgba(59, 130, 246, 0.7);
+        }
+
+        .btn-primary:hover {
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .btn-warning {
+            background: rgba(245, 158, 11, 0.7);
+        }
+
+        .btn-warning:hover {
+            background: rgba(245, 158, 11, 0.9);
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            border: none;
+            color: #e5e5e5;
+            font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+            font-size: 12.5px;
+            padding: 22px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .output-table-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .output-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', monospace;
+            font-size: 12.5px;
+        }
+
+        .output-table th {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 14px 16px;
+            text-align: left;
+            color: #d4d4d4;
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .output-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 400;
+        }
+
+        .output-table tr:hover td {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .output-table tr.db-row td {
+            background: rgba(220, 38, 38, 0.2);
+        }
+        .output-table tr.db-row:hover td {
+            background: rgba(220, 38, 38, 0.3);
+        }
+
+        .stats {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.55);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .copy-success {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(16, 185, 129, 0.95);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            z-index: 1000;
+            animation: fadeInOut 2s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .tab-btn {
+                padding: 8px 14px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-btn {
+                padding: 6px 10px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="tab-container">
+        <button class="tab-btn active" data-tab="legacy">✅ ACCEPT WITHDRAW</button>
+        <button class="tab-btn" data-tab="failed">🆚 QRIS FAILED</button>
+        <button class="tab-btn" data-tab="pending">⏳ QRIS PENDING</button>
+        <button class="tab-btn" data-tab="shortcut">⚡ SHORTCUT KLIK BCA</button>
+        <button class="tab-btn" data-tab="failedv2">🆚 QRIS FAILED V.2</button>
+        <button class="tab-btn" data-tab="shortcutbca">🏦 SHORTCUT MY BCA</button>
+        <button class="tab-btn" data-tab="danacancel">❌ DANA CANCEL</button>
+        <button class="tab-btn" data-tab="qristowd">💳 QRIS TO WD</button>
+        <button class="tab-btn" data-tab="shortcutfollowup">📋 SHORTCUT FOLLOW UP</button>
+        <button class="tab-btn" data-tab="shortcutfailedxpay">❌ SHORTCUT FAILED XPAY</button>
+        <button class="tab-btn" data-tab="shortcutpendingxpay">⏳ SHORTCUT PENDING XPAY</button>
+    </div>
+
+    <div class="tab-header" id="tabHeader">
+        <h1 id="headerTitle">✅ ACCEPT WITHDRAW</h1>
+        <div class="subtitle" id="headerSubtitle">tahamtoretto</div>
+    </div>
+
+    <div class="input-section">
+        <div class="section-header">
+            <div class="section-title">📥 DROP HERE</div>
+            <button class="btn" id="clearInputBtn">🗑️ CLEAR</button>
+        </div>
+        <textarea id="inputData" rows="10" placeholder="Tempel data di sini..."></textarea>
+    </div>
+
+    <div class="output-section">
+        <div class="section-header">
+            <div class="section-title">📤 TAKE IT</div>
+            <button class="btn btn-success" id="copyOutputBtn">📋 COPY</button>
+        </div>
+        <div class="output-table-wrapper">
+            <table class="output-table" id="outputTable">
+                <thead id="outputTableHead"></thead>
+                <tbody id="outputTableBody"></tbody>
+            </table>
+        </div>
+        <div class="stats" id="statsPanel">📊 MENUNGGU DATA...</div>
+    </div>
+</div>
+
+<script>
+    let currentTab = 'legacy';
+    
+    let tabData = {
+        legacy: '',
+        failed: '',
+        pending: '',
+        shortcut: '',
+        failedv2: '',
+        shortcutbca: '',
+        danacancel: '',
+        qristowd: '',
+        shortcutfollowup: '',
+        shortcutfailedxpay: '',
+        shortcutpendingxpay: ''
+    };
+
+    const tabWallpapers = {
+        legacy: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        failed: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        pending: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        shortcut: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        failedv2: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        shortcutbca: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        danacancel: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        qristowd: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        shortcutfollowup: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        shortcutfailedxpay: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")',
+        shortcutpendingxpay: 'url("https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/15ac6f27b1ddd951289015a37c0cc8de/background-web-nanastoto-new.jpg")'
+    };
+
+    const tabConfig = {
+        legacy: { title: '✅ ACCEPT WITHDRAW', subtitle: 'tahamtoretto' },
+        failed: { title: '🆚 QRIS FAILED', subtitle: 'tahamtoretto' },
+        pending: { title: '⏳ QRIS PENDING', subtitle: 'tahamtoretto' },
+        shortcut: { title: '⚡ SHORTCUT KLIK BCA', subtitle: 'tahamtoretto' },
+        failedv2: { title: '🆚 QRIS FAILED V.2', subtitle: 'tahamtoretto' },
+        shortcutbca: { title: '🏦 SHORTCUT MY BCA', subtitle: 'tahamtoretto' },
+        danacancel: { title: '❌ DANA CANCEL', subtitle: 'tahamtoretto - Data Cancel/Expired' },
+        qristowd: { title: '💳 QRIS TO WD', subtitle: 'tahamtoretto - QRIS to Withdraw' },
+        shortcutfollowup: { title: '📋 SHORTCUT FOLLOW UP', subtitle: 'tahamtoretto - Follow Up Rekening' },
+        shortcutfailedxpay: { title: '❌ SHORTCUT FAILED XPAY', subtitle: 'tahamtoretto - Failed XPay' },
+        shortcutpendingxpay: { title: '⏳ SHORTCUT PENDING XPAY', subtitle: 'tahamtoretto - Pending XPay' }
+    };
+
+    // ==================== FUNGSI PARSING ====================
+    function cleanNominalToPlainNumber(raw) {
+        if (!raw) return 0;
+        let cleaned = String(raw).replace(/\./g, '').replace(/,/g, '');
+        let match = cleaned.match(/\d+/);
+        let num = match ? parseInt(match[0], 10) : 0;
+        return isNaN(num) ? 0 : num;
+    }
+
+    // ========== FUNGSI PARSER SHORTCUT KLIK BCA ==========
+    function parseShortcutFormat(lines) {
+        let results = [];
+        let i = 0;
+        
+        while (i < lines.length) {
+            let line = lines[i].trim();
+            
+            if (line === 'PEND') {
+                let nextLine = i + 1 < lines.length ? lines[i + 1].trim() : '';
+                if (nextLine.includes('TRSF E-BANKING CR') || nextLine.includes('TRSF E-BANKING DB')) {
+                    let crdb = 'cr';
+                    if (nextLine.includes('DB')) crdb = 'db';
+                    
+                    let nama = i + 4 < lines.length ? lines[i + 4].trim() : '';
+                    let nominalRaw = i + 6 < lines.length ? lines[i + 6].trim() : '';
+                    let nominalFormatted = nominalRaw.replace(/\.00$/, '');
+                    let nominalNumber = cleanNominalToPlainNumber(nominalRaw);
+                    
+                    if (nama && nominalNumber > 0) {
+                        results.push({ 
+                            crdb: crdb, 
+                            nama: nama, 
+                            nominalNumber: nominalNumber,
+                            nominalFormatted: nominalFormatted
+                        });
+                    }
+                    i += 9;
+                    continue;
+                }
+            }
+            i++;
+        }
+        return results;
+    }
+
+    // ========== FUNGSI PARSER SHORTCUT MY BCA (DIPERBAIKI) ==========
+    function parseShortcutBCAFormat(lines) {
+        let results = [];
+        
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+            if (!line) continue;
+            
+            // Deteksi pola: "TRSF E-BANKING DB - 2408/FTSCY/WS95271 17300000.00 AHMAD RIVALDI"
+            let match = line.match(/TRSF E-BANKING (CR|DB)\s*-\s*[^\s]+\s+([\d,.]+)\s+(.+?)(?:\t|$)/);
+            if (match) {
+                let crdb = match[1].toLowerCase(); // "cr" atau "db"
+                let nominalRaw = match[2]; // "17300000.00" atau "50,000.00"
+                let nama = match[3].trim(); // "AHMAD RIVALDI"
+                
+                // Bersihkan nama dari IDR dan angka di belakang
+                nama = nama.replace(/IDR\s+[\d,.]+.*$/, '').trim();
+                
+                // Ambil nominal dari IDR jika ada (lebih akurat)
+                let idrMatch = line.match(/IDR\s+([\d,.]+)/);
+                if (idrMatch) {
+                    nominalRaw = idrMatch[1];
+                }
+                
+                let nominalFormatted = nominalRaw.replace(/\.00$/, '');
+                let nominalNumber = cleanNominalToPlainNumber(nominalRaw);
+                
+                if (nama && nominalNumber > 0) {
+                    results.push({ 
+                        crdb: crdb, 
+                        nama: nama, 
+                        nominalNumber: nominalNumber,
+                        nominalFormatted: nominalFormatted
+                    });
+                }
+                continue;
+            }
+            
+            // Fallback: coba pola lain jika format berbeda
+            let fallbackMatch = line.match(/(CR|DB)\s*-\s*[^\s]+\s+([\d,.]+)\s+([A-Za-z\s]+)/i);
+            if (fallbackMatch) {
+                let crdb = fallbackMatch[1].toLowerCase();
+                let nominalRaw = fallbackMatch[2];
+                let nama = fallbackMatch[3].trim();
+                
+                let idrMatch = line.match(/IDR\s+([\d,.]+)/);
+                if (idrMatch) {
+                    nominalRaw = idrMatch[1];
+                }
+                
+                let nominalFormatted = nominalRaw.replace(/\.00$/, '');
+                let nominalNumber = cleanNominalToPlainNumber(nominalRaw);
+                
+                if (nama && nominalNumber > 0) {
+                    results.push({ 
+                        crdb: crdb, 
+                        nama: nama, 
+                        nominalNumber: nominalNumber,
+                        nominalFormatted: nominalFormatted
+                    });
+                }
+            }
+        }
+        
+        return results;
+    }
+
+    function parseFailedV2Format(text) {
+        let results = [];
+        let refNoMatch = text.match(/Reference No\.\s+([^\n]+)/);
+        let refNo = refNoMatch ? refNoMatch[1].trim() : '';
+        let statusMatch = text.match(/Status\s+([^\n]+)/);
+        let status = statusMatch ? statusMatch[1].trim() : '';
+        if (status !== 'failed') return results;
+        let amountMatch = text.match(/Amount\s+Rp([\d,]+)/);
+        let nominalRaw = amountMatch ? amountMatch[1] : '';
+        let nominalNumber = nominalRaw ? -parseInt(cleanNominalToPlainNumber(nominalRaw)) : 0;
+        let bankMatch = text.match(/Bank\s+([^\n]+)/);
+        let bank = bankMatch ? bankMatch[1].trim() : '';
+        let accNumMatch = text.match(/Account Number\s+([^\n]+)/);
+        let accountNumber = accNumMatch ? accNumMatch[1].trim() : '';
+        let namaMatch = text.match(/Account Holder Name\s+([^\n]+)/);
+        let nama = namaMatch ? namaMatch[1].trim() : '';
+        let remarkMatch = text.match(/Remark\s+([^\n]+)/);
+        let remark = remarkMatch ? remarkMatch[1].trim() : '';
+        let remarkFirst = remark.split('||')[0] || '';
+        if (bank && refNo && accountNumber) {
+            results.push({
+                bank, remark: remarkFirst, refNo, norek: accountNumber, nama,
+                nominalNumber, nominalPreview: `(${Math.abs(nominalNumber).toLocaleString('id-ID')})`
+            });
+        }
+        return results;
+    }
+
+    function isFailedV2Format(text) {
+        return text.includes('Reference No.') && text.includes('Transaction Detail:') && text.includes('Status\tfailed');
+    }
+
+    function parseWithdrawFormat(lines) {
+        if (lines.length < 4) return null;
+        let line1 = lines[0]?.trim() || '';
+        let userId = line1.split(/\t/).pop() || line1;
+        let line2 = lines[1]?.trim() || '';
+        let nominalRaw = '';
+        let parts2 = line2.split(/\t/);
+        if (parts2.length >= 3) nominalRaw = parts2[2];
+        else { let match = line2.match(/Withdraw.*?\t(\d+[\d,]*)/); if (match) nominalRaw = match[1]; }
+        let line4 = lines[3]?.trim() || '';
+        let bankParts = line4.split(',').map(p => p.trim());
+        let bank = (bankParts[0] || '').toUpperCase();
+        let norek = bankParts[1] || '';
+        let nama = bankParts[2] || '';
+        if (bank === 'IANDIRI') bank = 'MANDIRI';
+        if (bank === 'LINK AJA') bank = 'LINKAJA';
+        let nominalNumber = cleanNominalToPlainNumber(nominalRaw);
+        return {
+            bank: bank, 
+            norek: norek, 
+            userId, 
+            nama,
+            nominalPreview: nominalNumber.toLocaleString('id-ID'),
+            nominalNumber: nominalNumber
+        };
+    }
+
+    function parseFailedFormat(line) {
+        let parts = line.split('\t');
+        if (parts.length < 8) return null;
+        let userId = parts[3]?.trim() || '';
+        let bankRaw = parts[4]?.trim() || '';
+        let norek = parts[5]?.trim() || '';
+        let nama = parts[6]?.trim() || '';
+        let nominalRaw = parts[7]?.trim() || '';
+        if (bankRaw.toLowerCase().startsWith('bank ')) bankRaw = bankRaw.substring(5).trim();
+        bankRaw = bankRaw.toUpperCase();
+        if (bankRaw === 'LINK AJA') bankRaw = 'LINKAJA';
+        let nominalNumber = parseInt(cleanNominalToPlainNumber(nominalRaw)) || 0;
+        return {
+            bank: bankRaw, 
+            norek: norek, 
+            userId, 
+            nama,
+            nominalPreview: `(${nominalNumber.toLocaleString('id-ID')})`,
+            nominalNumber: -nominalNumber
+        };
+    }
+
+    function parsePendingFormat(line) {
+        let parts = line.split('\t');
+        if (parts.length < 8) return null;
+        let tanggal = parts[0]?.trim() || '';
+        let userId = parts[3]?.trim() || '';
+        let nominal1Raw = parts[7]?.trim() || '';
+        let nominal2Raw = parts[8]?.trim() || '';
+        let nominal1Number = parseInt(cleanNominalToPlainNumber(nominal1Raw)) || 0;
+        let nominal2Number = parseInt(cleanNominalToPlainNumber(nominal2Raw)) || 0;
+        return {
+            tanggal, 
+            userId,
+            nominal1Preview: nominal1Number.toLocaleString('id-ID'), 
+            nominal1Number,
+            nominal2Preview: nominal2Number.toLocaleString('id-ID'), 
+            nominal2Number
+        };
+    }
+
+    function parseNominalDanaCancelToNumber(rawNominal) {
+        if (!rawNominal) return 0;
+        let cleaned = String(rawNominal).replace(/Rp\s*/gi, '').trim();
+        let numberValue = parseInt(cleaned.replace(/\./g, '').replace(/,/g, ''), 10);
+        if (isNaN(numberValue)) numberValue = 0;
+        return numberValue;
+    }
+
+    function extractSenderName(text) {
+        if (!text) return '';
+        let danaMatch = text.match(/telah diterima dari\s+([A-Za-z\s]+?)(?:\s+with|$|\n)/i);
+        if (danaMatch) return danaMatch[1].trim();
+        let danaMatch2 = text.match(/dari\s+([A-Za-z\s]+?)(?:\s+dengan|$|\n|💰)/i);
+        if (danaMatch2 && danaMatch2[1].length < 50) return danaMatch2[1].trim();
+        let bcaMatch = text.match(/TRANSFER DR\s+\d+\s+([A-Za-z\s]+?)(?:\s+PR|\s+\d|$)/i);
+        if (bcaMatch) return bcaMatch[1].trim();
+        let bcaMatch2 = text.match(/CR\s+TRANSFER\s+DR\s+\d+\s+([A-Za-z\s]+?)(?:\s+PR|\s+\d|$)/i);
+        if (bcaMatch2) return bcaMatch2[1].trim();
+        let briMatch = text.match(/Transfer dari\s+([^\n]+?)(?:\s+via|\s+waiting|$)/i);
+        if (briMatch) return briMatch[1].trim();
+        if (text.length < 50 && !text.includes('via') && !text.includes('TRSF') && !text.includes('BI-FAST')) return text.trim();
+        return '';
+    }
+
+    function parseDanaCancelFormat(raw) {
+        let results = [];
+        let lines = raw.split(/\r?\n/);
+        let i = 0;
+        while (i < lines.length) {
+            let line = lines[i].trim();
+            let recordMatch = line.match(/^(\d+)$/);
+            if (recordMatch && i + 12 < lines.length) {
+                let line2 = lines[i+2]?.trim() || '';
+                let line5 = lines[i+5]?.trim() || '';
+                let line7 = lines[i+7]?.trim() || '';
+                let line11 = lines[i+11]?.trim() || '';
+                let depoInfo = line2;
+                let nominalRaw = '';
+                if (line7 && line7.includes('Rp')) nominalRaw = line7.replace('Rp', '').trim();
+                else if (line5) nominalRaw = line5;
+                let nominalValue = parseNominalDanaCancelToNumber(nominalRaw);
+                let senderName = extractSenderName(line11);
+                if (senderName && nominalValue > 0 && depoInfo) {
+                    results.push({ senderName: senderName, nominal: nominalValue, depoInfo: depoInfo });
+                }
+                i += 14;
+                continue;
+            }
+            let quotePattern = /(\d+)\t([^\n]+)\n"([^"]+)"\t"([^"]+)"\t"([^"]+)"\t"([^"]+)"/;
+            let match = raw.substring(i).match(quotePattern);
+            if (match && match.index === 0) {
+                let depoInfo = match[2].trim();
+                let col4 = match[4];
+                let col6 = match[6];
+                let nominalLines = col4.split('\n');
+                let nominalRaw = nominalLines[0]?.trim() || '';
+                let nominalValue = parseNominalDanaCancelToNumber(nominalRaw);
+                let senderName = extractSenderName(col6);
+                if (senderName && nominalValue > 0) {
+                    results.push({ senderName: senderName, nominal: nominalValue, depoInfo: depoInfo });
+                }
+                i += match[0].length;
+                continue;
+            }
+            i++;
+        }
+        return results;
+    }
+
+    function parseQRISTOWDFormat(lines) {
+        let results = [];
+        for (let line of lines) {
+            line = line.trim();
+            if (!line) continue;
+            let parts = line.split('\t');
+            if (parts.length < 7) continue;
+            let bank = parts[0]?.trim() || '';
+            let userId = parts[1]?.trim() || '';
+            let norek = parts[3]?.trim() || '';
+            let nama = parts[4]?.trim() || '';
+            let nominalRaw = parts[6]?.trim() || '';
+            if (bank) bank = 'QRIS - ' + bank;
+            let nominalClean = nominalRaw.replace(/[()]/g, '').replace(/,/g, '');
+            let nominalNumber = parseInt(nominalClean) || 0;
+            let nominalPositive = Math.abs(nominalNumber);
+            if (bank && norek && userId && nama && nominalPositive > 0) {
+                results.push({
+                    bank: bank,
+                    norek: norek,
+                    userId: userId,
+                    nama: nama,
+                    nominalNumber: nominalPositive,
+                    nominalPreview: nominalPositive.toLocaleString('id-ID')
+                });
+            }
+        }
+        return results;
+    }
+
+    function parseShortcutFollowUp(lines) {
+        let results = [];
+        for (let line of lines) {
+            line = line.trim();
+            if (!line) continue;
+            let parts = line.split('\t');
+            if (parts.length < 4) continue;
+            let nama = parts[0]?.trim() || '';
+            let norek = parts[1]?.trim() || '';
+            let keterangan = parts[2]?.trim() || '';
+            let saldoRaw = parts[3]?.trim() || '';
+            let jenisBank = parts[4]?.trim() || '';
+            let saldoClean = saldoRaw.replace(/Rp/gi, '').replace(/\./g, '').replace(/,/g, '');
+            let saldoNumber = parseInt(saldoClean) || 0;
+            if (nama && norek) {
+                results.push({
+                    nama: nama,
+                    norek: norek,
+                    keterangan: keterangan,
+                    saldoRaw: saldoRaw,
+                    saldoNumber: saldoNumber,
+                    jenisBank: jenisBank
+                });
+            }
+        }
+        return results;
+    }
+
+    function parseShortcutFailedXPay(lines) {
+        let results = [];
+        let i = 0;
+        while (i < lines.length) {
+            let line = lines[i].trim();
+            let numberMatch = line.match(/^(\d+)\.$/);
+            if (numberMatch && i + 12 < lines.length) {
+                let nominalRaw = lines[i+2]?.trim() || '';
+                let bank = lines[i+4]?.trim() || '';
+                let norek1 = lines[i+5]?.trim() || '';
+                let norek2 = lines[i+6]?.trim() || '';
+                let nama = lines[i+7]?.trim() || '';
+                let litId = lines[i+8]?.trim() || '';
+                let rekening = norek1 || norek2 || '';
+                let nominalClean = nominalRaw.replace(/\./g, '').replace(/,/g, '');
+                let nominalNumber = parseInt(nominalClean) || 0;
+                let nominalFormatted = -nominalNumber;
+                if (bank && litId && rekening && nama) {
+                    results.push({
+                        bank: bank,
+                        username: '',
+                        litId: litId,
+                        norek: rekening,
+                        nama: nama,
+                        nominalNumber: nominalFormatted,
+                        nominalPreview: nominalFormatted
+                    });
+                }
+                i += 13;
+                continue;
+            }
+            i++;
+        }
+        return results;
+    }
+
+    function parseShortcutPendingXPay(lines) {
+        let results = [];
+        let i = 0;
+        while (i < lines.length) {
+            let line = lines[i].trim();
+            let numberMatch = line.match(/^(\d+)\.$/);
+            if (numberMatch && i + 8 < lines.length) {
+                let nominalRaw = lines[i+2]?.trim() || '';
+                let litId = lines[i+6]?.trim() || '';
+                let timestamp = lines[i+8]?.trim() || '';
+                let formattedDate = timestamp.replace(/-/g, '/');
+                let nominalClean = nominalRaw.replace(/\./g, '').replace(/,/g, '');
+                let nominalNumber = parseInt(nominalClean) || 0;
+                if (litId && timestamp) {
+                    results.push({
+                        tanggal: formattedDate,
+                        litId: litId,
+                        nominalNumber: nominalNumber
+                    });
+                }
+                i += 9;
+                continue;
+            }
+            i++;
+        }
+        return results;
+    }
+
+    // ========== PARSER UTAMA ==========
+    function parseDataForTab(raw, tabId) {
+        let lines = raw.split(/\r?\n/);
+        
+        if (tabId === 'shortcutbca') {
+            return parseShortcutBCAFormat(lines);
+        }
+        
+        if (tabId === 'failedv2' && isFailedV2Format(raw)) {
+            return parseFailedV2Format(raw);
+        }
+        
+        if (tabId === 'shortcut') {
+            let isShortcut = false;
+            for (let i = 0; i < Math.min(lines.length, 10); i++) {
+                let line = lines[i].trim();
+                if (line === 'PEND' && i+1 < lines.length && lines[i+1].includes('TRSF E-BANKING')) {
+                    isShortcut = true;
+                    break;
+                }
+            }
+            if (isShortcut) return parseShortcutFormat(lines);
+            return [];
+        }
+        
+        if (tabId === 'danacancel') {
+            return parseDanaCancelFormat(raw);
+        }
+        
+        if (tabId === 'qristowd') {
+            return parseQRISTOWDFormat(lines);
+        }
+        
+        if (tabId === 'shortcutfollowup') {
+            return parseShortcutFollowUp(lines);
+        }
+        
+        if (tabId === 'shortcutfailedxpay') {
+            return parseShortcutFailedXPay(lines);
+        }
+        
+        if (tabId === 'shortcutpendingxpay') {
+            return parseShortcutPendingXPay(lines);
+        }
+        
+        let results = [];
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+            if (!line) continue;
+            if (line.includes('pending') && tabId === 'pending') {
+                let data = parsePendingFormat(line);
+                if (data) results.push(data);
+            }
+            else if (line.includes('failed') && tabId === 'failed') {
+                let data = parseFailedFormat(line);
+                if (data) results.push(data);
+            }
+            else if (line.includes('Withdraw') && tabId === 'legacy') {
+                let prevLine = i > 0 ? lines[i-1].trim() : '';
+                let nextLine1 = i+1 < lines.length ? lines[i+1].trim() : '';
+                let nextLine2 = i+2 < lines.length ? lines[i+2].trim() : '';
+                let data = parseWithdrawFormat([prevLine, line, nextLine1, nextLine2]);
+                if (data) results.push(data);
+                i += 2;
+            }
+        }
+        
+        if (tabId === 'failed' || tabId === 'pending') {
+            results.reverse();
+        }
+        
+        return results;
+    }
+
+    // ========== OUTPUT TEXT ==========
+    function getOutputText(data) {
+        if (!data.length) return '';
+        if (currentTab === 'legacy') {
+            return data.map(d => `${d.bank}\t${d.norek}\t${d.userId}\t${d.nama}\t${d.nominalNumber}`).join('\n');
+        } else if (currentTab === 'failed') {
+            return data.map(d => `${d.bank}\t\t${d.userId}\t${d.norek}\t${d.nama}\t\t${d.nominalNumber}`).join('\n');
+        } else if (currentTab === 'pending') {
+            return data.map(d => `${d.tanggal}\t${d.userId}\t${d.nominal1Number}\t${d.nominal2Number}`).join('\n');
+        } else if (currentTab === 'shortcut') {
+            // REVERSE: data dibalik dari bawah ke atas
+            let reversedData = [...data].reverse();
+            return reversedData.map(d => `${d.crdb}\t${d.nama}\t${d.nominalFormatted || d.nominalNumber.toLocaleString('id-ID')}`).join('\n');
+        } else if (currentTab === 'failedv2') {
+            return data.map(d => `${d.bank}\t${d.remark}\t${d.refNo}\t${d.norek}\t${d.nama}\t\t${d.nominalNumber}`).join('\n');
+        } else if (currentTab === 'shortcutbca') {
+            // REVERSE: data dibalik dari bawah ke atas
+            let reversedData = [...data].reverse();
+            return reversedData.map(d => `${d.crdb}\t${d.nama}\t${d.nominalFormatted || d.nominalNumber.toLocaleString('id-ID')}`).join('\n');
+        } else if (currentTab === 'danacancel') {
+            return data.map(d => `${d.senderName}\t${d.nominal}\t${d.depoInfo}`).join('\n');
+        } else if (currentTab === 'qristowd') {
+            return data.map(d => `${d.bank}\t${d.norek}\t${d.userId}\t${d.nama}\t${d.nominalNumber}`).join('\n');
+        } else if (currentTab === 'shortcutfollowup') {
+            let result = 'Info : Linetogel\nPerihal : Follow Up Rekening Bank Off / Bermasalah\n\n';
+            data.forEach((d, index) => {
+                if (index === 0) {
+                    result += `Jenis Bank :\t${d.jenisBank || '-'}\n`;
+                    result += `Nama Rekening  :\t${d.nama || '-'}\n`;
+                    result += `Nomor Rekening  :\t${d.norek || '-'}\n`;
+                    result += `Saldo  Bank :\tRp ${d.saldoNumber.toLocaleString('id-ID')}\n`;
+                    result += `KETERANGAN :\t${d.keterangan || '-'}\n`;
+                } else {
+                    result += `\n`;
+                    result += `REKENING :\t${d.jenisBank || '-'}\n`;
+                    result += `NAMA REKENING :\t${d.nama || '-'}\n`;
+                    result += `NOMOR REKENING :\t${d.norek || '-'}\n`;
+                    result += `Saldo  Bank :\tRp ${d.saldoNumber.toLocaleString('id-ID')}\n`;
+                    result += `KETERANGAN :\t${d.keterangan || '-'}\n`;
+                }
+            });
+            return result;
+        } else if (currentTab === 'shortcutfailedxpay') {
+            // REVERSE: data dibalik dari bawah ke atas
+            let reversedData = [...data].reverse();
+            return reversedData.map(d => `${d.bank}\t\t${d.litId}\t${d.norek}\t${d.nama}\t\t${d.nominalNumber}`).join('\n');
+        } else if (currentTab === 'shortcutpendingxpay') {
+            let reversedData = [...data].reverse();
+            return reversedData.map(d => `${d.tanggal}\t${d.litId}\t${d.nominalNumber}\t1500`).join('\n');
+        }
+        return '';
+    }
+
+    // ========== RENDER TABEL ==========
+    function renderTable(data) {
+        let tbody = document.getElementById('outputTableBody');
+        let thead = document.getElementById('outputTableHead');
+        
+        if (!data.length) {
+            if (currentTab === 'legacy') {
+                thead.innerHTML = `<tr><th>#</th><th>BANK</th><th>NOMOR REKENING</th><th>USER ID</th><th>NAMA</th><th>NOMINAL</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'failed') {
+                thead.innerHTML = `<tr><th>#</th><th>BANK (A)</th><th>KOSONG (B)</th><th>REFERENCE NO (C)</th><th>REKENING (D)</th><th>NAMA (E)</th><th>KOSONG (F)</th><th>NOMINAL (G)</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'pending') {
+                thead.innerHTML = `<tr><th>#</th><th>TANGGAL</th><th>REFERENCE NO</th><th>NOMINAL PERTAMA</th><th>NOMINAL KEDUA</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'shortcut') {
+                thead.innerHTML = `<tr><th>#</th><th>CR/DB</th><th>NAMA</th><th>NOMINAL</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'failedv2') {
+                thead.innerHTML = `<tr><th>#</th><th>BANK</th><th>REMARK</th><th>REFERENCE NO</th><th>REKENING</th><th>NAMA</th><th>KOSONG</th><th>NOMINAL</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'shortcutbca') {
+                thead.innerHTML = `<tr><th>#</th><th>CR/DB</th><th>NAMA</th><th>NOMINAL</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'danacancel') {
+                thead.innerHTML = `<tr><th>#</th><th>PENGIRIM</th><th>NOMINAL</th><th>DEPOSIT INFO</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'qristowd') {
+                thead.innerHTML = `<tr><th>#</th><th>BANK</th><th>REKENING</th><th>USER ID</th><th>NAMA</th><th>NOMINAL</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'shortcutfollowup') {
+                thead.innerHTML = `<tr><th>#</th><th>NAMA</th><th>NOMOR REKENING</th><th>JENIS BANK</th><th>SALDO</th><th>KETERANGAN</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'shortcutfailedxpay') {
+                thead.innerHTML = `<tr><th>#</th><th>BANK</th><th>KOSONG</th><th>LIT ID</th><th>REKENING</th><th>NAMA</th><th>KOSONG</th><th>NOMINAL</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            } else if (currentTab === 'shortcutpendingxpay') {
+                thead.innerHTML = `<tr><th>#</th><th>TANGGAL</th><th>LIT ID</th><th>NOMINAL</th><th>FEE</th></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; opacity:0.5;">— Belum ada data —</td></tr>`;
+            }
+            return;
+        }
+        
+        if (currentTab === 'legacy') {
+            thead.innerHTML = `<tr><th>#</th><th>BANK</th><th>NOMOR REKENING</th><th>USER ID</th><th>NAMA</th><th>NOMINAL</th></tr>`;
+            tbody.innerHTML = data.map((d,i) => `<tr><td style="width:40px">${i+1}</td><td>${escapeHtml(d.bank)}</td><td>${escapeHtml(d.norek)}</td><td>${escapeHtml(d.userId)}</td><td>${escapeHtml(d.nama)}</td><td>${escapeHtml(d.nominalPreview)}</td></tr>`).join('');
+        } else if (currentTab === 'failed') {
+            thead.innerHTML = `<tr><th>#</th><th>BANK (A)</th><th>KOSONG (B)</th><th>REFERENCE NO (C)</th><th>REKENING (D)</th><th>NAMA (E)</th><th>KOSONG (F)</th><th>NOMINAL (G)</th></tr>`;
+            tbody.innerHTML = data.map((d,i) => `<tr><td>${i+1}</td><td>${escapeHtml(d.bank)}</td><td style="opacity:0.4">—</td><td>${escapeHtml(d.userId)}</td><td>${escapeHtml(d.norek)}</td><td>${escapeHtml(d.nama)}</td><td style="opacity:0.4">—</td><td>${d.nominalNumber}</td></tr>`).join('');
+        } else if (currentTab === 'pending') {
+            thead.innerHTML = `<tr><th>#</th><th>TANGGAL</th><th>REFERENCE NO</th><th>NOMINAL PERTAMA</th><th>NOMINAL KEDUA</th></tr>`;
+            tbody.innerHTML = data.map((d,i) => `<tr><td>${i+1}</td><td>${escapeHtml(d.tanggal)}</td><td>${escapeHtml(d.userId)}</td><td>${escapeHtml(d.nominal1Preview)}</td><td>${escapeHtml(d.nominal2Preview)}</td></tr>`).join('');
+        } else if (currentTab === 'shortcut') {
+            // REVERSE: tabel menampilkan data dari bawah ke atas
+            let reversedData = [...data].reverse();
+            thead.innerHTML = `<tr><th>#</th><th>CR/DB</th><th>NAMA</th><th>NOMINAL</th></tr>`;
+            tbody.innerHTML = reversedData.map((d,i) => `<tr class="${d.crdb === 'db' ? 'db-row' : ''}"><td>${i+1}</td><td>${escapeHtml(d.crdb)}</td><td>${escapeHtml(d.nama)}</td><td>${d.nominalFormatted || d.nominalNumber.toLocaleString('id-ID')}</td></tr>`).join('');
+        } else if (currentTab === 'failedv2') {
+            thead.innerHTML = `<tr><th>#</th><th>BANK</th><th>REMARK</th><th>REFERENCE NO</th><th>REKENING</th><th>NAMA</th><th>KOSONG</th><th>NOMINAL</th></tr>`;
+            tbody.innerHTML = data.map((d,i) => `<tr><td>${i+1}</td><td>${escapeHtml(d.bank)}</td><td>${escapeHtml(d.remark)}</td><td>${escapeHtml(d.refNo)}</td><td>${escapeHtml(d.norek)}</td><td>${escapeHtml(d.nama)}</td><td style="opacity:0.4">—</td><td>${escapeHtml(d.nominalPreview)}</td></tr>`).join('');
+        } else if (currentTab === 'shortcutbca') {
+            // REVERSE: tabel menampilkan data dari bawah ke atas
+            let reversedData = [...data].reverse();
+            thead.innerHTML = `<tr><th>#</th><th>CR/DB</th><th>NAMA</th><th>NOMINAL</th></tr>`;
+            tbody.innerHTML = reversedData.map((d,i) => `<tr class="${d.crdb === 'db' ? 'db-row' : ''}"><td>${i+1}</td><td>${escapeHtml(d.crdb)}</td><td>${escapeHtml(d.nama)}</td><td>${d.nominalFormatted || d.nominalNumber.toLocaleString('id-ID')}</td></tr>`).join('');
+        } else if (currentTab === 'danacancel') {
+            thead.innerHTML = `<tr><th>#</th><th>PENGIRIM</th><th>NOMINAL</th><th>DEPOSIT INFO</th></tr>`;
+            tbody.innerHTML = data.map((d,i) => `<tr><td>${i+1}</td><td>${escapeHtml(d.senderName)}</td><td>${d.nominal.toLocaleString('id-ID')}</td><td>${escapeHtml(d.depoInfo)}</td></tr>`).join('');
+        } else if (currentTab === 'qristowd') {
+            thead.innerHTML = `<tr><th>#</th><th>BANK</th><th>REKENING</th><th>USER ID</th><th>NAMA</th><th>NOMINAL</th></tr>`;
+            tbody.innerHTML = data.map((d,i) => `<tr><td>${i+1}</td><td>${escapeHtml(d.bank)}</td><td>${escapeHtml(d.norek)}</td><td>${escapeHtml(d.userId)}</td><td>${escapeHtml(d.nama)}</td><td>${escapeHtml(d.nominalPreview)}</td></tr>`).join('');
+        } else if (currentTab === 'shortcutfollowup') {
+            thead.innerHTML = `<tr><th>#</th><th>NAMA</th><th>NOMOR REKENING</th><th>JENIS BANK</th><th>SALDO</th><th>KETERANGAN</th></tr>`;
+            tbody.innerHTML = data.map((d,i) => `<tr><td>${i+1}</td><td>${escapeHtml(d.nama)}</td><td>${escapeHtml(d.norek)}</td><td>${escapeHtml(d.jenisBank || '-')}</td><td>Rp ${d.saldoNumber.toLocaleString('id-ID')}</td><td>${escapeHtml(d.keterangan || '-')}</td></tr>`).join('');
+        } else if (currentTab === 'shortcutfailedxpay') {
+            // REVERSE: tabel menampilkan data dari bawah ke atas
+            let reversedData = [...data].reverse();
+            thead.innerHTML = `<tr><th>#</th><th>BANK</th><th>KOSONG</th><th>LIT ID</th><th>REKENING</th><th>NAMA</th><th>KOSONG</th><th>NOMINAL</th></tr>`;
+            tbody.innerHTML = reversedData.map((d,i) => `<tr><td>${i+1}</td><td>${escapeHtml(d.bank)}</td><td style="opacity:0.4">—</td><td>${escapeHtml(d.litId)}</td><td>${escapeHtml(d.norek)}</td><td>${escapeHtml(d.nama)}</td><td style="opacity:0.4">—</td><td>${d.nominalNumber}</td></tr>`).join('');
+        } else if (currentTab === 'shortcutpendingxpay') {
+            let reversedData = [...data].reverse();
+            thead.innerHTML = `<tr><th>#</th><th>TANGGAL</th><th>LIT ID</th><th>NOMINAL</th><th>FEE</th></tr>`;
+            tbody.innerHTML = reversedData.map((d,i) => `<tr><td>${i+1}</td><td>${escapeHtml(d.tanggal)}</td><td>${escapeHtml(d.litId)}</td><td>${d.nominalNumber}</td><td>1500</td></tr>`).join('');
+        }
+    }
+
+    // ========== CORE FUNCTIONS ==========
+    function updateAll() {
+        let raw = tabData[currentTab] || '';
+        let data = parseDataForTab(raw, currentTab);
+        renderTable(data);
+        document.getElementById('statsPanel').innerHTML = `📊 TOTAL: ${data.length} TRANSAKSI | ${tabConfig[currentTab].title}`;
+    }
+
+    async function copyOutput() {
+        let raw = tabData[currentTab] || '';
+        if (!raw.trim()) { alert('⚠️ TIDAK ADA DATA!'); return; }
+        let data = parseDataForTab(raw, currentTab);
+        let text = getOutputText(data);
+        if (!text) { alert('⚠️ TIDAK ADA DATA YANG BISA DI COPY!'); return; }
+        await navigator.clipboard.writeText(text);
+        let notif = document.createElement('div');
+        notif.className = 'copy-success';
+        notif.innerText = `✓ COPY ${tabConfig[currentTab].title}`;
+        document.body.appendChild(notif);
+        setTimeout(() => notif.remove(), 2000);
+    }
+
+    function escapeHtml(str) { return String(str || '').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
+
+    function saveCurrentInput() {
+        let textarea = document.getElementById('inputData');
+        tabData[currentTab] = textarea.value;
+    }
+
+    function loadTabData() {
+        let textarea = document.getElementById('inputData');
+        textarea.value = tabData[currentTab] || '';
+        updateAll();
+    }
+
+    function switchTab(tabId) {
+        saveCurrentInput();
+        currentTab = tabId;
+        const config = tabConfig[tabId];
+        document.getElementById('headerTitle').innerHTML = config.title;
+        document.getElementById('headerSubtitle').innerHTML = config.subtitle;
+        document.body.style.backgroundImage = tabWallpapers[tabId];
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center center";
+        document.body.style.backgroundAttachment = "fixed";
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tabId);
+        });
+        loadTabData();
+    }
+
+    // ========== EVENT LISTENERS ==========
+    document.getElementById('inputData').addEventListener('input', () => {
+        saveCurrentInput();
+        updateAll();
+    });
+    
+    document.getElementById('clearInputBtn').addEventListener('click', () => {
+        document.getElementById('inputData').value = '';
+        saveCurrentInput();
+        updateAll();
+    });
+    
+    document.getElementById('copyOutputBtn').addEventListener('click', copyOutput);
+    
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    // ========== INISIALISASI ==========
+    document.body.style.backgroundImage = tabWallpapers.legacy;
+    document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center center";
+    document.body.style.backgroundAttachment = "fixed";
+    
+    loadTabData();
+</script>
+</body>
+</html>
