@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Izin Staff NANASTOTO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050816;
+      --panel:rgba(12,18,38,.78);
+      --panel2:rgba(18,26,51,.68);
+      --border:rgba(255,255,255,.10);
+      --text:#f7f9ff;
+      --muted:#8f9bb8;
+      --cyan:#2de2e6;
+      --blue:#4f7cff;
+      --green:#35e39b;
+      --yellow:#ffcc66;
+      --red:#ff5f75;
+      --shadow:0 24px 80px rgba(0,0,0,.48);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:Inter,system-ui,sans-serif;color:var(--text)}
+    body{
+      min-height:100vh;background:
+      radial-gradient(circle at 12% 12%,rgba(79,124,255,.20),transparent 30%),
+      radial-gradient(circle at 88% 20%,rgba(45,226,230,.16),transparent 28%),
+      linear-gradient(135deg,#050816,#090f24 55%,#060913);
+      overflow-x:hidden;
+    }
+    #bg{
+      position:fixed;inset:0;width:100%;height:100%;object-fit:cover;
+      z-index:-3;opacity:0;transition:opacity .7s ease
+    }
+    #bg.active{opacity:1}
+    .shade{position:fixed;inset:0;z-index:-2;background:linear-gradient(135deg,rgba(3,6,18,.86),rgba(5,10,24,.54),rgba(3,6,18,.88))}
+    .orb{position:fixed;border-radius:999px;filter:blur(55px);opacity:.3;z-index:-1;pointer-events:none}
+    .orb.a{width:280px;height:280px;background:#3f66ff;top:-90px;left:-70px}
+    .orb.b{width:240px;height:240px;background:#14d7c7;right:-80px;bottom:5%}
+    .shell{width:min(1120px,calc(100% - 28px));margin:0 auto;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 0}
+    .glass{
+      background:linear-gradient(145deg,rgba(18,27,55,.82),rgba(8,13,30,.72));
+      border:1px solid var(--border);box-shadow:var(--shadow);
+      backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)
+    }
+    .login{width:min(440px,100%);padding:34px;border-radius:30px;position:relative;overflow:hidden}
+    .login:before,.dashboard:before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+    .brand{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+    .brandIcon{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--blue));box-shadow:0 10px 34px rgba(79,124,255,.35);font-size:25px}
+    .brand h1{margin:0;font-size:21px}.brand p{margin:5px 0 0;color:var(--muted);font-size:12px}
+    .eyebrow{font-size:12px;color:var(--cyan);font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .title{font-size:30px;line-height:1.1;margin:11px 0 8px}.sub{color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:26px}
+    .field{margin:14px 0}.field label{display:block;font-size:12px;color:#b6c0dc;margin:0 0 8px;font-weight:700}
+    .inputWrap{position:relative}.inputWrap span{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.72}
+    input{width:100%;height:52px;border-radius:15px;border:1px solid var(--border);outline:none;background:rgba(1,5,16,.54);color:white;padding:0 46px;font:inherit;transition:.2s}
+    input:focus{border-color:rgba(45,226,230,.62);box-shadow:0 0 0 4px rgba(45,226,230,.08)}
+    .eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#abb6d2;width:auto;padding:8px;cursor:pointer}
+    .btn{width:100%;height:52px;border:0;border-radius:15px;color:white;font-weight:800;font:inherit;cursor:pointer;transition:.2s;display:flex;gap:9px;align-items:center;justify-content:center}
+    .btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .primary{background:linear-gradient(135deg,var(--blue),#635bff 55%,var(--cyan));box-shadow:0 12px 35px rgba(79,124,255,.28)}
+    .success{background:linear-gradient(135deg,#16b879,var(--green));color:#06150e}
+    .danger{background:linear-gradient(135deg,#ff4867,#ff7656)}
+    .ghost{background:rgba(255,255,255,.06);border:1px solid var(--border)}
+    .notice{border-radius:14px;padding:12px 13px;font-size:12px;line-height:1.5;margin:14px 0;display:none}
+    .notice.error{display:block;background:rgba(255,95,117,.10);border:1px solid rgba(255,95,117,.28);color:#ffc0cb}
+    .notice.ok{display:block;background:rgba(53,227,155,.09);border:1px solid rgba(53,227,155,.25);color:#a8f7d0}
+    .small{font-size:11px;color:#75819f;text-align:center;margin-top:18px}
+    .dashboard{display:none;width:100%;border-radius:32px;padding:26px;position:relative;overflow:hidden}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
+    .user{display:flex;align-items:center;gap:13px}.avatar{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#1b2b58,#263a73);border:1px solid var(--border);font-weight:800;color:var(--cyan)}
+    .user h2{font-size:16px;margin:0 0 4px}.user p{font-size:12px;color:var(--muted);margin:0}
+    .statusPill{padding:9px 12px;border-radius:999px;background:rgba(53,227,155,.08);border:1px solid rgba(53,227,155,.22);font-size:11px;color:#aaf5d1;font-weight:700}
+    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+    .card{border-radius:23px;padding:20px;background:rgba(6,11,27,.57);border:1px solid var(--border)}
+    .hero{min-height:310px;display:flex;flex-direction:column;justify-content:space-between;background:
+      linear-gradient(145deg,rgba(79,124,255,.15),rgba(45,226,230,.05)),
+      rgba(6,11,27,.58)}
+    .clock{font-size:clamp(44px,7vw,76px);letter-spacing:-.055em;font-weight:800;margin:12px 0 2px}
+    .date{color:var(--muted);font-size:13px}
+    .timerBox{margin-top:22px;padding:16px;border-radius:18px;background:rgba(0,0,0,.20);border:1px solid var(--border)}
+    .timerRow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .timer{font-size:27px;font-weight:800}.timerLabel{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.11em}
+    .actionGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .stat{padding:15px;border-radius:17px;background:rgba(255,255,255,.035);border:1px solid var(--border)}
+    .stat b{display:block;font-size:25px;margin-top:7px}.stat span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+    .sectionTitle{font-size:13px;font-weight:800;margin:0 0 13px}
+    .announcement{margin-top:18px;border-radius:18px;padding:14px 16px;background:rgba(255,204,102,.08);border:1px solid rgba(255,204,102,.18);color:#ffe3a6;font-size:12px;line-height:1.6}
+    .history{margin-top:18px}.historyItem{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.065)}
+    .historyItem:last-child{border-bottom:0}.historyItem b{font-size:12px}.historyItem p{margin:4px 0 0;font-size:11px;color:var(--muted)}.badge{font-size:10px;padding:6px 8px;border-radius:999px;height:max-content}
+    .badge.good{background:rgba(53,227,155,.10);color:#87f2bd}.badge.late{background:rgba(255,95,117,.10);color:#ffaaba}.badge.active{background:rgba(45,226,230,.10);color:#8cf5f7}
+    .rightStack{display:grid;gap:18px;align-content:start}
+    .footerActions{display:flex;gap:10px;margin-top:15px}.footerActions .btn{height:44px;font-size:12px}
+    .overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(1,4,12,.72);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:18px}
+    .modal{width:min(410px,100%);border-radius:24px;padding:23px}.modal h3{margin:0 0 7px}.modal p{color:var(--muted);font-size:12px;line-height:1.55}
+    .modalActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .toast{position:fixed;right:18px;bottom:18px;z-index:200;width:min(360px,calc(100% - 36px));padding:14px 16px;border-radius:16px;background:rgba(8,14,31,.94);border:1px solid var(--border);box-shadow:var(--shadow);display:none;font-size:12px;line-height:1.5}
+    .toast.show{display:block;animation:slide .25s ease}.toast.ok{border-color:rgba(53,227,155,.30)}.toast.err{border-color:rgba(255,95,117,.34)}
+    @keyframes slide{from{transform:translateY(15px);opacity:0}to{transform:none;opacity:1}}
+    @media(max-width:800px){.grid{grid-template-columns:1fr}.dashboard{padding:16px}.topbar{align-items:flex-start}.statusPill{display:none}}
+    @media(max-width:520px){.login{padding:25px 20px}.actionGrid,.stats{grid-template-columns:1fr}.clock{font-size:48px}.footerActions{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <img id="bg" alt="">
+  <div class="shade"></div><div class="orb a"></div><div class="orb b"></div>
+
+  <main class="shell">
+    <section id="loginView" class="login glass">
+      <div class="brand">
+        <div class="brandIcon">N</div>
+        <div><h1>NANASTOTO STAFF</h1><p>Internal Permission System</p></div>
+      </div>
+      <div class="eyebrow">Secure Staff Access</div>
+      <h2 class="title">Izin Keluar Staff</h2>
+      <p class="sub">Masuk menggunakan akun yang tersimpan pada sheet <b>Register</b>. Sistem akan memeriksa IP sebelum akses diberikan.</p>
+
+      <div id="loginNotice" class="notice"></div>
+
+      <form id="loginForm">
+        <div class="field">
+          <label>USERNAME</label>
+          <div class="inputWrap"><span>👤</span><input id="username" autocomplete="username" placeholder="Masukkan username" required></div>
+        </div>
+        <div class="field">
+          <label>PASSWORD</label>
+          <div class="inputWrap"><span>🔐</span><input id="password" type="password" autocomplete="current-password" placeholder="Masukkan password" required><button class="eye" type="button" id="eyeBtn">👁</button></div>
+        </div>
+        <button id="loginBtn" class="btn primary" type="submit">Masuk ke Dashboard →</button>
+      </form>
+      <div class="small">IP: <span id="ipText">membaca...</span> · Database Google Sheets</div>
+    </section>
+
+    <section id="dashboard" class="dashboard glass">
+      <div class="topbar">
+        <div class="user">
+          <div id="avatar" class="avatar">ST</div>
+          <div><h2 id="staffName">Staff</h2><p><span id="staffRole">STAFF</span> · <span id="staffUser">@user</span></p></div>
+        </div>
+        <div class="statusPill">● SYSTEM ONLINE</div>
+      </div>
+
+      <div class="grid">
+        <div class="card hero">
+          <div>
+            <div class="eyebrow">Waktu Sekarang</div>
+            <div id="clock" class="clock">00:00:00</div>
+            <div id="date" class="date">-</div>
+          </div>
+
+          <div>
+            <div class="timerBox">
+              <div class="timerRow">
+                <div><div class="timerLabel">Status izin</div><div id="sessionStatus" style="font-weight:800;margin-top:5px">Tidak ada sesi aktif</div></div>
+                <div style="text-align:right"><div class="timerLabel">Durasi</div><div id="sessionTimer" class="timer">00:00</div></div>
+              </div>
+            </div>
+
+            <div class="actionGrid">
+              <button id="startBtn" class="btn success">🚪 Izin Keluar</button>
+              <button id="endBtn" class="btn danger">↩ Kembali Masuk</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rightStack">
+          <div class="card">
+            <div class="sectionTitle">Ringkasan Hari Ini</div>
+            <div class="stats">
+              <div class="stat"><span>Terpakai</span><b id="usedToday">0</b></div>
+              <div class="stat"><span>Sisa Izin</span><b id="remaining">0</b></div>
+              <div class="stat"><span>Batas Harian</span><b id="maxDaily">4</b></div>
+              <div class="stat"><span>Maks. Menit</span><b id="maxMinutes">20</b></div>
+            </div>
+            <div id="announcement" class="announcement">Memuat pengumuman...</div>
+          </div>
+
+          <div class="card">
+            <div class="sectionTitle">Riwayat Terakhir</div>
+            <div id="history" class="history"><div style="color:var(--muted);font-size:12px">Belum ada riwayat.</div></div>
+            <div class="footerActions">
+              <button id="passwordBtn" class="btn ghost">🔑 Ganti Password</button>
+              <button id="logoutBtn" class="btn ghost">⇥ Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="passwordOverlay" class="overlay">
+    <div class="modal glass">
+      <h3>Ganti Password</h3>
+      <p>Password baru minimal 6 karakter.</p>
+      <div class="field"><label>PASSWORD LAMA</label><input id="oldPassword" type="password" style="padding:0 15px"></div>
+      <div class="field"><label>PASSWORD BARU</label><input id="newPassword" type="password" style="padding:0 15px"></div>
+      <div class="field"><label>ULANGI PASSWORD BARU</label><input id="confirmPassword" type="password" style="padding:0 15px"></div>
+      <div class="modalActions">
+        <button class="btn ghost" id="cancelPassword">Batal</button>
+        <button class="btn primary" id="savePassword">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+let clientIp = '';
+let currentUser = null;
+let dashboardData = null;
+let sessionStart = null;
+let refreshTimer = null;
+let bgList = [];
+let bgIndex = 0;
+
+function server(fn, ...args){
+  return new Promise((resolve,reject)=>{
+    google.script.run
+      .withSuccessHandler(resolve)
+      .withFailureHandler(err=>reject(new Error(err && err.message ? err.message : String(err))))
+      [fn](...args);
+  });
+}
+
+function toast(msg, ok=true){
+  const el=$('toast');
+  el.textContent=msg;
+  el.className='toast show '+(ok?'ok':'err');
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='toast',3500);
+}
+
+function setBusy(button,busy,text){
+  if(!button)return;
+  if(!button.dataset.label) button.dataset.label=button.innerHTML;
+  button.disabled=busy;
+  button.innerHTML=busy ? (text || 'Memproses...') : button.dataset.label;
+}
+
+async function discoverIp(){
+  try{
+    const r=await fetch('https://api.ipify.org?format=json',{cache:'no-store'});
+    if(!r.ok)throw new Error('IP service error');
+    const j=await r.json();
+    clientIp=j.ip||'';
+  }catch(e){
+    clientIp='';
+  }
+  $('ipText').textContent=clientIp||'tidak terbaca';
+  return clientIp;
+}
+
+function startClock(){
+  const tick=()=>{
+    const d=new Date();
+    $('clock').textContent=d.toLocaleTimeString('id-ID',{hour12:false});
+    $('date').textContent=d.toLocaleDateString('id-ID',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+    updateSessionTimer();
+  };
+  tick();setInterval(tick,1000);
+}
+
+function applyBackgrounds(list){
+  bgList=Array.isArray(list)?list.filter(Boolean):[];
+  if(!bgList.length)return;
+  const el=$('bg');
+  const show=()=>{
+    el.classList.remove('active');
+    setTimeout(()=>{
+      el.src=bgList[bgIndex%bgList.length];
+      el.onload=()=>el.classList.add('active');
+      bgIndex++;
+    },220);
+  };
+  show();
+  if(bgList.length>1)setInterval(show,30000);
+}
+
+function updateSessionTimer(){
+  if(!sessionStart){$('sessionTimer').textContent='00:00';return}
+  let sec=Math.max(0,Math.floor((Date.now()-sessionStart.getTime())/1000));
+  const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+  $('sessionTimer').textContent=(h?String(h).padStart(2,'0')+':':'')+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  const max=(dashboardData?.config?.maxMinutes||20)*60;
+  $('sessionTimer').style.color=sec>max?'var(--red)':'var(--text)';
+}
+
+function parseTodayTime(time){
+  if(!time)return null;
+  const p=time.split(':').map(Number);
+  if(p.length<2)return null;
+  const d=new Date();d.setHours(p[0],p[1],p[2]||0,0);
+  if(d>Date.now()+60000)d.setDate(d.getDate()-1);
+  return d;
+}
+
+function renderState(data){
+  dashboardData=data;
+  const u=data.user, s=data.state, c=data.config;
+  $('staffName').textContent=u.name;
+  $('staffRole').textContent=u.role;
+  $('staffUser').textContent='@'+u.username;
+  $('avatar').textContent=(u.name||'ST').split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+
+  $('usedToday').textContent=s.usedToday;
+  $('remaining').textContent=s.remaining;
+  $('maxDaily').textContent=s.maxDaily;
+  $('maxMinutes').textContent=s.maxMinutes;
+  $('announcement').textContent=c.announcement||'Gunakan izin dengan tertib.';
+
+  const active=s.activeSession;
+  if(active){
+    $('sessionStatus').textContent='Sedang izin keluar · mulai '+active.startTime;
+    $('sessionStatus').style.color='var(--green)';
+    sessionStart=parseTodayTime(active.startTime);
+    $('startBtn').disabled=true;$('endBtn').disabled=false;
+  }else{
+    $('sessionStatus').textContent='Tidak ada sesi aktif';
+    $('sessionStatus').style.color='var(--muted)';
+    sessionStart=null;
+    $('startBtn').disabled=s.remaining<=0;$('endBtn').disabled=true;
+  }
+
+  const history=s.recent||[];
+  $('history').innerHTML=history.length?history.map(r=>{
+    let badge='active',txt=r.status||'Active';
+    if(r.note==='TEPAT WAKTU'){badge='good';txt='TEPAT WAKTU'}
+    if(r.note==='LEWAT'){badge='late';txt='LEWAT'}
+    return `<div class="historyItem">
+      <div><b>${esc(r.date)} · ${esc(r.startTime||'-')} → ${esc(r.endTime||'-')}</b>
+      <p>${esc(r.duration||'Sedang berlangsung')} · ${esc(r.role||'')}</p></div>
+      <span class="badge ${badge}">${esc(txt)}</span>
+    </div>`
+  }).join(''):'<div style="color:var(--muted);font-size:12px">Belum ada riwayat.</div>';
+}
+
+function esc(v){
+  return String(v==null?'':v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+async function refreshDashboard(silent=false){
+  if(!currentUser)return;
+  try{
+    const res=await server('getDashboardData',currentUser.username,clientIp);
+    if(!res.success)throw new Error(res.message);
+    renderState(res.data);
+    if(res.data.backgrounds)applyBackgroundsOnce(res.data.backgrounds);
+  }catch(e){if(!silent)toast(e.message,false)}
+}
+
+function applyBackgroundsOnce(list){
+  if(bgList.length)return;
+  applyBackgrounds(list);
+}
+
+$('eyeBtn').onclick=()=>{
+  const p=$('password');p.type=p.type==='password'?'text':'password';
+};
+
+$('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=$('loginBtn');
+  const user=$('username').value.trim();
+  const pass=$('password').value;
+  $('loginNotice').className='notice';
+  if(!clientIp)await discoverIp();
+
+  setBusy(btn,true,'Memeriksa akses...');
+  try{
+    const res=await server('login',user,pass,clientIp);
+    if(!res.success){
+      $('loginNotice').className='notice error';
+      $('loginNotice').textContent=res.message+(res.data?.ip?' IP: '+res.data.ip:'');
+      return;
+    }
+    currentUser=res.data.user;
+    sessionStorage.setItem('nanasStaffUser',JSON.stringify(currentUser));
+    $('loginView').style.display='none';
+    $('dashboard').style.display='block';
+    renderState(res.data);
+    if(refreshTimer)clearInterval(refreshTimer);
+    refreshTimer=setInterval(()=>refreshDashboard(true),15000);
+    toast('Selamat datang, '+currentUser.name);
+  }catch(err){
+    $('loginNotice').className='notice error';
+    $('loginNotice').textContent='Tidak dapat terhubung ke server: '+err.message;
+  }finally{setBusy(btn,false)}
+});
+
+$('startBtn').onclick=async()=>{
+  const btn=$('startBtn');setBusy(btn,true,'Menyimpan...');
+  try{
+    const res=await server('startIzin',currentUser.username,clientIp);
+    toast(res.message,res.success);
+    await refreshDashboard(true);
+  }catch(e){toast(e.message,false)}
+  finally{setBusy(btn,false)}
+};
+
+$('endBtn').onclick=async()=>{
+  const btn=$('endBtn');setBusy(btn,true,'Menyimpan...');
+  try{
+    const res=await server('endIzin',currentUser.username,clientIp);
+    toast(res.message+(res.data?.duration?' · '+res.data.duration:''),res.success);
+    await refreshDashboard(true);
+  }catch(e){toast(e.message,false)}
+  finally{setBusy(btn,false)}
+};
+
+$('logoutBtn').onclick=()=>{
+  currentUser=null;dashboardData=null;sessionStart=null;
+  sessionStorage.removeItem('nanasStaffUser');
+  if(refreshTimer)clearInterval(refreshTimer);
+  $('dashboard').style.display='none';$('loginView').style.display='block';
+  $('password').value='';toast('Logout berhasil');
+};
+
+$('passwordBtn').onclick=()=>{$('passwordOverlay').style.display='flex'};
+$('cancelPassword').onclick=()=>{$('passwordOverlay').style.display='none'};
+
+$('savePassword').onclick=async()=>{
+  const oldP=$('oldPassword').value,newP=$('newPassword').value,confirm=$('confirmPassword').value;
+  if(newP!==confirm)return toast('Konfirmasi password tidak sama.',false);
+  const btn=$('savePassword');setBusy(btn,true,'Menyimpan...');
+  try{
+    const res=await server('changePassword',currentUser.username,oldP,newP);
+    toast(res.message,res.success);
+    if(res.success){
+      $('passwordOverlay').style.display='none';
+      $('oldPassword').value=$('newPassword').value=$('confirmPassword').value='';
+    }
+  }catch(e){toast(e.message,false)}
+  finally{setBusy(btn,false)}
+};
+
+async function boot(){
+  startClock();
+  await discoverIp();
+  try{
+    const cfg=await server('getPublicConfig');
+    if(cfg?.data?.backgrounds)applyBackgrounds(cfg.data.backgrounds);
+    if(cfg && cfg.success===false){
+      $('loginNotice').className='notice error';
+      $('loginNotice').textContent=cfg.message;
+    }
+  }catch(e){}
+
+  try{
+    const cached=JSON.parse(sessionStorage.getItem('nanasStaffUser')||'null');
+    if(cached?.username){
+      currentUser=cached;
+      const res=await server('getDashboardData',currentUser.username,clientIp);
+      if(res.success){
+        $('loginView').style.display='none';$('dashboard').style.display='block';
+        renderState(res.data);
+        refreshTimer=setInterval(()=>refreshDashboard(true),15000);
+      }else{
+        sessionStorage.removeItem('nanasStaffUser');currentUser=null;
+      }
+    }
+  }catch(e){}
