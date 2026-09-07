@@ -1048,7 +1048,7 @@
       JOBDESK: 'Jobdesk',
       BACKGROUND: 'background',
       RUNNING_TEXT: 'Running Teks',
-      DATABASE: 'DATABASE NANASTOTO'
+      DATABASE: 'DATABASE LINETOGEL'
     };
 
     // Google Apps Script URL
@@ -1555,51 +1555,72 @@
 
     async function writeToDatabaseSheet(data) {
       try {
-        const formData = new FormData();
-        formData.append('action', data.action);
-        formData.append('sheetName', data.sheetName);
-        formData.append('data', JSON.stringify(data.data));
+        const payload = data && data.data ? data.data : {};
+
+        // CODE.GS Anda sudah punya API resmi:
+        // logStartTime(username, jobdesk) dan logEndTime(username)
+        const params = new URLSearchParams();
+
+        if (data.action === 'insert') {
+          params.append('action', 'logStartTime');
+          params.append('username', payload.username || currentUser?.username || '');
+          params.append('jobdesk', payload.jobdesk || '');
+        } else if (data.action === 'update') {
+          params.append('action', 'logEndTime');
+          params.append('username', payload.username || currentUser?.username || '');
+        } else {
+          throw new Error('Action database tidak dikenal: ' + data.action);
+        }
 
         const response = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
-          body: formData
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+          },
+          body: params.toString(),
+          redirect: 'follow'
         });
 
         const raw = await response.text();
-        let result = null;
+        let result;
 
         try {
           result = JSON.parse(raw);
-        } catch (e) {
-          console.error('Server mengembalikan respons bukan JSON:', raw);
+        } catch (parseError) {
+          console.error('Respons server bukan JSON:', raw);
+          throw new Error('Respons Google Apps Script tidak valid. Pastikan Web App sudah di-deploy sebagai versi terbaru.');
         }
 
-        if (!response.ok || !result || result.success !== true) {
-          console.error('Gagal sinkron DATABASE LINETOGEL:', result || raw);
+        if (!result || result.success !== true) {
+          const message = result?.message || 'Server menolak penyimpanan data';
+          console.error('Google Sheets sync ditolak:', result);
           saveToLocalBackup(data);
+
           showPopup(
             `<div style="color:#ff4757;text-align:center;">
               <i class="fas fa-exclamation-triangle fa-2x"></i><br>
-              <strong>Data belum masuk ke DATABASE LINETOGEL</strong><br>
-              <small>${(result && result.message) ? result.message : 'Periksa CODE.GS / deployment Web App'}</small>
+              <strong>Gagal sinkron ke DATABASE LINETOGEL</strong><br>
+              <small>${message}</small>
             </div>`,
-            6000
+            7000
           );
           return false;
         }
 
-        console.log('DATABASE LINETOGEL sync successful:', result);
+        console.log('DATABASE LINETOGEL sync berhasil:', result);
         return true;
 
       } catch (error) {
-        console.error('Error writing to Google Sheets:', error);
+        console.error('Error sinkron Google Sheets:', error);
         saveToLocalBackup(data);
+
         showPopup(
           `<div style="color:#ff4757;text-align:center;">
             <i class="fas fa-times-circle fa-2x"></i><br>
-            <strong>Gagal menghubungi server Google Sheets</strong>
+            <strong>Gagal menghubungi server Google Sheets</strong><br>
+            <small>${error.message || error}</small>
           </div>`,
-          5000
+          7000
         );
         return false;
       }
