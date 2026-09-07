@@ -1045,10 +1045,9 @@
       REGISTER: 'Register',
       ACCESS: 'Access',
       WHITELIST: 'Whitelist IP',
-      JOBDESK: 'Jobdesk',
       BACKGROUND: 'background',
       RUNNING_TEXT: 'Running Teks',
-      DATABASE: 'DATABASE LINETOGEL'
+      DATABASE: 'DATABASE NANASTOTO'
     };
 
     // Google Apps Script URL
@@ -1335,17 +1334,38 @@
     // FUNGSI CEK BATAS MAKSIMAL IZIN KELUAR
     // ============================================
     async function checkStartTimeLimit() {
-        try {
-            if (!currentUser || !currentUser.username) return { success: false, canStart: false, message: 'User not found' };
-            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkStartTimeLimit&username=${encodeURIComponent(currentUser.username)}`);
-            const data = await response.json();
-            if (data.hardStop && data.count >= maxStartLimit) isMaxLimitReached = true;
-            else isMaxLimitReached = false;
-            return data;
-        } catch (error) {
-            console.error('Error checking izin keluar limit:', error);
-            return { success: false, canStart: true, message: 'Error checking limit' };
+      try {
+        if (!currentUser || !currentUser.username) {
+          return { success: false, count: 0, remaining: 4, maxCount: 4, hardStop: false, message: 'User not found' };
         }
+
+        const response = await fetch(
+          `${GOOGLE_SCRIPT_URL}?action=checkStartTimeLimit&username=${encodeURIComponent(currentUser.username)}&t=${Date.now()}`,
+          { method: 'GET', cache: 'no-store', redirect: 'follow' }
+        );
+
+        const raw = await response.text();
+        let data = null;
+        try { data = JSON.parse(raw); } catch (e) {
+          console.error('checkStartTimeLimit response bukan JSON:', raw);
+        }
+
+        if (!response.ok || !data || data.success !== true) {
+          return {
+            success: false,
+            count: 0,
+            remaining: 4,
+            maxCount: 4,
+            hardStop: false,
+            message: (data && data.message) ? data.message : 'Server limit tidak merespons dengan benar'
+          };
+        }
+
+        return data;
+      } catch (error) {
+        console.error('Error checking izin keluar limit:', error);
+        return { success: false, count: 0, remaining: 4, maxCount: 4, hardStop: false, message: error.message || 'Error checking limit' };
+      }
     }
 
     function updateStartCounterUI(limitData) {
@@ -1599,7 +1619,7 @@
           showPopup(
             `<div style="color:#ff4757;text-align:center;">
               <i class="fas fa-exclamation-triangle fa-2x"></i><br>
-              <strong>Gagal sinkron ke DATABASE LINETOGEL</strong><br>
+              <strong>Gagal sinkron ke DATABASE NANASTOTO</strong><br>
               <small>${message}</small>
             </div>`,
             7000
@@ -1607,7 +1627,7 @@
           return false;
         }
 
-        console.log('DATABASE LINETOGEL sync berhasil:', result);
+        console.log('DATABASE NANASTOTO sync berhasil:', result);
         return true;
 
       } catch (error) {
@@ -1652,8 +1672,8 @@
         updateStartCounterUI(limitCheck);
       });
 
-      const selectedJobdesk = elements.jobdeskSelect.value;
-      const requireJobdesk = ['ON', 'YES', 'TRUE', '1', 'ACTIVE', 'ENABLE'].includes(accessStatus);
+      const selectedJobdesk = '';
+      const requireJobdesk = false;
       
       if (requireJobdesk && !selectedJobdesk) {
         elements.jobdeskError.style.display = 'block';
@@ -1862,21 +1882,7 @@
     }
 
     async function checkJobdeskUpdates() {
-      try {
-        const latestData = await fetchGoogleSheetData(SHEET_NAMES.JOBDESK, true);
-        if (!latestData || latestData.length === 0) return false;
-        const latestJobdeskOptions = extractJobdeskOptions(latestData);
-        if (!jobdeskCache) { jobdeskCache = latestJobdeskOptions; return false; }
-        const hasChanges = JSON.stringify(latestJobdeskOptions) !== JSON.stringify(jobdeskCache);
-        if (hasChanges) {
-          jobdeskList = latestJobdeskOptions;
-          updateJobdeskDropdown(latestJobdeskOptions);
-          jobdeskCache = latestJobdeskOptions;
-          showUpdateNotification('Jobdesk options updated');
-          return true;
-        }
-        return false;
-      } catch (error) { console.error('Error checking jobdesk updates:', error); return false; }
+      return false;
     }
 
     async function checkAccessUpdates() {
@@ -1997,9 +2003,7 @@
     }
 
     function updateAccessUI() {
-      const requireJobdesk = ['ON', 'YES', 'TRUE', '1', 'ACTIVE', 'ENABLE'].includes(accessStatus);
-      if (requireJobdesk) elements.jobdeskSection.classList.remove('hidden');
-      else elements.jobdeskSection.classList.add('hidden');
+      if (elements.jobdeskSection) elements.jobdeskSection.classList.add('hidden');
     }
 
     function showUpdateNotification(message) {
@@ -2097,14 +2101,13 @@
 
     async function initializeCaches() {
       try {
-        const [registerData, jobdeskData, accessData, backgroundData] = await Promise.all([
+        const [registerData, accessData, backgroundData] = await Promise.all([
           fetchGoogleSheetData(SHEET_NAMES.REGISTER, true),
-          fetchGoogleSheetData(SHEET_NAMES.JOBDESK, true),
           fetchGoogleSheetData(SHEET_NAMES.ACCESS, true),
           fetchGoogleSheetData(SHEET_NAMES.BACKGROUND, true)
         ]);
         if (currentUser) userDataCache = findUserInRegisterData(registerData, currentUser.username);
-        jobdeskCache = extractJobdeskOptions(jobdeskData);
+        jobdeskCache = [];
         accessCache = extractAccessStatus(accessData);
         backgroundCache = extractBackgroundImages(backgroundData);
         console.log('Caches initialized successfully');
@@ -2177,12 +2180,13 @@
     }
 
     async function loadJobdeskOptions() {
-      try {
-        const jobdeskData = await fetchGoogleSheetData(SHEET_NAMES.JOBDESK);
-        jobdeskList = extractJobdeskOptions(jobdeskData);
-        jobdeskCache = jobdeskList;
-        updateJobdeskDropdown(jobdeskList);
-      } catch (error) { console.error('Error loading jobdesk options:', error); }
+      jobdeskList = [];
+      jobdeskCache = [];
+      if (elements.jobdeskSection) elements.jobdeskSection.classList.add('hidden');
+      if (elements.jobdeskSelect) {
+        elements.jobdeskSelect.innerHTML = '<option value="">-- Tidak Digunakan --</option>';
+        elements.jobdeskSelect.value = '';
+      }
     }
 
     async function loadBackgroundImages() {
