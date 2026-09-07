@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,9 +35,7 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: var(--bg-gradient);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      background: #000;
       margin: 0;
       display: flex;
       justify-content: center;
@@ -54,7 +51,7 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Background Image Logic */
+    /* Background Image Logic - tampil asli tanpa pudar/blur */
     .background-image {
       position: fixed;
       top: 0;
@@ -63,13 +60,14 @@
       height: 100%;
       object-fit: cover;
       z-index: -2;
-      opacity: 0;
-      transition: opacity 1.5s ease-in-out;
+      opacity: 1;
+      transition: none;
+      filter: none;
     }
 
     .background-image.active {
-      opacity: 0.2; /* Lebih gelap agar teks terbaca */
-      filter: blur(5px);
+      opacity: 1;
+      filter: none;
     }
 
     /* ============================================
@@ -899,7 +897,7 @@
   ============================================ -->
   <div id="loginForm">
     <div class="login-logo-wrapper">
-      <img src="https://cdn.corenexis.com/files/c/32466972.png" alt="Logo">
+      <img src="https://cdn.areabermain.club/assets/cdn/az6/2026/09/07/20260907/41ac58247e414d60064405cfde4f80b6/logonanas.png" alt="Logo">
       <h2>Selamat Datang</h2>
       <p class="subtitle">Silahkan masuk ke akun anda</p>
     </div>
@@ -934,7 +932,7 @@
     </form>
     
     <div style="text-align: center; margin-top: 25px; color: rgba(255,255,255,0.2); font-size: 11px; letter-spacing: 0.5px;">
-      &copy; 2026 Staff NANASTOTO
+      &copy; 2026 Staff Linetogel
     </div>
   </div>
   <!-- ============================================ -->
@@ -1049,6 +1047,7 @@
       WHITELIST: 'Whitelist IP',
       JOBDESK: 'Jobdesk',
       BACKGROUND: 'background',
+      RUNNING_TEXT: 'Running Teks',
       DATABASE: 'DATABASE LINETOGEL'
     };
 
@@ -1560,18 +1559,48 @@
         formData.append('action', data.action);
         formData.append('sheetName', data.sheetName);
         formData.append('data', JSON.stringify(data.data));
-        const response = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
-        if (response.ok) {
-          const result = await response.text();
-          console.log('Data saved to Google Sheets successfully:', result);
-          return true;
-        } else {
+
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: formData
+        });
+
+        const raw = await response.text();
+        let result = null;
+
+        try {
+          result = JSON.parse(raw);
+        } catch (e) {
+          console.error('Server mengembalikan respons bukan JSON:', raw);
+        }
+
+        if (!response.ok || !result || result.success !== true) {
+          console.error('Gagal sinkron DATABASE LINETOGEL:', result || raw);
           saveToLocalBackup(data);
+          showPopup(
+            `<div style="color:#ff4757;text-align:center;">
+              <i class="fas fa-exclamation-triangle fa-2x"></i><br>
+              <strong>Data belum masuk ke DATABASE LINETOGEL</strong><br>
+              <small>${(result && result.message) ? result.message : 'Periksa CODE.GS / deployment Web App'}</small>
+            </div>`,
+            6000
+          );
           return false;
         }
+
+        console.log('DATABASE LINETOGEL sync successful:', result);
+        return true;
+
       } catch (error) {
         console.error('Error writing to Google Sheets:', error);
         saveToLocalBackup(data);
+        showPopup(
+          `<div style="color:#ff4757;text-align:center;">
+            <i class="fas fa-times-circle fa-2x"></i><br>
+            <strong>Gagal menghubungi server Google Sheets</strong>
+          </div>`,
+          5000
+        );
         return false;
       }
     }
@@ -2476,5 +2505,3 @@ document.addEventListener('selectstart', function(e) {
 });
 </script>
 </html>
-
-
