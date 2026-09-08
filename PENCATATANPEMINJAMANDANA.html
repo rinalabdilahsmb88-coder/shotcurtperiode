@@ -1,0 +1,1061 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Parser Data Pro — Modern Optimized</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23070b16'/%3E%3Cpath d='M24 66h52M28 50h44M34 34h32' stroke='%2334d399' stroke-width='9' stroke-linecap='round'/%3E%3Ccircle cx='75' cy='25' r='9' fill='%23fbbf24'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #070b16;
+      --bg-soft: #0b1222;
+      --surface: rgba(12, 20, 36, .78);
+      --surface-2: rgba(17, 27, 48, .76);
+      --surface-3: rgba(255, 255, 255, .055);
+      --line: rgba(148, 163, 184, .18);
+      --line-strong: rgba(52, 211, 153, .36);
+      --text: #eef4ff;
+      --muted: #95a3b8;
+      --muted-2: #64748b;
+      --primary: #34d399;
+      --primary-2: #22d3ee;
+      --warning: #fbbf24;
+      --danger: #fb7185;
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .42);
+      --shadow-soft: 0 12px 30px rgba(0, 0, 0, .28);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top left, rgba(52, 211, 153, .20), transparent 34rem),
+        radial-gradient(circle at 78% 18%, rgba(34, 211, 238, .13), transparent 28rem),
+        radial-gradient(circle at 50% 100%, rgba(251, 191, 36, .08), transparent 30rem),
+        linear-gradient(135deg, #070b16 0%, #0b1222 55%, #08111c 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.72), transparent 82%);
+    }
+
+    button, textarea { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+
+    .app {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.035));
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(52, 211, 153, .22), rgba(34, 211, 238, .12)),
+        rgba(255,255,255,.06);
+      border: 1px solid rgba(52, 211, 153, .28);
+      box-shadow: 0 0 0 6px rgba(52, 211, 153, .045), 0 12px 30px rgba(52, 211, 153, .12);
+    }
+
+    .logo svg { width: 31px; height: 31px; }
+    .brand-text { min-width: 0; }
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(20px, 2.4vw, 30px);
+      letter-spacing: -.04em;
+      line-height: 1.05;
+    }
+    .brand p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid rgba(52, 211, 153, .25);
+      border-radius: 999px;
+      color: #c7fff1;
+      background: rgba(52, 211, 153, .09);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 5px rgba(52, 211, 153, .12);
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel {
+      min-width: 0;
+      min-height: 720px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+      contain: layout paint;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+
+    .panel-title {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-title .icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      font-size: 18px;
+    }
+
+    .panel-title h2 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: -.01em;
+    }
+
+    .panel-title p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .panel-body {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 18px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .format-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .format-tabs::-webkit-scrollbar { display: none; }
+
+    .format-btn, .btn {
+      border: 0;
+      color: var(--text);
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, opacity .18s ease;
+    }
+
+    .format-btn {
+      flex: 0 0 auto;
+      min-height: 36px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .01em;
+      white-space: nowrap;
+    }
+
+    .format-btn[aria-pressed="true"] {
+      color: #051015;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 10px 22px rgba(34, 211, 238, .16);
+    }
+
+    .btn {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      border-color: rgba(52, 211, 153, .36);
+      color: #041312;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 12px 30px rgba(52, 211, 153, .16);
+    }
+
+    .btn-danger { color: #ffd9df; border-color: rgba(251, 113, 133, .26); }
+    .btn-ghost { color: var(--muted); }
+    .btn:hover, .format-btn:hover { transform: translateY(-1px); }
+    .btn:active, .format-btn:active { transform: translateY(0); opacity: .84; }
+    .btn:focus-visible, .format-btn:focus-visible, textarea:focus-visible {
+      outline: 3px solid rgba(34, 211, 238, .26);
+      outline-offset: 2px;
+    }
+
+    .editor-wrap {
+      position: relative;
+      flex: 1;
+      min-height: 440px;
+      display: flex;
+    }
+
+    textarea {
+      width: 100%;
+      flex: 1;
+      resize: none;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      color: var(--text);
+      background: rgba(3, 7, 18, .58);
+      padding: 18px;
+      font-family: var(--mono);
+      font-size: 13.5px;
+      line-height: 1.65;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    textarea::placeholder { color: #64748b; }
+    textarea:focus {
+      outline: none;
+      border-color: var(--line-strong);
+      background: rgba(3, 7, 18, .76);
+      box-shadow: inset 0 0 0 1px rgba(52, 211, 153, .12), 0 0 0 6px rgba(52, 211, 153, .055);
+    }
+    textarea[readonly] { color: #d7fce9; }
+
+    #inputPanel.has-data {
+      border-color: rgba(52, 211, 153, .62);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .42), 0 0 0 1px rgba(52, 211, 153, .22), 0 0 36px rgba(52, 211, 153, .14);
+    }
+
+    #inputPanel.has-data .panel-head {
+      background:
+        linear-gradient(90deg, rgba(52, 211, 153, .18), rgba(34, 211, 238, .06)),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-bottom-color: rgba(52, 211, 153, .35);
+    }
+
+    #inputPanel.has-data .editor-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 10px auto 10px 10px;
+      width: 5px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--primary), var(--primary-2));
+      box-shadow: 0 0 18px rgba(52, 211, 153, .55);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    #inputPanel.has-data textarea {
+      border-color: rgba(52, 211, 153, .55);
+      background:
+        linear-gradient(90deg, rgba(52, 211, 153, .10), transparent 18%),
+        rgba(3, 7, 18, .72);
+      box-shadow: inset 0 0 0 1px rgba(52, 211, 153, .18), 0 0 0 6px rgba(52, 211, 153, .04);
+    }
+
+    #inputPanel.has-data .panel-title .icon {
+      background: rgba(52, 211, 153, .16);
+      border-color: rgba(52, 211, 153, .34);
+      color: #c7fff1;
+    }
+
+    .processed-badge {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(4, 19, 18, .82);
+      border: 1px solid rgba(52, 211, 153, .32);
+      color: #c7fff1;
+      font-size: 12px;
+      font-weight: 900;
+      backdrop-filter: blur(12px);
+      pointer-events: none;
+    }
+    .has-data .processed-badge { display: inline-flex; }
+
+    .hint {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      padding: 0 2px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat-card {
+      position: relative;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: linear-gradient(var(--primary), var(--primary-2));
+      opacity: .75;
+    }
+    .stat-label {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .stat-value {
+      margin: 0;
+      min-width: 0;
+      font-family: var(--mono);
+      font-size: clamp(16px, 1.9vw, 20px);
+      font-weight: 900;
+      letter-spacing: -.02em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .stat-copy {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      border-radius: 12px;
+      color: #041312;
+      border: 0;
+      background: linear-gradient(135deg, var(--warning), #fde68a);
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .output-foot {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .empty-state {
+      position: absolute;
+      inset: 1px;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      text-align: center;
+      border-radius: var(--radius-lg);
+      pointer-events: none;
+      color: var(--muted-2);
+    }
+    .empty-state strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .output-filled .empty-state { display: none; }
+
+    .toast-zone {
+      position: fixed;
+      right: 18px;
+      top: 18px;
+      z-index: 50;
+      display: grid;
+      gap: 10px;
+      width: min(390px, calc(100vw - 36px));
+      pointer-events: none;
+    }
+    .toast {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 14px 15px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(8, 13, 24, .92);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+      animation: toastIn .22s ease both;
+      pointer-events: auto;
+    }
+    .toast b { display: block; margin-bottom: 2px; font-size: 13px; }
+    .toast span { color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .toast.success { border-color: rgba(52, 211, 153, .35); }
+    .toast.error { border-color: rgba(251, 113, 133, .35); }
+    .toast-icon { width: 22px; text-align: center; }
+
+    footer {
+      margin-top: 18px;
+      padding: 10px 4px 0;
+      color: var(--muted-2);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-8px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes toastOut {
+      to { opacity: 0; transform: translateY(-8px) scale(.98); }
+    }
+
+    @media (max-width: 1120px) {
+      .shell { grid-template-columns: 1fr; }
+      .panel { min-height: 610px; }
+    }
+
+    @media (max-width: 760px) {
+      .app { width: min(100% - 20px, 1500px); padding-top: 10px; }
+      .topbar { align-items: flex-start; flex-direction: column; border-radius: 22px; }
+      .top-actions { width: 100%; justify-content: flex-start; }
+      .logo { width: 48px; height: 48px; border-radius: 16px; }
+      .panel { border-radius: 22px; min-height: 560px; }
+      .panel-head { align-items: flex-start; flex-direction: column; padding: 16px; }
+      .panel-body { padding: 14px; }
+      .toolbar, .output-foot { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      textarea { font-size: 12.5px; padding: 14px; }
+      .editor-wrap { min-height: 380px; }
+      .btn { width: 100%; }
+      .format-tabs { max-width: 100%; width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toast-zone" id="toastZone" aria-live="polite" aria-relevant="additions"></div>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="12" width="44" height="40" rx="12" fill="url(#g)" opacity=".18"/>
+            <path d="M20 24h24M20 32h16M20 40h24" stroke="#eef4ff" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="47" cy="19" r="7" fill="#fbbf24"/>
+            <defs><linearGradient id="g" x1="10" y1="12" x2="54" y2="52"><stop stop-color="#34d399"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Parser Data Pro</h1>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="status-pill" title="Semua proses berjalan lokal di browser">
+          <span class="dot" aria-hidden="true"></span>
+          Local Processing
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="panel" id="inputPanel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <div class="icon" aria-hidden="true">↙</div>
+            <div>
+              <h2>Input Data Mentah</h2>
+              <p>Tempel data, parser akan jalan otomatis.</p>
+            </div>
+          </div>
+          <button class="btn btn-danger" id="resetBtn" type="button">Reset</button>
+        </div>
+
+        <div class="panel-body">
+          <div class="editor-wrap">
+            <textarea id="rawData" spellcheck="false" autocomplete="off" placeholder="Tempel data mentah di sini..."></textarea>
+            <div class="processed-badge">✓ Hasil tersedia</div>
+          </div>
+          <div class="hint">
+            <span aria-hidden="true">ⓘ</span>
+            <span>Deteksi otomatis: Bank, Nomor Rekening, Nama Rekening, Nominal. Mendukung format biasa dan format KAS.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="outputPanel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <div class="icon" aria-hidden="true">↗</div>
+            <div>
+              <h2>Hasil Output</h2>
+              <p>Pilih format, lalu salin hasil siap paste.</p>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="copyBtn" type="button">Salin Hasil</button>
+        </div>
+
+        <div class="panel-body">
+          <div class="toolbar">
+            <div class="format-tabs" role="group" aria-label="Pilih format output">
+              <button class="format-btn" type="button" data-format="orion" aria-pressed="true">MINERA / ORION</button>
+              <button class="format-btn" type="button" data-format="vip" aria-pressed="false">VIP</button>
+              <button class="format-btn" type="button" data-format="p2mih" aria-pressed="false">P2MIH</button>
+            </div>
+          </div>
+
+          <div class="editor-wrap" id="outputWrap">
+            <textarea id="outputResult" readonly spellcheck="false" placeholder=""></textarea>
+            <div class="empty-state">
+              <div>
+                <strong>Belum ada hasil</strong>
+                Tempel data mentah di panel kiri untuk mulai parsing.
+              </div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <article class="stat-card">
+              <div>
+                <p class="stat-label">Total Data</p>
+                <p class="stat-value" id="resultsCount">0</p>
+              </div>
+            </article>
+            <article class="stat-card">
+              <div>
+                <p class="stat-label">Total Nominal</p>
+                <p class="stat-value" id="totalNominal">Rp 0</p>
+              </div>
+              <button class="stat-copy" id="copyTotalBtn" type="button" title="Salin total nominal angka saja">⧉</button>
+            </article>
+            <article class="stat-card">
+              <div>
+                <p class="stat-label">Mode Aktif</p>
+                <p class="stat-value" id="activeMode">MINERA / ORION</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © 2026 Parser Data Pro • MINERA/ORION max 39.000.000 • VIP utuh • P2MIH max 49.999.999 • Semua data diproses lokal.
+    </footer>
+  </div>
+
+  <script>
+    'use strict';
+
+    const dom = {
+      rawData: document.getElementById('rawData'),
+      outputResult: document.getElementById('outputResult'),
+      inputPanel: document.getElementById('inputPanel'),
+      outputWrap: document.getElementById('outputWrap'),
+      resultsCount: document.getElementById('resultsCount'),
+      totalNominal: document.getElementById('totalNominal'),
+      activeMode: document.getElementById('activeMode'),
+      copyBtn: document.getElementById('copyBtn'),
+      copyTotalBtn: document.getElementById('copyTotalBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      toastZone: document.getElementById('toastZone'),
+      formatBtns: Array.from(document.querySelectorAll('.format-btn'))
+    };
+
+    const FORMAT_CONFIG = {
+      vip: { label: 'VIP', threshold: null },
+      orion: { label: 'MINERA / ORION', threshold: 39000000 },
+      p2mih: { label: 'P2MIH', threshold: 49999999 }
+    };
+
+    let state = {
+      currentFormat: 'orion',
+      currentTotalNominal: 0,
+      parsedCount: 0,
+      debounceTimer: null
+    };
+
+    function cleanBankName(bankName) {
+      if (!bankName) return '';
+      let value = String(bankName).trim();
+
+      const kasParenPattern = value.match(/^KAS\s+([A-Za-z0-9]+)\s*\(/i);
+      if (kasParenPattern && kasParenPattern[1]) value = kasParenPattern[1];
+
+      const kasPattern = value.match(/^KAS (BESAR|KECIL)\s*(.+)/i);
+      if (kasPattern && kasPattern[2]) value = kasPattern[2];
+
+      const kasBersihPattern = value.match(/^KAS\s*BERSIH\s*(.+)/i);
+      if (kasBersihPattern && kasBersihPattern[1]) value = kasBersihPattern[1];
+
+      return value
+        .replace(/^Bank\s*/i, '')
+        .replace(/\bKas\b\s*/gi, '')
+        .replace(/\s*\([^)]*\)\s*/g, '')
+        .replace(/\b(BERSIH|KOTOR|BANK)\b/gi, '')
+        .replace(/[^\w\s]/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function extractValue(line, pattern) {
+      try {
+        const match = String(line || '').match(pattern);
+        return match && match[1] ? match[1].trim() : '';
+      } catch (_) {
+        return '';
+      }
+    }
+
+    function normalizeAmount(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      const match = raw.match(/[\d][\d.,]*/);
+      if (!match) return '';
+      return match[0].replace(/\D/g, '');
+    }
+
+    function normalizeAccountNumber(value) {
+      return String(value || '')
+        .replace(/[^\dA-Za-z\-\.\s]/g, '')
+        .replace(/\s+/g, '')
+        .trim();
+    }
+
+    function formatNumberWithCommas(number) {
+      const numStr = String(number || 0).replace(/\D/g, '');
+      return (numStr || '0').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function splitNominal(amount, threshold) {
+      if (!threshold || amount <= threshold) return [amount];
+      const parts = [];
+      let remaining = amount;
+      while (remaining > threshold) {
+        parts.push(threshold);
+        remaining -= threshold;
+      }
+      if (remaining > 0) parts.push(remaining);
+      return parts;
+    }
+
+    function parseKasBlock(lines) {
+      let bank = '';
+      let accountName = '';
+      let accountNumber = '';
+      let amount = '';
+      let accountNumberLineIndex = -1;
+      const kasFormatBankLine = lines.findIndex(line => /^KAS/i.test(line.trim()));
+
+      for (let j = 0; j < lines.length; j++) {
+        const trimmedLine = lines[j].trim();
+        if (!trimmedLine) continue;
+
+        if (j === kasFormatBankLine) bank = cleanBankName(trimmedLine);
+
+        if (!accountName) {
+          accountName = extractValue(trimmedLine, /^NAMA\s*(?:REKENING|REK)\s*:\s*(.+)/i) ||
+                        extractValue(trimmedLine, /^Nama\s*Rekening\s*:\s*(.+)/i);
+        }
+
+        if (!accountNumber) {
+          accountNumber = extractValue(trimmedLine, /^NOMOR\s*REKENING\s*:\s*(.+)/i) ||
+                          extractValue(trimmedLine, /^Nomor\s*Rekening\s*:\s*(.+)/i) ||
+                          extractValue(trimmedLine, /^NO\s*REK\s*:\s*(.+)/i);
+          if (accountNumber) {
+            accountNumber = normalizeAccountNumber(accountNumber);
+            accountNumberLineIndex = j;
+          }
+        }
+
+        if (!amount) {
+          if (/\bnominal\b/i.test(trimmedLine)) {
+            amount = normalizeAmount(extractValue(trimmedLine, /nominal[\s\w]*:?\s*(?:Rp\.?\s*)?([\d.,]+)/i));
+          } else if (/(?:rp|rupiah)/i.test(trimmedLine) && !/\btotal\b/i.test(trimmedLine)) {
+            amount = normalizeAmount(extractValue(trimmedLine, /(?:rp\.?|rupiah)\s*([\d.,]+)/i));
+          }
+        }
+      }
+
+      if (!accountName && accountNumberLineIndex > 0) {
+        const nameLine = lines[accountNumberLineIndex - 1].trim();
+        if (nameLine && !/^(NOMOR|Nomor)\s*REKENING\s*:/i.test(nameLine) && !/^KAS/i.test(nameLine) && !/^Info|Perihal|Dari situs/i.test(nameLine)) {
+          accountName = nameLine.replace(/^[^:]*:\s*/, '');
+        }
+      }
+
+      return { bank, accountName, accountNumber, amount };
+    }
+
+    function parseStandardBlock(lines) {
+      let bank = '';
+      let accountName = '';
+      let accountNumber = '';
+      let amount = '';
+      let accountNumberLineIndex = -1;
+
+      for (let j = 0; j < lines.length; j++) {
+        const trimmedLine = lines[j].trim();
+        if (!trimmedLine) continue;
+
+        if (!bank && /bank/i.test(trimmedLine)) {
+          bank = extractValue(trimmedLine, /bank[\s:]*([^()|$]+)/i);
+          if (!bank) bank = trimmedLine.includes(':') ? trimmedLine.split(':').slice(1).join(':') : trimmedLine.replace(/^bank[\s:]*/i, '');
+          bank = cleanBankName(bank);
+        }
+
+        if (accountNumberLineIndex === -1 && (((/nomor|no\.?/i.test(trimmedLine)) && (/rek(ening)?\.?/i.test(trimmedLine))) || /^rek(ening)?\s*[:.]/i.test(trimmedLine))) {
+          accountNumber = extractValue(trimmedLine, /(?:no|nomor|rek)\s*(?:rek|rekening)?[\s\w]*:?\s*([\d\s\-.]+)/i) ||
+                          extractValue(trimmedLine, /[:\s]+([\d\s\-.]{5,})/);
+          if (accountNumber) {
+            accountNumber = normalizeAccountNumber(accountNumber);
+            accountNumberLineIndex = j;
+          }
+        }
+
+        if (!amount) {
+          if (/\bnominal\b/i.test(trimmedLine)) {
+            amount = normalizeAmount(extractValue(trimmedLine, /nominal[\s\w]*:?\s*(?:rp\.?\s*)?([\d.,]+)/i));
+          } else if (/(?:rp|rupiah)/i.test(trimmedLine) && !/\btotal\b/i.test(trimmedLine)) {
+            amount = normalizeAmount(extractValue(trimmedLine, /(?:rp\.?|rupiah)\s*([\d.,]+)/i));
+          }
+        }
+      }
+
+      if (accountNumberLineIndex > 0) {
+        const nameLine = lines[accountNumberLineIndex - 1].trim();
+        accountName = /nama|pemilik|atas/i.test(nameLine)
+          ? extractValue(nameLine, /(?:nama|pemilik|atas)[\s\w]*:?\s*(.+)/i)
+          : nameLine;
+
+        if (!bank && accountNumberLineIndex > 1) {
+          const potentialBankLine = lines[accountNumberLineIndex - 2].trim();
+          if (/bank/i.test(potentialBankLine)) {
+            bank = extractValue(potentialBankLine, /bank[\s:]*([^()|$]+)/i) || cleanBankName(potentialBankLine.split(':')[1] || potentialBankLine);
+            bank = cleanBankName(bank);
+          }
+        }
+      }
+
+      return { bank, accountName, accountNumber, amount };
+    }
+
+    function parseBlocks(rawData) {
+      const threshold = FORMAT_CONFIG[state.currentFormat].threshold;
+      const dataBlocks = rawData.split(/\n\s*\n/g);
+      const parsedItems = [];
+      let totalAmount = 0;
+
+      for (const blockRaw of dataBlocks) {
+        const block = blockRaw.trim();
+        if (!block) continue;
+
+        const lines = block.split('\n').map(line => line.trimEnd());
+        const isKasFormat = lines.some(line => /^KAS/i.test(line.trim()));
+        const parsed = isKasFormat ? parseKasBlock(lines) : parseStandardBlock(lines);
+
+        if (parsed.bank && parsed.accountName && parsed.accountNumber && parsed.amount) {
+          const amountNumber = parseInt(parsed.amount, 10) || 0;
+          if (!amountNumber) continue;
+
+          const parts = splitNominal(amountNumber, threshold);
+          for (const part of parts) {
+            parsedItems.push({
+              bank: parsed.bank.toUpperCase().replace(/\s+/g, ' ').trim(),
+              num: parsed.accountNumber.toUpperCase().trim(),
+              name: parsed.accountName.toUpperCase().replace(/\s+/g, ' ').trim(),
+              rawAmount: String(part),
+              displayAmount: formatNumberWithCommas(part)
+            });
+            totalAmount += part;
+          }
+        }
+      }
+
+      return { parsedItems, totalAmount };
+    }
+
+    function renderOutput(parsedItems, totalAmount) {
+      if (!parsedItems.length) {
+        dom.outputResult.value = '';
+        dom.outputResult.removeAttribute('data-raw');
+        dom.resultsCount.textContent = '0';
+        dom.totalNominal.textContent = 'Rp 0';
+        dom.outputWrap.classList.remove('output-filled');
+        dom.inputPanel.classList.remove('has-data');
+        state.currentTotalNominal = 0;
+        state.parsedCount = 0;
+        return;
+      }
+
+      const maxBank = parsedItems.reduce((max, item) => Math.max(max, item.bank.length), 'BANK'.length);
+      const maxNum = parsedItems.reduce((max, item) => Math.max(max, item.num.length), 'NO REKENING'.length);
+      const maxName = parsedItems.reduce((max, item) => Math.max(max, item.name.length), 'NAMA'.length);
+      const maxAmt = parsedItems.reduce((max, item) => Math.max(max, item.displayAmount.length), 'NOMINAL'.length);
+      const spacer = '   ';
+      const header = 'BANK'.padEnd(maxBank) + spacer +
+                     'NO REKENING'.padEnd(maxNum) + spacer +
+                     'NAMA'.padEnd(maxName) + spacer +
+                     'NOMINAL'.padStart(maxAmt);
+      const separator = '─'.repeat(header.length);
+      const visualRows = parsedItems.map(item =>
+        item.bank.padEnd(maxBank) + spacer +
+        item.num.padEnd(maxNum) + spacer +
+        item.name.padEnd(maxName) + spacer +
+        item.displayAmount.padStart(maxAmt)
+      );
+      const rawRows = parsedItems.map(item => `${item.bank}\t${item.num}\t${item.name}\t\t${item.rawAmount}`);
+
+      dom.outputResult.value = header + '\n' + separator + '\n' + visualRows.join('\n');
+      dom.outputResult.setAttribute('data-raw', rawRows.join('\n'));
+      dom.resultsCount.textContent = String(parsedItems.length);
+      dom.totalNominal.textContent = 'Rp ' + formatNumberWithCommas(totalAmount);
+      dom.outputWrap.classList.add('output-filled');
+      dom.inputPanel.classList.add('has-data');
+      state.currentTotalNominal = totalAmount;
+      state.parsedCount = parsedItems.length;
+    }
+
+    function processData() {
+      const rawData = dom.rawData.value;
+      if (!rawData.trim()) {
+        renderOutput([], 0);
+        return;
+      }
+      const result = parseBlocks(rawData);
+      renderOutput(result.parsedItems, result.totalAmount);
+    }
+
+    function setFormat(format) {
+      if (!FORMAT_CONFIG[format]) return;
+      state.currentFormat = format;
+      dom.formatBtns.forEach(button => {
+        const active = button.dataset.format === format;
+        button.setAttribute('aria-pressed', String(active));
+      });
+      dom.activeMode.textContent = FORMAT_CONFIG[format].label;
+      processData();
+    }
+
+    async function copyText(text, successTitle, successMessage) {
+      if (!text) {
+        showToast('Data kosong', 'Tidak ada data untuk disalin.', 'error');
+        return false;
+      }
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          fallbackCopyAction(text);
+        }
+        showToast(successTitle, successMessage, 'success');
+        return true;
+      } catch (_) {
+        const fallbackSuccess = fallbackCopyAction(text);
+        showToast(
+          fallbackSuccess ? successTitle : 'Gagal menyalin',
+          fallbackSuccess ? successMessage : 'Silakan blok hasil dan salin manual.',
+          fallbackSuccess ? 'success' : 'error'
+        );
+        return fallbackSuccess;
+      }
+    }
+
+    function fallbackCopyAction(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.setAttribute('readonly', '');
+      textArea.style.position = 'fixed';
+      textArea.style.inset = '0 auto auto 0';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      let successful = false;
+      try { successful = document.execCommand('copy'); } catch (_) { successful = false; }
+      textArea.remove();
+      return successful;
+    }
+
+    function copyOutput() {
+      const rawText = dom.outputResult.getAttribute('data-raw') || dom.outputResult.value;
+      copyText(rawText, 'Hasil disalin', `${state.parsedCount} data siap ditempel.`);
+    }
+
+    function copyTotalNominal() {
+      const rawNumber = state.currentTotalNominal ? String(state.currentTotalNominal) : '';
+      copyText(rawNumber, 'Total nominal disalin', rawNumber || '0');
+    }
+
+    function resetData() {
+      dom.rawData.value = '';
+      processData();
+      dom.rawData.focus();
+      showToast('Data direset', 'Input dan output sudah dikosongkan.', 'success');
+    }
+
+    function showToast(title, message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      const icon = type === 'success' ? '✓' : type === 'error' ? '!' : 'i';
+
+      const iconEl = document.createElement('div');
+      iconEl.className = 'toast-icon';
+      iconEl.textContent = icon;
+
+      const textEl = document.createElement('div');
+      const titleEl = document.createElement('b');
+      titleEl.textContent = title;
+      const msgEl = document.createElement('span');
+      msgEl.textContent = message;
+      textEl.append(titleEl, msgEl);
+      toast.append(iconEl, textEl);
+      dom.toastZone.appendChild(toast);
+
+      window.setTimeout(() => {
+        toast.style.animation = 'toastOut .22s ease forwards';
+        toast.addEventListener('animationend', () => toast.remove(), { once: true });
+      }, 2600);
+    }
+
+
+    dom.rawData.addEventListener('input', () => {
+      window.clearTimeout(state.debounceTimer);
+      state.debounceTimer = window.setTimeout(processData, 240);
+    }, { passive: true });
+
+    dom.formatBtns.forEach(button => {
+      button.addEventListener('click', () => setFormat(button.dataset.format));
+    });
+    dom.copyBtn.addEventListener('click', copyOutput);
+    dom.copyTotalBtn.addEventListener('click', copyTotalNominal);
+    dom.resetBtn.addEventListener('click', resetData);
+
+    // Shortcut praktis. Ini hanya pencegahan ringan, bukan sistem keamanan absolut.
+    document.addEventListener('keydown', event => {
+      const key = event.key.toLowerCase();
+      if ((event.ctrlKey && key === 's') || (event.ctrlKey && key === 'u') || key === 'f12') {
+        event.preventDefault();
+      }
+    });
+
+    processData();
+  </script>
+</body>
+</html>
